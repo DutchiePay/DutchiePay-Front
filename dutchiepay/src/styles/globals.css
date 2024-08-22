@@ -6,6 +6,16 @@
   font-family: pretendard;
 }
 
+.layout {
+  width: 1020px;
+  display: flex;
+  margin: 0 auto;
+}
+
+.layout__main {
+  flex-grow: 1;
+}
+
 @font-face {
   font-family: 'Pretendard';
   font-weight: 900;
