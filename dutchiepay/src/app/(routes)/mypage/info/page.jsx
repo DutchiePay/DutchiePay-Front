@@ -7,7 +7,7 @@ export default function Info() {
   const loginType = 'naver'; // naver / email / kakao
 
   return (
-    <main className="p-[40px]">
+    <main className="px-[40px] py-[30px]">
       <h1 className="text-[32px] font-bold">회원 정보</h1>
       <section className="mt-[40px] flex flex-col gap-[36px] mb-[24px]">
         <article className="mypage-profile">
