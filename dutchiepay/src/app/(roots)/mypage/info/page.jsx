@@ -4,7 +4,7 @@ import naver from '../../../../../public/image/naver.png';
 import profile from '../../../../../public/image/profile.jpg';
 
 export default function Info() {
-  const loginType = 'naver'; // naver / email
+  const loginType = 'naver'; // naver / email / kakao
 
   return (
     <main className="p-[40px]">
