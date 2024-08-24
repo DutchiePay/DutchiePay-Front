@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.login__input {
+  border: 1px solid #d1d2d7;
+  padding: 20px 0px 20px 24px;
+  width: 100%;
+  border-radius: 5px;
+}
+.login__input:focus {
+  border: 1px solid #8c8f9a;
+  padding: 20px 0px 20px 24px;
+  width: 100%;
+  border-radius: 5px;
+  outline: none;
+}
+
+.login__checkbox {
+  border: 1px solid #4b70f5;
+  border-radius: 4px;
+  width: 25px;
+  height: 25px;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.login__checkbox:checked {
+  background-color: #4b70f5;
+}
+
+.login__checkbox:checked::before {
+  content: "✓";
+  display: block;
+  color: white;
+  text-align: center;
+}
+
+.login-sns__title {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+}
+
+.login-sns__title::before,
+.login-sns__title::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #000;
+  margin: 0 10px;
+}
+
+.login__last-login {
+  position: absolute;
+  background: white;
+  border: 1px solid #e8e9eb;
+  border-radius: 10px;
+  padding: 10px 20px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login__last-login::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-55%);
+  border: 10px solid #e8e9eb;
+  border-color: transparent transparent white transparent;
+}
+
+.login__last-login--naver {
+  left: calc(50% - 125px);
+}
+
+.login__last-login--kakao {
+  left: calc(50% - 100px);
+}
+.login-login__button {
+  border: none;
+  padding: 18px 0px 18px 24px;
+  font-weight: 700;
+  width: 100%;
+  border-radius: 5px;
+  background-color: #4b70f5;
+  color: white;
+  font-size: 20px;
+}
+.login-signup__button {
+  display: block;
+  border: 1px solid #4b70f5;
+  border-radius: 5px;
+  font-weight: 700;
+  padding: 18px 0px 18px 24px;
+  width: 100%;
+  background-color: white;
+  color: #4b70f5;
+  font-size: 20px;
+  text-align: center;
+}
