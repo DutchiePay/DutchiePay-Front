@@ -63,7 +63,7 @@
   font-size: 18px;
 }
 
-.mypage-likes__filter {
+.mypage__filter {
   padding: 6px 12px;
   color: #4b70f5;
   border: 1px solid #4b70f5;
@@ -72,7 +72,7 @@
   transition: all 0.3s ease-in-out;
 }
 
-.mypage-likes__filter--selected {
+.mypage__filter--selected {
   color: #fff;
   background: #4b70f5;
 }

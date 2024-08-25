@@ -14,71 +14,71 @@ export default function Like() {
   };
 
   return (
-    <main className="ml-[250px] p-[30px]">
+    <main className="ml-[250px] p-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">좋아요한 상품</h1>
       <ul className="flex gap-[8px] my-[16px]">
         <li
-          className={`mypage-likes__filter ${filter === '전체' ? `mypage-likes__filter--selected` : ''}`}
+          className={`mypage__filter ${filter === '전체' ? `mypage__filter--selected` : ''}`}
           onClick={(e) => handleFilter(e)}
         >
           전체
         </li>
         <li
-          className={`mypage-likes__filter ${filter === '신선' ? `mypage-likes__filter--selected` : ''}`}
+          className={`mypage__filter ${filter === '신선' ? `mypage__filter--selected` : ''}`}
           onClick={(e) => handleFilter(e)}
         >
           신선
         </li>
         <li
-          className={`mypage-likes__filter ${filter === '냉장' ? `mypage-likes__filter--selected` : ''}`}
+          className={`mypage__filter ${filter === '냉장' ? `mypage__filter--selected` : ''}`}
           onClick={(e) => handleFilter(e)}
         >
           냉장
         </li>
         <li
-          className={`mypage-likes__filter ${filter === '가구' ? `mypage-likes__filter--selected` : ''}`}
+          className={`mypage__filter ${filter === '가구' ? `mypage__filter--selected` : ''}`}
           onClick={(e) => handleFilter(e)}
         >
           가구
         </li>
         <li
-          className={`mypage-likes__filter ${filter === '가전' ? `mypage-likes__filter--selected` : ''}`}
+          className={`mypage__filter ${filter === '가전' ? `mypage__filter--selected` : ''}`}
           onClick={(e) => handleFilter(e)}
         >
           가전
         </li>
         <li
-          className={`mypage-likes__filter ${filter === '미용' ? `mypage-likes__filter--selected` : ''}`}
+          className={`mypage__filter ${filter === '미용' ? `mypage__filter--selected` : ''}`}
           onClick={(e) => handleFilter(e)}
         >
           미용
         </li>
         <li
-          className={`mypage-likes__filter ${filter === '패브릭' ? `mypage-likes__filter--selected` : ''}`}
+          className={`mypage__filter ${filter === '패브릭' ? `mypage__filter--selected` : ''}`}
           onClick={(e) => handleFilter(e)}
         >
           패브릭
         </li>
         <li
-          className={`mypage-likes__filter ${filter === '생활' ? `mypage-likes__filter--selected` : ''}`}
+          className={`mypage__filter ${filter === '생활' ? `mypage__filter--selected` : ''}`}
           onClick={(e) => handleFilter(e)}
         >
           생활
         </li>
         <li
-          className={`mypage-likes__filter ${filter === '주방/청소' ? `mypage-likes__filter--selected` : ''}`}
+          className={`mypage__filter ${filter === '주방/청소' ? `mypage__filter--selected` : ''}`}
           onClick={(e) => handleFilter(e)}
         >
           주방/청소
         </li>
         <li
-          className={`mypage-likes__filter ${filter === '잡화' ? `mypage-likes__filter--selected` : ''}`}
+          className={`mypage__filter ${filter === '잡화' ? `mypage__filter--selected` : ''}`}
           onClick={(e) => handleFilter(e)}
         >
           잡화
         </li>
         <li
-          className={`mypage-likes__filter ${filter === '보안' ? `mypage-likes__filter--selected` : ''}`}
+          className={`mypage__filter ${filter === '보안' ? `mypage__filter--selected` : ''}`}
           onClick={(e) => handleFilter(e)}
         >
           보안
