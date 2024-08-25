@@ -1,5 +1,7 @@
 'use client';
 
+import '../styles/globals.css';
+
 import Header from './_components/_layout/Header';
 import Sidebar from './_components/_layout/Sidebar';
 import { usePathname } from 'next/navigation';

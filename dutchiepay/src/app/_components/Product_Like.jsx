@@ -1,16 +1,43 @@
 import '../../styles/mypage.css';
 
 import Image from 'next/image';
+import Link from 'next/link';
+import fullheart from '../../../public/image/fullheart.svg';
 import heart from '../../../public/image/heart.svg';
 import product from '../../../public/image/product1.jpg';
+import { useState } from 'react';
 
 export default function Product_Like() {
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleIsLiked = () => {
+    setIsLiked(!isLiked);
+  };
+
   return (
-    <div className="w-[172px] border px-[12px] py-[8px] flex flex-col gap-[4px]">
+    <Link href="#" className="w-[172px] border px-[12px] py-[8px] flex flex-col gap-[4px]">
       <div className="w-[148px] h-[148px] rounded-xl relative">
         <Image className="w-[148px] h-[148px] rounded-xl" src={product} alt="애슐리 볶음밥" width={148} height={148} />
         <div className="w-[30px] h-[30px] border bg-white absolute bottom-[4px] right-[4px] rounded-md flex justify-center items-center">
-          <Image className="w-[20px] h-[20px] rounded-xl" src={heart} alt="like" width={20} height={200} />
+          {isLiked ? (
+            <Image
+              className="w-[22px] h-[22px] rounded-xl transition-all duration-5000 ease-in"
+              src={fullheart}
+              alt="fulllike"
+              width={22}
+              height={22}
+              onClick={() => handleIsLiked()}
+            />
+          ) : (
+            <Image
+              className="w-[22px] h-[22px] rounded-xl transition-all duration-5000 ease-in"
+              src={heart}
+              alt="like"
+              width={22}
+              height={22}
+              onClick={() => handleIsLiked()}
+            />
+          )}
         </div>
       </div>
       <p className="mypage-likes__product-name">
@@ -31,6 +58,6 @@ export default function Product_Like() {
         <p className="text-gray--500 text-[12px]">20일 남음</p>
       </div>
       <hr></hr>
-    </div>
+    </Link>
   );
 }
