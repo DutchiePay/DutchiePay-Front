@@ -1,9 +1,11 @@
-import Image from "next/image";
-import logo from "../../../public/image/logo.jpg";
-import search from "../../../public/image/search.svg";
-import profile from "../../../public/image/profile.jpg";
-import chat from "../../../public/image/chat.svg";
-import "../../styles/header.css";
+import '../../styles/header.css';
+
+import Image from 'next/image';
+import chat from '../../../public/image/chat.svg';
+import logo from '../../../public/image/logo.jpg';
+import profile from '../../../public/image/profile.jpg';
+import search from '../../../public/image/search.svg';
+
 export default function Header() {
   const isLoggedIn = true;
   return (
@@ -51,13 +53,7 @@ export default function Header() {
         </ul>
       </nav>
       <div className="flex items-center relative w-full mt-2">
-        <Image
-          className="w-[160px] h-[96px] mr-[65px]"
-          src={logo}
-          alt="logo"
-          width={160}
-          height={96}
-        />
+        <Image className="w-[160px] h-[96px] mr-[65px]" src={logo} alt="logo" width={160} height={96} />
         <div className="relative">
           <Image
             className="absolute pt-[13px] pb-[13px] ml-[20px]"
@@ -75,13 +71,7 @@ export default function Header() {
         {isLoggedIn && (
           <>
             <div className="flex justify-end w-full">
-              <Image
-                className="w-[55px] h-[55px]"
-                alt="chat"
-                width={40}
-                height={40}
-                src={chat}
-              />
+              <Image className="w-[55px] h-[55px]" alt="chat" width={40} height={40} src={chat} />
               <Image
                 className="w-[55px] h-[55px] rounded-full border ml-[18px]"
                 src={profile}
@@ -93,23 +83,23 @@ export default function Header() {
           </>
         )}
       </div>
-      <div className="flex justify-center h-[30px]">
-        <div className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
-          <p className="font-bold">공동구매</p>
-        </div>
-        <div className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
-          <p className="font-bold">마트/배달</p>
-        </div>
-        <div className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
-          <p className="font-bold">거래/나눔</p>
-        </div>
-        <div className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
-          <p className="font-bold">커뮤니티</p>
-        </div>
-        <div className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
-          <p className="font-bold">이벤트</p>
-        </div>
-      </div>
+      <ul className="flex justify-center h-[30px]">
+        <li className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
+          <a className="font-bold">공동구매</a>
+        </li>
+        <li className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
+          <a className="font-bold">마트/배달</a>
+        </li>
+        <li className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
+          <a className="font-bold">거래/나눔</a>
+        </li>
+        <li className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
+          <a className="font-bold">커뮤니티</a>
+        </li>
+        <li className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
+          <a className="font-bold">이벤트</a>
+        </li>
+      </ul>
     </header>
   );
 }
