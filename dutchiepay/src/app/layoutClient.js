@@ -1,7 +1,7 @@
 'use client';
 
-import Header from './_components/Header';
-import Sidebar from './_components/Sidebar';
+import Header from './_components/_layout/Header';
+import Sidebar from './_components/_layout/Sidebar';
 import { usePathname } from 'next/navigation';
 
 export default function RootLayoutClient({ children }) {

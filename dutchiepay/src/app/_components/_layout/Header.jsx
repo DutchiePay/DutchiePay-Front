@@ -1,10 +1,10 @@
-import '../../styles/header.css';
+import '../../../styles/header.css';
 
 import Image from 'next/image';
-import chat from '../../../public/image/chat.svg';
-import logo from '../../../public/image/logo.jpg';
-import profile from '../../../public/image/profile.jpg';
-import search from '../../../public/image/search.svg';
+import chat from '../../../../public/image/chat.svg';
+import logo from '../../../../public/image/logo.jpg';
+import profile from '../../../../public/image/profile.jpg';
+import search from '../../../../public/image/search.svg';
 
 export default function Header() {
   const isLoggedIn = true;

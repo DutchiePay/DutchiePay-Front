@@ -1,15 +1,15 @@
-import '../../styles/mypage.css';
+import '../../../styles/mypage.css';
 
 import Image from 'next/image';
-import arrow from '../../../public/image/arrow.svg';
-import coupon from '../../../public/image/coupon.svg';
-import delivery from '../../../public/image/delivery.svg';
-import heart from '../../../public/image/heart.svg';
-import post from '../../../public/image/post.svg';
-import profile from '../../../public/image/profile.jpg';
-import question from '../../../public/image/question.svg';
-import review from '../../../public/image/review.svg';
-import user from '../../../public/image/user.svg';
+import arrow from '../../../../public/image/arrow.svg';
+import coupon from '../../../../public/image/coupon.svg';
+import delivery from '../../../../public/image/delivery.svg';
+import heart from '../../../../public/image/heart.svg';
+import post from '../../../../public/image/post.svg';
+import profile from '../../../../public/image/profile.jpg';
+import question from '../../../../public/image/question.svg';
+import review from '../../../../public/image/review.svg';
+import user from '../../../../public/image/user.svg';
 
 export default function Sidebar() {
   return (

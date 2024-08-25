@@ -1,6 +1,6 @@
 import '../styles/globals.css';
 
-import Footer from './_components/Footer';
+import Footer from './_components/_layout/Footer';
 import { Inter } from 'next/font/google';
 import RootLayoutClient from './layoutClient'; // 클라이언트 컴포넌트 가져오기
 
