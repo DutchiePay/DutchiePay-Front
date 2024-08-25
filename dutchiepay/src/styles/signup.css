@@ -4,7 +4,7 @@
 
 .signup-naver__button {
   border: none;
-  padding: 18px 0px 18px 24px;
+  padding: 18px 24px 18px 24px;
   font-weight: 700;
   width: 100%;
   color: white;
@@ -14,7 +14,7 @@
 }
 .signup-kakao__button {
   border: none;
-  padding: 18px 0px 18px 24px;
+  padding: 18px 24px 18px 24px;
   font-weight: 700;
   width: 100%;
   color: black;
@@ -44,7 +44,7 @@
   border: none;
   border-radius: 5px;
   font-weight: 700;
-  padding: 18px 0px 18px 24px;
+  padding: 18px 24px 18px 24px;
   width: 100%;
   background-color: #4b70f5;
   color: white;
