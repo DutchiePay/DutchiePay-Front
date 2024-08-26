@@ -7,7 +7,6 @@
   flex-direction: column;
   gap: 8px;
   align-items: center;
-  widtn: 70px;
   font-size: 14px;
   font-weight: 500;
 }
@@ -50,8 +49,25 @@
   background-color: #ddd;
 }
 
+.input__checkbox {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid #4b70f5;
+}
+
 .input__checkbox:checked {
   background-color: #4b70f5;
+}
+
+.input__checkbox:checked::before {
+  content: '✓';
+  display: block;
+  color: white;
+  text-align: center;
 }
 
 /* Chrome, Safari, Edge, Opera */

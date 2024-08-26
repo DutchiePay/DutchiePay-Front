@@ -14,6 +14,7 @@ export default function CommerceDetail() {
 
   const handleQuantity = (e) => {
     if (e.target.value === '-') {
+      if (quantity === 1) return;
       setQuantity(quantity - 1);
     } else {
       setQuantity(quantity + 1);
@@ -76,8 +77,10 @@ export default function CommerceDetail() {
             <input
               className="border w-[32px] h-[32px] font-bold text-center product-quantity__input"
               type="number"
+              value={quantity}
               defaultValue={quantity}
               onChange={(e) => setQuantity(e.target.value)}
+              min={1}
             />
             <button className="product-quantity__button" value="+" onClick={(e) => handleQuantity(e)}>
               +
@@ -104,7 +107,7 @@ export default function CommerceDetail() {
           </p>
         </div>
       </section>
-      <ul className="mt-[40px] flex gap-[52px] border-b p-[12px] sticky top-[158px] bg-white z-50">
+      <ul className="mt-[40px] flex gap-[52px] border border-2 border-t-black p-[12px] sticky top-[158px] bg-white z-50">
         <li className={`${tab === '상품정보' ? 'product-tab__item--selected' : ''}`} onClick={(e) => handleTab(e)}>
           상품정보
         </li>

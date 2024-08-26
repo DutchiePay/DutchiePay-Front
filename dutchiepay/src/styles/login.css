@@ -30,7 +30,7 @@
 }
 
 .login__checkbox:checked::before {
-  content: "✓";
+  content: '✓';
   display: block;
   color: white;
   text-align: center;
@@ -45,7 +45,7 @@
 
 .login-sns__title::before,
 .login-sns__title::after {
-  content: "";
+  content: '';
   flex: 1;
   border-bottom: 1px solid #000;
   margin: 0 10px;
@@ -63,7 +63,7 @@
 }
 
 .login__last-login::before {
-  content: "";
+  content: '';
   position: absolute;
   top: -20px;
   left: 50%;
