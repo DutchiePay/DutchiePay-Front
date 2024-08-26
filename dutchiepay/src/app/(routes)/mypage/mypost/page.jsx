@@ -6,6 +6,7 @@ import Image from "next/image";
 import Post from "@/app/_components/Post";
 import { useState } from "react";
 
+// 작성 게시글 없을 때 UI도 구현해야 함
 export default function MyPost() {
   const [filter, setFilter] = useState("작성한 게시글");
 

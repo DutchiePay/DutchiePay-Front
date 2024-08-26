@@ -77,21 +77,6 @@
   background: #4b70f5;
 }
 
-.mypage-likes__product-name {
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.mypage-reviews-product-name {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .mypage-reviews__review {
   font-size: 14px;
   overflow: hidden;
@@ -99,4 +84,27 @@
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+}
+
+.mypage-orders__order-number {
+  color: #8c8f9a;
+}
+
+.mypage-orders__order-number::before {
+  content: '|';
+  width: 1px;
+  height: 100%;
+  margin: 0 8px;
+}
+
+.mypage-order-details__table-header {
+  background: #dbe2fd;
+  font-weight: 600;
+  padding: 16px;
+  width: 140px;
+}
+
+.mypage-order-details__table-data {
+  width: 360px;
+  padding: 16px;
 }

@@ -6,6 +6,7 @@ import Coupon_List from '@/app/_components/Coupon_List';
 import Image from 'next/image';
 import { useState } from 'react';
 
+// 쿠폰 없을 때 UI도 구현해야 함
 export default function MyCoupon() {
   return (
     <main className="ml-[250px] p-[30px] min-h-[750px]">

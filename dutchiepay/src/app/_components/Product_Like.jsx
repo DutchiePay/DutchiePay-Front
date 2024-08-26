@@ -1,4 +1,5 @@
 import '../../styles/mypage.css';
+import '../../styles/product.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,7 +16,7 @@ export default function Product_Like() {
   };
 
   return (
-    <Link href="#" className="w-[172px] border px-[12px] py-[8px] flex flex-col gap-[4px]">
+    <Link href="/commerce/123" className="w-[172px] border px-[12px] py-[8px] flex flex-col gap-[4px]">
       <div className="w-[148px] h-[148px] rounded-xl relative">
         <Image className="w-[148px] h-[148px] rounded-xl" src={product} alt="애슐리 볶음밥" width={148} height={148} />
         <div className="w-[30px] h-[30px] border bg-white absolute bottom-[4px] right-[4px] rounded-md flex justify-center items-center">
@@ -40,7 +41,7 @@ export default function Product_Like() {
           )}
         </div>
       </div>
-      <p className="mypage-likes__product-name">
+      <p className="mt-[4px] product-name--multi-line text-sm">
         애슐리 볶음밥 10인분 혼합 구성
         10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침 대용 직장인
         도시락

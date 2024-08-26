@@ -1,6 +1,7 @@
 'use client';
 
 import '../../styles/mypage.css';
+import '../../styles/product.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,10 +19,16 @@ export default function Review() {
 
   return (
     <div className="w-[730px] border rounded-lg p-[20px] flex gap-[12px] relative">
-      <Image className="w-[120px] h-[120px] rounded-lg" src={product} alt="애슐리 볶음밥" width={120} height={120} />
+      <Image
+        className="w-[120px] h-[120px] rounded-lg cursor-pointer"
+        src={product}
+        alt="애슐리 볶음밥"
+        width={120}
+        height={120}
+      />
       <div className="w-[558px]">
         <div className="flex justify-between items-center">
-          <Link href="#" className="inline-block max-w-[470px] mypage-reviews-product-name font-bold">
+          <Link href="#" className="inline-block max-w-[470px] product-name--single-line font-bold">
             애슐리 볶음밥 10인분 혼합 구성
             10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침 대용
             직장인 도시락
@@ -32,7 +39,7 @@ export default function Review() {
           </div>
         </div>
         <div className="flex justify-between">
-          <p>별점 영역</p>
+          <p>별점영역</p>
           <p className="text-xs text-gray--600">2024년 07월 14일</p>
         </div>
         <p className={`text-sm w-[510px] mt-[4px] ${isMore ? '' : 'mypage-reviews__review'}`}>
