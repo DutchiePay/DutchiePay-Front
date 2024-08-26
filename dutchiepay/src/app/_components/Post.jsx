@@ -3,7 +3,7 @@ import "../../styles/mypage.css";
 import Image from "next/image";
 import mart from "../../../public/image/mart.jpg";
 import comment from "../../../public/image/comment.svg";
-export default function Product_Post() {
+export default function Post() {
   return (
     <div className="w-[172px] border px-[12px] py-[8px] flex flex-col gap-[4px] cursor-pointer">
       <div className="w-[148px] h-[120px] rounded-xl relative">

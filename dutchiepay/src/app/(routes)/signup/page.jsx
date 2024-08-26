@@ -9,12 +9,19 @@ import naver from "../../../../public/image/naver.png";
 import kakao from "../../../../public/image/kakao.png";
 import "../../../styles/login.css";
 import "../../../styles/signup.css";
+
 export default function Signup() {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState(false);
   const [showPolicy, setShowPolicy] = useState(false);
-  const loginType = "naver";
-  const handleCilckEyeIcon = () => {
-    setIsVisible((prev) => !prev);
+
+  const handlePasswordVisibilityClick = () => {
+    setIsPasswordVisible((prev) => !prev);
+  };
+
+  const handleConfirmPasswordVisibilityClick = () => {
+    setIsConfirmPasswordVisible((prev) => !prev);
   };
 
   const handleTogglePolicy = () => {
@@ -59,7 +66,6 @@ export default function Signup() {
         </div>
         <hr className="w-[500px] my-[20px] border-t-[2px] border-gray--300" />
         <form>
-          {/* 리액트 훅 폼 적용시 변경 예정*/}
           <h2 className="signup__label">이메일</h2>
           <div className="mb-[16px]">
             <input
@@ -78,13 +84,13 @@ export default function Signup() {
             <input
               className="signup__input"
               placeholder="비밀번호"
-              type={isVisible ? "text" : "password"}
+              type={isPasswordVisible ? "text" : "password"}
             />
             <Image
               className="absolute top-[50%] right-[24px] transform -translate-y-1/2 cursor-pointer"
-              src={isVisible ? eyeOpen : eyeClosed}
+              src={isPasswordVisible ? eyeOpen : eyeClosed}
               alt="eyes"
-              onClick={handleCilckEyeIcon}
+              onClick={handlePasswordVisibilityClick}
             />
           </div>
           <div className="flex items-center">
@@ -96,14 +102,14 @@ export default function Signup() {
           <div className="mb-[16px] flex relative">
             <input
               className="signup__input"
-              placeholder="비밀번호"
-              type={isVisible ? "text" : "password"}
+              placeholder="비밀번호 확인"
+              type={isConfirmPasswordVisible ? "text" : "password"}
             />
             <Image
               className="absolute top-[50%] right-[24px] transform -translate-y-1/2 cursor-pointer"
-              src={isVisible ? eyeOpen : eyeClosed}
+              src={isConfirmPasswordVisible ? eyeOpen : eyeClosed}
               alt="eyes"
-              onClick={handleCilckEyeIcon}
+              onClick={handleConfirmPasswordVisibilityClick}
             />
           </div>
           <div className="flex items-center">
@@ -117,7 +123,6 @@ export default function Signup() {
               type="text"
             />
           </div>
-
           <div className="flex items-center">
             <h2 className="signup__label">성함(선택)</h2>
           </div>

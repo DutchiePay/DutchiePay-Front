@@ -1,15 +1,15 @@
-import '../../../styles/header.css';
+import "../../../styles/header.css";
 
-import Image from 'next/image';
-import chat from '../../../../public/image/chat.svg';
-import logo from '../../../../public/image/logo.jpg';
-import profile from '../../../../public/image/profile.jpg';
-import search from '../../../../public/image/search.svg';
+import Image from "next/image";
+import chat from "../../../../public/image/chat.svg";
+import logo from "../../../../public/image/logo.jpg";
+import profile from "../../../../public/image/profile.jpg";
+import search from "../../../../public/image/search.svg";
 
 export default function Header() {
   const isLoggedIn = true;
   return (
-    <header className="w-[1020px] m-0 m-auto mt-[12px]">
+    <header className="w-[1020px] bg-white fixed top-0 left-0 right-0 m-auto z-10">
       <nav className="flex justify-end w-full">
         <ul className="flex items-center">
           {isLoggedIn ? (
@@ -53,7 +53,13 @@ export default function Header() {
         </ul>
       </nav>
       <div className="flex items-center relative w-full mt-2">
-        <Image className="w-[160px] h-[96px] mr-[65px]" src={logo} alt="logo" width={160} height={96} />
+        <Image
+          className="w-[160px] h-[96px] mr-[65px]"
+          src={logo}
+          alt="logo"
+          width={160}
+          height={96}
+        />
         <div className="relative">
           <Image
             className="absolute pt-[13px] pb-[13px] ml-[20px]"
@@ -71,7 +77,13 @@ export default function Header() {
         {isLoggedIn && (
           <>
             <div className="flex justify-end w-full">
-              <Image className="w-[55px] h-[55px]" alt="chat" width={40} height={40} src={chat} />
+              <Image
+                className="w-[55px] h-[55px]"
+                alt="chat"
+                width={40}
+                height={40}
+                src={chat}
+              />
               <Image
                 className="w-[55px] h-[55px] rounded-full border ml-[18px]"
                 src={profile}
