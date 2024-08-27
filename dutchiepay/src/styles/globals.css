@@ -26,6 +26,10 @@
   -webkit-box-orient: vertical;
 }
 
+.title--multi-line-3 {
+  -webkit-line-clamp: 3;
+}
+
 .title--single-line {
   white-space: nowrap;
   overflow: hidden;

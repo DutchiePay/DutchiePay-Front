@@ -15,3 +15,76 @@
   color: #fff;
   background: #4b70f5;
 }
+
+.community__label {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.community__label-description {
+  font-size: 12px;
+  color: #8c8f9a;
+}
+
+.community__input-text {
+  width: 600px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  padding: 8px 50px 8px 12px;
+}
+
+.community__input-price {
+  width: 150px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  padding: 8px 30px 8px 12px;
+}
+
+.community__input-date {
+  width: 150px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  padding: 8px 12px;
+  font-size: 14px;
+}
+
+.community__input-text::placeholder {
+  font-size: 14px;
+}
+
+.quill-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 24px;
+}
+
+.quill-editor {
+  height: 400px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.community__input-number::-webkit-outer-spin-button,
+.community__input-number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox  */
+.community__input-number {
+  -moz-appearance: textfield;
+  outline: none;
+}
+
+.community__button-number {
+  width: 25px;
+  height: 25px;
+  background: #4b70f5;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 8px;
+}
