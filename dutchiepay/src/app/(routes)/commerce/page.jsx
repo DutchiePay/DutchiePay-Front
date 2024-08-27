@@ -108,7 +108,7 @@ export default function Commerce() {
           </li>
         </ul>
       </div>
-      <section className="flex flex-wrap justify-between gap-[12px] mt-[12px] mb-[60px]">
+      <section className="flex flex-wrap gap-[20px] mt-[12px] mb-[60px]">
         <Product_List />
         <Product_List />
         <Product_List />

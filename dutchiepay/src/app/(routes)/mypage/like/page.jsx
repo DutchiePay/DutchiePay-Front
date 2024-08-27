@@ -1,7 +1,6 @@
 'use client';
 
-import '../../../../styles/mypage.css';
-import '../../../../styles/product.css';
+import '@/styles/mypage.css';
 
 import Image from 'next/image';
 import Product_Like from '@/app/_components/Product_Like';

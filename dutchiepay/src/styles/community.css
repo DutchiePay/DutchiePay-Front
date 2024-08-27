@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.community__filter {
+  padding: 6px 16px;
+  color: #4b70f5;
+  border: 1px solid #4b70f5;
+  font-size: 14px;
+  border-radius: 50px;
+  transition: all 0.3s ease-in-out;
+}
+
+.community__filter--selected {
+  color: #fff;
+  background: #4b70f5;
+}

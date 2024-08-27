@@ -93,3 +93,7 @@
 .product-tab__item--selected {
   font-weight: 700;
 }
+
+.product-review-item--not-first {
+  border-top: 1px solid #ddd;
+}

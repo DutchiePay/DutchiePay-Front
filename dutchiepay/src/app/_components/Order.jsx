@@ -1,6 +1,7 @@
 'use client';
 
-import '../../styles/mypage.css';
+import '@/styles/mypage.css';
+import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -32,7 +33,7 @@ export default function Order() {
         />
         <div className="h-[140px] flex flex-col gap-[4px] justify-center">
           <strong className="text-2xl text-blue--500">배송완료</strong>
-          <Link href="#" className="max-w-[520px] product-name--single-line font-medium">
+          <Link href="#" className="max-w-[520px] title--single-line font-medium">
             애슐리 볶음밥 10인분 혼합 구성
             10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침 대용
             직장인 도시락

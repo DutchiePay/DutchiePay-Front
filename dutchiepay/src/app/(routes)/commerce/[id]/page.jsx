@@ -2,15 +2,21 @@
 
 import '@/styles/commerce.css';
 
+import { useEffect, useRef, useState } from 'react';
+
 import Image from 'next/image';
+import Review from '@/app/_components/Review';
 import product from '../../../../../public/image/product1.jpg';
 import productDetail from '../../../../../public/image/product_detail.jpg';
 import time from '../../../../../public/image/time.svg';
-import { useState } from 'react';
 
 export default function CommerceDetail() {
   const [quantity, setQuantity] = useState(1);
   const [tab, setTab] = useState('상품정보');
+  const [isAll, setIsAll] = useState(true); // 모든 리뷰 -> false일 경우 포토리뷰
+
+  const reviewRef = useRef(null);
+  const askRef = useRef(null);
 
   const handleQuantity = (e) => {
     if (e.target.value === '-') {
@@ -25,6 +31,26 @@ export default function CommerceDetail() {
     setTab(e.target.innerText);
   };
 
+  // 스크롤 위치에 따른 Tab 값 설정
+  const handleScroll = () => {
+    const reviewTop = reviewRef.current.getBoundingClientRect().top;
+    const askTop = askRef.current.getBoundingClientRect().top;
+
+    if (reviewTop <= 0 && askTop > 0) {
+      setTab('후기');
+    } else if (askTop <= 0) {
+      setTab('문의');
+    } else {
+      setTab('상품정보');
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // 작성 리뷰/문의 없을 때 구현해야 함
   return (
     <main className="min-h-[750px] w-[1020px]">
       <section className="mt-[40px] flex justify-between">
@@ -79,7 +105,12 @@ export default function CommerceDetail() {
               type="number"
               value={quantity}
               defaultValue={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              onChange={(e) => {
+                const newValue = parseInt(e.target.value, 10);
+                if (newValue >= 1) {
+                  setQuantity(newValue);
+                }
+              }}
               min={1}
             />
             <button className="product-quantity__button" value="+" onClick={(e) => handleQuantity(e)}>
@@ -107,7 +138,7 @@ export default function CommerceDetail() {
           </p>
         </div>
       </section>
-      <ul className="mt-[40px] flex gap-[52px] border border-2 border-t-black p-[12px] sticky top-[158px] bg-white z-50">
+      <ul className="mt-[40px] flex gap-[52px] border border-2 border-t-black py-[12px] px-[40px] sticky top-[158px] bg-white z-50">
         <li className={`${tab === '상품정보' ? 'product-tab__item--selected' : ''}`} onClick={(e) => handleTab(e)}>
           상품정보
         </li>
@@ -120,10 +151,10 @@ export default function CommerceDetail() {
       </ul>
       <section className="mb-[60px] min-h-[1000px]">
         <div className="relative w-auto h-auto pt-[16px]">
-          <Image src={productDetail} alt="상세정보" layout="intrinsic" unoptimized={true} />
+          <Image className="mx-auto my-0" src={productDetail} alt="상세정보" layout="intrinsic" unoptimized={true} />
         </div>
         <hr className="my-[40px]" />
-        <div>
+        <div ref={reviewRef}>
           <div className="flex justify-center gap-[16px]">
             <div className="w-[175px] flex flex-col gap-[12px] justify-center item-center text-center">
               <strong>총 16건</strong>
@@ -134,9 +165,28 @@ export default function CommerceDetail() {
             </div>
             <div className="w-[400px]">별점 분포 영역</div>
           </div>
+          <div className="mt-[60px] mb-[16px] flex items-center">
+            <input type="checkbox" className="input__checkbox" onChange={(e) => setIsAll(!e.target.checked)} />
+            <label className="ml-[8px]">포토리뷰</label>
+          </div>
+          <Review />
+          <Review className="product-review-item--not-first" />
+          <Review className="product-review-item--not-first" />
+          <Review className="product-review-item--not-first" />
+          <Review className="product-review-item--not-first" />
+          <Review className="product-review-item--not-first" />
         </div>
         <hr className="my-[40px]" />
-        <div>문의</div>
+        <div ref={askRef} className="flex flex-col gap-[40px]">
+          <div>
+            <strong>판매자 정보</strong>
+            <div></div>
+          </div>
+          <div>
+            <button className="text-white rounded bg-blue--500 px-[16px] py-[8px] text-sm">상품 문의 작성하기</button>
+            <div></div>
+          </div>
+        </div>
       </section>
     </main>
   );

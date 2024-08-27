@@ -1,5 +1,5 @@
-import '../../styles/mypage.css';
-import '../../styles/product.css';
+import '@/styles/mypage.css';
+import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -41,7 +41,7 @@ export default function Product_Like() {
           )}
         </div>
       </div>
-      <p className="mt-[4px] product-name--multi-line text-sm">
+      <p className="mt-[4px] title--multi-line text-sm">
         애슐리 볶음밥 10인분 혼합 구성
         10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침 대용 직장인
         도시락

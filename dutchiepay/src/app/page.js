@@ -35,7 +35,10 @@ export default function Home() {
         공동구매 바로가기
       </Link>
       <Link href="/commerce/123" className="border p-[10px]">
-        공동구매 상세페이지 바로가기
+        공동구매 상세 바로가기
+      </Link>
+      <Link href="/mart" className="border p-[10px]">
+        마트/배달 바로가기
       </Link>
     </div>
   );

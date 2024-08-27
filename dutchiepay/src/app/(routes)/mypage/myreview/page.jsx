@@ -1,7 +1,7 @@
 import '../../../../styles/mypage.css';
 
 import Image from 'next/image';
-import Review from '@/app/_components/Review';
+import Review from '@/app/_components/MyReview';
 
 // 리뷰내역 없을 때 UI도 구현해야 함
 export default function MyReview() {
