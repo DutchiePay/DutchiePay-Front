@@ -1,6 +1,6 @@
 export default function PolicyDetail() {
   return (
-    <div className="policy-details bg-gray-100 p-4 rounded-lg text-left mb-[16px]">
+    <div className="policy-details bg-gray-100 p-4 rounded-lg text-left mb-[16px] max-h-[300px] overflow-y-scroll">
       <h3 className="font-bold mb-[8px]">1. 개인정보 수집 및 이용 안내</h3>
       <p>
         <strong>1.1. 수집 목적</strong>

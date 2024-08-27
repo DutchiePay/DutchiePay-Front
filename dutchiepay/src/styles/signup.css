@@ -3,8 +3,13 @@
 @tailwind utilities;
 
 .signup-naver__button {
-  border: none;
-  padding: 18px 24px 18px 24px;
+  margin-bottom: px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 55px;
+  text-align: center;
   font-weight: 700;
   width: 100%;
   color: white;
@@ -13,8 +18,13 @@
   background-color: #00c73c;
 }
 .signup-kakao__button {
-  border: none;
-  padding: 18px 24px 18px 24px;
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 55px;
+  text-align: center;
   font-weight: 700;
   width: 100%;
   color: black;
@@ -30,7 +40,7 @@
 }
 .signup__input {
   border: 1px solid #d1d2d7;
-  padding: 20px 0px 20px 24px;
+  padding: 20px 0px 20px 16px;
   width: 100%;
   border-radius: 5px;
 }

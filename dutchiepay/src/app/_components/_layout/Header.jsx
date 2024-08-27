@@ -1,13 +1,32 @@
+"use client";
 import "../../../styles/header.css";
-
 import Image from "next/image";
 import chat from "../../../../public/image/chat.svg";
 import logo from "../../../../public/image/logo.jpg";
 import profile from "../../../../public/image/profile.jpg";
 import search from "../../../../public/image/search.svg";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/redux/slice/loginSlice";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
-  const isLoggedIn = true;
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const user = useSelector((state) => state.login.user);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const [filter, setFilter] = useState("");
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  const handleFilterClick = (filterName, route) => {
+    setFilter(filterName);
+    router.push(route);
+  };
+
   return (
     <header className="w-[1020px] bg-white fixed top-0 left-0 right-0 m-auto z-10">
       <nav className="flex justify-end w-full">
@@ -15,51 +34,57 @@ export default function Header() {
           {isLoggedIn ? (
             <>
               <li className="nav-item">
-                <span className="font-bold text-xs">한유진님</span>
+                <span className="font-bold text-xs">
+                  {user?.nickName || "사용자"}님
+                </span>
               </li>
               <li className="nav-item">
-                <button className="text-xs">로그아웃</button>
+                <button onClick={handleLogout} className="text-xs">
+                  로그아웃
+                </button>
               </li>
               <li className="nav-item">
-                <a href="#" className="text-xs">
+                <Link href="/mypage" className="text-xs">
                   주문/배송
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a href="#" className="text-xs">
+                <Link href="/help" className="text-xs">
                   고객센터
-                </a>
+                </Link>
               </li>
             </>
           ) : (
             <>
               <li className="nav-item">
-                <a href="#" className="text-xs">
+                <Link href="/signup" className="text-xs">
                   회원가입
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a href="#" className="text-xs">
+                <Link href="/login" className="text-xs">
                   로그인
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a href="#" className="text-xs">
+                <Link href="/help" className="text-xs">
                   고객센터
-                </a>
+                </Link>
               </li>
             </>
           )}
         </ul>
       </nav>
       <div className="flex items-center relative w-full mt-2">
-        <Image
-          className="w-[160px] h-[96px] mr-[65px]"
-          src={logo}
-          alt="logo"
-          width={160}
-          height={96}
-        />
+        <Link href="/" className="contents w-[160px]">
+          <Image
+            className="w-[160px] h-[96px] mr-[65px] cursor-pointer object-cotain"
+            src={logo}
+            alt="logo"
+            width={160}
+            height={96}
+          />
+        </Link>
         <div className="relative">
           <Image
             className="absolute pt-[13px] pb-[13px] ml-[20px]"
@@ -75,41 +100,64 @@ export default function Header() {
         </div>
 
         {isLoggedIn && (
-          <>
-            <div className="flex justify-end w-full">
-              <Image
-                className="w-[55px] h-[55px]"
-                alt="chat"
-                width={40}
-                height={40}
-                src={chat}
-              />
-              <Image
-                className="w-[55px] h-[55px] rounded-full border ml-[18px]"
-                src={profile}
-                alt="profile"
-                width={55}
-                height={55}
-              />
-            </div>
-          </>
+          <div className="flex justify-end w-full">
+            <Image
+              className="w-[55px] h-[55px]"
+              alt="chat"
+              width={40}
+              height={40}
+              src={chat}
+            />
+            <Image
+              className="w-[55px] h-[55px] rounded-full border ml-[18px]"
+              src={user?.profileImage || profile}
+              alt="profile"
+              width={55}
+              height={55}
+            />
+          </div>
         )}
       </div>
-      <ul className="flex justify-center h-[30px]">
-        <li className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
-          <a className="font-bold">공동구매</a>
+      <ul className="flex justify-center text-center w-[1020px] h-[30px] my-[16px] gap-[42px]">
+        <li
+          className={`cursor-pointer ${
+            filter === "공동구매" ? "border-b-2 border-blue-500" : ""
+          }`}
+          onClick={() => handleFilterClick("공동구매", "/commerce")}
+        >
+          <span className="font-bold">공동구매</span>
         </li>
-        <li className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
-          <a className="font-bold">마트/배달</a>
+        <li
+          className={`cursor-pointer ${
+            filter === "마트/배달" ? "border-b-2 border-blue-500" : ""
+          }`}
+          onClick={() => handleFilterClick("마트/배달", "/mart")}
+        >
+          <span className="font-bold">마트/배달</span>
         </li>
-        <li className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
-          <a className="font-bold">거래/나눔</a>
+        <li
+          className={`cursor-pointer ${
+            filter === "거래/나눔" ? "border-b-2 border-blue-500" : ""
+          }`}
+          onClick={() => handleFilterClick("거래/나눔", "/used")}
+        >
+          <span className="font-bold">거래/나눔</span>
         </li>
-        <li className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
-          <a className="font-bold">커뮤니티</a>
+        <li
+          className={`cursor-pointer ${
+            filter === "커뮤니티" ? " border-b-2 border-blue-500" : ""
+          }`}
+          onClick={() => handleFilterClick("커뮤니티", "/community")}
+        >
+          <span className="font-bold">커뮤니티</span>
         </li>
-        <li className="ml-[42px] active:border-b-2 active:border-blue-500 cursor-pointer">
-          <a className="font-bold">이벤트</a>
+        <li
+          className={`cursor-pointer ${
+            filter === "이벤트" ? " border-b-2 border-blue-500" : ""
+          }`}
+          onClick={() => handleFilterClick("이벤트", "/event")}
+        >
+          <span className="font-bold">이벤트</span>
         </li>
       </ul>
     </header>

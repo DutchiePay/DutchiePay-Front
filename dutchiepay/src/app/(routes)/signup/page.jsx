@@ -7,7 +7,6 @@ import eyeOpen from "../../../../public/image/eyeOpen.svg";
 import eyeClosed from "../../../../public/image/eyeClosed.svg";
 import naver from "../../../../public/image/naver.png";
 import kakao from "../../../../public/image/kakao.png";
-import "../../../styles/login.css";
 import "../../../styles/signup.css";
 
 export default function Signup() {
@@ -44,7 +43,7 @@ export default function Signup() {
         간편 회원가입
       </h2>
       <section className="text-center mb-[32px] w-[500px] ">
-        <div className="mb-[16px] flex relative">
+        <div className="signup-naver__button" onClick={() => {}}>
           <Image
             className="absolute top-[50%] left-[134px] transform -translate-y-1/2 cursor-pointer"
             src={naver}
@@ -52,9 +51,9 @@ export default function Signup() {
             height={40}
             alt="naver"
           />
-          <button className="signup-naver__button">네이버로 시작하기</button>
+          <span className="">네이버로 시작하기</span>
         </div>
-        <div className="mb-[36px] flex relative">
+        <div className="signup-kakao__button" onClick={() => {}}>
           <Image
             className="absolute top-[50%] left-[134px] transform -translate-y-1/2 cursor-pointer"
             src={kakao}
@@ -62,7 +61,7 @@ export default function Signup() {
             height={40}
             alt="kakao"
           />
-          <button className="signup-kakao__button">카카오로 시작하기</button>
+          <span className="">카카오로 시작하기</span>
         </div>
         <hr className="w-[500px] my-[20px] border-t-[2px] border-gray--300" />
         <form>
@@ -159,9 +158,9 @@ export default function Signup() {
           {showPolicy && <PolicyDetail></PolicyDetail>}
         </form>
         <div className="mb-[70px]">
-          <a href="/signup" className="signup__button">
+          <button className="signup__button" disabled>
             회원가입
-          </a>
+          </button>
         </div>
       </section>
     </main>
