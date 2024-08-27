@@ -40,6 +40,15 @@ export default function Home() {
       <Link href="/mart" className="border p-[10px]">
         마트/배달 바로가기
       </Link>
+      <Link href="/used" className="border p-[10px]">
+        나눔/거래 바로가기
+      </Link>
+      <Link href="/community" className="border p-[10px]">
+        커뮤니티 바로가기
+      </Link>
+      <Link href="/event" className="border p-[10px]">
+        이벤트 바로가기
+      </Link>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import Post_Mart from '@/app/_components/Post_Mart';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function CommerceDetail() {
+export default function Mart() {
   const router = useRouter();
 
   const handleButtonClick = () => {
