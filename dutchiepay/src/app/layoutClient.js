@@ -1,28 +1,24 @@
-"use client";
+'use client';
 
-import { Provider } from "react-redux";
-import "../styles/globals.css";
+import '../styles/globals.css';
 
-import Header from "./_components/_layout/Header";
-import Sidebar from "./_components/_layout/Sidebar";
-import { usePathname } from "next/navigation";
-import store from "@/redux/store";
+import Header from './_components/_layout/Header';
+import { Provider } from 'react-redux';
+import Sidebar from './_components/_layout/Sidebar';
+import store from '@/redux/store';
+import { usePathname } from 'next/navigation';
 
 export default function RootLayoutClient({ children }) {
   const pathname = usePathname();
 
   //(locationNow.pathname.match(/\/(login|reset|find|auth|signup)/))
-  const hideHeader =
-    pathname === "/login" ||
-    pathname === "/signup" ||
-    pathname === "/find" ||
-    pathname === "/reset";
-  const showSidebar = pathname.startsWith("/mypage");
+  const hideHeader = pathname === '/login' || pathname === '/signup' || pathname === '/find' || pathname === '/reset';
+  const showSidebar = pathname.startsWith('/mypage');
   return (
     <Provider store={store}>
-      {!hideHeader && <Header />} {/* 조건부로 Header 렌더링 */}
+      {!hideHeader && <Header />}
       <div className="layout">
-        {showSidebar && <Sidebar />} {/* 조건부로 Sidebar 렌더링 */}
+        {showSidebar && <Sidebar />}
         <main className="layout__main">{children}</main>
       </div>
     </Provider>

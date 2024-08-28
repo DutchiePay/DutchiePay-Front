@@ -148,7 +148,7 @@ export default function CommerceDetail() {
           </p>
         </div>
       </section>
-      <ul className="mt-[40px] flex gap-[52px] border border-2 border-t-black py-[12px] px-[40px] sticky top-[178px] bg-white z-50">
+      <ul className="mt-[40px] flex gap-[52px] border border-2 border-t-black py-[12px] px-[40px] sticky top-[158px] bg-white z-50">
         <li className={`${tab === '상품정보' ? 'product-tab__item--selected' : ''}`} onClick={(e) => handleTab(e)}>
           상품정보
         </li>
