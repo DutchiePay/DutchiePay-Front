@@ -15,6 +15,7 @@ export default function CommerceDetail() {
   const [tab, setTab] = useState('상품정보');
   const [isAll, setIsAll] = useState(true); // 모든 리뷰 -> false일 경우 포토리뷰
 
+  const infoRef = useRef(null);
   const reviewRef = useRef(null);
   const askRef = useRef(null);
 
@@ -28,7 +29,16 @@ export default function CommerceDetail() {
   };
 
   const handleTab = (e) => {
-    setTab(e.target.innerText);
+    const selectedTab = e.target.innerText;
+    setTab(selectedTab);
+
+    if (selectedTab === '상품정보') {
+      infoRef.current.scrollIntoView({ behavior: 'auto' });
+    } else if (selectedTab === '후기') {
+      reviewRef.current.scrollIntoView({ behavior: 'auto' });
+    } else if (selectedTab === '업체정보/문의') {
+      askRef.current.scrollIntoView({ behavior: 'auto' });
+    }
   };
 
   // 스크롤 위치에 따른 Tab 값 설정
@@ -39,7 +49,7 @@ export default function CommerceDetail() {
     if (reviewTop <= 0 && askTop > 0) {
       setTab('후기');
     } else if (askTop <= 0) {
-      setTab('문의');
+      setTab('업체정보/문의');
     } else {
       setTab('상품정보');
     }
@@ -138,7 +148,7 @@ export default function CommerceDetail() {
           </p>
         </div>
       </section>
-      <ul className="mt-[40px] flex gap-[52px] border border-2 border-t-black py-[12px] px-[40px] sticky top-[158px] bg-white z-50">
+      <ul className="mt-[40px] flex gap-[52px] border border-2 border-t-black py-[12px] px-[40px] sticky top-[178px] bg-white z-50">
         <li className={`${tab === '상품정보' ? 'product-tab__item--selected' : ''}`} onClick={(e) => handleTab(e)}>
           상품정보
         </li>
@@ -150,7 +160,7 @@ export default function CommerceDetail() {
         </li>
       </ul>
       <section className="mb-[60px] min-h-[1000px]">
-        <div className="relative w-auto h-auto pt-[16px]">
+        <div ref={infoRef} className="relative w-auto h-auto pt-[16px]">
           <Image className="mx-auto my-0" src={productDetail} alt="상세정보" layout="intrinsic" unoptimized={true} />
         </div>
         <hr className="my-[40px]" />

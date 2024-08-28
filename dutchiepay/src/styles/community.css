@@ -88,3 +88,22 @@
   font-weight: 700;
   border-radius: 8px;
 }
+
+.community__select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.community__comment__textarea {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 12px;
+  resize: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.community__comment__textarea::placeholder {
+  font-size: 14px;
+}
