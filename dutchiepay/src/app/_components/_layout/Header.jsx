@@ -16,6 +16,7 @@ export default function Header() {
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
   const router = useRouter();
+
   const pathname = usePathname();
   const [filter, setFilter] = useState("");
   useEffect(() => {
@@ -134,7 +135,8 @@ export default function Header() {
           </div>
         )}
       </div>
-      <ul className="flex justify-center text-center w-[1020px]  my-[8px] gap-[42px]">
+
+      <ul className="flex justify-center text-center w-[1020px] gap-[42px]">
         <li
           className={`cursor-pointer ${
             filter === "공동구매" ? "border-b-2 border-blue-500" : ""

@@ -1,9 +1,136 @@
-import Image from 'next/image';
+'use client';
 
-export default function CommerceDetail() {
+import Image from 'next/image';
+import Post_Complete from '@/app/_components/Post_complete';
+import info from '../../../../../public/image/info.svg';
+import prev from '../../../../../public/image/prev.svg';
+import profile from '../../../../../public/image/profile.jpg';
+import selectArrow from '../../../../../public/image/selectArrow.svg';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+export default function MartDetail() {
+  const router = useRouter();
+  const [isMyPostWritten, setIsMyPostWritten] = useState(true);
+
+  const handlePrevButtonClick = () => {
+    router.back();
+  };
+
   return (
     <main className="min-h-[750px] w-[1020px]">
-      <div>마트 상세페이지</div>
+      <div className="w-full translate-x-0">
+        <section className="min-h-[750px] w-[730px] px-[24px] py-[40px] border-r">
+          <div className="flex items-center justify-between">
+            <Image
+              className="w-[30px] h-[30px]"
+              src={prev}
+              alt="뒤로가기"
+              width={30}
+              height={30}
+              onClick={handlePrevButtonClick}
+            />
+            <div className="w-[54px] py-[4px] bg-blue--500 text-white rounded-3xl flex justify-center">배달</div>
+          </div>
+          <article className="pl-[30px] pt-[24px]">
+            <div className="flex justify-between items-center mb-[4px]">
+              <div className="flex gap-[8px] items-center">
+                <Image
+                  className="w-[40px] h-[40px] rounded-full border"
+                  src={profile}
+                  alt="프로필"
+                  width={40}
+                  height={40}
+                />
+                <strong>한유진님의 게시글</strong>
+              </div>
+              <p className="text-xs text-gray--500">조회수 100</p>
+            </div>
+            <h1 className="text-2xl text-blue--500 font-bold">오늘 저녁 엽떡에서 같이 주문하시고 반띵하실 분</h1>
+            <p className="inline-block min-h-[360px] mt-[24px]">ㅈㄱㄴ</p>
+            <div className="flex justify-between">
+              <p className="text-xs text-gray--500">2024년 08월 07일 오후 09:07</p>
+              <div className="flex gap-[16px]">
+                {isMyPostWritten ? (
+                  <>
+                    <button className="text-sm text-gray--500">수정하기</button>
+                    <button className="text-sm text-gray--500">삭제하기</button>
+                  </>
+                ) : (
+                  <button className="text-sm text-gray--500">신고하기</button>
+                )}
+              </div>
+            </div>
+            <div className="border rounded-lg px-[32px] py-[16px] mt-[24px]">
+              <div className="flex items-center gap-[4px] mb-[4px] pb-[4px] border-b-2 border-blue--500">
+                <Image
+                  className="w-[20px] h-[20px] rounded-full border"
+                  src={profile}
+                  alt="프로필"
+                  width={20}
+                  height={20}
+                />
+                <h2 className="font-bold">한유진님의 최근 거래 완료글 (48개)</h2>
+              </div>
+              <div className="flex flex-col gap-[8px] mt-[12px]">
+                <Post_Complete />
+                <Post_Complete />
+                <Post_Complete />
+                <Post_Complete />
+                <Post_Complete />
+              </div>
+            </div>
+          </article>
+        </section>
+        {/*우측에 고정 되도록 수정 필요*/}
+        <section className="w-[290px] h-[750px] fixed top-0 right-0 pl-[24px] py-[40px]">
+          <div className="flex items-center gap-[8px]">
+            <Image className="w-[30px] h-[30px]" src={info} alt="info" width={30} height={30} />
+            <h2 className="text-2xl font-bold">상세 정보</h2>
+          </div>
+          <p className="text-xs text-gray--500">기재된 내용은 변동될 수 있습니다.</p>
+          <div className="flex flex-col gap-[12px] mt-[16px] mb-[24px]">
+            <div className="flex justify-between">
+              <strong>날짜</strong>
+              <p>12월 12일 목요일 오후 09:25</p>
+            </div>
+            <div className="flex justify-between">
+              <strong>최대 인원</strong>
+              <span className="flex gap-[4px]">
+                3명<p className="text-sm">(현 : 2명)</p>
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <strong>장소</strong>
+              <p>삼각지역 1번 출구</p>
+            </div>
+            {/* 지도 들어갈 위치 */}
+            <div className="flex justify-between">
+              <strong>진행 상태</strong>
+              {isMyPostWritten ? (
+                <div className="w-[130px] relative">
+                  <select className="community__select border w-[130px] px-[12px] py-[4px] rounded-lg outline-none">
+                    <option>인원 모집중</option>
+                    <option>인원 모집완료</option>
+                    <option>진행완료</option>
+                  </select>
+                  <Image
+                    className="w-[12px] h-[6px] absolute top-[14px] right-[8px] cursor-pointer pointer-events-none"
+                    src={selectArrow}
+                    alt="arrow"
+                    width={12}
+                    height={6}
+                    aria-hidden="true"
+                  />
+                </div>
+              ) : (
+                <p>인원 모집중</p>
+              )}
+            </div>
+          </div>
+          <button className="w-full rounded-lg py-[12px] text-white font-bold bg-blue--500">채팅방으로 이동</button>
+        </section>
+      </div>
     </main>
   );
 }
