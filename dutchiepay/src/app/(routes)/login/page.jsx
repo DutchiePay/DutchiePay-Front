@@ -11,12 +11,13 @@ import "../../../styles/login.css";
 export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
   const loginType = "naver";
+
   const handleCilckEyeIcon = () => {
     setIsVisible((prev) => !prev);
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center">
+    <main className="flex flex-col items-center justify-center">
       <header>
         <Image
           className="w-[200px] h-[120px] mb-[16px]"

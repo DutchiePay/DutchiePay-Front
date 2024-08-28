@@ -5,9 +5,9 @@ import notion from "../../../../public/image/notion.svg";
 
 export default function Footer() {
   return (
-    <footer className="border-t bottom-0 mt-[50px]">
-      <div className="w-[1020px] pr-[40px] pl-[40px] m-0 m-auto">
-        <div className="flex items-center relative w-full">
+    <footer className="border-t h-[70px]">
+      <div className="w-[1020px] m-0 m-auto ">
+        <div className="flex items-center w-full ">
           <Image
             className="w-[90px] h-[54px] mr-[65px] "
             src={logo}

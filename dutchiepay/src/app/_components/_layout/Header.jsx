@@ -9,14 +9,30 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/redux/slice/loginSlice";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function Header() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
   const router = useRouter();
+  const pathname = usePathname();
   const [filter, setFilter] = useState("");
+  useEffect(() => {
+    if (pathname.startsWith("/commerce")) {
+      setFilter("공동구매");
+    } else if (pathname.startsWith("/mart")) {
+      setFilter("마트/배달");
+    } else if (pathname.startsWith("/used")) {
+      setFilter("거래/나눔");
+    } else if (pathname.startsWith("/community")) {
+      setFilter("커뮤니티");
+    } else if (pathname.startsWith("/event")) {
+      setFilter("이벤트");
+    } else {
+      setFilter("");
+    }
+  }, [pathname]);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -28,7 +44,7 @@ export default function Header() {
   };
 
   return (
-    <header className="w-[1020px] bg-white fixed top-0 left-0 right-0 m-auto z-10">
+    <header className="w-[1020px] h-[165px]  bg-white fixed top-0 left-0 right-0 m-auto z-10">
       <nav className="flex justify-end w-full">
         <ul className="flex items-center">
           {isLoggedIn ? (
@@ -118,7 +134,7 @@ export default function Header() {
           </div>
         )}
       </div>
-      <ul className="flex justify-center text-center w-[1020px] h-[30px] my-[16px] gap-[42px]">
+      <ul className="flex justify-center text-center w-[1020px]  my-[8px] gap-[42px]">
         <li
           className={`cursor-pointer ${
             filter === "공동구매" ? "border-b-2 border-blue-500" : ""
