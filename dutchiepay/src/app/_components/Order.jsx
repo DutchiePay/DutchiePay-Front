@@ -69,7 +69,7 @@ export default function Order() {
       {isMore && (
         <div>
           <table class="mx-auto my-[16px] border border-collapse">
-            <tr>
+            <tr className="border-b">
               <th className="mypage-order-details__table-header">배송지</th>
               <td className="flex flex-col mypage-order-details__table-data">
                 <p className="font-bold">박용호</p>
@@ -80,18 +80,18 @@ export default function Order() {
                 </div>
               </td>
             </tr>
-            <tr>
+            <tr className="border-b">
               <th className="mypage-order-details__table-header">배송메시지</th>
               <td className="mypage-order-details__table-data">중앙현관 비밀번호는 1234입니다.</td>
             </tr>
-            <tr>
+            <tr className="border-b">
               <th className="mypage-order-details__table-header">송장번호</th>
               <td className="mypage-order-details__table-data flex justify-between">
                 <span class="tracking-number">1234567890</span>
                 <button className="bg-blue--500 text-white text-xs px-[8px] py-[4px] rounded-md">배송조회</button>
               </td>
             </tr>
-            <tr>
+            <tr className="border-b">
               <th className="mypage-order-details__table-header">결제정보</th>
               <td className="mypage-order-details__table-data flex flex-col gap-[16px]">
                 <div>

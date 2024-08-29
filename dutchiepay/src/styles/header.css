@@ -2,9 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 .nav-item:not(:last-child)::after {
-  content: "|";
-  color: gray;
-  margin-left: 4px;
-  margin-right: 4px;
+  content: '|';
+  color: #d1d2d7;
+  margin-left: 6px;
   font-size: 12px;
 }

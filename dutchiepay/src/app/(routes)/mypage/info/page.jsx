@@ -41,7 +41,7 @@ export default function Info() {
             <h2 className="mypage-profile__label">지역</h2>
             <p className="mypage-profile__value">평택시</p>
           </div>
-          <button className="mypage-profile__button">변경</button>
+          <button className="mypage-profile__button">재설정</button>
         </article>
         <article className="mypage-profile">
           <div className="flex items-center">

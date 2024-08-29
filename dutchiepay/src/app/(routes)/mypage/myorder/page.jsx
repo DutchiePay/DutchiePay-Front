@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Order from '@/app/_components/Order';
+import arrow from '../../../../../public/image/arrow.svg';
 import { useState } from 'react';
 
 export default function MyOrder() {
@@ -71,6 +72,10 @@ export default function MyOrder() {
         <Order />
         <Order />
       </section>
+      <button className="w-[250px] rounded flex justify-between items-center px-[24px] py-[8px] border mx-auto mt-[60px] mb-[40px]">
+        구매내역 더 불러오기
+        <Image className="w-[20px] h-[20px]" src={arrow} alt="arrow" width={20} height={20} />
+      </button>
     </main>
   );
 }

@@ -20,6 +20,10 @@ export default function Header() {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  const handleProfileClick = () => {
+    router.push('/mypage');
+  };
+
   const pathname = usePathname();
   const [filter, setFilter] = useState('');
   useEffect(() => {
@@ -48,9 +52,9 @@ export default function Header() {
   };
 
   return (
-    <header className="w-[1020px] h-[165px]  bg-white fixed top-0 left-0 right-0 m-auto z-10">
-      <nav className="flex justify-end w-full">
-        <ul className="flex items-center">
+    <header className="w-[1020px] bg-white fixed top-0 left-0 right-0 m-auto z-10">
+      <nav className="flex justify-end w-full mt-[4px]">
+        <ul className="flex items-center gap-[6px]">
           {isLoggedIn ? (
             <>
               <li className="nav-item">
@@ -93,7 +97,7 @@ export default function Header() {
           )}
         </ul>
       </nav>
-      <div className="flex items-center relative w-full mt-2">
+      <div className="flex items-center relative w-full">
         <Link href="/" className="contents w-[160px]">
           <Image
             className="w-[160px] h-[96px] mr-[65px] cursor-pointer object-cotain"
@@ -104,13 +108,7 @@ export default function Header() {
           />
         </Link>
         <div className="relative">
-          <Image
-            className="absolute pt-[13px] pb-[13px] ml-[20px]"
-            src={search}
-            width={16}
-            height={16}
-            alt="search icon"
-          />
+          <Image className="absolute pt-[13px] pb-[13px] ml-[20px]" src={search} width={16} height={16} alt="search" />
           <input
             className="w-[600px] h-[42px] bg-gray--100 pt-[13px] pb-[13px] pl-[52px] border rounded-md outline-none placeholder:text-[14px]"
             placeholder="검색어를 입력해주세요"
@@ -126,12 +124,13 @@ export default function Header() {
               alt="profile"
               width={55}
               height={55}
+              onClick={handleProfileClick}
             />
           </div>
         )}
       </div>
 
-      <ul className="flex justify-center text-center w-[1020px] gap-[42px]">
+      <ul className="flex justify-center text-center w-[1020px] gap-[42px] mb-[4px]">
         <li
           className={`cursor-pointer ${filter === '공동구매' ? 'border-b-2 border-blue-500' : ''}`}
           onClick={() => handleFilterClick('공동구매', '/commerce')}
