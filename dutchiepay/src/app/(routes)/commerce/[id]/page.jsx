@@ -80,7 +80,7 @@ export default function CommerceDetail() {
           </h1>
           <div className="flex my-[4px] items-center gap-[8px]">
             <p className="line-through text-sm text-gray--500">32,500원</p>
-            <p className="font-bold text-lg">27,500원</p>
+            <p className="font-bold text-xl">27,500원</p>
             <p className="bg-red--500 rounded-xl text-white text-xs font-medium px-[6px] py-[2px]">15%</p>
           </div>
           <hr />

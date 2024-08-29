@@ -1,12 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 .login__input {
-  border: 1px solid #d1d2d7;
-  padding: 8px 0px 8px 16px;
+  border: 1px solid #ddd;
+  padding: 12px 16px;
   width: 100%;
-  border-radius: 5px;
+  border-radius: 4px;
 }
+
+.login__input::placeholder {
+  font-size: 14px;
+}
+
 .login__input:focus {
   padding: 8px 0px 8px 16px;
   width: 100%;
@@ -29,7 +35,7 @@
 }
 
 .login__checkbox:checked::before {
-  content: "✓";
+  content: '✓';
   display: block;
   color: white;
   text-align: center;
@@ -44,7 +50,7 @@
 
 .login-sns__title::before,
 .login-sns__title::after {
-  content: "";
+  content: '';
   flex: 1;
   border-bottom: 1px solid #000;
   margin: 0 10px;
@@ -62,7 +68,7 @@
 }
 
 .login__last-login::before {
-  content: "";
+  content: '';
   position: absolute;
   top: -20px;
   left: 50%;

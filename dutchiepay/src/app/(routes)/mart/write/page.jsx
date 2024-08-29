@@ -1,10 +1,9 @@
 'use client';
 
 import '@/styles/community.css';
-import 'react-quill/dist/quill.snow.css';
 
 import Image from 'next/image';
-import ReactQuill from 'react-quill';
+import TextEditor from '@/app/_components/Texteditor';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -29,6 +28,7 @@ export default function MartWrite() {
       if (headcount === 1) return;
       setHeadcount(headcount - 1);
     } else {
+      if (headcount === 10) return;
       setHeadcount(headcount + 1);
     }
   };
@@ -90,6 +90,7 @@ export default function MartWrite() {
                 }
               }}
               min={1}
+              max={10}
             />
             <button className="community__button-number" value="+" onClick={(e) => handleHeadcount(e)}>
               +
@@ -102,7 +103,7 @@ export default function MartWrite() {
             </p>
           </div>
           <div className="quill-container">
-            <ReactQuill className="quill-editor" onChange={setEditorContent} theme="snow" />
+            <TextEditor />
           </div>
           <div className="flex justify-center gap-[16px] mt-[80px]">
             <button

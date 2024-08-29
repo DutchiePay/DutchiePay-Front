@@ -19,7 +19,7 @@ export default function Post_Used() {
     <Link href="/used/123" className="w-[240px] border rounded-xl flex flex-col gap-[4px] cursor-pointer">
       <div className="h-[160px] relative">
         <Image
-          className={`rounded-t-xl w-[240px] h-[160px] ${isEnd ? 'filter grayscale' : ''}`}
+          className={`rounded-t-xl w-[240px] h-[160px] ${isEnd ? 'grayscale' : ''}`}
           src={hasThumbnail ? '' : used}
           alt="썸네일"
           width={240}

@@ -1,10 +1,9 @@
 'use client';
 
 import '@/styles/community.css';
-import 'react-quill/dist/quill.snow.css';
 
 import Image from 'next/image';
-import ReactQuill from 'react-quill';
+import TextEditor from '@/app/_components/Texteditor';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -66,7 +65,7 @@ export default function CommunityWrite() {
             <p className="community__label-description">최대 3,000글자까지 입력 가능합니다.</p>
           </div>
           <div className="quill-container">
-            <ReactQuill className="quill-editor" onChange={setEditorContent} theme="snow" />
+            <TextEditor />
           </div>
           <div className="flex justify-center gap-[16px] mt-[80px]">
             <button

@@ -1,18 +1,21 @@
 'use client';
 
 import '@/styles/community.css';
-import 'react-quill/dist/quill.snow.css';
 
 import Image from 'next/image';
-import ReactQuill from 'react-quill';
+import TextEditor from '@/app/_components/Texteditor';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function UsedWrite() {
-  const [editorContent, setEditorContent] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [quantity, setQuantity] = useState(1);
+  const [isChecked, setIsChecked] = useState(false);
   const router = useRouter();
+
+  const handleCheckboxChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
 
   const handleCancelButtonClick = (e) => {
     e.preventDefault();
@@ -66,9 +69,10 @@ export default function UsedWrite() {
               type="text"
               value={inputValue || ''}
               onChange={(e) => handlePrice(e)}
+              disabled={isChecked}
             />
             <div className="flex gap-[8px]">
-              <input type="checkbox" />
+              <input type="checkbox" checked={isChecked} onChange={(e) => handleCheckboxChange(e)} />
               <label className="text-sm">나눔일 경우 체크</label>
             </div>
           </div>
@@ -80,7 +84,7 @@ export default function UsedWrite() {
             </p>
           </div>
           <div className="quill-container">
-            <ReactQuill className="quill-editor" onChange={setEditorContent} theme="snow" />
+            <TextEditor />
           </div>
           <div className="flex justify-center gap-[16px] mt-[80px]">
             <button
