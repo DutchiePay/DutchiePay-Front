@@ -6,12 +6,12 @@
   margin-bottom: 16px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  padding-left: 60px;
   position: relative;
   height: 55px;
-  text-align: center;
+  text-align: end;
   font-weight: 700;
-  width: 100%;
+  width: 240px;
   color: white;
   border-radius: 5px;
   font-size: 20px;
@@ -22,12 +22,12 @@
   margin-bottom: 36px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  padding-left: 60px;
   position: relative;
   height: 55px;
   text-align: center;
   font-weight: 700;
-  width: 100%;
+  width: 240px;
   color: black;
   border-radius: 5px;
   font-size: 20px;
@@ -42,7 +42,7 @@
 }
 .signup__input {
   border: 1px solid #d1d2d7;
-  padding: 20px 0px 20px 16px;
+  padding: 8px 0px 8px 16px;
   width: 100%;
   border-radius: 5px;
 }
@@ -55,7 +55,6 @@
 }
 .signup__input:focus {
   outline: none;
-  border: 1px solid #8c8f9a;
 }
 
 .signup__button {
