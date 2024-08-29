@@ -14,7 +14,7 @@ import user from '../../../../public/image/user.svg';
 
 export default function Sidebar() {
   return (
-    <aside className="w-[250px] h-[730px] bg-white border-r p-[16px] mb-[70px] flex flex-col items-center gap-[48px] fixed">
+    <aside className="w-[250px] h-[730px] bg-white border-r p-[16px] mb-[70px] flex flex-col items-center gap-[32px] fixed">
       <div className="flex flex-col items-center">
         <Image
           className="w-[120px] h-[120px] rounded-full border mb-[12px]"

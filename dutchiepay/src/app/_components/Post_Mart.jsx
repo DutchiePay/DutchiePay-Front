@@ -12,11 +12,13 @@ import { useState } from 'react';
 
 export default function Post_Mart() {
   const [hasThumbnail, setHasThumbnail] = useState(false);
+  const [isEnd, setIsEnd] = useState(true);
+
   return (
     <Link href="/mart/123" className="w-[240px] border rounded-xl flex flex-col gap-[4px] cursor-pointer">
       <div className="h-[160px] relative">
         <Image
-          className="rounded-t-xl w-[240px] h-[160px] "
+          className={`rounded-t-xl w-[240px] h-[160px] ${isEnd ? 'filter grayscale' : ''}`}
           src={hasThumbnail ? '' : mart}
           alt="썸네일"
           width={240}

@@ -52,7 +52,7 @@ export default function UsedWrite() {
             <p className="community__label-description">상품명을 입력해주세요. 최대 10글자까지 입력 가능합니다.</p>
           </div>
           <input className="community__input-text" type="text" placeholder="상품명" />
-          <label className="community__label block mt-[24px] mb-[8px]">장소</label>
+          <label className="community__label block mt-[24px] mb-[8px]">거래 장소</label>
           <input className="community__input-text" type="text" disabled="true" />
           <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
             <label className="community__label">가격</label>

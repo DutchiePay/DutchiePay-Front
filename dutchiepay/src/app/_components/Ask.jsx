@@ -1,6 +1,7 @@
 'use client';
 
-import '../../styles/mypage.css';
+import '@/styles/mypage.css';
+import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -18,8 +19,10 @@ export default function Ask() {
         <div className="flex justify-between">
           <div className="flex justify-between items-baseline gap-[8px]">
             {isSecret && <Image className="w-[15px] h-[15px]" src={secret} alt="비밀글" width={15} height={15} />}
-            <Link href="#" className="text-[18px] font-bold">
-              무아스 퓨어 미니 LED 벽시계
+            <Link href="/commerce/123" className="title--single-line max-w-[350px] text-[18px] font-bold">
+              애슐리 볶음밥 10인분 혼합 구성
+              10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침 대용
+              직장인 도시락
             </Link>
             <p className="text-xs text-gray-700">2024. 07. 28. 22:32</p>
             <p className="text-xs text-blue--500 font-semibold">{isAnswered ? '답변완료' : '답변대기'}</p>

@@ -36,43 +36,43 @@ export default function Commerce() {
     <main className="min-h-[750px] w-[1020px]">
       <ul className="mt-[60px] flex justify-center gap-[24px] mx-auto my-0">
         <li className="commerce-categories__item" onClick={(e) => handleCategory(e)}>
-          <Image className="w-[70px] h-[70px]" src={fresh} alt="신선/가공" width={70} height={70} />
+          <Image className="w-[50px] h-[50px]" src={fresh} alt="신선/가공" width={70} height={70} />
           신선/가공식품
         </li>
         <li className="commerce-categories__item" onClick={(e) => handleCategory(e)}>
-          <Image className="w-[70px] h-[70px]" src={frozen} alt="냉동" width={70} height={70} />
+          <Image className="w-[50px] h-[50px]" src={frozen} alt="냉동" width={70} height={70} />
           냉동식품
         </li>
         <li className="commerce-categories__item" onClick={(e) => handleCategory(e)}>
-          <Image className="w-[70px] h-[70px]" src={interior} alt="가구" width={70} height={70} />
+          <Image className="w-[50px] h-[50px]" src={interior} alt="가구" width={70} height={70} />
           인테리어/가구
         </li>
         <li className="commerce-categories__item" onClick={(e) => handleCategory(e)}>
-          <Image className="w-[70px] h-[70px]" src={digital} alt="가전" width={70} height={70} />
+          <Image className="w-[50px] h-[50px]" src={digital} alt="가전" width={70} height={70} />
           디지털/가전
         </li>
         <li className="commerce-categories__item" onClick={(e) => handleCategory(e)}>
-          <Image className="w-[70px] h-[70px]" src={beauty} alt="미용" width={70} height={70} />
+          <Image className="w-[50px] h-[50px]" src={beauty} alt="미용" width={70} height={70} />
           화장품/미용
         </li>
         <li className="commerce-categories__item" onClick={(e) => handleCategory(e)}>
-          <Image className="w-[70px] h-[70px]" src={fabric} alt="패브릭" width={70} height={70} />
+          <Image className="w-[50px] h-[50px]" src={fabric} alt="패브릭" width={70} height={70} />
           패브릭
         </li>
         <li className="commerce-categories__item" onClick={(e) => handleCategory(e)}>
-          <Image className="w-[70px] h-[70px]" src={daily} alt="생활" width={70} height={70} />
+          <Image className="w-[50px] h-[50px]" src={daily} alt="생활" width={70} height={70} />
           생활
         </li>
         <li className="commerce-categories__item" onClick={(e) => handleCategory(e)}>
-          <Image className="w-[70px] h-[70px]" src={kitchen} alt="주방/청소" width={70} height={70} />
+          <Image className="w-[50px] h-[50px]" src={kitchen} alt="주방/청소" width={70} height={70} />
           주방/청소
         </li>
         <li className="commerce-categories__item" onClick={(e) => handleCategory(e)}>
-          <Image className="w-[70px] h-[70px]" src={desk} alt="잡화" width={70} height={70} />
+          <Image className="w-[50px] h-[50px]" src={desk} alt="잡화" width={70} height={70} />
           잡화/데스크
         </li>
         <li className="commerce-categories__item" onClick={(e) => handleCategory(e)}>
-          <Image className="w-[70px] h-[70px]" src={security} alt="보안" width={70} height={70} />
+          <Image className="w-[50px] h-[50px]" src={security} alt="보안" width={70} height={70} />
           보안
         </li>
       </ul>

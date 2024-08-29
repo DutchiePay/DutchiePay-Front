@@ -1,4 +1,4 @@
-import '@/styles/mypage.css';
+import '@/styles/commerce.css';
 import '@/styles/globals.css';
 
 import Image from 'next/image';
@@ -46,7 +46,7 @@ export default function Product_List() {
           )}
         </div>
       </div>
-      <p className="title--multi-line text-md">
+      <p className="title--multi-line text-md font-medium">
         애슐리 볶음밥 10인분 혼합 구성
         10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침 대용 직장인
         도시락
@@ -64,7 +64,13 @@ export default function Product_List() {
         <p className="text-blue--500 text-[18px] font-semibold">43%</p>
         <p className="text-gray--500 text-[12px]">20일 남음</p>
       </div>
-      <hr></hr>
+      <progress
+        id="product-list-progress"
+        className="product-review-progress w-full h-[5px]"
+        value={43}
+        min={0}
+        max={100}
+      />
     </Link>
   );
 }

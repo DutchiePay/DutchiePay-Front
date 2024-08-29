@@ -85,7 +85,7 @@ export default function Like() {
           보안
         </li>
       </ul>
-      <section className="flex flex-wrap gap-[6px]">
+      <section className="flex flex-wrap gap-[16px]">
         <Product_Like />
         <Product_Like />
         <Product_Like />
