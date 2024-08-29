@@ -62,7 +62,7 @@ export default function Header() {
                 </button>
               </li>
               <li className="nav-item">
-                <Link href="/mypage" className="text-xs">
+                <Link href="/mypage/myorder" className="text-xs">
                   주문/배송
                 </Link>
               </li>

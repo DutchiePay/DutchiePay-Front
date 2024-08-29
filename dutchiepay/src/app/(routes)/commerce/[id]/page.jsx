@@ -5,6 +5,7 @@ import '@/styles/commerce.css';
 import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
+import RatingDitsribution from '@/app/_components/RatingDistribution';
 import Review from '@/app/_components/Review';
 import product from '../../../../../public/image/product1.jpg';
 import productDetail from '../../../../../public/image/product_detail.jpg';
@@ -167,13 +168,17 @@ export default function CommerceDetail() {
         <div ref={reviewRef}>
           <div className="flex justify-center gap-[16px]">
             <div className="w-[175px] flex flex-col gap-[12px] justify-center item-center text-center">
-              <strong>총 16건</strong>
+              <strong>총 439건</strong>
               <p>
                 평균 <strong className="ml-[8px] text-4xl">4.8점</strong>
               </p>
               <p>별점영역</p>
             </div>
-            <div className="w-[400px]">별점 분포 영역</div>
+            <div className="w-[400px] flex flex-col justify-between">
+              {[100, 309, 10, 8, 12].map((value, index) => (
+                <RatingDitsribution rating={5 - index} total={439} count={value} />
+              ))}
+            </div>
           </div>
           <div className="mt-[60px] mb-[16px] flex items-center">
             <input type="checkbox" className="input__checkbox" onChange={(e) => setIsAll(!e.target.checked)} />

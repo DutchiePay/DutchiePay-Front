@@ -16,6 +16,10 @@
   background: #4b70f5;
 }
 
+.community-thumbnail--completed {
+  filter: grayscale(100%);
+}
+
 .community__label {
   font-weight: 700;
   font-size: 20px;
