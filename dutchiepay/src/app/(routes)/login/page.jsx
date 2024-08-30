@@ -1,50 +1,106 @@
-'use client';
+"use client";
 
-import '@/styles/user.css';
-import '@/styles/globals.css';
-
-import Image from 'next/image';
-import Link from 'next/link';
-import eyeClosed from '../../../../public/image/eyeClosed.svg';
-import eyeOpen from '../../../../public/image/eyeOpen.svg';
-import kakao from '../../../../public/image/kakao.png';
-import logo from '../../../../public/image/logo.jpg';
-import naver from '../../../../public/image/naver.png';
-import { useState } from 'react';
+import "@/styles/user.css";
+import "@/styles/globals.css";
+import Image from "next/image";
+import Link from "next/link";
+import eyeClosed from "../../../../public/image/eyeClosed.svg";
+import eyeOpen from "../../../../public/image/eyeOpen.svg";
+import kakao from "../../../../public/image/kakao.png";
+import logo from "../../../../public/image/logo.jpg";
+import naver from "../../../../public/image/naver.png";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
 export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
-  const loginType = 'naver';
-
+  const loginType = "naver";
+  const {
+    register,
+    watch,
+    handleSubmit,
+    formState: { errors, touchedFields, isValid },
+  } = useForm({
+    mode: "onBlur",
+    criteriaMode: "all",
+    reValidateMode: "onChange",
+    shouldFocusError: true,
+  });
   const handleCilckEyeIcon = () => {
     setIsVisible((prev) => !prev);
   };
-
+  const password = watch("password");
+  const onSubmit = async (formData) => {
+    const { ...userData } = formData;
+    const payload = {
+      ...userData,
+    };
+    console.log(payload);
+  };
   return (
     <main className="min-h-[890px] flex items-center justify-center">
       <div className="flex flex-col gap-[16px] justify-center items-center">
         <Link href="/">
-          <Image className="w-[200px] h-[120px] mb-[16px]" src={logo} alt="logo" width={200} height={120} />
+          <Image
+            className="w-[200px] h-[120px] mb-[16px]"
+            src={logo}
+            alt="logo"
+            width={200}
+            height={120}
+          />
         </Link>
 
         <section className="text-center mb-[32px] w-[450px]">
-          <form>
-            {/* 리액트 훅 폼 적용시 변경 예정*/}
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-[16px]">
-              <input className="user__input" placeholder="아이디" type="text" />
-            </div>
-
-            <div className="mb-[16px] flex relative">
-              <input className="user__input-password" placeholder="비밀번호" type={isVisible ? 'text' : 'password'} />
-              <Image
-                className="absolute top-[50%] right-[24px] transform -translate-y-1/2 cursor-pointer"
-                src={isVisible ? eyeOpen : eyeClosed}
-                alt="eyes"
-                onClick={handleCilckEyeIcon}
+              <input
+                className={`user__input ${
+                  errors.id ? "user__input__invalid" : ""
+                }`}
+                placeholder="이메일"
+                type="text"
+                {...register("email", {
+                  required: "이메일을 입력해주세요",
+                })}
               />
+              {errors.email && (
+                <p className="mt-[4px] text-sm text-red--500 text-start">
+                  {errors.email.message}
+                </p>
+              )}
             </div>
 
-            <div className="flex flex-col gap-[8px]">
+            <div className="flex relative">
+              <input
+                className={`user__input-password mt-[4px] ${
+                  errors.password
+                    ? "user__input-password__invalid"
+                    : touchedFields.password && !errors.password
+                    ? "user__input-password__valid"
+                    : ""
+                }`}
+                placeholder="비밀번호"
+                type={isVisible ? "text" : "password"}
+                {...register("password", {
+                  required: "비밀번호를 입력해주세요",
+                })}
+              />
+              {password && (
+                <Image
+                  className="absolute top-[50%] right-[24px] transform -translate-y-1/2 cursor-pointer"
+                  src={isVisible ? eyeOpen : eyeClosed}
+                  alt="eyes"
+                  onClick={handleCilckEyeIcon}
+                />
+              )}
+            </div>
+            {errors.password && (
+              <p className="mt-[4px] text-sm text-red--500 text-start">
+                {errors.password.message}
+              </p>
+            )}
+            <div className="flex flex-col gap-[8px] mt-[16px]">
               <button type="submit" className="user__button-blue">
                 로그인
               </button>
@@ -58,18 +114,27 @@ export default function Login() {
                 <input type="checkbox" className="login__checkbox" />
                 <label className="text-gray--500 text-sm">자동 로그인</label>
               </div>
-              <Link href="/find" className="text-sm text-gray--500 hover:text-black">
+              <Link
+                href="/find"
+                className="text-sm text-gray--500 hover:text-black"
+              >
                 아이디/비밀번호 찾기
               </Link>
             </div>
           </form>
 
           <section>
-            <h2 className="user-login-sns__title">&nbsp;SNS 계정으로 로그인&nbsp;</h2>
+            <h2 className="user-login-sns__title">
+              &nbsp;SNS 계정으로 로그인&nbsp;
+            </h2>
             <div className="flex mt-[24px] gap-[60px] items-center justify-center">
               <div className="relative">
-                <Image className="w-[60px] h-[60px] cursor-pointer" src={naver} alt="naver" />
-                {loginType === 'naver' && (
+                <Image
+                  className="w-[60px] h-[60px] cursor-pointer"
+                  src={naver}
+                  alt="naver"
+                />
+                {loginType === "naver" && (
                   <div className="user-last__login user-last__login--naver">
                     <strong>마지막</strong>으로
                     <br />
@@ -78,8 +143,12 @@ export default function Login() {
                 )}
               </div>
               <div className="relative">
-                <Image className="w-[60px] h-[60px] cursor-pointer" src={kakao} alt="kakao" />
-                {loginType === 'kakao' && (
+                <Image
+                  className="w-[60px] h-[60px] cursor-pointer"
+                  src={kakao}
+                  alt="kakao"
+                />
+                {loginType === "kakao" && (
                   <div className="user-last__login user-last__login--kakao">
                     <strong>마지막</strong>으로
                     <br /> 로그인한 방식

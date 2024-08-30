@@ -73,39 +73,43 @@
 
 .user-login-sns__title::before,
 .user-login-sns__title::after {
-  content: '';
+  content: "";
   flex: 1;
+
   border-bottom: 1px solid #babcc2;
 }
 
 .user-last__login {
   position: absolute;
-  background: white;
+  background-color: white;
   border: 1px solid #e8e9eb;
   border-radius: 12px;
   padding: 8px 12px;
   width: 120px;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-size: 14px;
+  z-index: 1;
 }
 
 .user-last__login::before {
-  content: '';
+  content: "";
   position: absolute;
-  top: -20px;
-  left: 50%;
+  top: 0px;
+  left: 33%;
+  width: 40px;
+  height: 40px;
+  z-index: -1;
+  background-color: white;
   transform: translateX(-55%);
-  border: 10px solid #e8e9eb;
-  border-color: transparent transparent white transparent;
+  transform: rotate(45deg);
 }
 
 .user-last__login--naver {
-  right: 0;
+  right: calc(50% - 60px);
 }
 
 .user-last__login--kakao {
-  left: calc(50% - 100px);
+  left: calc(50% - 60px);
 }
 
 .user-signup__button {
