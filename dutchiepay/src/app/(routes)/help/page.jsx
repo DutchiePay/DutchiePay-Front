@@ -56,7 +56,7 @@ export default function Help() {
   ];
 
   return (
-    <main className="min-h-[650px] w-[1020px]">
+    <main className="min-h-[690px] w-[1020px]">
       <div className="flex items-baseline gap-[8px] mt-[40px] mb-[16px]">
         <h1 className="text-3xl font-bold">고객센터</h1>
         <p className="text-sm text-gray--500">자주 물어보시는 질문</p>

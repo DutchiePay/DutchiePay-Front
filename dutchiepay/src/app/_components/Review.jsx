@@ -4,6 +4,7 @@ import '../../styles/mypage.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import Rating from './Rating';
 import more from '../../../public/image/more.svg';
 import product from '../../../public/image/product1.jpg';
 import { useState } from 'react';
@@ -31,7 +32,7 @@ export default function Review({ className }) {
       <div className={hasImages ? 'w-[848px]' : 'w-[1000px]'}>
         <div className="flex justify-between">
           <strong className="text-lg">단단무지</strong>
-          <p>별점영역</p>
+          <Rating rating={2.2} size={20} />
         </div>
         <p className="text-xs text-gray--600">2024년 07월 14일</p>
         <p

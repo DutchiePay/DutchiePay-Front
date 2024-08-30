@@ -2,7 +2,7 @@ import '../styles/globals.css';
 
 import Footer from './_components/_layout/Footer';
 import { Inter } from 'next/font/google';
-import RootLayoutClient from './layoutClient'; // 클라이언트 컴포넌트 가져오기
+import RootLayoutClient from './layoutClient';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <RootLayoutClient>{children}</RootLayoutClient> {/* 클라이언트 컴포넌트로 감싸기 */}
+        <RootLayoutClient>{children}</RootLayoutClient>
         <Footer />
       </body>
     </html>

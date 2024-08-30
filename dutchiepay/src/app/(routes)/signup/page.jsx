@@ -283,7 +283,7 @@ export default function Signup() {
           <div>
             <div className="flex items-center">
               <label className="user__label">휴대폰 번호</label>
-              <span className="ml-[8px] text-[12px]">-을 제외하고 번호를 입력해주세요</span>
+              <span className="ml-[8px] text-[12px]">-을 제외한 번호를 입력해주세요</span>
             </div>
             <div className="mb-[8px] flex relative">
               <input

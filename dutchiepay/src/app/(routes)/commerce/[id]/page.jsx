@@ -5,6 +5,7 @@ import '@/styles/commerce.css';
 import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
+import Rating from '@/app/_components/Rating';
 import RatingDitsribution from '@/app/_components/RatingDistribution';
 import Review from '@/app/_components/Review';
 import product from '../../../../../public/image/product1.jpg';
@@ -166,13 +167,13 @@ export default function CommerceDetail() {
         </div>
         <hr className="my-[40px]" />
         <div ref={reviewRef}>
-          <div className="flex justify-center gap-[16px]">
+          <div className="flex justify-center gap-[24px]">
             <div className="w-[175px] flex flex-col gap-[12px] justify-center item-center text-center">
               <strong>총 439건</strong>
               <p>
                 평균 <strong className="ml-[8px] text-4xl">4.8점</strong>
               </p>
-              <p>별점영역</p>
+              <Rating rating={4.8} size={28} />
             </div>
             <div className="w-[400px] flex flex-col justify-between">
               {[100, 309, 10, 8, 12].map((value, index) => (

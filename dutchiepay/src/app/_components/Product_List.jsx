@@ -3,6 +3,7 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import Rating from './Rating';
 import fullheart from '../../../public/image/fullheart.svg';
 import heart from '../../../public/image/heart.svg';
 import product from '../../../public/image/product1.jpg';
@@ -57,7 +58,7 @@ export default function Product_List() {
         <p className="bg-red--500 rounded-2xl text-white text-xs px-[4px] py-[2px]">30%</p>
       </div>
       <div className="flex gap-[8px] items-center">
-        <div>별점영역</div>
+        <Rating rating={4.3} size={15} />
         <p className="text-[12px] text-gray--500">(999+)</p>
       </div>
       <div className="flex justify-between items-baseline">
