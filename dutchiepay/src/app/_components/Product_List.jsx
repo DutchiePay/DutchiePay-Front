@@ -11,6 +11,7 @@ import { useState } from 'react';
 
 export default function Product_List() {
   const [isLiked, setIsLiked] = useState(false);
+  const [isEnd, setIsEnd] = useState(true);
 
   const handleIsLiked = () => {
     setIsLiked(!isLiked);
@@ -24,7 +25,19 @@ export default function Product_List() {
       className="w-[240px] border px-[12px] py-[8px] flex flex-col justify-center gap-[4px]"
     >
       <div className="w-[210px] h-[210px] rounded-xl relative">
-        <Image className="w-[210px] h-[210px] rounded-xl" src={product} alt="애슐리 볶음밥" width={210} height={210} />
+        <Image
+          className={`w-[210px] h-[210px] rounded-xl ${isEnd ? 'grayscale' : ''}`}
+          src={product}
+          alt="애슐리 볶음밥"
+          width={210}
+          height={210}
+        />
+        {isEnd && (
+          <div className="absolute top-[30px] left-[30px] rounded-full bg-white/70 w-[150px] h-[150px] flex flex-col justify-center items-center">
+            <strong className="text-4xl font-black">마감</strong>
+            <p className="text-xs tracking-tighter font-medium">다음 공구를 기대해주세요</p>
+          </div>
+        )}
         <div className="w-[30px] h-[30px] border bg-white absolute bottom-[4px] right-[4px] rounded-md flex justify-center items-center">
           {isLiked ? (
             <Image

@@ -5,14 +5,12 @@ import more from '../../../../public/image/more.svg';
 import { useState } from 'react';
 
 export default function Help() {
-  // 10개의 토글 상태를 관리하는 배열, 기본값은 모두 닫힘(false)
-  const [openIndexes, setOpenIndexes] = useState(Array(10).fill(false));
+  const [openIndexes, setOpenIndexes] = useState(Array(10).fill(false)); // 토글 상태
 
-  // 토글 핸들러
-  const toggleFAQ = (index) => {
+  const handleToggle = (index) => {
     setOpenIndexes((prevState) => {
       const newState = [...prevState];
-      newState[index] = !newState[index]; // 현재 index에 해당하는 상태를 토글
+      newState[index] = !newState[index];
       return newState;
     });
   };
@@ -67,7 +65,7 @@ export default function Help() {
           <article key={faq.id}>
             <header
               className="flex justify-between items-center px-[24px] py-[12px] border cursor-pointer"
-              onClick={() => toggleFAQ(index)}
+              onClick={() => handleToggle(index)}
             >
               <div className="flex gap-[24px] items-center">
                 <p className="text-blue--500 font-semibold">{String(index + 1).padStart(2, '0')}</p>

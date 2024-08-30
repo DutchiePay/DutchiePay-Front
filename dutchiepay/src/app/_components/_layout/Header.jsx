@@ -19,9 +19,19 @@ export default function Header() {
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
   const router = useRouter();
+  const [keyword, setKeyword] = useState('');
 
   const handleProfileClick = () => {
     router.push('/mypage');
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      // Enter key
+      const keyword = e.target.value;
+      setKeyword('');
+      router.push(`/search?keyword=${encodeURIComponent(keyword)}`);
+    }
   };
 
   const pathname = usePathname();
@@ -107,7 +117,8 @@ export default function Header() {
           <input
             className="w-[600px] h-[42px] bg-gray--100 pt-[13px] pb-[13px] pl-[52px] border rounded-md outline-none placeholder:text-[14px]"
             placeholder="검색어를 입력해주세요"
-          ></input>
+            onKeyDown={handleKeyDown}
+          />
         </div>
 
         {isLoggedIn && (

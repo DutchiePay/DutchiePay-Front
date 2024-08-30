@@ -69,7 +69,7 @@ export default function MartWrite() {
             <input className="community__input-date" type="time" />
           </div>
           <label className="community__label block mt-[24px] mb-[8px]">장소</label>
-          <input className="community__input-text" type="text" disabled="true" />
+          <input className="community__input-text" type="text" disabled={true} />
           <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
             <label className="community__label">최대 인원 수</label>
             <p className="community__label-description">마트/배달을 함께 할 최대 인원 수를 입력해주세요.</p>
