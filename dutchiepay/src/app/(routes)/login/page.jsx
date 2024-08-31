@@ -1,36 +1,36 @@
-"use client";
+'use client';
 
-import "@/styles/user.css";
-import "@/styles/globals.css";
-import Image from "next/image";
-import Link from "next/link";
-import eyeClosed from "../../../../public/image/eyeClosed.svg";
-import eyeOpen from "../../../../public/image/eyeOpen.svg";
-import kakao from "../../../../public/image/kakao.png";
-import logo from "../../../../public/image/logo.jpg";
-import naver from "../../../../public/image/naver.png";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import axios from "axios";
+import '@/styles/user.css';
+import '@/styles/globals.css';
+import Image from 'next/image';
+import Link from 'next/link';
+import eyeClosed from '../../../../public/image/eyeClosed.svg';
+import eyeOpen from '../../../../public/image/eyeOpen.svg';
+import kakao from '../../../../public/image/kakao.png';
+import logo from '../../../../public/image/logo.jpg';
+import naver from '../../../../public/image/naver.png';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
 
 export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
-  const loginType = "naver";
+  const loginType = 'naver';
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors, touchedFields, isValid },
   } = useForm({
-    mode: "onBlur",
-    criteriaMode: "all",
-    reValidateMode: "onChange",
+    mode: 'onBlur',
+    criteriaMode: 'all',
+    reValidateMode: 'onChange',
     shouldFocusError: true,
   });
   const handleCilckEyeIcon = () => {
     setIsVisible((prev) => !prev);
   };
-  const password = watch("password");
+  const password = watch('password');
   const onSubmit = async (formData) => {
     const { ...userData } = formData;
     const payload = {
@@ -56,12 +56,12 @@ export default function Login() {
             <div className="mb-[16px]">
               <input
                 className={`user__input ${
-                  errors.id ? "user__input__invalid" : ""
+                  errors.id ? 'user__input__invalid' : ''
                 }`}
                 placeholder="이메일"
                 type="text"
-                {...register("email", {
-                  required: "이메일을 입력해주세요",
+                {...register('email', {
+                  required: '이메일을 입력해주세요',
                 })}
               />
               {errors.email && (
@@ -75,15 +75,15 @@ export default function Login() {
               <input
                 className={`user__input-password mt-[4px] ${
                   errors.password
-                    ? "user__input-password__invalid"
+                    ? 'user__input-password__invalid'
                     : touchedFields.password && !errors.password
-                    ? "user__input-password__valid"
-                    : ""
+                      ? 'user__input-password__valid'
+                      : ''
                 }`}
                 placeholder="비밀번호"
-                type={isVisible ? "text" : "password"}
-                {...register("password", {
-                  required: "비밀번호를 입력해주세요",
+                type={isVisible ? 'text' : 'password'}
+                {...register('password', {
+                  required: '비밀번호를 입력해주세요',
                 })}
               />
               {password && (
@@ -134,8 +134,9 @@ export default function Login() {
                   src={naver}
                   alt="naver"
                 />
-                {loginType === "naver" && (
+                {loginType === 'naver' && (
                   <div className="user-last__login user-last__login--naver">
+                    <div className="absolute w-[50px] h-[50px] top-[0px] left-[30%] bg-white z-[-1] text-red"></div>
                     <strong>마지막</strong>으로
                     <br />
                     로그인한 방식
@@ -148,8 +149,9 @@ export default function Login() {
                   src={kakao}
                   alt="kakao"
                 />
-                {loginType === "kakao" && (
+                {loginType === 'kakao' && (
                   <div className="user-last__login user-last__login--kakao">
+                    <div className="absolute w-[50px] h-[50px] top-[0px] left-[30%] bg-white z-[-1] text-red"></div>
                     <strong>마지막</strong>으로
                     <br /> 로그인한 방식
                   </div>
