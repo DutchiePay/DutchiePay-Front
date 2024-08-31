@@ -7,7 +7,7 @@ import Product_Main from './_components/Product_Main';
 
 export default function Home() {
   return (
-    <main className="mt-[10px] min-h-[750px] flex flex-col gap-[60px] mb-[100px]">
+    <main className="min-h-[750px] flex flex-col gap-[60px] mb-[100px]">
       <section className="h-[430px] border">carousel 영역</section>
       <section className="w-full mx-auto my-0">
         <h2 className="main__title">새로 등록된 공구</h2>

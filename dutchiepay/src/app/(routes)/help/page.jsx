@@ -60,7 +60,7 @@ export default function Help() {
         <p className="text-sm text-gray--500">자주 물어보시는 질문</p>
       </div>
       <hr />
-      <section className="w-[810px] mx-auto mt-[40px]">
+      <section className="w-[810px] mx-auto my-[60px]">
         {faqs.map((faq, index) => (
           <article key={faq.id}>
             <header
