@@ -1,18 +1,20 @@
 'use client';
-import Image from 'next/image';
-import { useState, useEffect } from 'react';
 
+import { useEffect, useState } from 'react';
+
+import Image from 'next/image';
+import arrow from '../../../../public/image/arrowWhite.svg';
+import close from '../../../../public/image/close.svg';
 import review1 from '../../../../public/image/reviewImg/reviewImg1.jpg';
 import review2 from '../../../../public/image/reviewImg/reviewImg2.jpg';
 import review3 from '../../../../public/image/reviewImg/reviewImg3.jpg';
 import review4 from '../../../../public/image/reviewImg/reviewImg4.jpg';
 import review5 from '../../../../public/image/reviewImg/reviewImg5.jpg';
-import arrow from '../../../../public/image/arrowWhite.svg';
-import close from '../../../../public/image/close.svg';
+import review6 from '../../../../public/image/product_detail.jpg';
 
 export default function ImagesModal({ onClose }) {
   const [currentImage, setCurrentImage] = useState(review1);
-  const thumbnails = [review1, review2, review3, review4, review5];
+  const thumbnails = [review1, review2, review3, review4, review6];
 
   const handleNextImage = () => {
     const currentIndex = thumbnails.indexOf(currentImage);
@@ -44,7 +46,7 @@ export default function ImagesModal({ onClose }) {
   }, [currentImage, handleNextImage, handlePreviousImage]);
 
   return (
-    <div className="fixed inset-0 flex flex-col items-center justify-center bg-gray-500 bg-opacity-80 z-50">
+    <div className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-80 z-50">
       <div
         className="relative w-[830px] h-[400px] rounded"
         onClick={(e) => e.stopPropagation()}

@@ -1,14 +1,15 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import Script from "next/script";
-import Post_Complete from "@/app/_components/Post_complete";
-import info from "../../../../../public/image/info.svg";
-import prev from "../../../../../public/image/prev.svg";
-import profile from "../../../../../public/image/profile.jpg";
-import selectArrow from "../../../../../public/image/selectArrow.svg";
-import { useRouter } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from 'react';
+
+import Image from 'next/image';
+import Post_Complete from '@/app/_components/Post_complete';
+import Script from 'next/script';
+import info from '../../../../../public/image/info.svg';
+import prev from '../../../../../public/image/prev.svg';
+import profile from '../../../../../public/image/profile.jpg';
+import selectArrow from '../../../../../public/image/selectArrow.svg';
+import { useRouter } from 'next/navigation';
 
 export default function MartDetail() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function MartDetail() {
     if (window.naver && window.naver.maps) {
       const location = new window.naver.maps.LatLng(lat, lng);
       // 지도 생성
-      const map = new window.naver.maps.Map("map", {
+      const map = new window.naver.maps.Map('map', {
         center: location,
         zoomControl: true, // 줌 설정
         zoom: 15,
@@ -50,7 +51,7 @@ export default function MartDetail() {
 
       infoWindowRef.current = infoWindow;
 
-      window.naver.maps.Event.addListener(marker, "click", function () {
+      window.naver.maps.Event.addListener(marker, 'click', function () {
         if (infoWindow.getMap()) {
           infoWindow.close();
         } else {
@@ -67,7 +68,7 @@ export default function MartDetail() {
 
   return (
     <main className="min-h-[750px] w-[1020px]">
-      <div className="w-full translate-x-0">
+      <div className="w-full flex">
         <section className="min-h-[750px] w-[730px] px-[24px] py-[40px] border-r">
           <div className="flex items-center justify-between">
             <Image
@@ -138,8 +139,7 @@ export default function MartDetail() {
             </div>
           </article>
         </section>
-        {/* 우측에 고정 되도록 수정 필요 */}
-        <section className="w-[290px] h-[750px] fixed top-0 right-0 pl-[24px] py-[40px]">
+        <section className="w-[290px] h-[750px] fixed top-[158px] right-[440px] pl-[24px] py-[40px]">
           <div className="flex items-center gap-[8px]">
             <Image
               className="w-[30px] h-[30px]"
@@ -173,7 +173,7 @@ export default function MartDetail() {
               <div
                 className="border border-gray--200"
                 id="map"
-                style={{ width: "100%", height: "170px" }}
+                style={{ width: '100%', height: '170px' }}
               ></div>
               <Script
                 src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_CLIENT_ID}`}

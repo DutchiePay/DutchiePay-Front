@@ -140,9 +140,3 @@
 #product-list-progress::-ms-fill {
   height: 5px;
 }
-.product-ask__text {
-  width: 500px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}

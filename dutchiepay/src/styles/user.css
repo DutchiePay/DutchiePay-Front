@@ -73,7 +73,7 @@
 
 .user-login-sns__title::before,
 .user-login-sns__title::after {
-  content: "";
+  content: '';
   flex: 1;
 
   border-bottom: 1px solid #babcc2;
@@ -92,14 +92,14 @@
 }
 
 .user-last__login::before {
-  content: "";
+  content: '';
   position: absolute;
-  top: -5px;
-  left: 33%;
-  width: 40px;
+  top: -3px;
+  left: 36%;
+  width: 30px;
   height: 40px;
   z-index: -2;
-  border : 1px solid #e8e9eb;
+  border: 1px solid #e8e9eb;
   background-color: white;
   transform: translateX(-55%);
   transform: rotate(45deg);
@@ -132,11 +132,15 @@
   font-size: 20px;
   text-align: center;
   cursor: pointer;
-  transition: border-bottom 0.1s ease, font-weight 0.1s ease;
+  transition:
+    border-bottom 0.1s ease,
+    font-weight 0.1s ease;
 }
 
 .user-find__header__active {
   border-bottom: 2px solid #4b70f5;
   font-weight: bold;
-  transition: border-bottom 0.1s ease, font-weight 0.1s ease;
+  transition:
+    border-bottom 0.1s ease,
+    font-weight 0.1s ease;
 }

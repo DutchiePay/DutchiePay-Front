@@ -1,12 +1,13 @@
 import '../../../../styles/mypage.css';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import kakao from '../../../../../public/image/kakao.png';
 import naver from '../../../../../public/image/naver.png';
 import profile from '../../../../../public/image/profile.jpg';
 
 export default function Info() {
-  const loginType = 'naver'; // naver / email / kakao
+  const loginType = 'email'; // naver / email / kakao
 
   return (
     <main className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
@@ -67,19 +68,41 @@ export default function Info() {
               <p className="mypage-profile__value">email123@naver.com</p>
             ) : loginType === 'kakao' ? (
               <div className="flex items-center gap-[12px]">
-                <Image className="w-[28px] h-[28px] rounded-full" src={kakao} alt="kakao" width={30} height={30} />
+                <Image
+                  className="w-[28px] h-[28px] rounded-full"
+                  src={kakao}
+                  alt="kakao"
+                  width={30}
+                  height={30}
+                />
                 <p>카카오 연동중</p>
               </div>
             ) : (
               <div className="flex items-center gap-[12px]">
-                <Image className="w-[28px] h-[28px] rounded-full" src={naver} alt="naver" width={30} height={30} />
+                <Image
+                  className="w-[28px] h-[28px] rounded-full"
+                  src={naver}
+                  alt="naver"
+                  width={30}
+                  height={30}
+                />
                 <p>네이버 연동중</p>
               </div>
             )}
           </div>
-          {loginType === 'email' && <button className="mypage-profile__button">비밀번호 변경</button>}
+          {loginType === 'email' && (
+            <Link
+              href="/reset"
+              className="mypage-profile__button-reset"
+              role="button"
+            >
+              비밀번호 변경
+            </Link>
+          )}
         </article>
-        <button className="flex justify-end text-[14px] text-gray--500 hover:underline">회원탈퇴</button>
+        <button className="flex justify-end text-[14px] text-gray--500 hover:underline">
+          회원탈퇴
+        </button>
       </section>
     </main>
   );

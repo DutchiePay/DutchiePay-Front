@@ -3,15 +3,17 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
+import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
+import ImagesModal from '../(modals)/images/page';
 import Link from 'next/link';
+import Rating from './Rating';
+import images from '../../../public/image/images.svg';
 import more from '../../../public/image/more.svg';
 import product from '../../../public/image/product1.jpg';
-import images from '../../../public/image/images.svg';
-import { useState, useEffect } from 'react';
-import ImagesModal from '../(modals)/images/page';
 
-export default function Review() {
+export default function MyReviews() {
   const [isPossible, setIsPossible] = useState(true); // 삭제 가능 여부
   const [isMore, setIsMore] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,6 +28,7 @@ export default function Review() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+
   useEffect(() => {
     // 모달이 열릴 때 스크롤을 막음
     if (isModalOpen) {
@@ -55,15 +58,15 @@ export default function Review() {
         />
 
         <div
-          className="absolute bottom-[25px] left-[105px] bg-white w-[30px] px-1 py-1 cursor-pointer rounded-[8px]"
+          className="absolute bottom-[25px] left-[105px] bg-white w-[30px] h-[30px] cursor-pointer rounded-lg flex justify-center items-center"
           onClick={handleImageClick}
         >
           <Image
-            className=""
+            className="opacity-80"
             src={images}
-            width={30}
-            height={30}
-            alt="이미지 더보기 아이콘"
+            width={20}
+            height={20}
+            alt="이미지 더보기"
           />
         </div>
         <div className="w-[558px]">
@@ -83,12 +86,12 @@ export default function Review() {
               <button className="text-sm font-semibold">삭제</button>
             </div>
           </div>
-          <div className="flex justify-between">
-            <p>별점영역</p>
+          <div className="flex justify-between mt-[4px]">
+            <Rating rating={4} size={15} />
             <p className="text-xs text-gray--600">2024년 07월 14일</p>
           </div>
           <p
-            className={`text-sm w-[510px] mt-[4px] ${isMore ? '' : 'mypage-reviews__review'}`}
+            className={`text-sm w-[510px] mt-[12px] ${isMore ? '' : 'mypage-reviews__review'}`}
           >
             이 제품은 정말 대박이에요! 사용하고 나서부터 생활이 편해졌어요.
             강추합니다! 이 제품은 정말 대박이에요! 사용하고 나서부터 생활이

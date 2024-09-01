@@ -4,11 +4,11 @@ import '@/styles/commerce.css';
 
 import { useEffect, useRef, useState } from 'react';
 
+import Ask from '@/app/_components/Ask';
 import Image from 'next/image';
 import Rating from '@/app/_components/Rating';
 import RatingDitsribution from '@/app/_components/RatingDistribution';
 import Review from '@/app/_components/Review';
-import Product_Ask from '@/app/_components/Product_Ask';
 import product from '../../../../../public/image/product1.jpg';
 import productDetail from '../../../../../public/image/product_detail.jpg';
 import time from '../../../../../public/image/time.svg';
@@ -208,8 +208,8 @@ export default function CommerceDetail() {
             unoptimized={true}
           />
         </div>
-        <hr className="my-[40px]" />
-        <div ref={reviewRef}>
+        <hr className="my-[40px]" ref={reviewRef} />
+        <div>
           <div className="flex justify-center gap-[24px]">
             <div className="w-[175px] flex flex-col gap-[12px] justify-center item-center text-center">
               <strong>총 439건</strong>
@@ -243,43 +243,41 @@ export default function CommerceDetail() {
           <Review className="product-review-item--not-first" />
           <Review className="product-review-item--not-first" />
         </div>
-        <hr className="my-[40px]" />
-        <div ref={askRef} className="flex flex-col gap-[10px] w-full">
+        <hr className="my-[40px]" ref={askRef} />
+        <div className="flex flex-col mb-[100px] w-full">
           <strong>판매자 정보</strong>
-          <div>
-            <table className="w-full mt-4">
-              <tbody className="block">
-                <tr className="border-t border-b border-gray-300 mb-4 flex">
-                  <td className="bg-gray-100 w-44 px-2 py-1 border-gray-300">
-                    상호명
-                  </td>
-                  <td className="w-72 px-2 py-1 text-gray--300 text-semibold">
-                    카페이노스(주)
-                  </td>
-                  <td className="bg-gray-100 w-44 px-2 py-1 border-gray-300">
-                    대표자
-                  </td>
-                  <td className="w-72 px-2 py-1 text-gray--300 text-semibold">
-                    정시예
-                  </td>
-                </tr>
-                <tr className="border-t border-b border-gray-300 mb-4 flex">
-                  <td className="bg-gray-100 w-44 px-2 py-1 border-gray-300">
-                    업체주소
-                  </td>
-                  <td className="w-72 px-2 py-1 text-gray--300 text-semibold">
-                    경기도 광명시
-                  </td>
-                  <td className="bg-gray-100 w-44 px-2 py-1 border-gray-300">
-                    전화번호
-                  </td>
-                  <td className="w-72 px-2 py-1 text-gray--300 text-semibold">
-                    02-1234-1234
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <table className="w-full mt-[16px] text-sm">
+            <tbody className="block">
+              <tr className="border-t border-b border-gray-300 mb-[4px] flex">
+                <th className="bg-gray-100 w-44 px-[12px] py-1 border-gray-300 font-bold text-left">
+                  상호명
+                </th>
+                <td className="w-72 px-[12px] py-1 text-gray--300 text-semibold">
+                  카페이노스(주)
+                </td>
+                <th className="bg-gray-100 w-44 px-[12px] py-1 border-gray-300 font-bold text-left">
+                  대표자
+                </th>
+                <td className="w-72 px-[12px] py-1 text-gray--300 text-semibold">
+                  정시예
+                </td>
+              </tr>
+              <tr className="border-t border-b border-gray-300 mb-4 flex">
+                <th className="bg-gray-100 w-44 px-[12px] py-1 border-gray-300 font-bold text-left">
+                  업체주소
+                </th>
+                <td className="w-72 px-[12px] py-1 text-gray--300 text-semibold">
+                  경기도 광명시
+                </td>
+                <th className="bg-gray-100 w-44 px-[12px] py-1 border-gray-300 font-bold text-left">
+                  전화번호
+                </th>
+                <td className="w-72 px-[12px] py-1 text-gray--300 text-semibold">
+                  02-1234-1234
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <div className="mt-4">
             <button className="text-white rounded bg-blue-500 px-[16px] py-[8px] text-sm">
               상품 문의 작성하기
@@ -287,25 +285,25 @@ export default function CommerceDetail() {
             <table className="w-full mt-4 text-[14px]">
               <tbody>
                 <tr className="border-t border-t-blue--500 border-t-2  border-b-2  border-gray-300 text-center">
-                  <td className="w-[100px] px-2 py-[10px]  border-gray-300">
+                  <th className="w-[100px] px-[12px] py-[10px]  border-gray-300">
                     답변상태
-                  </td>
-                  <td className="w-[500px] px-2 py-[10px]">문의내용</td>
-                  <td className=" w-[150px] px-2 py-[10px]  border-gray-300">
+                  </th>
+                  <th className="w-[500px] px-[12px] py-[10px]">문의내용</th>
+                  <th className=" w-[150px] px-[12px] py-[10px]  border-gray-300">
                     작성자
-                  </td>
-                  <td className="w-[150px] px-2 py-[10px]">작성일</td>
-                  <td className=" w-[100px] px-2 py-[10px]  border-gray-300">
+                  </th>
+                  <th className="w-[150px] px-[12px] py-[10px]">작성일</th>
+                  <th className=" w-[100px] px-[12px] py-[10px]  border-gray-300">
                     삭제
-                  </td>
+                  </th>
                 </tr>
-                <Product_Ask />
-                <Product_Ask />
-                <Product_Ask />
-                <Product_Ask />
-                <Product_Ask />
-                <Product_Ask />
-                <Product_Ask />
+                <Ask />
+                <Ask />
+                <Ask />
+                <Ask />
+                <Ask />
+                <Ask />
+                <Ask />
               </tbody>
             </table>
           </div>
