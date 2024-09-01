@@ -8,6 +8,7 @@ import { useState } from 'react';
 
 export default function Reply() {
   const [isReplyActive, setIsReplyActive] = useState(false); // 답글 활성화
+  const [isModified, setIsModified] = useState(false); // 댓글 수정 여부
 
   return (
     <div className="py-[16px]">
@@ -24,7 +25,9 @@ export default function Reply() {
           <div className="w-full px-[12px] py-[4px] flex justify-between items-center">
             <div className="flex gap-[8px] items-center">
               <strong className="text-sm">한유진</strong>
-              <p className="text-xs text-gray--500">2024. 08. 02. 20:26</p>
+              <p className="text-xs text-gray--500">
+                2024. 08. 02. 20:26{isModified && ' (수정됨)'}
+              </p>
             </div>
             <div className="flex gap-[16px]">
               <button

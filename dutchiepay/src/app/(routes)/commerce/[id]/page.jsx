@@ -63,6 +63,10 @@ export default function CommerceDetail() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const askPopup = () => {
+    window.open('/ask', '_blank', 'width=600, height=670');
+  };
+
   // 작성 리뷰/문의 없을 때 구현해야 함
   return (
     <main className="min-h-[750px] w-[1020px]">
@@ -279,7 +283,10 @@ export default function CommerceDetail() {
             </tbody>
           </table>
           <div className="mt-4">
-            <button className="text-white rounded bg-blue-500 px-[16px] py-[8px] text-sm">
+            <button
+              className="text-white rounded bg-blue-500 px-[16px] py-[8px] text-sm"
+              onClick={askPopup}
+            >
               상품 문의 작성하기
             </button>
             <table className="w-full mt-4 text-[14px]">

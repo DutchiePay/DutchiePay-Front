@@ -1,6 +1,5 @@
 import '../styles/globals.css';
 
-import Footer from './_components/_layout/Footer';
 import { Inter } from 'next/font/google';
 import RootLayoutClient from './layoutClient';
 
@@ -16,7 +15,6 @@ export default function RootLayout({ children }) {
     <html lang="ko">
       <body className={inter.className}>
         <RootLayoutClient>{children}</RootLayoutClient>
-        <Footer />
       </body>
     </html>
   );

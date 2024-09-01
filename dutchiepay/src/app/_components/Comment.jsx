@@ -11,6 +11,11 @@ export default function Comment() {
   const [isWithdrawn, setIsWithdrawn] = useState(false); // 탈퇴한 사용자
   const [isDeleted, setIsDeleted] = useState(false); // 삭제된 댓글
   const [isReplyActive, setIsReplyActive] = useState(false); // 답글 활성화
+  const [isModified, setIsModified] = useState(false); // 댓글 수정 여부
+
+  const reportPopup = () => {
+    window.open('/report', '신고하기', 'width=600, height=670, location=1');
+  };
 
   return (
     <div className="border-b py-[16px]">
@@ -34,7 +39,9 @@ export default function Comment() {
                   <strong className="text-sm">
                     {isWithdrawn ? '탈퇴한 사용자' : '소풍왔니'}
                   </strong>
-                  <p className="text-xs text-gray--500">2024. 08. 02. 20:26</p>
+                  <p className="text-xs text-gray--500">
+                    2024. 08. 02. 20:26{isModified && ' (수정됨)'}
+                  </p>
                 </div>
                 {isWithdrawn || (
                   <div className="flex gap-[16px]">
@@ -44,7 +51,9 @@ export default function Comment() {
                     >
                       답글
                     </button>
-                    <button className="font-bold text-xs">신고</button>
+                    <button className="font-bold text-xs" onClick={reportPopup}>
+                      신고
+                    </button>
                   </div>
                 )}
               </div>
