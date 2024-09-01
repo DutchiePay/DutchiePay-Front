@@ -8,6 +8,7 @@ import Image from 'next/image';
 import Rating from '@/app/_components/Rating';
 import RatingDitsribution from '@/app/_components/RatingDistribution';
 import Review from '@/app/_components/Review';
+import Product_Ask from '@/app/_components/Product_Ask';
 import product from '../../../../../public/image/product1.jpg';
 import productDetail from '../../../../../public/image/product_detail.jpg';
 import time from '../../../../../public/image/time.svg';
@@ -67,22 +68,36 @@ export default function CommerceDetail() {
     <main className="min-h-[750px] w-[1020px]">
       <section className="mt-[40px] flex justify-between">
         <div>
-          <Image className="w-[500px] h-[500px]" src={product} alt="애슐리 볶음밥" width={500} height={500} />
+          <Image
+            className="w-[500px] h-[500px]"
+            src={product}
+            alt="애슐리 볶음밥"
+            width={500}
+            height={500}
+          />
           <div className="flex justify-center gap-[12px] py-[4px] items-center text-sm font-semibold bg-gray--200">
-            <Image className="w-[15px] h-[15px]" src={time} alt="남은 시간" width={15} height={15} />
+            <Image
+              className="w-[15px] h-[15px]"
+              src={time}
+              alt="남은 시간"
+              width={15}
+              height={15}
+            />
             12일 08 : 36 : 34 남음
           </div>
         </div>
         <div className="w-[500px] px-[16px] py-[40px]">
           <h1 className="font-bold text-xl">
             애슐리 볶음밥 10인분 혼합 구성
-            10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침 대용
-            직장인 도시락
+            10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침
+            대용 직장인 도시락
           </h1>
           <div className="flex my-[4px] items-center gap-[8px]">
             <p className="line-through text-sm text-gray--500">32,500원</p>
             <p className="font-bold text-xl">27,500원</p>
-            <p className="bg-red--500 rounded-xl text-white text-xs font-medium px-[6px] py-[2px]">15%</p>
+            <p className="bg-red--500 rounded-xl text-white text-xs font-medium px-[6px] py-[2px]">
+              15%
+            </p>
           </div>
           <hr />
           <ul className="flex mt-[8px] mb-[30px] justify-between">
@@ -109,7 +124,11 @@ export default function CommerceDetail() {
             </li>
           </ul>
           <div className="w-full flex justify-end gap-[1px] mb-[12px]">
-            <button className="product-quantity__button" value="-" onClick={(e) => handleQuantity(e)}>
+            <button
+              className="product-quantity__button"
+              value="-"
+              onClick={(e) => handleQuantity(e)}
+            >
               -
             </button>
             <input
@@ -125,13 +144,19 @@ export default function CommerceDetail() {
               }}
               min={1}
             />
-            <button className="product-quantity__button" value="+" onClick={(e) => handleQuantity(e)}>
+            <button
+              className="product-quantity__button"
+              value="+"
+              onClick={(e) => handleQuantity(e)}
+            >
               +
             </button>
           </div>
           <div className="flex justify-between items-center my-[8px]">
             <strong className="text-sm font-bold">총 상품 금액</strong>
-            <p className="text-blue--500 text-lg font-semibold">{(27500 * quantity).toLocaleString()}원</p>
+            <p className="text-blue--500 text-lg font-semibold">
+              {(27500 * quantity).toLocaleString()}원
+            </p>
           </div>
           <hr />
           <div className="mt-[8px] mb-[30px]">
@@ -144,26 +169,44 @@ export default function CommerceDetail() {
               </p>
             </div>
           </div>
-          <button className="bg-blue--500 text-white font-bold py-[12px] w-full rounded">결제하기</button>
+          <button className="bg-blue--500 text-white font-bold py-[12px] w-full rounded">
+            결제하기
+          </button>
           <p className="mt-[4px] text-xs text-gray--500">
-            ※ 공동구매 마감 시간 이전까지 결제가 완료 되어야 성공적으로 구매가 가능합니다.
+            ※ 공동구매 마감 시간 이전까지 결제가 완료 되어야 성공적으로 구매가
+            가능합니다.
           </p>
         </div>
       </section>
       <ul className="mt-[40px] flex gap-[52px] border border-2 border-t-black py-[12px] px-[40px] sticky top-[154px] bg-white z-50">
-        <li className={`${tab === '상품정보' ? 'product-tab__item--selected' : ''}`} onClick={(e) => handleTab(e)}>
+        <li
+          className={`${tab === '상품정보' ? 'product-tab__item--selected' : ''}`}
+          onClick={(e) => handleTab(e)}
+        >
           상품정보
         </li>
-        <li className={`${tab === '후기' ? 'product-tab__item--selected' : ''}`} onClick={(e) => handleTab(e)}>
+        <li
+          className={`${tab === '후기' ? 'product-tab__item--selected' : ''}`}
+          onClick={(e) => handleTab(e)}
+        >
           후기
         </li>
-        <li className={`${tab === '업체정보/문의' ? 'product-tab__item--selected' : ''}`} onClick={(e) => handleTab(e)}>
+        <li
+          className={`${tab === '업체정보/문의' ? 'product-tab__item--selected' : ''}`}
+          onClick={(e) => handleTab(e)}
+        >
           업체정보/문의
         </li>
       </ul>
       <section className="mb-[60px] min-h-[1000px]">
         <div ref={infoRef} className="relative w-auto h-auto pt-[16px]">
-          <Image className="mx-auto my-0" src={productDetail} alt="상세정보" layout="intrinsic" unoptimized={true} />
+          <Image
+            className="mx-auto my-0"
+            src={productDetail}
+            alt="상세정보"
+            layout="intrinsic"
+            unoptimized={true}
+          />
         </div>
         <hr className="my-[40px]" />
         <div ref={reviewRef}>
@@ -177,12 +220,20 @@ export default function CommerceDetail() {
             </div>
             <div className="w-[400px] flex flex-col justify-between">
               {[100, 309, 10, 8, 12].map((value, index) => (
-                <RatingDitsribution rating={5 - index} total={439} count={value} />
+                <RatingDitsribution
+                  rating={5 - index}
+                  total={439}
+                  count={value}
+                />
               ))}
             </div>
           </div>
           <div className="mt-[60px] mb-[16px] flex items-center">
-            <input type="checkbox" className="input__checkbox" onChange={(e) => setIsAll(!e.target.checked)} />
+            <input
+              type="checkbox"
+              className="input__checkbox"
+              onChange={(e) => setIsAll(!e.target.checked)}
+            />
             <label className="ml-[8px]">포토리뷰</label>
           </div>
           <Review />
@@ -193,14 +244,70 @@ export default function CommerceDetail() {
           <Review className="product-review-item--not-first" />
         </div>
         <hr className="my-[40px]" />
-        <div ref={askRef} className="flex flex-col gap-[40px]">
+        <div ref={askRef} className="flex flex-col gap-[10px] w-full">
+          <strong>판매자 정보</strong>
           <div>
-            <strong>판매자 정보</strong>
-            <div></div>
+            <table className="w-full mt-4">
+              <tbody className="block">
+                <tr className="border-t border-b border-gray-300 mb-4 flex">
+                  <td className="bg-gray-100 w-44 px-2 py-1 border-gray-300">
+                    상호명
+                  </td>
+                  <td className="w-72 px-2 py-1 text-gray--300 text-semibold">
+                    카페이노스(주)
+                  </td>
+                  <td className="bg-gray-100 w-44 px-2 py-1 border-gray-300">
+                    대표자
+                  </td>
+                  <td className="w-72 px-2 py-1 text-gray--300 text-semibold">
+                    정시예
+                  </td>
+                </tr>
+                <tr className="border-t border-b border-gray-300 mb-4 flex">
+                  <td className="bg-gray-100 w-44 px-2 py-1 border-gray-300">
+                    업체주소
+                  </td>
+                  <td className="w-72 px-2 py-1 text-gray--300 text-semibold">
+                    경기도 광명시
+                  </td>
+                  <td className="bg-gray-100 w-44 px-2 py-1 border-gray-300">
+                    전화번호
+                  </td>
+                  <td className="w-72 px-2 py-1 text-gray--300 text-semibold">
+                    02-1234-1234
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div>
-            <button className="text-white rounded bg-blue--500 px-[16px] py-[8px] text-sm">상품 문의 작성하기</button>
-            <div></div>
+          <div className="mt-4">
+            <button className="text-white rounded bg-blue-500 px-[16px] py-[8px] text-sm">
+              상품 문의 작성하기
+            </button>
+            <table className="w-full mt-4 text-[14px]">
+              <tbody>
+                <tr className="border-t border-t-blue--500 border-t-2  border-b-2  border-gray-300 text-center">
+                  <td className="w-[100px] px-2 py-[10px]  border-gray-300">
+                    답변상태
+                  </td>
+                  <td className="w-[500px] px-2 py-[10px]">문의내용</td>
+                  <td className=" w-[150px] px-2 py-[10px]  border-gray-300">
+                    작성자
+                  </td>
+                  <td className="w-[150px] px-2 py-[10px]">작성일</td>
+                  <td className=" w-[100px] px-2 py-[10px]  border-gray-300">
+                    삭제
+                  </td>
+                </tr>
+                <Product_Ask />
+                <Product_Ask />
+                <Product_Ask />
+                <Product_Ask />
+                <Product_Ask />
+                <Product_Ask />
+                <Product_Ask />
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
