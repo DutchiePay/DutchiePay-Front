@@ -12,8 +12,10 @@ import { usePathname } from 'next/navigation';
 export default function RootLayoutClient({ children }) {
   const pathname = usePathname();
 
-  const rhideHeader = pathname.match(/\/(login|reset|find|signup|ask|report)/);
-  const rhideFooter = pathname.match(/\/(ask|report)/);
+  const rhideHeader = pathname.match(
+    /\/(login|reset|find|signup|ask|report|cancel|refund)/
+  );
+  const rhideFooter = pathname.match(/\/(ask|report|cancel|refund)/);
   const rshowSidebar = pathname.startsWith('/mypage');
 
   const layoutStyle = {
@@ -22,12 +24,12 @@ export default function RootLayoutClient({ children }) {
 
   return (
     <Provider store={store}>
-      {rhideHeader || <Header />}
+      {!rhideHeader && <Header />}
       <div className="layout" style={layoutStyle}>
         {rshowSidebar && <Sidebar />}
         <main className="layout__main">{children}</main>
       </div>
-      {rhideFooter || <Footer />}
+      {!rhideFooter && <Footer />}
     </Provider>
   );
 }

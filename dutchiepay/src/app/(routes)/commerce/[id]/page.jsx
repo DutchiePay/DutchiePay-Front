@@ -46,8 +46,8 @@ export default function CommerceDetail() {
 
   // 스크롤 위치에 따른 Tab 값 설정
   const handleScroll = () => {
-    const reviewTop = reviewRef.current.getBoundingClientRect().top;
-    const askTop = askRef.current.getBoundingClientRect().top;
+    const reviewTop = reviewRef.current?.getBoundingClientRect().top;
+    const askTop = askRef.current?.getBoundingClientRect().top;
 
     if (reviewTop <= 0 && askTop > 0) {
       setTab('후기');
@@ -64,7 +64,7 @@ export default function CommerceDetail() {
   }, []);
 
   const askPopup = () => {
-    window.open('/ask', '_blank', 'width=600, height=670');
+    window.open('/ask', '_blank', 'width=620, height=670');
   };
 
   // 작성 리뷰/문의 없을 때 구현해야 함

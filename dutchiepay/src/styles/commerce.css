@@ -140,3 +140,26 @@
 #product-list-progress::-ms-fill {
   height: 5px;
 }
+
+.product-ask-textarea::placeholder {
+  font-size: 14px;
+}
+
+.product-refund-type {
+  width: 60px;
+  height: 32px;
+  border: 1px solid #6f8df7;
+  border-radius: 12px;
+  color: #4b70f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s ease-in-out;
+  font-size: 14px;
+}
+
+.product-refund-type__active {
+  background-color: #4b70f5;
+  color: #fff;
+  transition: all 0.1s ease-in-out;
+}

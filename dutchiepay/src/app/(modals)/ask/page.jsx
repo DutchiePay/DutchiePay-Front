@@ -1,18 +1,30 @@
 'use client';
 
 import '@/styles/globals.css';
+import '@/styles/commerce.css';
 
 import Image from 'next/image';
 import clock from '../../../../public/image/clock.svg';
 import product from '../../../../public/image/product1.jpg';
+import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
 export default function AskModal() {
+  const searchParams = useSearchParams();
+  const orderNum = searchParams.get('orderNum');
+  const [isAfterOrder, setIsAfterOrder] = useState(false); // 주문 후 문의 여부
+  const [isSecret, setIsSecret] = useState(false); // 비밀글 설정 여부
+
   const closeWindow = () => {
     window.close();
   };
 
+  const handleRadio = (e) => {
+    setIsSecret(e.target.value === 'secret');
+  };
+
   return (
-    <main className="max-w-[600px] p-[16px]">
+    <main className="max-w-[600px] p-[32px] overflow-x-hidden">
       <h1 className="text-3xl font-bold">문의 작성</h1>
       <p className="text-xs text-gray--500">
         문의 작성 서비스는 불편한 서비스로 인한 불만, 분쟁을 해결해드리기 위해
@@ -45,10 +57,27 @@ export default function AskModal() {
         <div className="mt-[12px]">
           <p className="text-blue--500 font-semibold">문의 내용</p>
           <textarea
-            className="w-full h-[300px] mt-[8px] border border-blue--500 rounded p-[12px] resize-none"
+            className="w-full h-[300px] mt-[8px] border border-blue--500 rounded p-[12px] resize-none product-ask-textarea outline-none"
             placeholder="문의 사항을 작성해주세요."
           />
-          <div className="flex justify-center gap-[24px] mt-[16px]">
+          <div className="flex items-center gap-[8px]">
+            <p className="mr-[8px] text-blue--500 font-semibold">공개 설정</p>
+            <input
+              type="radio"
+              value="all"
+              checked={isSecret === false}
+              onChange={handleRadio}
+            />
+            <label className="text-sm text-gray--500 mr-[8px]">전체 공개</label>
+            <input
+              type="radio"
+              value="secret"
+              checked={isSecret === true}
+              onChange={handleRadio}
+            />
+            <label className="text-sm text-gray--500">비공개</label>
+          </div>
+          <div className="flex justify-center gap-[24px] mt-[24px]">
             <button className="text-white text-sm bg-blue--500 rounded-lg px-[24px] py-[8px]">
               문의하기
             </button>

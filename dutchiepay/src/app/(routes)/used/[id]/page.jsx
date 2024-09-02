@@ -16,12 +16,14 @@ export default function UsedDetail() {
   const [isMyPostWritten, setIsMyPostWritten] = useState(true);
   const [isTrade, setIsTrade] = useState('거래');
   const infoWindowRef = useRef(null);
-  // 더미 좌표 데이터 (실제 좌표로 교체 필요)
-  const lat = 37.5665; // 위도
-  const lng = 126.978; // 경도
+
   const handlePrevButtonClick = () => {
     router.back();
   };
+
+  // 더미 좌표 데이터 (실제 좌표로 교체 필요)
+  const lat = 37.5665; // 위도
+  const lng = 126.978; // 경도
   const initializeMap = () => {
     if (window.naver && window.naver.maps) {
       const location = new window.naver.maps.LatLng(lat, lng);
@@ -168,7 +170,6 @@ export default function UsedDetail() {
               <strong>거래 희망 장소</strong>
               <p>삼각지역 1번 출구</p>
             </div>
-            {/* 지도 들어갈 위치 */}
             <div>
               <div
                 className="border border-gray--200"
@@ -185,7 +186,7 @@ export default function UsedDetail() {
               <strong>진행 상태</strong>
               {isMyPostWritten ? (
                 <div className="w-[130px] relative">
-                  <select className="community__select border w-[130px] px-[12px] py-[4px] rounded-lg outline-none">
+                  <select className="select-no-arrow border w-[130px] px-[12px] py-[4px] rounded-lg outline-none">
                     <option>{isTrade ? '거래' : '나눔'} 대기중</option>
                     <option>예약중</option>
                     <option>{isTrade ? '거래' : '나눔'} 완료</option>

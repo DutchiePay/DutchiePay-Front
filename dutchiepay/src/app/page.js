@@ -3,12 +3,15 @@ import '@/styles/landing.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import MainCarousel from './_components/MainCarousel';
 import Product_Main from './_components/Product_Main';
 
 export default function Home() {
   return (
     <main className="min-h-[750px] flex flex-col gap-[60px] mb-[100px]">
-      <section className="h-[430px] border">carousel 영역</section>
+      <section className="h-[400px] border">
+        <MainCarousel />
+      </section>
       <section className="w-full mx-auto my-0">
         <h2 className="main__title">새로 등록된 공구</h2>
         <div className="mt-[24px] flex justify-between">

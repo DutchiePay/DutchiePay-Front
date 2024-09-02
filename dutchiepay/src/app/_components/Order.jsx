@@ -11,10 +11,24 @@ import { useState } from 'react';
 
 export default function Order() {
   const [isMore, setIsMore] = useState(false);
-  const [status, setStatus] = useState('배송완료'); // 추후 데이터 들어올 때 값 변경 필요
+  const [status, setStatus] = useState('공구진행중'); // 추후 데이터 들어올 때 값 변경 필요
 
   const handleIsMore = (e) => {
     setIsMore(!isMore);
+  };
+
+  const openPopup = (url) => {
+    window.open(url, '_blank', 'width=620, height=670');
+  };
+
+  const handleButtonClick = () => {
+    if (status === '공구진행중') openPopup('/cancel?orderNum=123');
+    else if (status === '배송준비중' || status === '배송중')
+      openPopup('/ask?orderNum=123');
+    else if (status === '배송완료') {
+      // 구매확정 재확인 alert
+      setStatus('구매확정');
+    } else openPopup('/review');
   };
 
   return (
@@ -33,10 +47,13 @@ export default function Order() {
         />
         <div className="h-[140px] flex flex-col gap-[4px] justify-center">
           <strong className="text-2xl text-blue--500">배송완료</strong>
-          <Link href="#" className="max-w-[520px] title--single-line font-medium">
+          <Link
+            href="#"
+            className="max-w-[520px] title--single-line font-medium"
+          >
             애슐리 볶음밥 10인분 혼합 구성
-            10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침 대용
-            직장인 도시락
+            10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침
+            대용 직장인 도시락
           </Link>
           <div className="flex gap-[8px] items-center">
             <p className="text-lg font-bold">27,500원</p>
@@ -44,22 +61,31 @@ export default function Order() {
           </div>
           <div className="flex gap-[8px]">
             {status === '공구실패' || status === '취소/환불' ? (
-              <button className="text-white text-sm rounded px-[56px] py-[8px]" aria-hidden="true">
+              <button
+                className="text-white text-sm rounded px-[56px] py-[8px]"
+                aria-hidden="true"
+              >
                 버튼없음
               </button>
             ) : (
-              <button className="text-white text-sm bg-blue-500 rounded px-[56px] py-[8px]">
+              <button
+                className="text-white text-sm bg-blue-500 rounded px-[56px] py-[8px]"
+                onClick={handleButtonClick}
+              >
                 {status === '공구진행중'
                   ? '구매취소'
                   : status === '배송준비중' || status === '배송중'
-                  ? '문의하기'
-                  : status === '배송완료'
-                  ? '구매확정'
-                  : '리뷰작성'}
+                    ? '문의하기'
+                    : status === '배송완료'
+                      ? '구매확정'
+                      : '리뷰작성'}
               </button>
             )}
             {status === '배송완료' && (
-              <button className="text-blue-500 text-sm border border-blue--500 rounded px-[56px] py-[8px]">
+              <button
+                className="text-blue-500 text-sm border border-blue--500 rounded px-[56px] py-[8px]"
+                onClick={() => openPopup('/refund?orderNum=123')}
+              >
                 환불/교환
               </button>
             )}
@@ -82,13 +108,17 @@ export default function Order() {
             </tr>
             <tr className="border-b">
               <th className="mypage-order-details__table-header">배송메시지</th>
-              <td className="mypage-order-details__table-data">중앙현관 비밀번호는 1234입니다.</td>
+              <td className="mypage-order-details__table-data">
+                중앙현관 비밀번호는 1234입니다.
+              </td>
             </tr>
             <tr className="border-b">
               <th className="mypage-order-details__table-header">송장번호</th>
               <td className="mypage-order-details__table-data flex justify-between">
                 <span class="tracking-number">1234567890</span>
-                <button className="bg-blue--500 text-white text-xs px-[8px] py-[4px] rounded-md">배송조회</button>
+                <button className="bg-blue--500 text-white text-xs px-[8px] py-[4px] rounded-md">
+                  배송조회
+                </button>
               </td>
             </tr>
             <tr className="border-b">
@@ -97,7 +127,9 @@ export default function Order() {
                 <div>
                   <div className="flex justify-between">
                     <strong>주문 금액</strong>
-                    <p className="text-blue--500 text-lg font-semibold">40,250원</p>
+                    <p className="text-blue--500 text-lg font-semibold">
+                      40,250원
+                    </p>
                   </div>
                   <div className="ml-[28px]">
                     <div className="flex justify-between">
@@ -109,14 +141,20 @@ export default function Order() {
                       <p className="text-sm">17,250원</p>
                     </div>
                   </div>
-                  <p className="ml-[28px] text-xs text-gray--500">가입 감사 쿠폰 (30% 할인)</p>
+                  <p className="ml-[28px] text-xs text-gray--500">
+                    가입 감사 쿠폰 (30% 할인)
+                  </p>
                 </div>
                 <div>
                   <div className="flex justify-between">
                     <strong>카드 결제</strong>
-                    <p className="text-blue--500 text-lg font-semibold">40,250원</p>
+                    <p className="text-blue--500 text-lg font-semibold">
+                      40,250원
+                    </p>
                   </div>
-                  <p class="ml-[28px] text-gray--500 text-sm">신한 1111 **** **** 일시불</p>
+                  <p class="ml-[28px] text-gray--500 text-sm">
+                    신한 1111 **** **** 일시불
+                  </p>
                 </div>
               </td>
             </tr>
