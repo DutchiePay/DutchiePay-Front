@@ -18,7 +18,8 @@ import { useForm } from 'react-hook-form';
 
 export default function Signup() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
+  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
+    useState(false);
   const [isShowPolicy, setIsShowPolicy] = useState(false);
   const [address, setAddress] = useState('');
   const {
@@ -33,7 +34,8 @@ export default function Signup() {
     shouldFocusError: true,
   });
 
-  const rEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  const rEmail =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const rPassword = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
   const rNickname = /^[a-zA-Z0-9가-힣]{2,8}$/;
   const rPhone = /^010\d{8}$/;
@@ -106,10 +108,18 @@ export default function Signup() {
   return (
     <main className="flex flex-col items-center justify-center min-h-[880px]">
       <Link href="/" className="mt-[80px]">
-        <Image className="w-[200px] h-[120px] mb-[8px]" src={logo} alt="logo" width={200} height={120} />
+        <Image
+          className="w-[200px] h-[120px] mb-[8px]"
+          src={logo}
+          alt="logo"
+          width={200}
+          height={120}
+        />
       </Link>
 
-      <h2 className="text-[20px] font-bold text-start w-[500px] mb-[16px]">간편 회원가입</h2>
+      <h2 className="text-[20px] font-bold text-start w-[500px] mb-[16px]">
+        간편 회원가입
+      </h2>
       <section className="w-[500px]">
         <div className="flex gap-[20px] h-[70px]">
           <button
@@ -121,19 +131,29 @@ export default function Signup() {
             <Image src={naver} width={40} height={40} alt="naver" />
             <p>네이버로 시작하기</p>
           </button>
-          <button className="user-signup__button bg-[#FBDB44]" onClick={() => {}}>
+          <button
+            className="user-signup__button bg-[#FBDB44]"
+            onClick={() => {}}
+          >
             <Image src={kakao} width={40} height={40} alt="kakao" />
             <span>카카오로 시작하기</span>
           </button>
         </div>
         <hr className="w-[500px] my-[10px] border-t-[2px] border-gray--300" />
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-[12px] mt-[16px]">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-[12px] mt-[16px]"
+        >
           <div>
             <label className="user__label">이메일</label>
             <input
               className={`user__input mt-[4px] ${
-                errors.email ? 'user__input__invalid' : touchedFields.email && !errors.email ? 'user__input__valid' : ''
+                errors.email
+                  ? 'user__input__invalid'
+                  : touchedFields.email && !errors.email
+                    ? 'user__input__valid'
+                    : ''
               }`}
               type="email"
               placeholder="이메일"
@@ -145,16 +165,24 @@ export default function Signup() {
                 },
               })}
             />
-            {errors.email && <p className="mt-[4px] text-sm text-red--500">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="mt-[4px] text-sm text-red--500">
+                {errors.email.message}
+              </p>
+            )}
             {!errors.email && touchedFields.email && (
-              <p className="mt-[4px] text-sm text-blue--500">유효한 이메일 입니다.</p>
+              <p className="mt-[4px] text-sm text-blue--500">
+                유효한 이메일 입니다.
+              </p>
             )}
           </div>
 
           <div>
             <div className="flex items-center">
               <label className="user__label">비밀번호</label>
-              <span className="ml-[8px] text-[12px]">영문, 특수문자, 숫자를 모두 포함하여 8글자 이상</span>
+              <span className="ml-[8px] text-[12px]">
+                영문, 특수문자, 숫자를 모두 포함하여 8글자 이상
+              </span>
             </div>
             <div className="mb-[8px] flex relative">
               <input
@@ -162,8 +190,8 @@ export default function Signup() {
                   errors.password
                     ? 'user__input-password__invalid'
                     : touchedFields.password && !errors.password
-                    ? 'user__input-password__valid'
-                    : ''
+                      ? 'user__input-password__valid'
+                      : ''
                 }`}
                 placeholder="비밀번호"
                 type={isPasswordVisible ? 'text' : 'password'}
@@ -185,16 +213,24 @@ export default function Signup() {
                 />
               )}
             </div>
-            {errors.password && <p className="mt-[4px] text-sm text-red--500">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="mt-[4px] text-sm text-red--500">
+                {errors.password.message}
+              </p>
+            )}
             {!errors.password && touchedFields.password && (
-              <p className="mt-[4px] text-sm text-blue--500 ">유효한 비밀번호입니다.</p>
+              <p className="mt-[4px] text-sm text-blue--500 ">
+                유효한 비밀번호입니다.
+              </p>
             )}
           </div>
 
           <div>
             <div className="flex items-center">
               <label className="user__label">비밀번호 확인</label>
-              <span className="ml-[8px] text-[12px]">비밀번호를 한 번 더 입력해주세요</span>
+              <span className="ml-[8px] text-[12px]">
+                비밀번호를 한 번 더 입력해주세요
+              </span>
             </div>
             <div className="mb-[8px] flex relative">
               <input
@@ -203,8 +239,8 @@ export default function Signup() {
                   (errors.confirmPassword
                     ? 'user__input-password__invalid'
                     : touchedFields.confirmPassword && !errors.confirmPassword
-                    ? 'user__input-password__valid'
-                    : '')
+                      ? 'user__input-password__valid'
+                      : '')
                 }`}
                 placeholder="비밀번호 확인"
                 type={isConfirmPasswordVisible ? 'text' : 'password'}
@@ -214,7 +250,9 @@ export default function Signup() {
                     if (!rPassword.test(password)) {
                       return '';
                     }
-                    return value === password || '비밀번호가 일치하지 않습니다.';
+                    return (
+                      value === password || '비밀번호가 일치하지 않습니다.'
+                    );
                   },
                 })}
               />
@@ -228,30 +266,46 @@ export default function Signup() {
               )}
             </div>
             {errors.confirmPassword && (
-              <p className="mt-[4px] text-sm text-red--500">{errors.confirmPassword.message}</p>
+              <p className="mt-[4px] text-sm text-red--500">
+                {errors.confirmPassword.message}
+              </p>
             )}
             {!errors.confirmPassword && touchedFields.confirmPassword && (
-              <p className="mt-[4px] text-sm text-blue--500">비밀번호가 일치합니다.</p>
+              <p className="mt-[4px] text-sm text-blue--500">
+                비밀번호가 일치합니다.
+              </p>
             )}
           </div>
 
           <div>
             <label className="user__label">우리동네</label>
             <div className="mb-[8px] flex relative">
-              <input disabled className="user__input mt-[4px] bg-gray--100" value={address} type="text" />
+              <input
+                disabled
+                className="user__input mt-[4px] bg-gray--100"
+                value={address}
+                type="text"
+              />
             </div>
           </div>
           <div>
             <label className="user__label">성함 (선택)</label>
             <div className="mb-[8px] flex relative">
-              <input className="user__input mt-[4px]" placeholder="성함" type="text" {...register('name')} />
+              <input
+                className="user__input mt-[4px]"
+                placeholder="성함"
+                type="text"
+                {...register('name')}
+              />
             </div>
           </div>
 
           <div>
             <div className="flex items-center">
               <label className="user__label">닉네임</label>
-              <span className="ml-[8px] text-[12px]">한글, 영문, 숫자만을 포함하여 2글자 이상 8글자 이하</span>
+              <span className="ml-[8px] text-[12px]">
+                한글, 영문, 숫자만을 포함하여 2글자 이상 8글자 이하
+              </span>
             </div>
             <div className="mb-[8px] flex relative">
               <input
@@ -259,8 +313,8 @@ export default function Signup() {
                   errors.nickname
                     ? 'user__input__invalid'
                     : touchedFields.nickname && !errors.nickname
-                    ? 'user__input__valid'
-                    : ''
+                      ? 'user__input__valid'
+                      : ''
                 }`}
                 placeholder="닉네임"
                 type="text"
@@ -274,17 +328,24 @@ export default function Signup() {
                 })}
               />
             </div>
-            {errors.nickname && <p className="mt-[4px] text-sm text-red--500">{errors.nickname.message}</p>}
+            {errors.nickname && (
+              <p className="mt-[4px] text-sm text-red--500">
+                {errors.nickname.message}
+              </p>
+            )}
             {!errors.nickname && touchedFields.nickname && (
-              <p className="mt-[4px] text-sm text-blue--500">유효한 닉네임입니다.</p>
+              <p className="mt-[4px] text-sm text-blue--500">
+                유효한 닉네임입니다.
+              </p>
             )}
           </div>
 
           <div>
             <div className="flex items-center">
-              <label className="user__label">휴대폰 번호</label>
-
-              <span className="ml-[8px] text-[12px]">-을 제외하고 번호를 입력해주세요</span>
+              <label className="user__label">휴대폰 번호 (선택)</label>
+              <span className="ml-[8px] text-[12px]">
+                -을 제외한 전화번호를 입력해주세요
+              </span>
             </div>
             <div className="mb-[8px] flex relative">
               <input
@@ -292,8 +353,8 @@ export default function Signup() {
                   errors.phone
                     ? 'user__input__invalid'
                     : touchedFields.phone && !errors.phone
-                    ? 'user__input__valid'
-                    : ''
+                      ? 'user__input__valid'
+                      : ''
                 }`}
                 placeholder="휴대폰 번호 (ex : 01012345678)"
                 type="text"
@@ -307,9 +368,20 @@ export default function Signup() {
                 })}
               />
             </div>
-            {errors.phone && <p className="mt-[4px] text-sm text-red--500">{errors.phone.message}</p>}
+            <span className="text-xs">
+              ※ 휴대폰 인증을 거치지 않을 경우,{' '}
+              <strong>일부 서비스가 제한</strong>됩니다.
+              <br /> 회원가입 이후에도 휴대폰 인증을 진행할 수 있습니다.
+            </span>
+            {errors.phone && (
+              <p className="mt-[4px] text-sm text-red--500">
+                {errors.phone.message}
+              </p>
+            )}
             {!errors.phone && touchedFields.phone && (
-              <p className="mt-[4px] text-sm text-blue--500">유효한 휴대폰 번호입니다.</p>
+              <p className="mt-[4px] text-sm text-blue--500">
+                유효한 휴대폰 번호입니다.
+              </p>
             )}
           </div>
 
@@ -324,17 +396,27 @@ export default function Signup() {
                 })}
               />
 
-              <label className="ml-[12px] text-gray-500 cursor-pointer text-sm" htmlFor="signup-policy__checkbox">
+              <label
+                className="ml-[12px] text-gray-500 cursor-pointer text-sm"
+                htmlFor="signup-policy__checkbox"
+              >
                 [필수] 개인정보 수집 동의 및 이용 안내
               </label>
             </div>
 
-            <span className="text-end text-2xl cursor-pointer" onClick={handleTogglePolicy}>
+            <span
+              className="text-end text-2xl cursor-pointer"
+              onClick={handleTogglePolicy}
+            >
               {isShowPolicy ? '-' : '+'}
             </span>
           </div>
           {isShowPolicy && <PolicyDetail />}
-          {errors.policy && <p className="text-start text-red--500 mb-[16px]">{errors.policy.message}</p>}
+          {errors.policy && (
+            <p className="text-start text-red--500 mb-[16px]">
+              {errors.policy.message}
+            </p>
+          )}
           <button
             type="submit"
             className={`user__button-blue mb-[100px] ${!isValid ? 'disabled' : ''}`}

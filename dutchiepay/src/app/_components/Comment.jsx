@@ -14,7 +14,11 @@ export default function Comment() {
   const [isModified, setIsModified] = useState(false); // 댓글 수정 여부
 
   const reportPopup = () => {
-    window.open('/report', '신고하기', 'width=600, height=670, location=1');
+    window.open(
+      '/report?commentId=123',
+      '신고하기',
+      'width=620, height=670, location=1'
+    );
   };
 
   return (

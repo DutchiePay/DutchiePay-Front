@@ -1,59 +1,83 @@
 'use client';
 
 import '@/styles/globals.css';
+import '@/styles/commerce.css';
 
-import Image from 'next/image';
-import clock from '../../../../public/image/clock.svg';
-import product from '../../../../public/image/product1.jpg';
+import { useEffect, useState } from 'react';
 
-export default function ReportModal() {
+import { useSearchParams } from 'next/navigation';
+
+export default function ReprtModal() {
+  const searchParams = useSearchParams();
+  const postId = searchParams.get('postId');
+  const userId = searchParams.get('userId');
+  const commentId = searchParams.get('commentId'); // 신고 종류
+  const [type, setType] = useState(false);
+
   const closeWindow = () => {
     window.close();
   };
 
+  useEffect(() => {
+    if (postId) setType('게시글');
+    else if (userId) setType('채팅');
+    else if (commentId) setType('댓글');
+  }, [postId, userId, commentId]);
+
   return (
-    <main className="max-w-[600px] p-[16px]">
-      <h1 className="text-3xl font-bold">문의 작성</h1>
+    <main className="max-w-[600px] p-[32px] overflow-x-hidden">
+      <h1 className="text-3xl font-bold">{type} 신고</h1>
       <p className="text-xs text-gray--500">
-        문의 작성 서비스는 불편한 서비스로 인한 불만, 분쟁을 해결해드리기 위해
-        운영됩니다.
-        <br /> 불편한 문의 사항을 작성해주시면 빠르게 답변해드리겠습니다.
+        악의적인/무분별한 신고를 지속하는 사용자는 서비스 이용이 제한될 수
+        있습니다.
       </p>
       <section className="mt-[40px]">
-        <div className="flex gap-[12px] mb-[12px]">
-          <Image
-            className="rounded-lg"
-            src={product}
-            alt="애슐리 볶음밥"
-            width={100}
-            height={100}
-          />
-          <div className="flex flex-col w-[400px] gap-[4px]">
-            <p className="text-xs text-gray--500">(주)이랜드팜앤푸드(서울)</p>
-            <strong className="title--multi-line">
-              애슐리 볶음밥 10인분 혼합 구성
-              10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침
-              대용 직장인 도시락
-            </strong>
-            <div className="flex gap-[4px] text-sm text-blue--700 font-semibold">
-              <Image src={clock} alt="남은 시간" width={16} height={16} />
-              12일 08시간 36분 남음
-            </div>
-          </div>
+        <div className="flex gap-[24px] mb-[12px]">
+          <strong>신고 대상</strong>
+          <p>소풍왔니</p>
         </div>
         <hr />
         <div className="mt-[12px]">
-          <p className="text-blue--500 font-semibold">문의 내용</p>
-          <textarea
-            className="w-full h-[300px] mt-[8px] border border-blue--500 rounded p-[12px] resize-none"
-            placeholder="문의 사항을 작성해주세요."
-          />
-          <div className="flex justify-center gap-[24px] mt-[16px]">
-            <button className="text-white text-sm bg-blue--500 rounded-lg px-[24px] py-[8px]">
-              문의하기
+          <strong>사유 선택</strong>
+          <div className="mt-[8px] flex flex-col gap-[8px]">
+            <div className="w-full px-[8px] py-[6px] flex gap-[12px] border rounded">
+              <input type="radio" />
+              <label>사기 및 허위 거래</label>
+            </div>
+            <div className="w-full px-[8px] py-[6px] flex gap-[12px] border rounded">
+              <input type="radio" />
+              <label>명의 도용</label>
+            </div>
+            <div className="w-full px-[8px] py-[6px] flex gap-[12px] border rounded">
+              <input type="radio" />
+              <label>불법 또는 금지된 품목 거래</label>
+            </div>
+            <div className="w-full px-[8px] py-[6px] flex gap-[12px] border rounded">
+              <input type="radio" />
+              <label>불쾌한 언행 및 부적절한 내용</label>
+            </div>
+            <div className="w-full px-[8px] py-[6px] flex gap-[12px] border rounded">
+              <input type="radio" />
+              <label>거래 거부 및 비매너 행위</label>
+            </div>
+            <div className="w-full px-[8px] py-[6px] flex gap-[12px] border rounded">
+              <input type="radio" />
+              <label>상품 정보 불일치</label>
+            </div>
+            <div className="w-full px-[8px] py-[6px] flex gap-[12px] border rounded">
+              <input type="radio" />
+              <label>스팸 및 광고</label>
+            </div>
+          </div>
+          <p className="mt-[4px] text-xs text-gray--500 text-end">
+            신고 접수 시 영업일 기준 1~2일 내로 처리됩니다.
+          </p>
+          <div className="flex justify-center gap-[24px] mt-[24px]">
+            <button className="text-red-500 text-sm bg-red--100 rounded px-[24px] py-[8px]">
+              신고하기
             </button>
             <button
-              className="text-blue--500 text-sm border border-blue--500 rounded-lg px-[24px] py-[8px]"
+              className="text-blue--500 text-sm border border-blue--200 rounded px-[24px] py-[8px]"
               onClick={closeWindow}
             >
               취소

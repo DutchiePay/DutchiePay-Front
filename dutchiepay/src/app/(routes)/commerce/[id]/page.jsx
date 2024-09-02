@@ -208,7 +208,6 @@ export default function CommerceDetail() {
             className="mx-auto my-0"
             src={productDetail}
             alt="상세정보"
-            layout="intrinsic"
             unoptimized={true}
           />
         </div>
@@ -225,6 +224,7 @@ export default function CommerceDetail() {
             <div className="w-[400px] flex flex-col justify-between">
               {[100, 309, 10, 8, 12].map((value, index) => (
                 <RatingDitsribution
+                  key={index}
                   rating={5 - index}
                   total={439}
                   count={value}

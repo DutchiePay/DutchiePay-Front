@@ -11,10 +11,18 @@ import { useState } from 'react';
 
 export default function CommunityDetail() {
   const router = useRouter();
-  const [isMyPostWritten, setIsMyPostWritten] = useState(true);
+  const [isMyPostWritten, setIsMyPostWritten] = useState(false);
 
   const handlePrevButtonClick = () => {
     router.back();
+  };
+
+  const reportPopup = () => {
+    window.open(
+      '/report?postId=123',
+      '신고하기',
+      'width=620, height=670, location=1'
+    );
   };
 
   return (
@@ -87,7 +95,12 @@ export default function CommunityDetail() {
                     <button className="text-sm text-gray--500">삭제하기</button>
                   </>
                 ) : (
-                  <button className="text-sm text-gray--500">신고하기</button>
+                  <button
+                    className="text-sm text-gray--500"
+                    onClick={reportPopup}
+                  >
+                    신고하기
+                  </button>
                 )}
               </div>
             </div>

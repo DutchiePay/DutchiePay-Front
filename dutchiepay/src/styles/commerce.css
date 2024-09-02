@@ -163,3 +163,15 @@
   color: #fff;
   transition: all 0.1s ease-in-out;
 }
+
+.product-order__button {
+  width: 250px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.product-order__button:hover {
+  background-color: #dbe2fd;
+  border: 1px solid #b7c6fb;
+}

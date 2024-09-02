@@ -9,7 +9,7 @@ import reply from '../../../public/image/reply.svg';
 import secret from '../../../public/image/secret.svg';
 import { useState } from 'react';
 
-export default function MyAsk() {
+export default function MyAsks() {
   const [isSecret, setIsSecret] = useState(false);
   const [isAnswered, setIsAnswered] = useState(false);
 

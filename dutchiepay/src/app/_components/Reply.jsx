@@ -10,6 +10,14 @@ export default function Reply() {
   const [isReplyActive, setIsReplyActive] = useState(false); // 답글 활성화
   const [isModified, setIsModified] = useState(false); // 댓글 수정 여부
 
+  const reportPopup = () => {
+    window.open(
+      '/report?commentId=123',
+      '신고하기',
+      'width=620, height=670, location=1'
+    );
+  };
+
   return (
     <div className="py-[16px]">
       <div className="flex items-start">
@@ -36,7 +44,9 @@ export default function Reply() {
               >
                 답글
               </button>
-              <button className="font-bold text-xs">신고</button>
+              <button className="font-bold text-xs" onClick={reportPopup}>
+                신고
+              </button>
             </div>
           </div>
           <p className="text-sm px-[12px]">

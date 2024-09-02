@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 export default function Order() {
   const [isMore, setIsMore] = useState(false);
-  const [status, setStatus] = useState('공구진행중'); // 추후 데이터 들어올 때 값 변경 필요
+  const [status, setStatus] = useState('배송완료'); // 추후 데이터 들어올 때 값 변경 필요
 
   const handleIsMore = (e) => {
     setIsMore(!isMore);

@@ -7,3 +7,8 @@
   font-weight: 900;
   text-align: center;
 }
+
+.intro__image {
+  background-image: url('../../public/image/intro.jpg');
+  background-size: contain;
+}
