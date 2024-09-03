@@ -44,16 +44,15 @@ export default function Signup() {
   const rPhone = /^010\d{8}$/;
   const password = watch('password');
   const confirmPassword = watch('confirmPassword');
-  const phone = watch('phone'); // Watch the phone number field
+  const phone = watch('phone');
 
   useEffect(() => {
-    // Update phone validity state based on phone number input
     if (rPhone.test(phone)) {
       setIsPhoneValid(true);
     } else {
       setIsPhoneValid(false);
     }
-  }, [phone]); // Dependency on phone number input
+  }, [phone]);
 
   const handlePasswordVisibilityClick = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -336,7 +335,7 @@ export default function Signup() {
             <label className="user__label">성함 (선택)</label>
             <div className="mb-[8px] flex relative">
               <input
-                className="user__input mt-[4px]"
+                className="user__input mt-[4px] mb-[20px]"
                 placeholder="성함"
                 type="text"
                 {...register('name')}
@@ -354,9 +353,9 @@ export default function Signup() {
             <div className="mb-[8px] flex relative">
               <input
                 className={`user__input ${
-                  errors.phone
+                  errors.phone && touchedFields.phone
                     ? 'user__input__invalid'
-                    : !errors.phone && touchedFields.phone
+                    : !errors.phone && isPhoneValid
                       ? 'user__input__valid'
                       : ''
                 }`}
@@ -378,7 +377,7 @@ export default function Signup() {
                     : ''
                 }`}
                 onClick={handleAuthClick}
-                disabled={errors.phone && !isPhoneValid}
+                disabled={errors.phone || !isPhoneValid}
               >
                 인증하기
               </button>
@@ -389,7 +388,9 @@ export default function Signup() {
               {touchedFields.phone
                 ? errors.phone
                   ? errors.phone.message
-                  : '유효한 휴대폰 번호입니다.'
+                  : isPhoneValid
+                    ? '유효한 휴대폰 번호입니다.'
+                    : ''
                 : ''}
             </p>
             {isAuthInputVisible && (
@@ -408,7 +409,6 @@ export default function Signup() {
                     required: '인증번호를 입력해주세요',
                   })}
                 />
-                {/* 인증번호  API 생성시 조건 수정 */}
                 <p
                   className={`text-sm min-h-[20px] mt-[8px] ${touchedFields.authCode ? (errors.authCode ? 'text-red--500' : 'text-blue--500') : ''}`}
                 >
