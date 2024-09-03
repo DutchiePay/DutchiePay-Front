@@ -6,14 +6,17 @@ import { useEffect, useRef, useState } from 'react';
 
 import Ask from '@/app/_components/Ask';
 import Image from 'next/image';
+import Link from 'next/link';
 import Rating from '@/app/_components/Rating';
 import RatingDitsribution from '@/app/_components/RatingDistribution';
 import Review from '@/app/_components/Review';
 import product from '../../../../../public/image/product1.jpg';
 import productDetail from '../../../../../public/image/product_detail.jpg';
 import time from '../../../../../public/image/time.svg';
+import { useRouter } from 'next/navigation';
 
 export default function CommerceDetail() {
+  const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [tab, setTab] = useState('상품정보');
   const [isAll, setIsAll] = useState(true); // 모든 리뷰 -> false일 경우 포토리뷰
@@ -21,6 +24,11 @@ export default function CommerceDetail() {
   const infoRef = useRef(null);
   const reviewRef = useRef(null);
   const askRef = useRef(null);
+
+  const handleOrder = () => {
+    //주문 내역 세션 저장 코드 추가 필요
+    router.push('/order');
+  };
 
   const handleQuantity = (e) => {
     if (e.target.value === '-') {
@@ -173,7 +181,10 @@ export default function CommerceDetail() {
               </p>
             </div>
           </div>
-          <button className="bg-blue--500 text-white font-bold py-[12px] w-full rounded">
+          <button
+            className="bg-blue--500 text-white font-bold py-[12px] w-full rounded"
+            onClick={handleOrder}
+          >
             결제하기
           </button>
           <p className="mt-[4px] text-xs text-gray--500">

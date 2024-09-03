@@ -13,9 +13,11 @@ export default function RootLayoutClient({ children }) {
   const pathname = usePathname();
 
   const rhideHeader = pathname.match(
-    /\/(login|reset|find|signup|ask|report|cancel|refund)/
+    /\/(login|reset|find|signup|ask|report|cancel|refund|review|coupon)/
   );
-  const rhideFooter = pathname.match(/\/(ask|report|cancel|refund)/);
+  const rhideFooter = pathname.match(
+    /\/(ask|report|cancel|refund|review|coupon)/
+  );
   const rshowSidebar = pathname.startsWith('/mypage');
 
   const layoutStyle = {

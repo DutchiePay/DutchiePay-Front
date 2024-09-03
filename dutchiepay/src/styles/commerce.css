@@ -165,10 +165,16 @@
 }
 
 .product-order__button {
-  width: 250px;
+  width: 180px;
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 16px;
+  font-weight: 500;
+}
+
+.product-order__button__active {
+  background-color: #dbe2fd;
+  border: 1px solid #b7c6fb;
 }
 
 .product-order__button:hover {

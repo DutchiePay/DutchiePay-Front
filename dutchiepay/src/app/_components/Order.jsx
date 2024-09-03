@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 export default function Order() {
   const [isMore, setIsMore] = useState(false);
-  const [status, setStatus] = useState('배송완료'); // 추후 데이터 들어올 때 값 변경 필요
+  const [status, setStatus] = useState('구매확정'); // 추후 데이터 들어올 때 값 변경 필요
 
   const handleIsMore = (e) => {
     setIsMore(!isMore);
@@ -28,7 +28,7 @@ export default function Order() {
     else if (status === '배송완료') {
       // 구매확정 재확인 alert
       setStatus('구매확정');
-    } else openPopup('/review');
+    } else openPopup('/review?orderNum=123');
   };
 
   return (

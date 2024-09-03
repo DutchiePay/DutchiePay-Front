@@ -11,8 +11,8 @@ import { useState } from 'react';
 export default function Search() {
   const searchParams = useSearchParams();
   const keyword = searchParams.get('keyword') || '검색어 없음';
-  const [hasCommunity, setHasCommunity] = useState(false); // 커뮤니티 결과 존재 여부
-  const [hasCommerce, setHasCommerce] = useState(false); // 공동구매 결과 존재 여부
+  const [hasCommunity, setHasCommunity] = useState(true); // 커뮤니티 결과 존재 여부
+  const [hasCommerce, setHasCommerce] = useState(true); // 공동구매 결과 존재 여부
 
   return (
     <main className="min-h-[750px] w-[1020px] mb-[100px]">
@@ -26,7 +26,7 @@ export default function Search() {
               공동구매 <strong className="text-blue--500">1,300</strong>건
             </p>
             <Link
-              href={`/search?keyword=${keyword}&section=commerce`}
+              href={`/search/commerce?keyword=${keyword}`}
               className="flex gap-[4px] items-center"
             >
               <p className="text-gray--500">더보기</p>
@@ -48,7 +48,7 @@ export default function Search() {
               커뮤니티 <strong className="text-blue--500">200</strong>건
             </p>
             <Link
-              href={`/search?keyword=${keyword}&section=community`}
+              href={`/search/community?keyword=${keyword}`}
               className="flex gap-[4px] items-center"
             >
               <p className="text-gray--500">더보기</p>

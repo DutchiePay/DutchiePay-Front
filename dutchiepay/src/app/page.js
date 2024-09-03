@@ -4,6 +4,7 @@ import '@/styles/landing.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import MainCarousel from './_components/MainCarousel';
+import Product_Hot from './_components/Product_Hot';
 import Product_Main from './_components/Product_Main';
 import intro from '../../public/image/intro.jpg';
 
@@ -50,7 +51,7 @@ export default function Home() {
       </section>
       <section>
         <h2 className="main__title">가장 HOT🔥한</h2>
-        <div className="h-[400px]">상품 carousel</div>
+        <Product_Hot />
       </section>
     </main>
   );
