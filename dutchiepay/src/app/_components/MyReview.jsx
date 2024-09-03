@@ -6,7 +6,7 @@ import '@/styles/globals.css';
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
-import ImagesModal from '../(modals)/images/page';
+import ImagesModal, { thumbnails } from '../(modals)/images/page';
 import Link from 'next/link';
 import Rating from './Rating';
 import images from '../../../public/image/images.svg';
@@ -56,19 +56,21 @@ export default function MyReviews() {
           height={120}
           onClick={handleImageClick}
         />
+        {thumbnails.length > 1 && (
+          <div
+            className="absolute bottom-[25px] left-[105px] bg-white w-[30px] h-[30px] cursor-pointer rounded-lg flex justify-center items-center"
+            onClick={handleImageClick}
+          >
+            <Image
+              className="opacity-80"
+              src={images}
+              width={20}
+              height={20}
+              alt="이미지 더보기"
+            />
+          </div>
+        )}
 
-        <div
-          className="absolute bottom-[25px] left-[105px] bg-white w-[30px] h-[30px] cursor-pointer rounded-lg flex justify-center items-center"
-          onClick={handleImageClick}
-        >
-          <Image
-            className="opacity-80"
-            src={images}
-            width={20}
-            height={20}
-            alt="이미지 더보기"
-          />
-        </div>
         <div className="w-[558px]">
           <div className="flex justify-between items-center">
             <Link

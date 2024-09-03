@@ -4,7 +4,6 @@ import '@/styles/globals.css';
 import '@/styles/user.css';
 
 import { useEffect, useState } from 'react';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import PolicyDetail from '@/app/_components/PolicyDetail';
@@ -21,12 +20,16 @@ export default function Signup() {
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
   const [isShowPolicy, setIsShowPolicy] = useState(false);
+  const [isAuthInputVisible, setIsAuthInputVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [address, setAddress] = useState('');
+  const [isPhoneValid, setIsPhoneValid] = useState(false); // New state for phone number validity
+
   const {
     register,
     watch,
     handleSubmit,
-    formState: { errors, touchedFields, isValid },
+    formState: { errors, isValid, touchedFields },
   } = useForm({
     mode: 'onBlur',
     criteriaMode: 'all',
@@ -35,12 +38,22 @@ export default function Signup() {
   });
 
   const rEmail =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const rPassword = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
   const rNickname = /^[a-zA-Z0-9가-힣]{2,8}$/;
   const rPhone = /^010\d{8}$/;
   const password = watch('password');
   const confirmPassword = watch('confirmPassword');
+  const phone = watch('phone'); // Watch the phone number field
+
+  useEffect(() => {
+    // Update phone validity state based on phone number input
+    if (rPhone.test(phone)) {
+      setIsPhoneValid(true);
+    } else {
+      setIsPhoneValid(false);
+    }
+  }, [phone]); // Dependency on phone number input
 
   const handlePasswordVisibilityClick = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -52,6 +65,10 @@ export default function Signup() {
 
   const handleTogglePolicy = () => {
     setIsShowPolicy((prev) => !prev);
+  };
+
+  const handleAuthClick = () => {
+    setIsAuthInputVisible(true);
   };
 
   const onSubmit = async (formData) => {
@@ -143,7 +160,7 @@ export default function Signup() {
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col gap-[12px] mt-[16px]"
+          className="flex flex-col gap-[4px] mt-[8px]"
         >
           <div>
             <label className="user__label">이메일</label>
@@ -151,11 +168,11 @@ export default function Signup() {
               className={`user__input mt-[4px] ${
                 errors.email
                   ? 'user__input__invalid'
-                  : touchedFields.email && !errors.email
+                  : !errors.email && touchedFields.email
                     ? 'user__input__valid'
                     : ''
               }`}
-              type="email"
+              type="text"
               placeholder="이메일"
               {...register('email', {
                 required: '이메일을 입력해주세요',
@@ -165,16 +182,15 @@ export default function Signup() {
                 },
               })}
             />
-            {errors.email && (
-              <p className="mt-[4px] text-sm text-red--500">
-                {errors.email.message}
-              </p>
-            )}
-            {!errors.email && touchedFields.email && (
-              <p className="mt-[4px] text-sm text-blue--500">
-                유효한 이메일 입니다.
-              </p>
-            )}
+            <p
+              className={`text-sm min-h-[20px] ${touchedFields.email ? (errors.email ? 'text-red--500' : 'text-blue--500') : ''}`}
+            >
+              {touchedFields.email
+                ? errors.email
+                  ? errors.email.message
+                  : '사용 가능한 이메일입니다.'
+                : ''}
+            </p>
           </div>
 
           <div>
@@ -189,7 +205,7 @@ export default function Signup() {
                 className={`user__input-password mt-[4px] ${
                   errors.password
                     ? 'user__input-password__invalid'
-                    : touchedFields.password && !errors.password
+                    : !errors.password && touchedFields.password
                       ? 'user__input-password__valid'
                       : ''
                 }`}
@@ -197,7 +213,10 @@ export default function Signup() {
                 type={isPasswordVisible ? 'text' : 'password'}
                 {...register('password', {
                   required: '비밀번호를 입력해주세요',
-                  min: 8,
+                  minLength: {
+                    value: 8,
+                    message: '8글자 이상 입력해주세요',
+                  },
                   pattern: {
                     value: rPassword,
                     message: '올바른 비밀번호 형식을 입력해주세요',
@@ -213,16 +232,15 @@ export default function Signup() {
                 />
               )}
             </div>
-            {errors.password && (
-              <p className="mt-[4px] text-sm text-red--500">
-                {errors.password.message}
-              </p>
-            )}
-            {!errors.password && touchedFields.password && (
-              <p className="mt-[4px] text-sm text-blue--500 ">
-                유효한 비밀번호입니다.
-              </p>
-            )}
+            <p
+              className={`text-sm min-h-[20px] ${touchedFields.password ? (errors.password ? 'text-red--500' : 'text-blue--500') : ''}`}
+            >
+              {touchedFields.password
+                ? errors.password
+                  ? errors.password.message
+                  : '사용 가능한 비밀번호입니다.'
+                : ''}
+            </p>
           </div>
 
           <div>
@@ -232,13 +250,13 @@ export default function Signup() {
                 비밀번호를 한 번 더 입력해주세요
               </span>
             </div>
-            <div className="mb-[8px] flex relative">
+            <div className="flex relative">
               <input
                 className={`user__input-password mt-[4px] ${
                   rPassword.test(password) &&
                   (errors.confirmPassword
                     ? 'user__input-password__invalid'
-                    : touchedFields.confirmPassword && !errors.confirmPassword
+                    : !errors.confirmPassword && touchedFields.confirmPassword
                       ? 'user__input-password__valid'
                       : '')
                 }`}
@@ -246,7 +264,6 @@ export default function Signup() {
                 type={isConfirmPasswordVisible ? 'text' : 'password'}
                 {...register('confirmPassword', {
                   validate: (value) => {
-                    // 비밀번호가 패턴을 충족할 때만 비밀번호 확인 유효성 검사 수행
                     if (!rPassword.test(password)) {
                       return '';
                     }
@@ -265,39 +282,15 @@ export default function Signup() {
                 />
               )}
             </div>
-            {errors.confirmPassword && (
-              <p className="mt-[4px] text-sm text-red--500">
-                {errors.confirmPassword.message}
-              </p>
-            )}
-            {!errors.confirmPassword && touchedFields.confirmPassword && (
-              <p className="mt-[4px] text-sm text-blue--500">
-                비밀번호가 일치합니다.
-              </p>
-            )}
-          </div>
-
-          <div>
-            <label className="user__label">우리동네</label>
-            <div className="mb-[8px] flex relative">
-              <input
-                disabled
-                className="user__input mt-[4px] bg-gray--100"
-                value={address}
-                type="text"
-              />
-            </div>
-          </div>
-          <div>
-            <label className="user__label">성함 (선택)</label>
-            <div className="mb-[8px] flex relative">
-              <input
-                className="user__input mt-[4px]"
-                placeholder="성함"
-                type="text"
-                {...register('name')}
-              />
-            </div>
+            <p
+              className={`text-sm min-h-[20px] ${touchedFields.confirmPassword ? (errors.confirmPassword ? 'text-red--500' : 'text-blue--500') : ''}`}
+            >
+              {touchedFields.confirmPassword
+                ? errors.confirmPassword
+                  ? errors.confirmPassword.message
+                  : '비밀번호가 일치합니다.'
+                : ''}
+            </p>
           </div>
 
           <div>
@@ -307,12 +300,12 @@ export default function Signup() {
                 한글, 영문, 숫자만을 포함하여 2글자 이상 8글자 이하
               </span>
             </div>
-            <div className="mb-[8px] flex relative">
+            <div className="flex relative">
               <input
                 className={`user__input mt-[4px] ${
                   errors.nickname
                     ? 'user__input__invalid'
-                    : touchedFields.nickname && !errors.nickname
+                    : !errors.nickname && touchedFields.nickname
                       ? 'user__input__valid'
                       : ''
                 }`}
@@ -328,16 +321,27 @@ export default function Signup() {
                 })}
               />
             </div>
-            {errors.nickname && (
-              <p className="mt-[4px] text-sm text-red--500">
-                {errors.nickname.message}
-              </p>
-            )}
-            {!errors.nickname && touchedFields.nickname && (
-              <p className="mt-[4px] text-sm text-blue--500">
-                유효한 닉네임입니다.
-              </p>
-            )}
+            <p
+              className={`text-sm min-h-[20px] ${touchedFields.nickname ? (errors.nickname ? 'text-red--500' : 'text-blue--500') : ''}`}
+            >
+              {touchedFields.nickname
+                ? errors.nickname
+                  ? errors.nickname.message
+                  : '사용 가능한 닉네임입니다.'
+                : ''}
+            </p>
+          </div>
+
+          <div>
+            <label className="user__label">성함 (선택)</label>
+            <div className="mb-[8px] flex relative">
+              <input
+                className="user__input mt-[4px]"
+                placeholder="성함"
+                type="text"
+                {...register('name')}
+              />
+            </div>
           </div>
 
           <div>
@@ -349,10 +353,10 @@ export default function Signup() {
             </div>
             <div className="mb-[8px] flex relative">
               <input
-                className={`user__input mt-[4px] ${
+                className={`user__input ${
                   errors.phone
                     ? 'user__input__invalid'
-                    : touchedFields.phone && !errors.phone
+                    : !errors.phone && touchedFields.phone
                       ? 'user__input__valid'
                       : ''
                 }`}
@@ -360,32 +364,82 @@ export default function Signup() {
                 type="text"
                 maxLength={11}
                 {...register('phone', {
-                  required: '휴대폰 번호를 입력해주세요',
                   pattern: {
                     value: rPhone,
                     message: '올바른 휴대폰 번호 형식을 입력해주세요',
                   },
                 })}
               />
+              <button
+                type="button"
+                className={`absolute right-0 top-0 h-full px-[20px] text-[14px] font-bold text-white bg-blue--500 rounded-r-[4px] ${
+                  errors.phone || !isPhoneValid
+                    ? 'bg-gray--200 cursor-not-allowed'
+                    : ''
+                }`}
+                onClick={handleAuthClick}
+                disabled={errors.phone && !isPhoneValid}
+              >
+                인증하기
+              </button>
             </div>
+            <p
+              className={`text-sm min-h-[20px] ${touchedFields.phone ? (errors.phone ? 'text-red--500' : 'text-blue--500') : ''}`}
+            >
+              {touchedFields.phone
+                ? errors.phone
+                  ? errors.phone.message
+                  : '유효한 휴대폰 번호입니다.'
+                : ''}
+            </p>
+            {isAuthInputVisible && (
+              <div className="mt-[8px]">
+                <input
+                  className={`user__input ${
+                    errors.authCode
+                      ? 'user__input__invalid'
+                      : !errors.authCode && touchedFields.authCode
+                        ? 'user__input__valid'
+                        : ''
+                  }`}
+                  placeholder="인증번호 입력"
+                  type="text"
+                  {...register('authCode', {
+                    required: '인증번호를 입력해주세요',
+                  })}
+                />
+                {/* 인증번호  API 생성시 조건 수정 */}
+                <p
+                  className={`text-sm min-h-[20px] mt-[8px] ${touchedFields.authCode ? (errors.authCode ? 'text-red--500' : 'text-blue--500') : ''}`}
+                >
+                  {touchedFields.authCode
+                    ? errors.authCode
+                      ? errors.authCode.message
+                      : '인증번호가 일치합니다.'
+                    : ''}
+                </p>
+              </div>
+            )}
             <span className="text-xs">
               ※ 휴대폰 인증을 거치지 않을 경우,{' '}
               <strong>일부 서비스가 제한</strong>됩니다.
               <br /> 회원가입 이후에도 휴대폰 인증을 진행할 수 있습니다.
             </span>
-            {errors.phone && (
-              <p className="mt-[4px] text-sm text-red--500">
-                {errors.phone.message}
-              </p>
-            )}
-            {!errors.phone && touchedFields.phone && (
-              <p className="mt-[4px] text-sm text-blue--500">
-                유효한 휴대폰 번호입니다.
-              </p>
-            )}
           </div>
 
-          <div className="flex align-start items-center mt-[16px]  justify-between">
+          <div>
+            <label className="user__label">우리동네</label>
+            <div className="flex relative">
+              <input
+                disabled
+                className="user__input mt-[4px] bg-gray--100"
+                value={address}
+                type="text"
+              />
+            </div>
+          </div>
+
+          <div className="flex align-start items-center mt-[8px] justify-between">
             <div className="flex align-start items-center">
               <input
                 className="signup__checkbox"
@@ -411,16 +465,17 @@ export default function Signup() {
               {isShowPolicy ? '-' : '+'}
             </span>
           </div>
+          <p className="text-sm text-red--500 min-h-[20px] mb-[8px]">
+            {errors.policy ? errors.policy.message : ''}
+          </p>
           {isShowPolicy && <PolicyDetail />}
-          {errors.policy && (
-            <p className="text-start text-red--500 mb-[16px]">
-              {errors.policy.message}
-            </p>
-          )}
+
           <button
             type="submit"
-            className={`user__button-blue mb-[100px] ${!isValid ? 'disabled' : ''}`}
-            disabled={!isValid}
+            className={`px-[24px] py-[8px] text-bold w-full rounded-[4px] text-white text-[18px] border-none mb-[100px] ${
+              isValid ? 'bg-blue--500' : 'bg-gray--200 cursor-not-allowed'
+            }`}
+            disabled={!isValid || isSubmitting}
           >
             회원가입
           </button>

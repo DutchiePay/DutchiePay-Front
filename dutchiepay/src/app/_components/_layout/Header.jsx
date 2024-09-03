@@ -3,7 +3,9 @@
 import '../../../styles/header.css';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+
+import { useEffect, useState, useMemo, useCallback } from 'react';
+
 import { usePathname, useRouter } from 'next/navigation';
 
 import Image from 'next/image';
@@ -19,46 +21,48 @@ export default function Header() {
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [keyword, setKeyword] = useState('');
-
-  const handleProfileClick = () => {
-    router.push('/mypage');
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      // Enter key
-      const keyword = e.target.value;
-      setKeyword('');
-      router.push(`/search?keyword=${encodeURIComponent(keyword)}`);
-    }
-  };
 
   const pathname = usePathname();
-  const [filter, setFilter] = useState('');
+
+  const [keyword, setKeyword] = useState('');
+
+  // 필터를 useMemo로 메모이제이션하여 렌더링 최적화
+  const filter = useMemo(() => {
+    if (pathname.startsWith('/commerce')) return '공동구매';
+    if (pathname.startsWith('/mart')) return '마트/배달';
+    if (pathname.startsWith('/used')) return '거래/나눔';
+    if (pathname.startsWith('/community')) return '커뮤니티';
+    if (pathname.startsWith('/event')) return '이벤트';
+    return '';
+  }, [pathname]);
+
+  const handleProfileClick = useCallback(() => {
+    router.push('/mypage');
+  }, [router]);
+
+  const handleLogout = useCallback(() => {
+    dispatch(logout());
+  }, [dispatch]);
+
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        // Enter key
+        router.push(`/search?keyword=${encodeURIComponent(e.target.value)}`);
+      }
+    },
+    [router]
+  );
+
+  // pathname이 변경될 때만 실행되는 useEffect
   useEffect(() => {
-    if (pathname.startsWith('/commerce')) {
-      setFilter('공동구매');
-    } else if (pathname.startsWith('/mart')) {
-      setFilter('마트/배달');
-    } else if (pathname.startsWith('/used')) {
-      setFilter('거래/나눔');
-    } else if (pathname.startsWith('/community')) {
-      setFilter('커뮤니티');
-    } else if (pathname.startsWith('/event')) {
-      setFilter('이벤트');
-    } else {
-      setFilter('');
+    if (!pathname.startsWith('/search')) {
+      setKeyword('');
     }
   }, [pathname]);
 
-  const handleLogout = () => {
-    dispatch(logout());
-  };
-
   return (
     <header className="fixed h-[154px] top-0 left-0 right-0 z-10 w-full bg-white shadow">
-      {/* 고정된 헤더, 전체 너비 사용 */}
       <div className="container mx-auto w-[1020px]">
         <nav className="flex justify-end w-full mt-[4px]">
           <ul className="flex items-center gap-[6px]">
@@ -109,7 +113,7 @@ export default function Header() {
         <div className="flex items-center relative w-full">
           <Link href="/" className="contents w-[160px]">
             <Image
-              className="w-[160px] h-[96px] mr-[65px] cursor-pointer object-cotain"
+              className="w-[160px] h-[96px] mr-[65px] cursor-pointer object-contain"
               src={logo}
               alt="logo"
               width={160}
@@ -127,6 +131,8 @@ export default function Header() {
             <input
               className="w-[600px] h-[42px] bg-gray--100 pt-[13px] pb-[13px] pl-[52px] border rounded-md outline-none placeholder:text-[14px]"
               placeholder="검색어를 입력해주세요"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
               onKeyDown={handleKeyDown}
             />
           </div>

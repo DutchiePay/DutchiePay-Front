@@ -11,10 +11,10 @@ import review3 from '../../../../public/image/reviewImg/reviewImg3.jpg';
 import review4 from '../../../../public/image/reviewImg/reviewImg4.jpg';
 import review5 from '../../../../public/image/reviewImg/reviewImg5.jpg';
 import review6 from '../../../../public/image/product_detail.jpg';
+export const thumbnails = [review1, review2, review3, review4, review6];
 
 export default function ImagesModal({ onClose }) {
   const [currentImage, setCurrentImage] = useState(review1);
-  const thumbnails = [review1, review2, review3, review4, review6];
 
   const handleNextImage = () => {
     const currentIndex = thumbnails.indexOf(currentImage);
