@@ -10,10 +10,10 @@ import { useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Slider from 'react-slick';
-import carousel1 from '../../../public/image/carousel/carousel1.jpg';
-import pause from '../../../public/image/pause.svg';
-import play from '../../../public/image/play.svg';
-import prevNnext from '../../../public/image/prevNnext.svg';
+import carousel1 from '../../../../public/image/carousel/carousel1.jpg';
+import pause from '../../../../public/image/pause.svg';
+import play from '../../../../public/image/play.svg';
+import prevNnext from '../../../../public/image/prevNnext.svg';
 
 const PrevArrow = ({ onClick }) => (
   <button

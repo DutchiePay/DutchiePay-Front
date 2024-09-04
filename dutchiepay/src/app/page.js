@@ -1,14 +1,24 @@
+'use client';
 import '@/styles/globals.css';
 import '@/styles/landing.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import MainCarousel from './_components/MainCarousel';
+import MainCarousel from './_components/carousel/MainCarousel';
+import RecommendCarousel from './_components/carousel/RecommendCarousel';
 import Product_Hot from './_components/Product_Hot';
 import Product_Main from './_components/Product_Main';
 import intro from '../../public/image/intro.jpg';
+import { useRef } from 'react';
 
 export default function Home() {
+  const carouselRef = useRef(null);
+
+  const handleSlideChange = (index) => {
+    if (carouselRef.current) {
+      carouselRef.current.goToSlide(index);
+    }
+  };
   return (
     <main className="min-h-[750px] flex flex-col gap-[60px] mb-[100px]">
       <section className="h-[400px] border">
@@ -24,14 +34,27 @@ export default function Home() {
         </div>
       </section>
       <section>
-        <div className="flex gap-[12px] items-center justify-center">
-          <h2 className="main__title">더취페이 추천</h2>
-          <div className="h-[25px] border border-gray--300 rounded-xl px-[8px] text-sm text-gray--500 font-semibold flex items-center">
-            AD
+        <div className="flex items-center justify-between mb-[16px]">
+          <div className="flex-grow flex justify-center items-center gap-[12px]">
+            <h2 className="main__title">더취페이 추천</h2>
+            <div className="h-[25px] border border-gray--300 rounded-xl px-[8px] text-sm text-gray--500 font-semibold flex items-center">
+              AD
+            </div>
+          </div>
+          <div className="flex gap-[8px]">
+            <button className="px-[8px] border bg-blue--200 text-white rounded-full">
+              1
+            </button>
+            <button className="px-[8px] border bg-blue--200 text-white rounded-full">
+              2
+            </button>
           </div>
         </div>
-        <div className="h-[400px]">상품 carousel</div>
+        <div className="h-[400px]">
+          <RecommendCarousel />
+        </div>
       </section>
+
       <section className="w-full h-[200px] flex justify-between">
         <div className="w-[500px] h-[200px] rounded-xl border">이벤트</div>
         <Link

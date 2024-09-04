@@ -16,21 +16,25 @@ import axios from 'axios';
 export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
   const loginType = 'naver';
+
   const {
     register,
     watch,
     handleSubmit,
-    formState: { errors, touchedFields, isValid },
+    formState: { errors, touchedFields, isSubmitted },
   } = useForm({
-    mode: 'onBlur',
+    mode: 'onSubmit',
     criteriaMode: 'all',
     reValidateMode: 'onChange',
     shouldFocusError: true,
   });
+
   const handleCilckEyeIcon = () => {
     setIsVisible((prev) => !prev);
   };
+
   const password = watch('password');
+
   const onSubmit = async (formData) => {
     const { ...userData } = formData;
     const payload = {
@@ -38,6 +42,15 @@ export default function Login() {
     };
     console.log(payload);
   };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      console.log('enter');
+      handleSubmit(onSubmit)();
+    }
+  };
+
   return (
     <main className="min-h-[890px] flex items-center justify-center">
       <div className="flex flex-col gap-[16px] justify-center items-center">
@@ -52,23 +65,22 @@ export default function Login() {
         </Link>
 
         <section className="text-center mb-[32px] w-[450px]">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} onKeyPress={handleKeyPress}>
             <div className="mb-[16px]">
               <input
-                className={`user__input ${
-                  errors.id ? 'user__input__invalid' : ''
+                className={`user__input mt-[4px] ${
+                  errors.email
+                    ? 'user__input__invalid'
+                    : touchedFields.email && !errors.email && isSubmitted
+                      ? 'user__input__valid'
+                      : ''
                 }`}
                 placeholder="이메일"
                 type="text"
                 {...register('email', {
-                  required: '이메일을 입력해주세요',
+                  required: true,
                 })}
               />
-              {errors.email && (
-                <p className="mt-[4px] text-sm text-red--500 text-start">
-                  {errors.email.message}
-                </p>
-              )}
             </div>
 
             <div className="flex relative">
@@ -76,14 +88,14 @@ export default function Login() {
                 className={`user__input-password mt-[4px] ${
                   errors.password
                     ? 'user__input-password__invalid'
-                    : touchedFields.password && !errors.password
+                    : touchedFields.password && !errors.password && isSubmitted
                       ? 'user__input-password__valid'
                       : ''
                 }`}
                 placeholder="비밀번호"
                 type={isVisible ? 'text' : 'password'}
                 {...register('password', {
-                  required: '비밀번호를 입력해주세요',
+                  required: true,
                 })}
               />
               {password && (
@@ -95,12 +107,15 @@ export default function Login() {
                 />
               )}
             </div>
-            {errors.password && (
-              <p className="mt-[4px] text-sm text-red--500 text-start">
-                {errors.password.message}
-              </p>
-            )}
-            <div className="flex flex-col gap-[8px] mt-[16px]">
+
+            <p
+              className={`text-sm min-h-[20px] mt-[8px] text-red--500 text-start `}
+            >
+              {isSubmitted && (errors.email || errors.password)
+                ? '아이디/비밀번호를 입력해주세요'
+                : ''}
+            </p>
+            <div className="flex flex-col gap-[8px] mt-[12px]">
               <button type="submit" className="user__button-blue">
                 로그인
               </button>
