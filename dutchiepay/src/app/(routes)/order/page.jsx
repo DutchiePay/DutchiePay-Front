@@ -8,11 +8,18 @@ import Link from 'next/link';
 import clock from '../../../../public/image/clock.svg';
 import product from '../../../../public/image/product1.jpg';
 import selectArrow from '../../../../public/image/selectArrow.svg';
+import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { useState } from 'react';
 
 export default function Order() {
   const [isSelfMessage, setIsSelfMessage] = useState(false); // 배송 메시지 직접 입력 여부
   const [paymentMethod, setPaymentMethod] = useState('');
+  const [addressInfo, setAddressInfo] = useState({
+    zipcode: '',
+    address: '',
+    detail: '',
+  });
+  const open = useDaumPostcodePopup();
 
   /* 직접 입력 선택 시 true로 변경 */
   const handleSelectChange = (e) => {
@@ -26,6 +33,23 @@ export default function Order() {
   const couponPopup = (e) => {
     e.preventDefault();
     window.open('/coupon', '_blank', 'width=620, height=670');
+  };
+
+  const handlePostCode = (e) => {
+    e.preventDefault();
+    open({
+      onComplete: (data) => {
+        setAddressInfo((prevState) => ({
+          ...prevState,
+          zipcode: data.zonecode,
+          address: data.jibunAddress,
+        }));
+      },
+      width: 500,
+      height: 600,
+      left: window.innerWidth / 2 - 500 / 2,
+      top: window.innerHeight / 2 - 600 / 2,
+    });
   };
 
   return (
@@ -122,18 +146,24 @@ export default function Order() {
                       <div className="flex gap-[8px]">
                         <input
                           className="w-[70px] border rounded-lg px-[8px] py-[4px] text-sm outline-none"
+                          value={addressInfo.zipcode}
                           placeholder="우편번호"
                         />
-                        <button className="px-[8px] text-white text-sm bg-blue--500 rounded-lg">
+                        <button
+                          className="px-[8px] text-white text-sm bg-blue--500 rounded-lg"
+                          onClick={handlePostCode}
+                        >
                           우편번호 찾기
                         </button>
                       </div>
                       <input
                         className="border rounded-lg px-[8px] py-[4px] text-sm outline-none"
+                        value={addressInfo.address}
                         placeholder="주소"
                       />
                       <input
                         className="w-[300px] border rounded-lg px-[8px] py-[4px] text-sm outline-none"
+                        value={addressInfo.detail}
                         placeholder="상세 주소"
                       />
                     </div>

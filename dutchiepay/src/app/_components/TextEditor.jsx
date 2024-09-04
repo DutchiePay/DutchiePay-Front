@@ -30,9 +30,26 @@ export default function TextEditor() {
     []
   );
 
-  const formats = ['header', 'bold', 'italic', 'underline', 'list', 'bullet', 'link', 'image', 'color', 'background'];
+  const formats = [
+    'header',
+    'bold',
+    'italic',
+    'underline',
+    'list',
+    'bullet',
+    'link',
+    'image',
+    'color',
+    'background',
+  ];
 
   return (
-    <ReactQuill className="quill-editor" onChange={setEditorContent} theme="snow" modules={modules} formats={formats} />
+    <ReactQuill
+      className="quill-editor"
+      onChange={setEditorContent}
+      theme="snow"
+      modules={modules}
+      formats={formats}
+    />
   );
 }
