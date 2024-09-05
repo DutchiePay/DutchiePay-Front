@@ -2,16 +2,17 @@
 
 import '@/styles/user.css';
 import '@/styles/globals.css';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import axios from 'axios';
 import eyeClosed from '../../../../public/image/eyeClosed.svg';
 import eyeOpen from '../../../../public/image/eyeOpen.svg';
 import kakao from '../../../../public/image/kakao.png';
 import logo from '../../../../public/image/logo.jpg';
 import naver from '../../../../public/image/naver.png';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
+import { useState } from 'react';
 
 export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
@@ -43,10 +44,9 @@ export default function Login() {
     console.log(payload);
   };
 
-  const handleKeyPress = (e) => {
+  const handleEnter = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      console.log('enter');
       handleSubmit(onSubmit)();
     }
   };
@@ -65,16 +65,10 @@ export default function Login() {
         </Link>
 
         <section className="text-center mb-[32px] w-[450px]">
-          <form onSubmit={handleSubmit(onSubmit)} onKeyPress={handleKeyPress}>
+          <form onSubmit={handleSubmit(onSubmit)} onKeyUp={handleEnter}>
             <div className="mb-[16px]">
               <input
-                className={`user__input mt-[4px] ${
-                  errors.email
-                    ? 'user__input__invalid'
-                    : touchedFields.email && !errors.email && isSubmitted
-                      ? 'user__input__valid'
-                      : ''
-                }`}
+                className="user__input mt-[4px]"
                 placeholder="이메일"
                 type="text"
                 {...register('email', {
@@ -85,13 +79,7 @@ export default function Login() {
 
             <div className="flex relative">
               <input
-                className={`user__input-password mt-[4px] ${
-                  errors.password
-                    ? 'user__input-password__invalid'
-                    : touchedFields.password && !errors.password && isSubmitted
-                      ? 'user__input-password__valid'
-                      : ''
-                }`}
+                className="user__input-password mt-[4px]"
                 placeholder="비밀번호"
                 type={isVisible ? 'text' : 'password'}
                 {...register('password', {
@@ -109,7 +97,7 @@ export default function Login() {
             </div>
 
             <p
-              className={`text-sm min-h-[20px] mt-[8px] text-red--500 text-start `}
+              className={`text-sm min-h-[20px] mt-[8px] text-red--500 text-start font-medium`}
             >
               {isSubmitted && (errors.email || errors.password)
                 ? '아이디/비밀번호를 입력해주세요'
