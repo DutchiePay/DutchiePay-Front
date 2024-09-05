@@ -66,12 +66,22 @@ export default function Info() {
               height={150}
             />
           </div>
-          <button
-            className="mypage-profile__button"
-            onClick={() => handleModifyType('프로필이미지')}
-          >
-            {modifyType === '프로필이미지' ? '변경완료' : '변경'}
-          </button>
+          <div className="flex gap-[12px]">
+            {modifyType === '프로필이미지' && (
+              <button
+                className="mypage-profile__button"
+                onClick={() => setModifyType('')}
+              >
+                변경취소
+              </button>
+            )}
+            <button
+              className={`mypage-profile__button ${modifyType === '프로필이미지' && 'mypage-profile__button-finish'}`}
+              onClick={() => handleModifyType('프로필이미지')}
+            >
+              {modifyType === '프로필이미지' ? '변경완료' : '변경'}
+            </button>
+          </div>
         </article>
         <article className="mypage-profile">
           <div className="flex items-center">
@@ -86,12 +96,22 @@ export default function Info() {
               <p className="mypage-profile__value">{userInfo.nickname}</p>
             )}
           </div>
-          <button
-            className="mypage-profile__button"
-            onClick={() => handleModifyType('닉네임')}
-          >
-            {modifyType === '닉네임' ? '변경완료' : '변경'}
-          </button>
+          <div className="flex gap-[12px]">
+            {modifyType === '닉네임' && (
+              <button
+                className="mypage-profile__button"
+                onClick={() => setModifyType('')}
+              >
+                변경취소
+              </button>
+            )}
+            <button
+              className={`mypage-profile__button ${modifyType === '닉네임' && 'mypage-profile__button-finish'}`}
+              onClick={() => handleModifyType('닉네임')}
+            >
+              {modifyType === '닉네임' ? '변경완료' : '변경'}
+            </button>
+          </div>
         </article>
         <article className="mypage-profile">
           <div className="flex items-center">
@@ -107,7 +127,7 @@ export default function Info() {
               <div className="flex flex-col gap-[4px]">
                 <div className="flex gap-[8px]">
                   <input
-                    className="w-[300px] px-[8px] py-[4px] border rounded-lg outline-none"
+                    className="w-[250px] px-[8px] py-[4px] border rounded-lg outline-none"
                     value={userInfo.address}
                     placeholder="지번 주소"
                   />
@@ -119,7 +139,7 @@ export default function Info() {
                   </button>
                 </div>
                 <input
-                  className="w-[200px] px-[8px] py-[4px] border rounded-lg outline-none"
+                  className="w-[150px] px-[8px] py-[4px] border rounded-lg outline-none"
                   defaultValue={userInfo.detail}
                   placeholder="상세 주소"
                 />
@@ -133,12 +153,22 @@ export default function Info() {
               </div>
             )}
           </div>
-          <button
-            className="mypage-profile__button"
-            onClick={() => handleModifyType('주소')}
-          >
-            {modifyType === '주소' ? '변경완료' : '변경'}
-          </button>
+          <div className="flex gap-[12px]">
+            {modifyType === '주소' && (
+              <button
+                className="mypage-profile__button"
+                onClick={() => setModifyType('')}
+              >
+                변경취소
+              </button>
+            )}
+            <button
+              className={`mypage-profile__button ${modifyType === '주소' && 'mypage-profile__button-finish'}`}
+              onClick={() => handleModifyType('주소')}
+            >
+              {modifyType === '주소' ? '변경완료' : '변경'}
+            </button>
+          </div>
         </article>
         <article className="mypage-profile">
           <div className="flex items-center">
@@ -153,12 +183,22 @@ export default function Info() {
               <p className="mypage-profile__value">{userInfo.phoneNumber}</p>
             )}
           </div>
-          <button
-            className="mypage-profile__button"
-            onClick={() => handleModifyType('전화번호')}
-          >
-            {modifyType === '전화번호' ? '번호인증' : '변경'}
-          </button>
+          <div className="flex gap-[12px]">
+            {modifyType === '전화번호' && (
+              <button
+                className="mypage-profile__button"
+                onClick={() => setModifyType('')}
+              >
+                변경취소
+              </button>
+            )}
+            <button
+              className={`mypage-profile__button ${modifyType === '전화번호' && 'mypage-profile__button-finish'}`}
+              onClick={() => handleModifyType('전화번호')}
+            >
+              {modifyType === '전화번호' ? '번호인증' : '변경'}
+            </button>
+          </div>
         </article>
         <article className="mypage-profile">
           <div className="flex items-center">

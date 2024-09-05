@@ -60,6 +60,12 @@
   cursor: pointer;
 }
 
+.mypage-profile__button-finish {
+  border: none;
+  background: #4b70f5;
+  color: #fff;
+}
+
 .mypage-profile__button-reset {
   min-width: 100px;
   padding: 8px 12px;
