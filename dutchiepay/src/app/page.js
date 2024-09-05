@@ -15,8 +15,10 @@ export default function Home() {
   const carouselRef = useRef(null);
 
   const handleSlideChange = (index) => {
+    console.log('click');
+
     if (carouselRef.current) {
-      carouselRef.current.goToSlide(index);
+      carouselRef.current.slickGoTo(index);
     }
   };
   return (
@@ -36,22 +38,26 @@ export default function Home() {
       <section>
         <div className="flex items-center justify-between mb-[16px]">
           <div className="flex-grow flex justify-center items-center gap-[12px]">
-            <h2 className="main__title">더취페이 추천</h2>
+            <h2 className="main__title ml-[65px]">더취페이 추천</h2>
             <div className="h-[25px] border border-gray--300 rounded-xl px-[8px] text-sm text-gray--500 font-semibold flex items-center">
               AD
             </div>
           </div>
-          <div className="flex gap-[8px]">
-            <button className="px-[8px] border bg-blue--200 text-white rounded-full">
-              1
-            </button>
-            <button className="px-[8px] border bg-blue--200 text-white rounded-full">
-              2
-            </button>
-          </div>
+          <button
+            onClick={() => handleSlideChange(0)}
+            className="px-[8px]  border bg-blue--200 text-white rounded-full"
+          >
+            1
+          </button>
+          <button
+            onClick={() => handleSlideChange(3)}
+            className="px-[8px] border bg-blue--200 text-white rounded-full"
+          >
+            2
+          </button>
         </div>
         <div className="h-[400px]">
-          <RecommendCarousel />
+          <RecommendCarousel ref={carouselRef} />
         </div>
       </section>
 

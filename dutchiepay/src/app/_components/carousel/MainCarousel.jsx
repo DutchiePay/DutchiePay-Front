@@ -5,7 +5,7 @@ import '@/styles/globals.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useCallback } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,59 +15,41 @@ import pause from '../../../../public/image/pause.svg';
 import play from '../../../../public/image/play.svg';
 import prevNnext from '../../../../public/image/prevNnext.svg';
 
-const PrevArrow = ({ onClick }) => (
-  <button
-    className="w-[44px] h-[44px] bg-black/30 rounded-full flex justify-center items-center"
-    onClick={onClick}
-  >
-    <Image src={prevNnext} alt="prev" width={18} height={18} />
-  </button>
-);
-
-const NextArrow = ({ onClick }) => (
+// 화살표 컴포넌트
+const ArrowButton = ({ direction, onClick }) => (
   <button
     className="w-[44px] h-[44px] bg-black/30 rounded-full flex justify-center items-center"
     onClick={onClick}
   >
     <Image
-      className="rotate-180"
       src={prevNnext}
-      alt="next"
+      alt={`${direction} arrow`}
       width={18}
       height={18}
+      className={direction === 'next' ? 'rotate-180' : ''}
     />
   </button>
 );
-
 export default function MainCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const sliderRef = useRef(null);
 
-  const handleNextClick = () => {
+  const handleNextClick = useCallback(() => sliderRef.current?.slickNext(), []);
+  const handlePrevClick = useCallback(() => sliderRef.current?.slickPrev(), []);
+
+  // 슬라이드 제어 함수
+  const handleSlideAction = useCallback((action) => {
     if (sliderRef.current) {
-      sliderRef.current.slickNext();
+      sliderRef.current[action]();
     }
-  };
+  }, []);
 
-  const handlePrevClick = () => {
-    if (sliderRef.current) {
-      sliderRef.current.slickPrev();
-    }
-  };
-
-  const handlePlay = () => {
-    sliderRef.current.slickPlay();
-  };
-  const handlePause = () => {
-    sliderRef.current.slickPause();
-  };
-
-  const toggleAutoPlay = () => {
-    if (!isAutoPlay) handlePlay();
-    else handlePause();
-    setIsAutoPlay(!isAutoPlay);
-  };
+  // 자동 재생 토글 함수
+  const toggleAutoPlay = useCallback(() => {
+    handleSlideAction(isAutoPlay ? 'slickPause' : 'slickPlay');
+    setIsAutoPlay((prev) => !prev);
+  }, [isAutoPlay, handleSlideAction]);
 
   const settings = {
     dots: false,
@@ -78,8 +60,8 @@ export default function MainCarousel() {
     arrows: false,
     autoplay: isAutoPlay,
     autoplaySpeed: 100000,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
+    prevArrow: <ArrowButton direction="prev" onClick={handlePrevClick} />,
+    nextArrow: <ArrowButton direction="next" onClick={handleNextClick} />,
     beforeChange: (oldIndex, newIndex) => setCurrentSlide(newIndex),
   };
 
@@ -114,7 +96,7 @@ export default function MainCarousel() {
           <strong>{currentSlide + 1}</strong>&nbsp;/&nbsp;2
         </div>
         <div className="flex gap-[16px]">
-          <PrevArrow onClick={handlePrevClick} />
+          <ArrowButton direction="prev" onClick={handlePrevClick} />
           <button
             className="w-[44px] h-[44px] bg-black/30 rounded-full flex justify-center items-center"
             onClick={toggleAutoPlay}
@@ -125,7 +107,7 @@ export default function MainCarousel() {
               <Image src={play} alt="play" width={20} height={20} />
             )}
           </button>
-          <NextArrow onClick={handleNextClick} />
+          <ArrowButton direction="next" onClick={handleNextClick} />
         </div>
       </div>
     </div>
