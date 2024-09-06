@@ -66,7 +66,7 @@ export default function Login() {
 
         <section className="text-center mb-[32px] w-[450px]">
           <form onSubmit={handleSubmit(onSubmit)} onKeyUp={handleEnter}>
-            <div className="mb-[16px]">
+            <div className="mb-[8px]">
               <input
                 className="user__input mt-[4px]"
                 placeholder="이메일"

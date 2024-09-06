@@ -4,6 +4,7 @@ import '@/styles/globals.css';
 import '@/styles/user.css';
 
 import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import PolicyDetail from '@/app/_components/PolicyDetail';
@@ -39,9 +40,9 @@ export default function Signup() {
 
   const rEmail =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-  const rPassword = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/;
+  const rPassword = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*_-]).{8,}$/;
   const rNickname = /^[a-zA-Z0-9가-힣]{2,8}$/;
-  const rPhone = /^010\d{8}$/;
+  const rPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
   const password = watch('password');
   const confirmPassword = watch('confirmPassword');
   const phone = watch('phone');

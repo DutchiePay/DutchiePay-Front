@@ -20,14 +20,10 @@ export default function RootLayoutClient({ children }) {
   );
   const rshowSidebar = pathname.startsWith('/mypage');
 
-  const layoutStyle = {
-    marginTop: rhideHeader ? '0px' : '158px',
-  };
-
   return (
     <Provider store={store}>
       {!rhideHeader && <Header />}
-      <div className="layout" style={layoutStyle}>
+      <div className={`layout ${!rhideHeader && 'mt-[155px]'}`}>
         {rshowSidebar && <Sidebar />}
         <main className="layout__main">{children}</main>
       </div>

@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 export default function Product_List() {
   const [isLiked, setIsLiked] = useState(false);
-  const [isEnd, setIsEnd] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
 
   const handleIsLiked = () => {
     setIsLiked(!isLiked);
