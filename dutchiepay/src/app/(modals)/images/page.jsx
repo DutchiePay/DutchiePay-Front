@@ -48,7 +48,7 @@ export default function ImagesModal({ onClose }) {
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-80 z-50">
       <div
-        className="relative w-[830px] h-[400px] rounded"
+        className="relative  min-w-[830px] min-h-[830px] rounded-lg "
         onClick={(e) => e.stopPropagation()}
       >
         <Image
