@@ -1,8 +1,8 @@
 'use client';
 
-import '../../../../styles/mypage.css';
+import '@/styles/mypage.css';
 
-import Coupon_List from '@/app/_components/Coupon_List';
+import Coupon_List from '@/app/_components/_mypage/Coupon_List';
 import Image from 'next/image';
 import { useState } from 'react';
 

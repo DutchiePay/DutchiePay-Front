@@ -11,6 +11,7 @@ import review3 from '../../../../public/image/reviewImg/reviewImg3.jpg';
 import review4 from '../../../../public/image/reviewImg/reviewImg4.jpg';
 import review5 from '../../../../public/image/reviewImg/reviewImg5.jpg';
 import review6 from '../../../../public/image/product_detail.jpg';
+
 export const thumbnails = [review1, review2, review3, review4, review6];
 
 export default function ImagesModal({ onClose }) {
@@ -48,15 +49,10 @@ export default function ImagesModal({ onClose }) {
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-80 z-50">
       <div
-        className="relative  min-w-[830px] min-h-[830px] rounded-lg "
+        className="relative w-[830px] h-[830px]"
         onClick={(e) => e.stopPropagation()}
       >
-        <Image
-          src={currentImage}
-          layout="fill"
-          objectFit="contain"
-          alt="현재 이미지"
-        />
+        <Image src={currentImage} fill objectFit="contain" alt="현재 이미지" />
       </div>
 
       <button
@@ -83,18 +79,13 @@ export default function ImagesModal({ onClose }) {
 
       <div className="mt-4 flex gap-2 justify-center">
         {thumbnails.map((thumbnail, index) => (
-          <div
-            key={index}
+          <Image
             className="relative w-[60px] h-[60px] cursor-pointer"
+            src={thumbnail}
+            objectFit="cover"
+            alt={`Thumbnail ${index + 1}`}
             onClick={() => setCurrentImage(thumbnail)}
-          >
-            <Image
-              src={thumbnail}
-              layout="fill"
-              objectFit="cover"
-              alt={`Thumbnail ${index + 1}`}
-            />
-          </div>
+          />
         ))}
       </div>
 

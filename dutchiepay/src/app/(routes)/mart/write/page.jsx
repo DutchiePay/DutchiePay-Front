@@ -3,10 +3,11 @@
 import '@/styles/community.css';
 
 import Image from 'next/image';
-import TextEditor from '@/app/_components/Texteditor';
+import Location_Modal from '@/app/(routes)/location/page';
+import TextEditor from '@/app/_components/_community/TextEditor';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Location_Modal from '@/app/(modals)/location/page';
+
 export default function MartWrite() {
   const [filter, setFilter] = useState('마트');
   const [editorContent, setEditorContent] = useState('');

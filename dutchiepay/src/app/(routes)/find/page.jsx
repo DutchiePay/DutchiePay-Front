@@ -3,7 +3,7 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import FindSuccess from '@/app/_components/FindSuccess';
+import FindSuccess from '@/app/_components/_user/FindSuccess';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../../../public/image/logo.jpg';

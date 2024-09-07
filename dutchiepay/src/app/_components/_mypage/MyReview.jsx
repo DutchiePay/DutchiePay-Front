@@ -3,15 +3,15 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
+import ImagesModal, { thumbnails } from '@/app/(modals)/images/page';
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
-import ImagesModal, { thumbnails } from '../(modals)/images/page';
 import Link from 'next/link';
-import Rating from './Rating';
-import images from '../../../public/image/images.svg';
-import more from '../../../public/image/more.svg';
-import product from '../../../public/image/product1.jpg';
+import Rating from '@/app/_components/_rating/Rating';
+import images from '../../../../public/image/images.svg';
+import more from '../../../../public/image/more.svg';
+import product from '../../../../public/image/product1.jpg';
 
 export default function MyReviews() {
   const [isPossible, setIsPossible] = useState(true); // 삭제 가능 여부

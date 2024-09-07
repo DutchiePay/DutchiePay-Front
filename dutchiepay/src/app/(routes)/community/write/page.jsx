@@ -3,7 +3,7 @@
 import '@/styles/community.css';
 
 import Image from 'next/image';
-import TextEditor from '@/app/_components/Texteditor';
+import TextEditor from '@/app/_components/_community/TextEditor';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -14,7 +14,7 @@ export default function CommunityWrite() {
 
   const handleCancelButtonClick = (e) => {
     e.preventDefault();
-    router.push('/used');
+    router.push('/community');
   };
 
   const handleFilter = (e) => {

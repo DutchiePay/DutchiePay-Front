@@ -1,9 +1,9 @@
 'use client';
 
-import Comment from '@/app/_components/Comment';
+import Comment from '@/app/_components/_community/Comment';
 import Image from 'next/image';
-import Post_Hot from '@/app/_components/Post_Hot';
-import Post_Similar from '@/app/_components/Post_Similar';
+import Post_Hot from '@/app/_components/_community/Post_Hot';
+import Post_Similar from '@/app/_components/_community/Post_Similar';
 import prev from '../../../../../public/image/prev.svg';
 import profile from '../../../../../public/image/profile.jpg';
 import { useRouter } from 'next/navigation';

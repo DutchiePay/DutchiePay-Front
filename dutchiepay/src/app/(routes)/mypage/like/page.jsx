@@ -3,7 +3,7 @@
 import '@/styles/mypage.css';
 
 import Image from 'next/image';
-import Product_Like from '@/app/_components/Product_Like';
+import Product_Like from '@/app/_components/Product';
 import { useState } from 'react';
 
 // 좋아요 상품 없을 때 UI도 구현해야 함

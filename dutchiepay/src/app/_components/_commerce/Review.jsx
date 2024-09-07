@@ -1,12 +1,12 @@
 'use client';
 
-import '../../styles/mypage.css';
+import '@/styles/mypage.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import Rating from './Rating';
-import more from '../../../public/image/more.svg';
-import product from '../../../public/image/product1.jpg';
+import Rating from '../_rating/Rating';
+import more from '../../../../public/image/more.svg';
+import product from '../../../../public/image/product1.jpg';
 import { useState } from 'react';
 
 export default function Review({ className }) {

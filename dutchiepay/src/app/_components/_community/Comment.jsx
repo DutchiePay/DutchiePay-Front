@@ -3,8 +3,8 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Reply from './Reply';
-import profile from '../../../public/image/otherProfile.jpg';
-import reply from '../../../public/image/reply.svg';
+import profile from '../../../../public/image/otherProfile.jpg';
+import reply from '../../../../public/image/reply.svg';
 import { useState } from 'react';
 
 export default function Comment() {

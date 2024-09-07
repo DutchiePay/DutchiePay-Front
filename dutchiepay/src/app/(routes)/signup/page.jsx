@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import PolicyDetail from '@/app/_components/PolicyDetail';
+import PolicyDetail from '@/app/_components/_user/PolicyDetail';
 import axios from 'axios';
 import eyeClosed from '../../../../public/image/eyeClosed.svg';
 import eyeOpen from '../../../../public/image/eyeOpen.svg';

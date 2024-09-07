@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-import Rating from './Rating';
+import Rating from '@/app/_components/_rating/Rating';
 
 const RatingDragger = ({ onRatingChange }) => {
   const [rating, setRating] = useState(0);

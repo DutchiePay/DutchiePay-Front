@@ -1,7 +1,7 @@
 import '../../../../styles/mypage.css';
 
 import Image from 'next/image';
-import MyAsks from '@/app/_components/MyAsk';
+import MyAsks from '@/app/_components/_mypage/MyAsk';
 
 // 문의내역 없을 때 UI도 구현해야 함
 export default function MyAsk() {

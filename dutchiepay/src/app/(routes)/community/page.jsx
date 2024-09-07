@@ -3,7 +3,7 @@
 import '@/styles/community.css';
 
 import Image from 'next/image';
-import Post_Community from '@/app/_components/Post_Community';
+import Post_Community from '@/app/_components/_community/Post_Community';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -55,7 +55,10 @@ export default function Community() {
             자유
           </li>
         </ul>
-        <button className="text-white rounded bg-blue--500 px-[16px] py-[8px] text-sm" onClick={handleButtonClick}>
+        <button
+          className="text-white rounded bg-blue--500 px-[16px] py-[8px] text-sm"
+          onClick={handleButtonClick}
+        >
           게시글 작성
         </button>
       </div>

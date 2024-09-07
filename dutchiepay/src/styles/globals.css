@@ -10,7 +10,8 @@
 .layout {
   width: 1020px;
   display: flex;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .layout__main {

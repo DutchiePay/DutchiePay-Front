@@ -9,7 +9,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import Post from '@/app/_components/Post';
-import Product_Like from '@/app/_components/Product_Like';
+import Product_Like from '@/app/_components/Product';
 import arrow from '../../../../../public/image/arrow.svg';
 import { useState } from 'react';
 

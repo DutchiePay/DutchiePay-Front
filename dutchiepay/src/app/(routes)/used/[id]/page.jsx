@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
-import Post_Complete from '@/app/_components/Post_complete';
+import Post_Complete from '@/app/_components/_community/Post_complete';
 import Script from 'next/script';
 import info from '../../../../../public/image/info.svg';
 import prev from '../../../../../public/image/prev.svg';

@@ -1,10 +1,10 @@
-import "../../styles/mypage.css";
-import "@/styles/mypage.css";
-import "@/styles/globals.css";
+import '../../styles/mypage.css';
+import '@/styles/mypage.css';
+import '@/styles/globals.css';
 
-import Image from "next/image";
-import comment from "../../../public/image/comment.svg";
-import mart from "../../../public/image/mart.jpg";
+import Image from 'next/image';
+import comment from '../../../public/image/comment.svg';
+import mart from '../../../public/image/mart.jpg';
 
 export default function Post() {
   return (

@@ -3,13 +3,13 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import Rating from './Rating';
+import Rating from './_rating/Rating';
 import fullheart from '../../../public/image/fullheart.svg';
 import heart from '../../../public/image/heart.svg';
 import product from '../../../public/image/product1.jpg';
 import { useState } from 'react';
 
-export default function Product_Like() {
+export default function Product() {
   const [isLiked, setIsLiked] = useState(false);
   const [isEnd, setIsEnd] = useState(true);
 
@@ -18,7 +18,10 @@ export default function Product_Like() {
   };
 
   return (
-    <Link href="/commerce/123" className="w-[220px] border px-[12px] py-[8px] flex flex-col gap-[4px]">
+    <Link
+      href="/commerce/123"
+      className="w-[220px] border px-[12px] py-[8px] flex flex-col gap-[4px]"
+    >
       <div className="w-full h-[148px] rounded-xl relative">
         <Image
           className={`w-full h-[148px] rounded-xl ${isEnd ? 'grayscale' : ''}`}
@@ -30,7 +33,9 @@ export default function Product_Like() {
         {isEnd && (
           <div className="absolute top-[25px] left-[25px] rounded-2xl bg-white/70 w-[140px] h-[80px] flex flex-col justify-center items-center">
             <strong className="text-4xl font-black">마감</strong>
-            <p className="text-xs tracking-tighter font-medium">다음 공구를 기대해주세요</p>
+            <p className="text-xs tracking-tighter font-medium">
+              다음 공구를 기대해주세요
+            </p>
           </div>
         )}
         <div className="w-[30px] h-[30px] border bg-white absolute bottom-[4px] right-[4px] rounded-md flex justify-center items-center">
@@ -57,13 +62,15 @@ export default function Product_Like() {
       </div>
       <p className="mt-[4px] title--single-line font-medium">
         애슐리 볶음밥 10인분 혼합 구성
-        10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침 대용 직장인
-        도시락
+        10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침
+        대용 직장인 도시락
       </p>
       <div className="flex gap-[8px] items-center">
         <p className="text-[12px] text-gray--500 line-through">32,500원</p>
         <strong className="text-[16px]">27,500원</strong>
-        <p className="bg-red--500 rounded-2xl text-white text-xs px-[4px] py-[2px]">30%</p>
+        <p className="bg-red--500 rounded-2xl text-white text-xs px-[4px] py-[2px]">
+          30%
+        </p>
       </div>
       <div className="flex gap-[8px] items-center">
         <Rating rating={3.9} size={15} />

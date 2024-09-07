@@ -4,7 +4,7 @@ import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
 import Image from 'next/image';
-import RatingDragger from '@/app/_components/RatingDragger';
+import RatingDragger from '@/app/_components/_rating/RatingDragger';
 import camera from '../../../../public/image/camera.svg';
 import product from '../../../../public/image/product1.jpg';
 import review1 from '../../../../public/image/reviewImg/reviewImg1.jpg';

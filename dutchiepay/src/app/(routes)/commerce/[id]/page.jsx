@@ -4,12 +4,13 @@ import '@/styles/commerce.css';
 
 import { useEffect, useRef, useState } from 'react';
 
-import Ask from '@/app/_components/Ask';
+import Ask from '@/app/_components/_commerce/Ask';
 import Image from 'next/image';
 import Link from 'next/link';
-import Rating from '@/app/_components/Rating';
-import RatingDitsribution from '@/app/_components/RatingDistribution';
-import Review from '@/app/_components/Review';
+import Rating from '@/app/_components/_rating/Rating';
+import RatingDitsribution from '@/app/_components/_rating/RatingDistribution';
+import Review from '@/app/_components/_commerce/Review';
+import heart from '../../../../../public/image/emptyHeart.svg';
 import product from '../../../../../public/image/product1.jpg';
 import productDetail from '../../../../../public/image/product_detail.jpg';
 import time from '../../../../../public/image/time.svg';
@@ -119,12 +120,12 @@ export default function CommerceDetail() {
               <p className="text-xs">(주)이랜드팜앤푸드(서울)</p>
             </li>
             <li className="product-summary__item">
-              <p className="text-gray--500">최소 인원</p>
-              <p>25명</p>
+              <p className="text-gray--500">목표 수량</p>
+              <p>25개</p>
             </li>
             <li className="product-summary__item">
-              <p className="text-gray--500">현재 인원</p>
-              <p>100명</p>
+              <p className="text-gray--500">판매된 수량</p>
+              <p>100개</p>
               <p className="font-medium">(400%)</p>
             </li>
             <li className="product-summary__item">
@@ -168,7 +169,7 @@ export default function CommerceDetail() {
             </button>
           </div>
           <p className="text-end text-xs text-gray--500">
-            1인 최대 구매 가능 수량은 99개 입니다.
+            1회 최대 구매 가능 수량은 99개 입니다.
           </p>
           <div className="flex justify-between items-center my-[8px]">
             <strong className="text-sm font-bold">총 상품 금액</strong>
@@ -177,7 +178,7 @@ export default function CommerceDetail() {
             </p>
           </div>
           <hr />
-          <div className="mt-[8px] mb-[30px]">
+          <div className="mt-[8px] mb-[30px] flex justify-between items-center">
             <div className="flex flex-col gap-[4px]">
               <p className="text-xs">
                 배송비 : <strong>무료배송 (CJ대한통운)</strong>
@@ -186,6 +187,9 @@ export default function CommerceDetail() {
                 배송 출발 예정 : <strong>12월 02일</strong> 이후 순차배송
               </p>
             </div>
+            <button className="w-[45px] h-[45px] border flex justify-center items-center">
+              <Image src={heart} alt="좋아요" width={30} height={30} />
+            </button>
           </div>
           <button
             className="bg-blue--500 text-white font-bold py-[12px] w-full rounded"
