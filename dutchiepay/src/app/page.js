@@ -12,7 +12,7 @@ import MainCarousel from './_components/_landing/MainCarousel';
 import Product_Hot from './_components/_landing/Product_Hot';
 import Product_Main from './_components/_landing/Product_Main';
 import RecommendCarousel from './_components/_landing/RecommendCarousel';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 export default function Home() {
   const recommendCarouselRef = useRef(null);

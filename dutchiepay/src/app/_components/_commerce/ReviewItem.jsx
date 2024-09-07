@@ -4,13 +4,13 @@ import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
 import Image from 'next/image';
-import ImagesModal, { thumbnails } from '../(modals)/images/page';
+import ImagesModal, { thumbnails } from '../../(modals)/images/page';
 import Link from 'next/link';
 
-import Rating from './Rating';
-import images from '../../../public/image/images.svg';
-import more from '../../../public/image/more.svg';
-import product from '../../../public/image/product1.jpg';
+import Rating from '../_rating/Rating';
+import images from '../../../../public/image/images.svg';
+import more from '../../../../public/image/more.svg';
+import product from '../../../../public/image/product1.jpg';
 import { useState, useEffect } from 'react';
 
 export default function ReviewItem({ className }) {
