@@ -1,6 +1,6 @@
 import { forwardRef, useCallback, useMemo, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import Product_Main from '../Product_Main';
+import Product_Main from './Product_Main';
 import RecommendCarouselArrow from '../../../../public/image/arrow/RecommendCarouselArrow.svg';
 import Slider from 'react-slick';
 

@@ -5,13 +5,13 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import more from '../../../public/image/more.svg';
-import product from '../../../public/image/product1.jpg';
+import more from '../../../../public/image/more.svg';
+import product from '../../../../public/image/product1.jpg';
 import { useState } from 'react';
 
 export default function Order() {
   const [isMore, setIsMore] = useState(false);
-  const [status, setStatus] = useState('구매확정'); // 추후 데이터 들어올 때 값 변경 필요
+  const [status, setStatus] = useState('배송완료'); // 추후 데이터 들어올 때 값 변경 필요
 
   const handleIsMore = (e) => {
     setIsMore(!isMore);

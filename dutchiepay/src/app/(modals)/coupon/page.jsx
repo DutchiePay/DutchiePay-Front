@@ -1,7 +1,7 @@
 import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
-import AvailableCoupons from '@/app/_components/AvailableCoupons';
+import AvailableCoupons from '@/app/_components/_commerce/AvailableCoupons';
 
 export default function CouponModal() {
   return (

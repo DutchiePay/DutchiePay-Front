@@ -1,9 +1,6 @@
-import '../styles/globals.css';
+import '@/styles/globals.css';
 
-import { Inter } from 'next/font/google';
 import RootLayoutClient from './layoutClient';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: '더취페이',
@@ -13,7 +10,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="ko">
-      <body className={inter.className}>
+      <body>
         <RootLayoutClient>{children}</RootLayoutClient>
       </body>
     </html>

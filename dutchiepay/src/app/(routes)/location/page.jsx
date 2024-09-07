@@ -1,6 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
-import Script from 'next/script';
+import { useEffect, useRef, useState } from 'react';
+
 import CryptoJS from 'crypto-js';
+import Script from 'next/script';
 import axios from 'axios';
 
 export default function Location_Modal({ onLocationUpdate }) {
@@ -126,12 +127,14 @@ export default function Location_Modal({ onLocationUpdate }) {
   return (
     <>
       <main className="max-w-[600px] p-[32px] overflow-x-hidden border b-black m-0 m-auto">
-        <h1 className="text-3xl font-bold">위치찾기</h1>
+        <h1 className="text-3xl font-bold">거래 진행 위치 설정</h1>
         <p className="text-xs font-bold mt-[8px]">
-          원하는 위치로 마커를 이동시켜주세요. 위치를 설정하기 전까지 게시글을
-          작성할 수 없습니다.
+          거래를 원하는 위치로 마커를 이동시켜주세요. 위치 설정 후에 게시글을
+          작성하실 수 있습니다.
         </p>
         <p className="text-xs text-gray--500 mt-[16px]">
+          ※ 추천 거래 진행 위치
+          <br />
           마트의 경우 - 구매를 진행할 마트 위치나 구매한 상품을 분배하는 특정
           장소 등<br />
           배달의 경우 - 배달 시킨 음식을 나눌 장소 등<br />

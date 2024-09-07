@@ -1,4 +1,4 @@
-import '../../styles/mypage.css';
+import '@/styles/mypage.css';
 
 import Image from 'next/image';
 
@@ -16,8 +16,12 @@ export default function Coupon_List() {
       </div>
       <hr className="border border-dashed border-gray-300 w-full my-[4px]" />
       <div className="px-[16px]">
-        <p className="text-[12px] font-semibold text-gray--600">사용 가능 조건</p>
-        <p className="text-[12px] text-gray--500">주문 금액 15,000원 이상 시 사용 가능</p>
+        <p className="text-[12px] font-semibold text-gray--600">
+          사용 가능 조건
+        </p>
+        <p className="text-[12px] text-gray--500">
+          주문 금액 15,000원 이상 시 사용 가능
+        </p>
       </div>
     </div>
   );

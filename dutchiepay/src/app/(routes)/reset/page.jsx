@@ -5,7 +5,7 @@ import '@/styles/user.css';
 
 import { useEffect, useState } from 'react';
 
-import FindSuccess from '@/app/_components/FindSuccess';
+import FindSuccess from '@/app/_components/_user/FindSuccess';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../../../public/image/logo.jpg';
@@ -46,7 +46,7 @@ export default function Reset() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-[890px]">
+    <main className="w-full flex flex-col items-center justify-center min-h-[890px]">
       <h1>
         <Link href="/">
           <Image
@@ -93,9 +93,7 @@ export default function Reset() {
               role="alert"
               aria-hidden={errors.password ? 'true' : 'false'}
             >
-              {errors.password
-                ? errors.password.message
-                : '사용 가능한 비밀번호 입니다.'}
+              {errors.password && errors.password.message}
             </p>
           </div>
           <div className="flex flex-col gap-[8px]">
@@ -118,9 +116,9 @@ export default function Reset() {
               role="alert"
               aria-hidden={errors.confirmPassword ? 'true' : 'false'}
             >
-              {!errors.password && errors.confirmPassword
-                ? errors.confirmPassword.message
-                : '비밀번호가 일치합니다.'}
+              {!errors.password &&
+                errors.confirmPassword &&
+                errors.confirmPassword.message}
             </p>
           </div>
 

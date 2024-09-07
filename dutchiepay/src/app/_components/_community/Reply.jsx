@@ -2,8 +2,8 @@ import '@/styles/community.css';
 import '@/styles/globals.css';
 
 import Image from 'next/image';
-import profile from '../../../public/image/profile.jpg';
-import reply from '../../../public/image/reply.svg';
+import profile from '../../../../public/image/profile.jpg';
+import reply from '../../../../public/image/reply.svg';
 import { useState } from 'react';
 
 export default function Reply() {

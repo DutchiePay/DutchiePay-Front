@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import PolicyDetail from '@/app/_components/PolicyDetail';
+import PolicyDetail from '@/app/_components/_user/PolicyDetail';
 import axios from 'axios';
 import eyeClosed from '../../../../public/image/eyeClosed.svg';
 import eyeOpen from '../../../../public/image/eyeOpen.svg';
@@ -55,6 +55,7 @@ export default function Signup() {
     }
   }, [phone]);
 
+  /* 해당 함수 inline으로  */
   const handlePasswordVisibilityClick = () => {
     setIsPasswordVisible((prev) => !prev);
   };
@@ -123,7 +124,7 @@ export default function Signup() {
   }, []);
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-[880px]">
+    <main className="w-full flex flex-col items-center justify-center min-h-[880px]">
       <Link href="/" className="mt-[80px]">
         <Image
           className="w-[200px] h-[120px] mb-[8px]"

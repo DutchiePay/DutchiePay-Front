@@ -3,7 +3,7 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import FindSuccess from '@/app/_components/FindSuccess';
+import FindSuccess from '@/app/_components/_user/FindSuccess';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../../../../public/image/logo.jpg';
@@ -45,7 +45,7 @@ export default function Find() {
     /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-[890px]">
+    <main className="w-full flex flex-col items-center justify-center min-h-[890px]">
       <h1>
         <Link href="/">
           <Image

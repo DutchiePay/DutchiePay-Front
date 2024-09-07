@@ -1,6 +1,7 @@
 import Image from 'next/image';
-import reply from '../../../public/image/reply.svg';
+import reply from '../../../../public/image/reply.svg';
 import { useState } from 'react';
+
 export default function Answer({ answer }) {
   const [isMore, setIsMore] = useState(false);
   const handleIsMore = () => {

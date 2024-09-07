@@ -5,8 +5,8 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import reply from '../../../public/image/reply.svg';
-import secret from '../../../public/image/secret.svg';
+import reply from '../../../../public/image/reply.svg';
+import secret from '../../../../public/image/secret.svg';
 import { useState } from 'react';
 
 export default function MyAsks() {

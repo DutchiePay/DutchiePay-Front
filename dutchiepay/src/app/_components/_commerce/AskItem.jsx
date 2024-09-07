@@ -1,17 +1,17 @@
 import '@/styles/community.css';
 import '@/styles/globals.css';
 
-import Image from 'next/image';
-import secret from '../../../public/image/secret.svg';
-import trash from '../../../public/image/trash.svg';
-import { useState } from 'react';
 import Answer from './Answer';
+import Image from 'next/image';
+import secret from '../../../../public/image/secret.svg';
+import trash from '../../../../public/image/trash.svg';
+import { useState } from 'react';
 
-export default function Ask() {
+export default function AskItem() {
   const [isSecret, setIsSecret] = useState(true);
   const [isMore, setIsMore] = useState(false);
   const [isMine, setIsMine] = useState(true);
-  const [isAnswerText, setIsAnswerText] = useState(true);
+  const [isAnswered, setIsAnswered] = useState(true);
 
   const handleIsMore = () => {
     setIsMore(!isMore);
@@ -24,7 +24,7 @@ export default function Ask() {
             ${isMore ? 'bg-blue--100' : ''}`}
       >
         <td className="w-[100px] px-2 py-[20px] border-gray-300">
-          {isAnswerText ? '답변' : '미답변'}
+          {isAnswered ? '답변완료' : '답변대기'}
         </td>
 
         <td className="w-[500px] px-2 py-[20px] text-start flex items-center gap-[4px]">
@@ -69,7 +69,7 @@ export default function Ask() {
         </td>
       </tr>
 
-      {isAnswerText && (
+      {isAnswered && (
         <Answer
           answer={
             isMine || !isSecret

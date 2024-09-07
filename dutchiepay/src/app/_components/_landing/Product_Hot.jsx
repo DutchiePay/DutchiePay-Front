@@ -3,8 +3,8 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import clock from '../../../public/image/clock.svg';
-import product from '../../../public/image/product1.jpg';
+import clock from '../../../../public/image/clock.svg';
+import product from '../../../../public/image/product1.jpg';
 
 export default function Product_Hot() {
   //추후 데이터 들어오면 Link title 글자수 제한 코드 추가 필요

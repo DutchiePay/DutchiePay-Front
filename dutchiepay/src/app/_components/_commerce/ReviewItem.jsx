@@ -1,17 +1,19 @@
 'use client';
 
-import '../../styles/mypage.css';
+import '@/styles/mypage.css';
+import '@/styles/globals.css';
 
 import Image from 'next/image';
 import ImagesModal, { thumbnails } from '../(modals)/images/page';
 import Link from 'next/link';
+
 import Rating from './Rating';
 import images from '../../../public/image/images.svg';
 import more from '../../../public/image/more.svg';
 import product from '../../../public/image/product1.jpg';
 import { useState, useEffect } from 'react';
 
-export default function Review({ className }) {
+export default function ReviewItem({ className }) {
   const [hasImages, setHasImages] = useState(true); // 이미지 유무
   const [isMore, setIsMore] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);

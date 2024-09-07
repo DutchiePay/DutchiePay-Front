@@ -1,4 +1,5 @@
 'use client';
+
 import '@/styles/globals.css';
 import '@/styles/landing.css';
 import 'slick-carousel/slick/slick.css';
@@ -6,12 +7,12 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import MainCarousel from './_components/carousel/MainCarousel';
-import RecommendCarousel from './_components/carousel/RecommendCarousel';
-import Product_Hot from './_components/Product_Hot';
-import Product_Main from './_components/Product_Main';
-import intro from '../../public/image/intro.jpg';
-import { useRef, useState } from 'react';
+
+import MainCarousel from './_components/_landing/MainCarousel';
+import Product_Hot from './_components/_landing/Product_Hot';
+import Product_Main from './_components/_landing/Product_Main';
+import RecommendCarousel from './_components/_landing/RecommendCarousel';
+import { useRef } from 'react';
 
 export default function Home() {
   const recommendCarouselRef = useRef(null);
@@ -24,8 +25,9 @@ export default function Home() {
   const handleRecommendSlideChange = (index) => {
     if (recommendCarouselRef.current) {
       recommendCarouselRef.current.slickGoTo(index);
+
+      setActiveRecommendSlide(index);
     }
-    setActiveRecommendSlide(index);
   };
 
   const handleHotSlideChange = (index) => {
@@ -39,6 +41,7 @@ export default function Home() {
   const handleRecommendCarouselSlideChange = (currentIndex) => {
     setActiveRecommendSlide(currentIndex >= 3 ? 3 : 0); // 인덱스에 따라 버튼 활성화
   };
+
   return (
     <main className="min-h-[750px] flex flex-col gap-[60px] mb-[100px]">
       <section className="h-[400px] border">

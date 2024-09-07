@@ -12,8 +12,16 @@ export default function Footer() {
       <div className="w-[1020px] m-0 m-auto ">
         <div className="flex items-center w-full justify-between">
           <div className="flex gap-[30px] items-center">
-            <Image className="w-[90px] h-[54px] mr-[65px] " src={logo} alt="logo" width={90} height={54}></Image>
-            <p className="text-sm">copyright 2024. 더취페이. All rights reserved.</p>
+            <Image
+              className="w-[90px] h-[54px] mr-[65px] "
+              src={logo}
+              alt="logo"
+              width={90}
+              height={54}
+            ></Image>
+            <p className="text-sm">
+              copyright 2024. 더취페이. All rights reserved.
+            </p>
           </div>
 
           <div className="flex justify-end">
@@ -23,7 +31,13 @@ export default function Footer() {
               rel="noopener noreferrer"
               role="button"
             >
-              <Image className="mr-[24px]" src={github} alt="frontend git" width={24} height={24}></Image>
+              <Image
+                className="mr-[24px]"
+                src={github}
+                alt="frontend git"
+                width={24}
+                height={24}
+              ></Image>
             </Link>
 
             <Link
@@ -32,7 +46,13 @@ export default function Footer() {
               rel="noopener noreferrer"
               role="button"
             >
-              <Image className="mr-[24px]" src={github} alt="backend git" width={24} height={24}></Image>
+              <Image
+                className="mr-[24px]"
+                src={github}
+                alt="backend git"
+                width={24}
+                height={24}
+              ></Image>
             </Link>
             <Image src={notion} alt="notion" width={24} height={24}></Image>
           </div>
