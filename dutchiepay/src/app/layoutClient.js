@@ -21,7 +21,7 @@ export default function RootLayoutClient({ children }) {
   return (
     <Provider store={store}>
       {!rhideHeader && <Header />}
-      <main className={`layout ${!rhideHeader && 'mt-[155px]'}`}>
+      <main className={`layout ${!rhideHeader ? 'mt-[155px]' : ''}`}>
         {children}
       </main>
       {!rhideFooter && <Footer />}

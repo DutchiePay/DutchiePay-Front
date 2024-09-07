@@ -46,7 +46,7 @@ export default function Reset() {
   };
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-[890px]">
+    <main className="w-full flex flex-col items-center justify-center min-h-[890px]">
       <h1>
         <Link href="/">
           <Image

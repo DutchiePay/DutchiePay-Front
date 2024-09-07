@@ -45,7 +45,7 @@ export default function Find() {
     /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   return (
-    <main className="flex flex-col items-center justify-center min-h-[890px]">
+    <main className="w-full flex flex-col items-center justify-center min-h-[890px]">
       <h1>
         <Link href="/">
           <Image

@@ -52,7 +52,7 @@ export default function Login() {
   };
 
   return (
-    <main className="min-h-[890px] flex items-center justify-center">
+    <main className="w-full min-h-[890px] flex items-center justify-center">
       <div className="flex flex-col gap-[16px] justify-center items-center">
         <Link href="/">
           <Image
