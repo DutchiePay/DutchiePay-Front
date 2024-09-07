@@ -1,7 +1,7 @@
 'use client';
 
 import '../../../../styles/mypage.css';
-
+import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import kakao from '../../../../../public/image/kakao.png';
@@ -46,7 +46,44 @@ export default function Info() {
       top: window.innerHeight / 2 - 600 / 2,
     });
   };
+  const handleGetCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
 
+          try {
+            const response = await axios.get(
+              `https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?coords=${longitude},${latitude}&output=json`,
+              {
+                headers: {
+                  'X-NCP-APIGW-API-KEY-ID':
+                    process.env.NEXT_PUBLIC_MAP_CLIENT_ID,
+                  'X-NCP-APIGW-API-KEY':
+                    process.env.NEXT_PUBLIC_MAP_CLIENT_SECRET,
+                },
+              }
+            );
+            // 추후 확인 예정 CORS
+            const address = response.data.results[0].region;
+            setUserInfo((prevState) => ({
+              ...prevState,
+              location: address.area1.name,
+              address: address.jibunAddress,
+              zipcode: address.zipcode,
+            }));
+          } catch (error) {
+            console.error('Error fetching address:', error);
+          }
+        },
+        (error) => {
+          console.error('Error getting location:', error);
+        }
+      );
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }
+  };
   return (
     <main className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">회원 정보</h1>
@@ -116,9 +153,14 @@ export default function Info() {
         <article className="mypage-profile">
           <div className="flex items-center">
             <h2 className="mypage-profile__label">지역</h2>
-            <p className="mypage-profile__value">평택시</p>
+            <p className="mypage-profile__value">{userInfo.location}</p>
           </div>
-          <button className="mypage-profile__button">재설정</button>
+          <button
+            className="mypage-profile__button"
+            onClick={handleGetCurrentLocation}
+          >
+            재설정
+          </button>
         </article>
         <article className="mypage-profile">
           <div className="flex items-center">

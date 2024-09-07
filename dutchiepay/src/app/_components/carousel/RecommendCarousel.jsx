@@ -1,12 +1,4 @@
-'use client';
-
-import '@/styles/community.css';
-import '@/styles/globals.css';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-
-import { forwardRef, useCallback, useMemo, useRef } from 'react';
-
+import { forwardRef, useCallback, useMemo, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Product_Main from '../Product_Main';
 import RecommendCarouselArrow from '../../../../public/image/arrow/RecommendCarouselArrow.svg';
@@ -26,11 +18,18 @@ const ArrowButton = ({ direction, onClick }) => (
 );
 
 // 메인 컴포넌트
-const RecommendCarousel = forwardRef((props, ref) => {
+const RecommendCarousel = forwardRef(({ onSlideChange }, ref) => {
   const sliderRef = useRef(null);
 
   const handleNextClick = useCallback(() => sliderRef.current?.slickNext(), []);
   const handlePrevClick = useCallback(() => sliderRef.current?.slickPrev(), []);
+
+  const handleSlideChange = useCallback(
+    (index) => {
+      onSlideChange(index);
+    },
+    [onSlideChange]
+  );
 
   const settings = {
     dots: false,
@@ -39,6 +38,7 @@ const RecommendCarousel = forwardRef((props, ref) => {
     slidesToShow: 3,
     slidesToScroll: 3,
     arrows: false,
+    afterChange: handleSlideChange,
   };
 
   return (

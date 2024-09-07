@@ -1,6 +1,8 @@
 'use client';
 import '@/styles/globals.css';
 import '@/styles/landing.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -9,17 +11,33 @@ import RecommendCarousel from './_components/carousel/RecommendCarousel';
 import Product_Hot from './_components/Product_Hot';
 import Product_Main from './_components/Product_Main';
 import intro from '../../public/image/intro.jpg';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 export default function Home() {
-  const carouselRef = useRef(null);
+  const recommendCarouselRef = useRef(null);
+  const hotCarouselRef = useRef(null);
 
-  const handleSlideChange = (index) => {
-    console.log('click');
+  const [activeRecommendSlide, setActiveRecommendSlide] = useState(0);
+  const [activeHotSlide, setActiveHotSlide] = useState(0);
+  const [currentHotItems, setCurrentHotItems] = useState(0);
 
-    if (carouselRef.current) {
-      carouselRef.current.slickGoTo(index);
+  const handleRecommendSlideChange = (index) => {
+    if (recommendCarouselRef.current) {
+      recommendCarouselRef.current.slickGoTo(index);
     }
+    setActiveRecommendSlide(index);
+  };
+
+  const handleHotSlideChange = (index) => {
+    if (hotCarouselRef.current) {
+      hotCarouselRef.current.slickGoTo(0);
+    }
+    setActiveHotSlide(index);
+    setCurrentHotItems(index);
+  };
+  // 슬라이드 변경 시 호출될 함수
+  const handleRecommendCarouselSlideChange = (currentIndex) => {
+    setActiveRecommendSlide(currentIndex >= 3 ? 3 : 0); // 인덱스에 따라 버튼 활성화
   };
   return (
     <main className="min-h-[750px] flex flex-col gap-[60px] mb-[100px]">
@@ -35,32 +53,48 @@ export default function Home() {
           <Product_Main />
         </div>
       </section>
+
+      {/* 더취페이 추천 Section */}
       <section>
-        <div className="flex items-center justify-between mb-[16px]">
+        <div className="flex items-center justify-between mb-[16px] relative">
           <div className="flex-grow flex justify-center items-center gap-[12px]">
-            <h2 className="main__title ml-[65px]">더취페이 추천</h2>
+            <h2 className="main__title ml-[65px] ">더취페이 추천</h2>
             <div className="h-[25px] border border-gray--300 rounded-xl px-[8px] text-sm text-gray--500 font-semibold flex items-center">
               AD
             </div>
           </div>
-          <button
-            onClick={() => handleSlideChange(0)}
-            className="px-[8px]  border bg-blue--200 text-white rounded-full"
-          >
-            1
-          </button>
-          <button
-            onClick={() => handleSlideChange(3)}
-            className="px-[8px] border bg-blue--200 text-white rounded-full"
-          >
-            2
-          </button>
+          <div className="absolute bottom-[0px] left-[900px] w-[200px]">
+            <button
+              onClick={() => handleRecommendSlideChange(0)}
+              className={`px-[8px] mx-[8px] ${
+                activeRecommendSlide === 0
+                  ? 'border bg-blue--200 text-white rounded-full'
+                  : ''
+              }`}
+            >
+              1
+            </button>
+            <button
+              onClick={() => handleRecommendSlideChange(3)}
+              className={`px-[8px] ${
+                activeRecommendSlide === 3
+                  ? 'border bg-blue--200 text-white rounded-full'
+                  : ''
+              }`}
+            >
+              2
+            </button>
+          </div>
         </div>
         <div className="h-[400px]">
-          <RecommendCarousel ref={carouselRef} />
+          <RecommendCarousel
+            ref={recommendCarouselRef}
+            onSlideChange={handleRecommendCarouselSlideChange}
+          />
         </div>
       </section>
 
+      {/* 이벤트 및 소개 Section */}
       <section className="w-full h-[200px] flex justify-between">
         <div className="w-[500px] h-[200px] rounded-xl border">이벤트</div>
         <Link
@@ -78,9 +112,36 @@ export default function Home() {
           </div>
         </Link>
       </section>
+
       <section>
-        <h2 className="main__title">가장 HOT🔥한</h2>
-        <Product_Hot />
+        <div className="relative">
+          <h2 className="main__title">가장 HOT🔥한</h2>
+          <div className="absolute bottom-[0px] left-[900px] w-[200px]">
+            <button
+              onClick={() => handleHotSlideChange(0)}
+              className={`px-[8px] mx-[8px] ${
+                activeHotSlide === 0
+                  ? 'border bg-blue--200 text-white rounded-full'
+                  : ''
+              }`}
+            >
+              1
+            </button>
+            <button
+              onClick={() => handleHotSlideChange(1)}
+              className={`px-[8px] ${
+                activeHotSlide === 1
+                  ? 'border bg-blue--200 text-white rounded-full'
+                  : ''
+              }`}
+            >
+              2
+            </button>
+          </div>
+        </div>
+        <div className="flex mt-[10px]">
+          <Product_Hot ref={hotCarouselRef} currentItems={currentHotItems} />
+        </div>
       </section>
     </main>
   );
