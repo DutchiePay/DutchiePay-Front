@@ -60,7 +60,7 @@ export default function Reset() {
       </h1>
       <section className="flex flex-col w-[500px]">
         <h2 className="text-2xl font-bold">비밀번호 재설정</h2>
-        <p className="text-xs">새로운 비밀번호로 재설정해주세요.</p>
+        <p className="text-sm">새로운 비밀번호로 재설정해주세요.</p>
         <form
           className="flex flex-col gap-[12px] mt-[40px]"
           onSubmit={handleSubmit(onSubmit)}
@@ -129,6 +129,13 @@ export default function Reset() {
           >
             비밀번호 재설정
           </button>
+          <Link
+            href="/"
+            className="text-gray--500 text-sm text-center underline"
+            role="button"
+          >
+            메인으로 돌아가기
+          </Link>
         </form>
       </section>
     </main>

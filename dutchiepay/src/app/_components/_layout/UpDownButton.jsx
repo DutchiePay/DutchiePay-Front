@@ -1,18 +1,19 @@
+import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
 import updownArrow from '../../../../public/image/arrow/updownArrow.svg';
-import { useState, useEffect } from 'react';
 
 export default function UpDownButtons() {
-  const [showButtons, setShowButtons] = useState(false); // 버튼의 표시 여부 상태
+  const [isShow, setIsShow] = useState(false); // 버튼의 표시 여부 상태
 
   // 스크롤 상태 감지
   useEffect(() => {
     const handleScrollCheck = () => {
       // 페이지 높이가 뷰포트 높이보다 클 때만 버튼 표시
       if (window.scrollY > 0) {
-        setShowButtons(true);
+        setIsShow(true);
       } else {
-        setShowButtons(false);
+        setIsShow(false);
       }
     };
 
@@ -37,13 +38,13 @@ export default function UpDownButtons() {
   };
 
   // 버튼이 보여야 할 때만 렌더링
-  if (!showButtons) {
+  if (!isShow) {
     return null;
   }
 
   return (
     <div className="fixed border shadow-lg right-[40px] bottom-[180px] flex flex-col gap-2">
-      <div
+      <button
         onClick={scrollToTop}
         className="relative w-[50px] h-[50px] flex items-center justify-center cursor-pointer"
       >
@@ -54,13 +55,14 @@ export default function UpDownButtons() {
           height={30}
           alt="Up Arrow"
         />
-      </div>
-      <div
+      </button>
+      <hr />
+      <button
         onClick={scrollToBottom}
         className="relative w-[50px] h-[50px] flex items-center justify-center cursor-pointer"
       >
         <Image src={updownArrow} width={30} height={30} alt="Down Arrow" />
-      </div>
+      </button>
     </div>
   );
 }

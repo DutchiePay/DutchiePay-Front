@@ -24,9 +24,9 @@ export default function Product_List() {
       title="애슐리 볶음밥 10인분 혼합 구성 10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침 대용 직장인 도시락"
       className="w-[240px] border px-[12px] py-[8px] flex flex-col justify-center gap-[4px]"
     >
-      <div className="w-[210px] h-[210px] rounded-xl relative">
+      <div className="w-[210px] h-[210px] rounded-xl relative overflow-hidden">
         <Image
-          className={`w-[210px] h-[210px] rounded-xl ${isEnd ? 'grayscale' : ''}`}
+          className={`w-[210px] h-[210px] rounded-xl transform transition-transform duration-300 hover:scale-110 ${isEnd ? 'grayscale-[50%]' : ''}`}
           src={product}
           alt="애슐리 볶음밥"
           width={210}

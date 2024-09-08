@@ -112,11 +112,17 @@ export default function UsedDetail() {
               <div className="flex gap-[16px]">
                 {isMyPostWritten ? (
                   <>
-                    <button className="text-sm text-gray--500">수정하기</button>
-                    <button className="text-sm text-gray--500">삭제하기</button>
+                    <button className="text-sm text-gray--500 hover:underline">
+                      수정하기
+                    </button>
+                    <button className="text-sm text-gray--500 hover:underline">
+                      삭제하기
+                    </button>
                   </>
                 ) : (
-                  <button className="text-sm text-gray--500">신고하기</button>
+                  <button className="text-sm text-gray--500 hover:underline">
+                    신고하기
+                  </button>
                 )}
               </div>
             </div>
@@ -186,13 +192,13 @@ export default function UsedDetail() {
               <strong>진행 상태</strong>
               {isMyPostWritten ? (
                 <div className="w-[130px] relative">
-                  <select className="select-no-arrow border w-[130px] px-[12px] py-[4px] rounded-lg outline-none">
+                  <select className="select-no-arrow border w-[130px] px-[12px] py-[4px] rounded-lg outline-none cursor-pointer">
                     <option>{isTrade ? '거래' : '나눔'} 대기중</option>
                     <option>예약중</option>
                     <option>{isTrade ? '거래' : '나눔'} 완료</option>
                   </select>
                   <Image
-                    className="w-[12px] h-[6px] absolute top-[14px] right-[8px] cursor-pointer pointer-events-none"
+                    className="w-[12px] h-[6px] absolute top-[14px] right-[8px] pointer-events-none"
                     src={selectArrow}
                     alt="arrow"
                     width={12}

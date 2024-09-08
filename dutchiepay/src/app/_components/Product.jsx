@@ -22,9 +22,9 @@ export default function Product() {
       href="/commerce/123"
       className="w-[220px] border px-[12px] py-[8px] flex flex-col gap-[4px]"
     >
-      <div className="w-full h-[148px] rounded-xl relative">
+      <div className="w-full h-[148px] rounded-xl relative overflow-hidden">
         <Image
-          className={`w-full h-[148px] rounded-xl ${isEnd ? 'grayscale' : ''}`}
+          className={`w-full h-[148px] rounded-xl transform transition-transform duration-300 hover:scale-110 ${isEnd ? 'grayscale-[50%]' : ''}`}
           src={product}
           alt="애슐리 볶음밥"
           width={148}

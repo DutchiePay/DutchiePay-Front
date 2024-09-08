@@ -6,7 +6,7 @@ import heart from '../../../../public/image/emptyHeart.svg';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function ProductInfo() {
+export default function ProductInfo({ isEnd }) {
   const router = useRouter();
   const [quantity, setQuantity] = useState(1);
 
@@ -117,7 +117,7 @@ export default function ProductInfo() {
         </button>
       </div>
       <button
-        className="bg-blue--500 text-white font-bold py-[12px] w-full rounded"
+        className={`${isEnd ? 'bg-gray--200 cursor-not-allowed' : 'bg-blue--500'} text-white font-bold py-[12px] w-full rounded`}
         onClick={handleOrder}
       >
         결제하기

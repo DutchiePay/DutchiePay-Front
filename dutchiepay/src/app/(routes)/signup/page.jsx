@@ -456,7 +456,7 @@ export default function Signup() {
                 className="ml-[12px] text-gray-500 cursor-pointer text-sm"
                 htmlFor="signup-policy__checkbox"
               >
-                [필수] 개인정보 수집 동의 및 이용 안내
+                <strong>[필수]</strong> 개인정보 수집 동의 및 이용 안내
               </label>
             </div>
 
@@ -467,20 +467,27 @@ export default function Signup() {
               {isShowPolicy ? '-' : '+'}
             </span>
           </div>
-          <p className="text-sm text-red--500 min-h-[20px] mb-[8px]">
-            {errors.policy ? errors.policy.message : ''}
-          </p>
           {isShowPolicy && <PolicyDetail />}
 
           <button
             type="submit"
-            className={`px-[24px] py-[8px] text-bold w-full rounded-[4px] text-white text-[18px] border-none mb-[100px] ${
+            className={`px-[24px] py-[8px] text-bold w-full rounded-[4px] text-white text-[18px] border-none ${
               isValid ? 'bg-blue--500' : 'bg-gray--200 cursor-not-allowed'
             }`}
             disabled={!isValid || isSubmitting}
           >
             회원가입
           </button>
+          <Link
+            href="/"
+            className="text-gray--500 text-sm text-center mt-[8px] underline"
+            role="button"
+          >
+            메인으로 돌아가기
+          </Link>
+          <small className="text-red--400 text-center mb-[80px]">
+            메인으로 돌아갈 경우, 지금까지 작성한 내용은 복구할 수 없습니다
+          </small>
         </form>
       </section>
     </main>

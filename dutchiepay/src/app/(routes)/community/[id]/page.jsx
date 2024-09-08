@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 export default function CommunityDetail() {
   const router = useRouter();
-  const [isMyPostWritten, setIsMyPostWritten] = useState(false);
+  const [isMyPostWritten, setIsMyPostWritten] = useState(true);
 
   const handlePrevButtonClick = () => {
     router.back();
@@ -91,12 +91,16 @@ export default function CommunityDetail() {
               <div className="flex gap-[16px]">
                 {isMyPostWritten ? (
                   <>
-                    <button className="text-sm text-gray--500">수정하기</button>
-                    <button className="text-sm text-gray--500">삭제하기</button>
+                    <button className="text-sm text-gray--500 hover:underline">
+                      수정하기
+                    </button>
+                    <button className="text-sm text-gray--500 hover:underline">
+                      삭제하기
+                    </button>
                   </>
                 ) : (
                   <button
-                    className="text-sm text-gray--500"
+                    className="text-sm text-gray--500 hover:underline"
                     onClick={reportPopup}
                   >
                     신고하기

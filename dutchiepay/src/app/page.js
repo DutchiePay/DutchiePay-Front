@@ -5,14 +5,14 @@ import '@/styles/landing.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
+import { useRef, useState } from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
-
 import MainCarousel from './_components/_landing/MainCarousel';
 import Product_Hot from './_components/_landing/Product_Hot';
 import Product_Main from './_components/_landing/Product_Main';
 import RecommendCarousel from './_components/_landing/RecommendCarousel';
-import { useRef, useState } from 'react';
 
 export default function Home() {
   const recommendCarouselRef = useRef(null);
@@ -48,8 +48,8 @@ export default function Home() {
         <MainCarousel />
       </section>
       <section className="w-full mx-auto my-0">
-        <h2 className="main__title">새로 등록된 공구</h2>
-        <div className="mt-[24px] flex justify-between">
+        <h2 className="main__title">최근 공구가 시작됐어요!</h2>
+        <div className="mt-[8px] flex justify-between">
           <Product_Main />
           <Product_Main />
           <Product_Main />
@@ -61,7 +61,7 @@ export default function Home() {
       <section>
         <div className="flex items-center justify-between mb-[16px] relative">
           <div className="flex-grow flex justify-center items-center gap-[12px]">
-            <h2 className="main__title ml-[65px] ">더취페이 추천</h2>
+            <h2 className="main__title ml-[65px] ">더취페이가 추천해요!</h2>
             <div className="h-[25px] border border-gray--300 rounded-xl px-[8px] text-sm text-gray--500 font-semibold flex items-center">
               AD
             </div>

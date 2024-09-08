@@ -14,7 +14,7 @@ export default function MyPost() {
     setFilter(e.target.innerText);
   };
   return (
-    <main className="ml-[250px] p-[30px] min-h-[750px]">
+    <main className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">활동내역</h1>
       <ul className="flex gap-[8px] my-[16px]">
         <li
@@ -30,7 +30,7 @@ export default function MyPost() {
           댓글 남긴 게시글
         </li>
       </ul>
-      <section className="flex flex-wrap gap-[16px]">
+      <section className="flex flex-wrap gap-[12px]">
         <Post />
         <Post />
         <Post />

@@ -116,11 +116,18 @@ export default function Find() {
                   </p>
                   <button
                     type="submit"
-                    className={`${isValid ? 'user__button-blue' : 'user__button-gray'} `}
+                    className={`${isValid ? 'user__button-blue' : 'user__button-gray cursor-not-allowed'} `}
                     disabled={!isValid}
                   >
                     아이디(이메일) 찾기
                   </button>
+                  <Link
+                    href="/"
+                    className="text-gray--500 text-sm text-center underline"
+                    role="button"
+                  >
+                    메인으로 돌아가기
+                  </Link>
                 </form>
               </div>
             )}
@@ -186,11 +193,18 @@ export default function Find() {
                   </p>
                   <button
                     type="submit"
-                    className={`${isValid ? 'user__button-blue' : 'user__button-gray'} `}
+                    className={`${isValid ? 'user__button-blue' : 'user__button-gray cursor-not-allowed'} `}
                     disabled={!isValid}
                   >
                     비밀번호 재설정
                   </button>
+                  <Link
+                    href="/"
+                    className="text-gray--500 text-sm text-center underline"
+                    role="button"
+                  >
+                    메인으로 돌아가기
+                  </Link>
                 </form>
               </div>
             )}

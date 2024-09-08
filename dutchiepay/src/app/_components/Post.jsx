@@ -9,9 +9,9 @@ import mart from '../../../public/image/mart.jpg';
 export default function Post() {
   return (
     <div className="w-[220px] border px-[12px] py-[8px] flex flex-col gap-[4px] cursor-pointer">
-      <div className="w-full h-[148px] rounded-xl relative">
+      <div className="w-full h-[148px] rounded-xl relative overflow-hidden">
         <Image
-          className="w-full h-[148px] rounded-xl"
+          className="w-full h-[148px] rounded-xl transform transition-transform duration-300 hover:scale-110"
           src={mart}
           alt="마트/배달"
           width="auto"

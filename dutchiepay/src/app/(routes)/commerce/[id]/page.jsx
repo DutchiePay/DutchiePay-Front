@@ -17,6 +17,7 @@ import time from '../../../../../public/image/time.svg';
 
 export default function CommerceDetail() {
   const [tab, setTab] = useState('상품정보');
+  const [isEnd, setIsEnd] = useState(false); // 마감 여부
 
   const infoRef = useRef(null);
   const reviewRef = useRef(null);
@@ -77,10 +78,14 @@ export default function CommerceDetail() {
               width={15}
               height={15}
             />
-            <RemainingTime endTime={endDateString} />
+            <RemainingTime
+              endTime={endDateString}
+              isEnd={isEnd}
+              setIsEnd={setIsEnd}
+            />
           </div>
         </div>
-        <ProductInfo />
+        <ProductInfo isEnd={isEnd} />
       </section>
       <ul className="mt-[40px] flex gap-[52px] border border-2 border-t-black py-[12px] px-[40px] sticky top-[154px] bg-white z-50">
         <li
