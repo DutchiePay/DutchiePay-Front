@@ -8,6 +8,7 @@ const initialState = {
     access: '',
     expirationTime: '',
   },
+  // 인증 여부
 };
 
 // 로그인 슬라이스 생성
@@ -22,7 +23,7 @@ const loginSlice = createSlice({
     },
     logout(state) {
       state.isLoggedIn = false;
-      state.user = null; // 로그아웃 시 사용자 정보 초기화
+      state.user = null; // 로그아웃 시 사용자 정보 초기화 initialState.user
       state.jwt = { access: '', expirationTime: '' };
     },
   },

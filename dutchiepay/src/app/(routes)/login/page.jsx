@@ -139,7 +139,12 @@ export default function Login() {
                 />
                 {loginType === 'naver' && (
                   <div className="user-last__login user-last__login--naver">
-                    <div className="absolute w-[50px] h-[50px] top-[0px] left-[30%] bg-white z-[-1] text-red"></div>
+                    <div
+                      className="absolute w-[50px] h-[50px] top-[0px] left-[30%] bg-white z-[-1]"
+                      aria-hidden="true"
+                    >
+                      {/* 말풍선꼬리 */}
+                    </div>
                     <strong>마지막</strong>으로
                     <br />
                     로그인한 방식
@@ -154,7 +159,12 @@ export default function Login() {
                 />
                 {loginType === 'kakao' && (
                   <div className="user-last__login user-last__login--kakao">
-                    <div className="absolute w-[50px] h-[50px] top-[0px] left-[30%] bg-white z-[-1] text-red"></div>
+                    <div
+                      className="absolute w-[50px] h-[50px] top-[0px] left-[30%] bg-white z-[-1]"
+                      aria-hidden="true"
+                    >
+                      {/* 말풍선꼬리 */}
+                    </div>
                     <strong>마지막</strong>으로
                     <br /> 로그인한 방식
                   </div>

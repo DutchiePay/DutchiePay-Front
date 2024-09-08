@@ -118,6 +118,7 @@ export default function ProductInfo({ isEnd }) {
       </div>
       <button
         className={`${isEnd ? 'bg-gray--200 cursor-not-allowed' : 'bg-blue--500'} text-white font-bold py-[12px] w-full rounded`}
+        disabled={isEnd}
         onClick={handleOrder}
       >
         결제하기

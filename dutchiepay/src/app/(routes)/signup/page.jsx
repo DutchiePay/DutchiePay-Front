@@ -22,7 +22,6 @@ export default function Signup() {
     useState(false);
   const [isShowPolicy, setIsShowPolicy] = useState(false);
   const [isAuthInputVisible, setIsAuthInputVisible] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [address, setAddress] = useState('');
   const [isPhoneValid, setIsPhoneValid] = useState(false); // New state for phone number validity
 
@@ -30,7 +29,7 @@ export default function Signup() {
     register,
     watch,
     handleSubmit,
-    formState: { errors, isValid, touchedFields },
+    formState: { errors, isValid, isSubmitting, touchedFields },
   } = useForm({
     mode: 'onBlur',
     criteriaMode: 'all',

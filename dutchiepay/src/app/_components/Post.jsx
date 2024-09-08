@@ -43,10 +43,10 @@ export default function Post() {
         영감을 줄 것입니다.
       </p>
       <div className="flex justify-between items-center">
-        <p className="text-xs font-semibold">3시간 전</p>
+        <p className="text-xs font-medium text-gray--500">3시간 전</p>
         <div className="flex items-center">
           <Image src={comment} width={15} height={15} alt="댓글" />
-          <p className="text-xs ml-[4px]">99+</p>
+          <p className="text-xs ml-[4px] text-gray--500">99+</p>
         </div>
       </div>
     </div>
