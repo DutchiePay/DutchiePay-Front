@@ -54,7 +54,7 @@ export default function Info() {
 
           try {
             const response = await axios.get(
-              `https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?coords=${longitude},${latitude}&output=json`,
+              `/api/map-reversegeocode/gc?coords=${longitude},${latitude}&output=json`,
               {
                 headers: {
                   'X-NCP-APIGW-API-KEY-ID':
@@ -68,9 +68,7 @@ export default function Info() {
             const address = response.data.results[0].region;
             setUserInfo((prevState) => ({
               ...prevState,
-              location: address.area1.name,
-              address: address.jibunAddress,
-              zipcode: address.zipcode,
+              location: address.area2.name,
             }));
           } catch (error) {
             console.error('Error fetching address:', error);
