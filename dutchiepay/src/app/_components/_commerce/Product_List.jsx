@@ -12,7 +12,7 @@ import { useState } from 'react';
 export default function Product_List() {
   const [isLiked, setIsLiked] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
-  const [isTodayEnd, setIsTodayEnd] = useState(false); // 오늘 마감 (추후에는 제거될 데이터)
+  const [isTodayEnd, setIsTodayEnd] = useState(true); // 오늘 마감 (추후에는 제거될 데이터)
 
   const handleIsLiked = (e) => {
     e.preventDefault(); // Link 동작하지 않도록 함

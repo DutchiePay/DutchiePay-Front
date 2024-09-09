@@ -104,27 +104,6 @@ export default function SearchSection() {
                 커뮤니티
               </li>
             </ul>
-
-            <ul className="flex">
-              <li
-                className={`fillter__item ${filter === '최신순' && 'fillter__item--selected'}`}
-                onClick={(e) => setFilter(e.target.innerText)}
-              >
-                최신순
-              </li>
-              <li
-                className={`fillter__item ${filter === '댓글많은순' && 'fillter__item--selected'}`}
-                onClick={(e) => setFilter(e.target.innerText)}
-              >
-                댓글많은순
-              </li>
-              <li
-                className={`fillter__item ${filter === '조회수순' && 'fillter__item--selected'}`}
-                onClick={(e) => setFilter(e.target.innerText)}
-              >
-                조회수순
-              </li>
-            </ul>
           </div>
           <div className="flex justify-between mt-[16px] px-[12px]">
             <Post />
