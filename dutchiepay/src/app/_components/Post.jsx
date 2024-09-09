@@ -20,7 +20,7 @@ export default function Post() {
           src={mart}
           alt="마트/배달"
           fill
-          objectFit="cover"
+          style={{ objectFit: 'cover' }}
         />
       </div>
       <div className="flex justify-between items-center py-[6px] border-b">

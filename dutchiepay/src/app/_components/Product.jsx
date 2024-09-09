@@ -28,7 +28,7 @@ export default function Product() {
           src={product}
           alt="애슐리 볶음밥"
           fill
-          objectFit="cover"
+          style={{ objectFit: 'cover' }}
         />
       </div>
       <div className="flex justify-between items-center py-[6px] border-b">
@@ -68,11 +68,11 @@ export default function Product() {
       </div>
 
       <div className="mt-[4px] flex justify-between items-baseline">
-        <p
+        <span
           className={`${isEnd ? '' : 'text-blue--500'} text-lg font-semibold flex items-baseline gap-[4px]`}
         >
           43%<p className="text-sm font-medium">달성</p>
-        </p>
+        </span>
         <p
           className={`${isTodayEnd ? 'text-red--500' : 'text-gray--500'} text-xs font-semibold`}
         >

@@ -15,7 +15,14 @@ export default function Product_Hot() {
         title="애슐리 볶음밥 10인분 혼합 구성 10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침 대용 직장인 도시락"
         className="w-[480px] flex items-center"
       >
-        <Image src={product} alt="애슐리 볶음밥" width={200} height={200} />
+        <div className="w-[200px] h-[200px] relative">
+          <Image
+            src={product}
+            alt="애슐리 볶음밥"
+            fill
+            style={{ objectFit: 'cover' }}
+          />
+        </div>
         <div className="w-[240px] pl-[16px]">
           <div className="flex items-center gap-[4px]">
             <Image

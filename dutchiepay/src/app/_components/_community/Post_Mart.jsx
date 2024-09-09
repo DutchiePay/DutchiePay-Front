@@ -24,9 +24,8 @@ export default function Post_Mart() {
           className={`rounded-t-xl w-[240px] h-[160px] transform transition-transform duration-300 hover:scale-110 ${isEnd ? 'grayscale-[50%]' : ''}`}
           src={hasThumbnail ? '' : mart}
           alt="썸네일"
-          width={240}
-          height="auto"
-          unoptimized
+          fill
+          style={{ objectFit: 'cover' }}
         />
         <div className="absolute top-[8px] left-[8px] text-xs text-blue--500 font-bold bg-white rounded-lg w-[54px] py-[2px] flex justify-center">
           모집완료

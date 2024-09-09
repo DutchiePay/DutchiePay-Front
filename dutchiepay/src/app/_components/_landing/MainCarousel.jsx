@@ -71,12 +71,11 @@ export default function MainCarousel() {
       <Slider className="w-[1020px]" ref={sliderRef} {...settings}>
         <Link href="/mart" className="h-[400px] relative">
           <Image
-            className="h-full"
+            className="w-full h-[400px]"
             src={carousel1}
             alt="더취페이 메인"
-            width={1020}
-            height={400}
-            unoptimized
+            fill
+            style={{ objectFit: 'cover' }}
           />
           <div className="flex flex-col gap-[4px] absolute top-[120px] left-[40px]">
             <span className="text-3xl flex font-semibold">
@@ -90,12 +89,11 @@ export default function MainCarousel() {
         </Link>
         <Link href="/commerce" className="h-[400px] relative">
           <Image
-            className="h-full"
+            className="h-full w-[400px]"
             src={carousel2}
             alt="더취페이 메인"
-            width={1020}
-            height={400}
-            unoptimized
+            fill
+            style={{ objectFit: 'cover' }}
           />
           <div className="flex flex-col gap-[4px] absolute top-[120px] left-[40px]">
             <p className="text-3xl flex font-semibold">

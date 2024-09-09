@@ -32,8 +32,8 @@ export default function Product_List() {
           className={`w-full h-[240px] transform transition-transform duration-300 hover:scale-110`}
           src={product}
           alt="애슐리 볶음밥"
-          width={210}
-          height={210}
+          fill
+          style={{ objectFit: 'cover' }}
         />
       </div>
       <div className="flex justify-between items-center py-[6px] border-b">
