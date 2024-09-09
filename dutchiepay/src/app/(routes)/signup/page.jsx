@@ -94,27 +94,29 @@ export default function Signup() {
           const { latitude, longitude } = position.coords;
 
           try {
-            const response = await fetch(
-              `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+            const response = await axios.get(
+              `/api/map-reversegeocode/gc?coords=${longitude},${latitude}&output=json`,
+              {
+                headers: {
+                  'X-NCP-APIGW-API-KEY-ID':
+                    process.env.NEXT_PUBLIC_MAP_CLIENT_ID,
+                  'X-NCP-APIGW-API-KEY':
+                    process.env.NEXT_PUBLIC_MAP_CLIENT_SECRET,
+                },
+              }
             );
-            const data = await response.json();
-            console.log(address);
-
-            const addressString = data.address
-              ? `${data.address.borough || ''} ${data.address.suburb || ''}`.trim()
-              : '주소를 찾을 수 없습니다.';
-            setAddress(addressString);
+            const address = response.data.results[0].region;
+            setAddress(address.area2.name);
           } catch (error) {
-            console.error('API 호출 실패:', error);
-            setAddress('주소를 찾을 수 없습니다.');
+            console.error('주소 가져오기 오류:', error);
           }
         },
         (error) => {
-          console.error('위치를 가져오는 데 실패했습니다:', error);
+          console.error('위치 가져오기 오류:', error);
         }
       );
     } else {
-      console.error('Geolocation API를 지원하지 않습니다.');
+      alert('이 브라우저는 지오로케이션을 지원하지 않습니다.');
     }
   };
 
