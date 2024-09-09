@@ -3,27 +3,37 @@ import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import comment from '../../../public/image/comment.svg';
 import mart from '../../../public/image/mart.jpg';
+import profile from '../../../public/image/profile.jpg';
 
 export default function Post() {
   return (
-    <div className="w-[220px] border px-[12px] py-[8px] flex flex-col gap-[4px] cursor-pointer">
-      <div className="w-full h-[148px] rounded-xl relative overflow-hidden">
+    <Link
+      href="/mart/123"
+      className="w-[220px] flex flex-col gap-[4px] cursor-pointer"
+    >
+      <div className="w-full h-[148px] relative overflow-hidden">
         <Image
-          className="w-full h-[148px] rounded-xl transform transition-transform duration-300 hover:scale-110"
+          className="w-full h-[148px] transform transition-transform duration-300 hover:scale-110"
           src={mart}
           alt="마트/배달"
-          width="auto"
-          height={148}
+          fill
+          objectFit="cover"
         />
       </div>
-
-      <p className="text-blue--500 text-xs font-bold mt-[4px]">마트/배달</p>
-      <strong className="title--single-line">
+      <div className="flex justify-between items-center py-[6px] border-b">
+        <p className="text-blue--500 text-sm font-semibold">마트/배달</p>
+        <div className="flex items-center gap-[8px]">
+          <Image src={comment} width={20} height={20} alt="댓글" />
+          <p className="text-sm text-gray--500">99+</p>
+        </div>
+      </div>
+      <strong className="mt-[4px] title--multi-line">
         효과적인 의사소통을 위한 비언어적 신호
       </strong>
-      <p className="text-xs title--multi-line title--multi-line-3 mt-[4px] mb-[8px]">
+      <p className="text-xs text-gray--500 title--multi-line title--multi-line-3 mt-[4px] mb-[8px]">
         건강과 지속 가능성을 추구하는 이들을 위해, 맛과 영양이 가득한 채식 요리
         레시피를 소개합니다. 이 글에서는 간단하지만 맛있는 채식 요리 10가지를
         선보입니다. 첫 번째 레시피는 아보카도 토스트, 아침 식사로 완벽하며
@@ -42,13 +52,19 @@ export default function Post() {
         보여줍니다. 건강한 라이프스타일을 추구하는 모든 이들에게 이 레시피들이
         영감을 줄 것입니다.
       </p>
-      <div className="flex justify-between items-center">
-        <p className="text-xs font-medium text-gray--500">3시간 전</p>
-        <div className="flex items-center">
-          <Image src={comment} width={15} height={15} alt="댓글" />
-          <p className="text-xs ml-[4px] text-gray--500">99+</p>
+      <div className="w-full flex justify-between items-center">
+        <div className="flex gap-[4px] items-center">
+          <Image
+            className="w-[16px] h-[16px] border rounded-full"
+            src={profile}
+            alt="profile"
+            width={16}
+            height={16}
+          />
+          <p className="font-semibold text-xs">한유진</p>
         </div>
+        <p className="text-[12px] text-gray--500">3시간 전</p>
       </div>
-    </div>
+    </Link>
   );
 }

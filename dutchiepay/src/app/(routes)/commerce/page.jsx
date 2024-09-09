@@ -1,6 +1,7 @@
 'use client';
 
 import '@/styles/commerce.css';
+import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Product_List from '@/app/_components/_commerce/Product_List';
@@ -173,32 +174,32 @@ export default function Commerce() {
         </div>
         <ul className="flex">
           <li
-            className={`commerce-fillter__item ${filter === '최신순' ? 'commerce-fillter__item--selected' : ''}`}
+            className={`fillter__item ${filter === '최신순' ? 'fillter__item--selected' : ''}`}
             onClick={(e) => handleFilter(e)}
           >
             최신순
           </li>
           <li
-            className={`commerce-fillter__item ${filter === '마감임박순' ? 'commerce-fillter__item--selected' : ''}`}
+            className={`fillter__item ${filter === '마감임박순' ? 'fillter__item--selected' : ''}`}
             onClick={(e) => handleFilter(e)}
           >
             마감임박순
           </li>
           <li
-            className={`commerce-fillter__item ${filter === '좋아요순' ? 'commerce-fillter__item--selected' : ''}`}
+            className={`fillter__item ${filter === '좋아요순' ? 'fillter__item--selected' : ''}`}
             onClick={(e) => handleFilter(e)}
           >
             좋아요순
           </li>
           <li
-            className={`commerce-fillter__item ${filter === '할인율순' ? 'commerce-fillter__item--selected' : ''}`}
+            className={`fillter__item ${filter === '할인율순' ? 'fillter__item--selected' : ''}`}
             onClick={(e) => handleFilter(e)}
           >
             할인율순
           </li>
         </ul>
       </div>
-      <section className="flex flex-wrap gap-[20px] mt-[12px] mb-[60px]">
+      <section className="flex flex-wrap gap-[30px] mt-[12px] mb-[60px]">
         <Product_List />
         <Product_List />
         <Product_List />

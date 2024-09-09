@@ -2,13 +2,13 @@
 
 import '../styles/globals.css';
 
+import Floating from './_components/_layout/Floating';
 import Footer from './_components/_layout/Footer';
 import Header from './_components/_layout/Header';
 import { Provider } from 'react-redux';
+import UpDownButton from './_components/_layout/UpDownButton';
 import store from '@/redux/store';
 import { usePathname } from 'next/navigation';
-import Floating from './_components/_layout/Floating';
-import UpDownButton from './_components/_layout/UpDownButton';
 
 export default function RootLayoutClient({ children }) {
   const pathname = usePathname();
@@ -19,7 +19,10 @@ export default function RootLayoutClient({ children }) {
   const rhideFooter = pathname.match(
     /\/(ask|report|cancel|refund|review|coupon)/
   );
-  const rhideFloating = pathname.match(/\/(login|find|signup)/);
+  const rhideFloating = pathname.match(
+    /\/(login|find|signup|ask|report|cancel|refund|review|coupon)/
+  );
+
   return (
     <Provider store={store}>
       {!rhideHeader && <Header />}

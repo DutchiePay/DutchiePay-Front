@@ -60,9 +60,12 @@ export default function Reset() {
       </h1>
       <section className="flex flex-col w-[500px]">
         <h2 className="text-2xl font-bold">비밀번호 재설정</h2>
-        <p className="text-sm">새로운 비밀번호로 재설정해주세요.</p>
+        <p className="text-sm">
+          비밀번호 재설정을 위해 새 비밀번호를 입력하고 '재설정' 버튼을
+          눌러주세요.
+        </p>
         <form
-          className="flex flex-col gap-[12px] mt-[40px]"
+          className="flex flex-col gap-[8px] mt-[40px]"
           onSubmit={handleSubmit(onSubmit)}
         >
           <div className="flex flex-col gap-[8px]">

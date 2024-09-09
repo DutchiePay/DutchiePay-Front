@@ -42,6 +42,23 @@
   appearance: none;
 }
 
+.fillter__item {
+  font-size: 13px;
+  color: #8c8f9a;
+}
+
+.fillter__item--selected {
+  color: #000;
+  font-weight: 600;
+}
+
+.fillter__item:not(:last-child)::after {
+  content: '|';
+  width: 1px;
+  color: #8c8f9a;
+  margin: 0 8px;
+}
+
 /* HTML: <div class="loader"></div> */
 .loader {
   --r1: 154%;
