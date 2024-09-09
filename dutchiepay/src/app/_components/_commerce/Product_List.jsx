@@ -72,11 +72,11 @@ export default function Product_List() {
         <strong>27,500원</strong>
       </div>
       <div className="mt-[8px] flex justify-between items-baseline">
-        <p
+        <span
           className={`${isEnd ? '' : 'text-blue--500'} text-lg font-semibold flex gap-[4px] items-baseline`}
         >
           43%<p className="text-sm font-medium">달성</p>
-        </p>
+        </span>
         <p
           className={`${isTodayEnd ? 'text-red--500' : 'text-gray--500'} text-xs font-semibold`}
         >
