@@ -10,11 +10,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Post from '@/app/_components/Post';
 import Product_Like from '@/app/_components/Product';
-import arrow from '../../../../../public/image/arrow.svg';
 import { useState } from 'react';
 
 export default function SearchSection() {
-  const params = useParams();
   const searchParams = useSearchParams();
   const { section } = useParams();
   const keyword = searchParams.get('keyword') || '검색어 없음';
@@ -22,7 +20,7 @@ export default function SearchSection() {
   const [category, setCategory] = useState('전체');
 
   return (
-    <main className="min-h-[750px] w-[1020px] mb-[100px]">
+    <section className="min-h-[750px] w-[1020px] mb-[100px]">
       <h2 className="mt-[40px] text-2xl font-bold">
         '{keyword}'에 대한 검색결과
       </h2>
@@ -33,32 +31,38 @@ export default function SearchSection() {
           </p>
           <div className="flex justify-between mt-[16px]">
             <div className="flex items-center">
-              <input type="checkbox" className="input__checkbox" />
-              <label className="ml-[8px] text-sm">마감포함</label>
+              <input
+                type="checkbox"
+                id="include-expired"
+                className="input__checkbox"
+              />
+              <label className="ml-[8px] text-sm" htmlFor="include-expired">
+                마감포함
+              </label>
             </div>
 
             <ul className="flex">
               <li
                 className={`fillter__item ${filter === '최신순' && 'fillter__item--selected'}`}
-                onClick={(e) => setFilter(e.target.innerText)}
+                onClick={() => setFilter('최신순')}
               >
                 최신순
               </li>
               <li
                 className={`fillter__item ${filter === '좋아요순' && 'fillter__item--selected'}`}
-                onClick={(e) => setFilter(e.target.innerText)}
+                onClick={() => setFilter('좋아요순')}
               >
                 좋아요순
               </li>
               <li
                 className={`fillter__item ${filter === '할인율순' && 'fillter__item--selected'}`}
-                onClick={(e) => setFilter(e.target.innerText)}
+                onClick={() => setFilter('할인율순')}
               >
                 할인율순
               </li>
               <li
                 className={`fillter__item ${filter === '마감임박순' && 'fillter__item--selected'}`}
-                onClick={(e) => setFilter(e.target.innerText)}
+                onClick={() => setFilter('마감임박순')}
               >
                 마감임박순
               </li>
@@ -79,29 +83,37 @@ export default function SearchSection() {
           </p>
           <div className="flex justify-between items-end mt-[16px]">
             <ul className="flex gap-[12px]">
-              <li
-                className={`community__filter ${category === '전체' && 'community__filter--selected'}`}
-                onClick={(e) => setCategory(e.target.innerText)}
-              >
-                전체
+              <li>
+                <button
+                  className={`community__filter ${category === '전체' && 'community__filter--selected'}`}
+                  onClick={() => setCategory('전체')}
+                >
+                  전체
+                </button>
               </li>
-              <li
-                className={`community__filter ${category === '마트/배달' && 'community__filter--selected'}`}
-                onClick={(e) => setCategory(e.target.innerText)}
-              >
-                마트/배달
+              <li>
+                <button
+                  className={`community__filter ${category === '마트/배달' && 'community__filter--selected'}`}
+                  onClick={() => setCategory('마트/배달')}
+                >
+                  마트/배달
+                </button>
               </li>
-              <li
-                className={`community__filter ${category === '거래/나눔' && 'community__filter--selected'}`}
-                onClick={(e) => setCategory(e.target.innerText)}
-              >
-                거래/나눔
+              <li>
+                <button
+                  className={`community__filter ${category === '거래/나눔' && 'community__filter--selected'}`}
+                  onClick={() => setCategory('거래/나눔')}
+                >
+                  거래/나눔
+                </button>
               </li>
-              <li
-                className={`community__filter ${category === '커뮤니티' && 'community__filter--selected'}`}
-                onClick={(e) => setCategory(e.target.innerText)}
-              >
-                커뮤니티
+              <li>
+                <button
+                  className={`community__filter ${category === '커뮤니티' && 'community__filter--selected'}`}
+                  onClick={() => setCategory('커뮤니티')}
+                >
+                  커뮤니티
+                </button>
               </li>
             </ul>
           </div>
@@ -113,6 +125,6 @@ export default function SearchSection() {
           </div>
         </section>
       )}
-    </main>
+    </section>
   );
 }

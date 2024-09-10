@@ -104,7 +104,7 @@ export default function Signup() {
   }, []);
 
   return (
-    <main className="w-full flex flex-col items-center justify-center min-h-[880px]">
+    <section className="w-full flex flex-col items-center justify-center min-h-[880px]">
       <Link href="/" className="mt-[80px]">
         <Image
           className="w-[200px] h-[120px] mb-[8px]"
@@ -470,6 +470,6 @@ export default function Signup() {
           </small>
         </form>
       </section>
-    </main>
+    </section>
   );
 }

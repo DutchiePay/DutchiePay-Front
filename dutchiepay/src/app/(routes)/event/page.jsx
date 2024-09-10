@@ -6,7 +6,7 @@ import event3 from '../../../../public/image/event3.jpg';
 
 export default function Event() {
   return (
-    <main className="min-h-[750px] w-[1020px] mb-[100px]">
+    <section className="min-h-[750px] w-[1020px] mb-[100px]">
       <h1 className="mt-[60px] font-bold text-3xl">진행 중인 이벤트</h1>
       <section className="mt-[30px]">
         <ul className="flex flex-col gap-[24px]">
@@ -66,6 +66,6 @@ export default function Event() {
           </li>
         </ul>
       </section>
-    </main>
+    </section>
   );
 }

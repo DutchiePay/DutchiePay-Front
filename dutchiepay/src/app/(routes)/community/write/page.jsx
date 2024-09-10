@@ -3,23 +3,12 @@
 import '@/styles/community.css';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import TextEditor from '@/app/_components/_community/TextEditor';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function CommunityWrite() {
   const [filter, setFilter] = useState('정보');
-  const [editorContent, setEditorContent] = useState('');
-  const router = useRouter();
-
-  const handleCancelButtonClick = (e) => {
-    e.preventDefault();
-    router.push('/community');
-  };
-
-  const handleFilter = (e) => {
-    setFilter(e.target.innerText);
-  };
 
   return (
     <main className="min-h-[750px] w-[1020px] mb-[100px]">
@@ -32,63 +21,82 @@ export default function CommunityWrite() {
             </p>
           </div>
           <ul className="flex gap-[16px]">
-            <li
-              className={`community__filter ${filter === '정보' ? `community__filter--selected` : ''}`}
-              onClick={(e) => handleFilter(e)}
-            >
-              정보
+            <li>
+              <button
+                className={`community__filter ${filter === '정보' ? `community__filter--selected` : ''}`}
+                onClick={() => setFilter('정보')}
+                type="button"
+              >
+                정보
+              </button>
             </li>
-            <li
-              className={`community__filter ${filter === '질문' ? `community__filter--selected` : ''}`}
-              onClick={(e) => handleFilter(e)}
-            >
-              질문
+            <li>
+              <button
+                className={`community__filter ${filter === '질문' ? `community__filter--selected` : ''}`}
+                onClick={() => setFilter('질문')}
+                type="button"
+              >
+                질문
+              </button>
             </li>
-            <li
-              className={`community__filter ${filter === '취미' ? `community__filter--selected` : ''}`}
-              onClick={(e) => handleFilter(e)}
-            >
-              취미
+            <li>
+              <button
+                className={`community__filter ${filter === '취미' ? `community__filter--selected` : ''}`}
+                onClick={() => setFilter('취미')}
+                type="button"
+              >
+                취미
+              </button>
             </li>
-            <li
-              className={`community__filter ${filter === '자유' ? `community__filter--selected` : ''}`}
-              onClick={(e) => handleFilter(e)}
-            >
-              자유
+            <li>
+              <button
+                className={`community__filter ${filter === '자유' ? `community__filter--selected` : ''}`}
+                onClick={() => setFilter('자유')}
+                type="button"
+              >
+                자유
+              </button>
             </li>
           </ul>
+
           <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
-            <label className="community__label">제목</label>
-            <p className="community__label-description">
+            <label className="community__label" htmlFor="title">
+              제목
+            </label>
+            <small className="community__label-description">
               게시글 제목을 입력해주세요. 최대 60글자까지 입력 가능합니다.
-            </p>
+            </small>
           </div>
           <input
+            id="title"
             className="community__input-text"
             type="text"
             placeholder="게시글 제목"
+            aria-required="true"
           />
           <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
-            <label className="community__label">내용</label>
-            <p className="community__label-description">
+            <label className="community__label" htmlFor="content">
+              내용
+            </label>
+            <small className="community__label-description">
               최대 3,000글자까지 입력 가능합니다.
-            </p>
+            </small>
           </div>
           <TextEditor />
-          <div className="flex justify-center gap-[16px] mt-[80px]">
+          <div className="flex justify-center gap-[16px] mt-[48px]">
             <button
               className="bg-blue--500 text-white text-lg font-semibold rounded-lg px-[60px] py-[8px]"
               type="submit"
             >
               등록
             </button>
-            <button
-              className="border border-blue--500 text-blue--500 text-lg font-semibold rounded-lg px-[60px] py-[8px]"
-              type="submit"
-              onClick={handleCancelButtonClick}
+            <Link
+              href="/community"
+              className="border border-blue--500 text-blue--500 text-lg font-semibold rounded-lg px-[60px] py-[6px]"
+              role="button"
             >
               취소
-            </button>
+            </Link>
           </div>
         </form>
       </section>

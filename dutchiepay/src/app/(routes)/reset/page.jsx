@@ -46,7 +46,7 @@ export default function Reset() {
   };
 
   return (
-    <main className="w-full flex flex-col items-center justify-center min-h-[890px]">
+    <section className="w-full flex flex-col items-center justify-center min-h-[890px]">
       <h1>
         <Link href="/">
           <Image
@@ -141,6 +141,6 @@ export default function Reset() {
           </Link>
         </form>
       </section>
-    </main>
+    </section>
   );
 }
