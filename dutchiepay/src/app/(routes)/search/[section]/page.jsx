@@ -39,25 +39,25 @@ export default function SearchSection() {
 
             <ul className="flex">
               <li
-                className={`commerce-fillter__item ${filter === '최신순' && 'commerce-fillter__item--selected'}`}
+                className={`fillter__item ${filter === '최신순' && 'fillter__item--selected'}`}
                 onClick={(e) => setFilter(e.target.innerText)}
               >
                 최신순
               </li>
               <li
-                className={`commerce-fillter__item ${filter === '좋아요순' && 'commerce-fillter__item--selected'}`}
+                className={`fillter__item ${filter === '좋아요순' && 'fillter__item--selected'}`}
                 onClick={(e) => setFilter(e.target.innerText)}
               >
                 좋아요순
               </li>
               <li
-                className={`commerce-fillter__item ${filter === '할인율순' && 'commerce-fillter__item--selected'}`}
+                className={`fillter__item ${filter === '할인율순' && 'fillter__item--selected'}`}
                 onClick={(e) => setFilter(e.target.innerText)}
               >
                 할인율순
               </li>
               <li
-                className={`commerce-fillter__item ${filter === '마감임박순' && 'commerce-fillter__item--selected'}`}
+                className={`fillter__item ${filter === '마감임박순' && 'fillter__item--selected'}`}
                 onClick={(e) => setFilter(e.target.innerText)}
               >
                 마감임박순
@@ -73,11 +73,11 @@ export default function SearchSection() {
         </section>
       )}
       {section === 'community' && (
-        <section className="mt-[40px]">
-          <div className="flex justify-between items-center mt-[16px]">
-            <p>
-              커뮤니티 <strong className="text-blue--500">300</strong>건
-            </p>
+        <section className="mt-[24px]">
+          <p>
+            커뮤니티 <strong className="text-blue--500">300</strong>건
+          </p>
+          <div className="flex justify-between items-end mt-[16px]">
             <ul className="flex gap-[12px]">
               <li
                 className={`community__filter ${category === '전체' && 'community__filter--selected'}`}
@@ -102,27 +102,6 @@ export default function SearchSection() {
                 onClick={(e) => setCategory(e.target.innerText)}
               >
                 커뮤니티
-              </li>
-            </ul>
-
-            <ul className="flex">
-              <li
-                className={`commerce-fillter__item ${filter === '최신순' && 'commerce-fillter__item--selected'}`}
-                onClick={(e) => setFilter(e.target.innerText)}
-              >
-                최신순
-              </li>
-              <li
-                className={`commerce-fillter__item ${filter === '댓글많은순' && 'commerce-fillter__item--selected'}`}
-                onClick={(e) => setFilter(e.target.innerText)}
-              >
-                댓글많은순
-              </li>
-              <li
-                className={`commerce-fillter__item ${filter === '조회수순' && 'commerce-fillter__item--selected'}`}
-                onClick={(e) => setFilter(e.target.innerText)}
-              >
-                조회수순
               </li>
             </ul>
           </div>
