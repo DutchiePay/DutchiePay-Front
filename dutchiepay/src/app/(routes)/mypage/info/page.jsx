@@ -1,9 +1,11 @@
 'use client';
 
 import '../../../../styles/mypage.css';
-import axios from 'axios';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import axios from 'axios';
+import getLocation from '@/app/_components/_user/GetLocation';
 import kakao from '../../../../../public/image/kakao.png';
 import naver from '../../../../../public/image/naver.png';
 import profile from '../../../../../public/image/profile.jpg';
@@ -46,42 +48,16 @@ export default function Info() {
       top: window.innerHeight / 2 - 600 / 2,
     });
   };
-  const handleGetCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
 
-          try {
-            const response = await axios.get(
-              `/api/map-reversegeocode/gc?coords=${longitude},${latitude}&output=json`,
-              {
-                headers: {
-                  'X-NCP-APIGW-API-KEY-ID':
-                    process.env.NEXT_PUBLIC_MAP_CLIENT_ID,
-                  'X-NCP-APIGW-API-KEY':
-                    process.env.NEXT_PUBLIC_MAP_CLIENT_SECRET,
-                },
-              }
-            );
-            // 추후 확인 예정 CORS
-            const address = response.data.results[0].region;
-            setUserInfo((prevState) => ({
-              ...prevState,
-              location: address.area2.name,
-            }));
-          } catch (error) {
-            console.error('Error fetching address:', error);
-          }
-        },
-        (error) => {
-          console.error('Error getting location:', error);
-        }
-      );
-    } else {
-      alert('Geolocation is not supported by this browser.');
-    }
+  const handleGetCurrentLocation = async () => {
+    // 정말 재설정 할 것인지 물어보는 alert 추가
+    const location = await getLocation();
+    setUserInfo((prevState) => ({
+      ...prevState,
+      location: location,
+    }));
   };
+
   return (
     <main className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">회원 정보</h1>

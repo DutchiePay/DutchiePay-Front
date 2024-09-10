@@ -11,6 +11,7 @@ import PolicyDetail from '@/app/_components/_user/PolicyDetail';
 import axios from 'axios';
 import eyeClosed from '../../../../public/image/eyeClosed.svg';
 import eyeOpen from '../../../../public/image/eyeOpen.svg';
+import getLocation from '@/app/_components/_user/GetLocation';
 import kakao from '../../../../public/image/kakao.png';
 import logo from '../../../../public/image/logo.jpg';
 import naver from '../../../../public/image/naver.png';
@@ -35,6 +36,9 @@ export default function Signup() {
     criteriaMode: 'all',
     reValidateMode: 'onChange',
     shouldFocusError: true,
+    defaultValues: {
+      name: '',
+    },
   });
 
   const rEmail =
@@ -75,53 +79,28 @@ export default function Signup() {
     const { confirmPassword, policy, name = '', ...userData } = formData;
     const payload = {
       ...userData,
-      address,
+      location: address,
       name: name.trim() === '' ? null : name,
     };
     console.log(payload);
     try {
-      const response = await axios.post('/users/signup', payload);
-      console.log('회원가입 성공:', response.data);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users/signup`,
+        payload
+      );
     } catch (error) {
       console.error('회원가입 실패:', error);
     }
   };
 
-  const getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-
-          try {
-            const response = await axios.get(
-              `/api/map-reversegeocode/gc?coords=${longitude},${latitude}&output=json`,
-              {
-                headers: {
-                  'X-NCP-APIGW-API-KEY-ID':
-                    process.env.NEXT_PUBLIC_MAP_CLIENT_ID,
-                  'X-NCP-APIGW-API-KEY':
-                    process.env.NEXT_PUBLIC_MAP_CLIENT_SECRET,
-                },
-              }
-            );
-            const address = response.data.results[0].region;
-            setAddress(address.area2.name);
-          } catch (error) {
-            console.error('주소 가져오기 오류:', error);
-          }
-        },
-        (error) => {
-          console.error('위치 가져오기 오류:', error);
-        }
-      );
-    } else {
-      alert('이 브라우저는 지오로케이션을 지원하지 않습니다.');
-    }
-  };
-
   useEffect(() => {
     getLocation();
+    const fetchLocation = async () => {
+      const location = await getLocation();
+      setAddress(location);
+    };
+
+    fetchLocation();
   }, []);
 
   return (
