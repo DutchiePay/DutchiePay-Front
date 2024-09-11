@@ -80,6 +80,7 @@ export default function ImagesModal({ onClose }) {
       <div className="mt-4 flex gap-2 justify-center">
         {thumbnails.map((thumbnail, index) => (
           <Image
+            key={index}
             className="relative w-[60px] h-[60px] cursor-pointer"
             src={thumbnail}
             objectFit="cover"

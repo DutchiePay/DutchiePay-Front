@@ -1,4 +1,5 @@
-import { forwardRef, useCallback, useMemo, useRef, useEffect } from 'react';
+import { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
+
 import Image from 'next/image';
 import Product_Main from './Product_Main';
 import RecommendCarouselArrow from '../../../../public/image/arrow/RecommendCarouselArrow.svg';
@@ -63,5 +64,7 @@ const RecommendCarousel = forwardRef(({ onSlideChange }, ref) => {
     </div>
   );
 });
+
+RecommendCarousel.displayName = 'RecommendCarousel';
 
 export default RecommendCarousel;

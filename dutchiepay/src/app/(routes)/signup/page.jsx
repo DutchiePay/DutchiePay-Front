@@ -88,6 +88,7 @@ export default function Signup() {
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/signup`,
         payload
       );
+      console.log(response.data);
     } catch (error) {
       console.error('회원가입 실패:', error);
     }
