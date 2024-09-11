@@ -21,14 +21,7 @@ export default function Order() {
   });
   const open = useDaumPostcodePopup();
 
-  /* 직접 입력 선택 시 true로 변경 */
-  const handleSelectChange = (e) => {
-    setIsSelfMessage(e.target.value === 'option5');
-  };
-
-  const handlePaymentMethod = (e) => {
-    setPaymentMethod(e.target.innerText);
-  };
+  const handlePaymentMethod = (e) => {};
 
   const couponPopup = (e) => {
     e.preventDefault();
@@ -53,7 +46,7 @@ export default function Order() {
   };
 
   return (
-    <main className="min-h-[750px] w-[1020px] mt-[40px] mb-[150px]">
+    <section className="min-h-[750px] w-[1020px] mt-[40px] mb-[150px]">
       <section>
         <h1 className="text-3xl font-bold">주문/결제</h1>
         <p className="text-xs text-gray--500">
@@ -116,6 +109,7 @@ export default function Order() {
             </tr>
           </tbody>
         </table>
+
         <section className="mt-[40px] flex justify-between">
           <div className="w-[600px] flex flex-col gap-[32px]">
             <form className="flex flex-col gap-[8px]">
@@ -179,7 +173,9 @@ export default function Order() {
                     <div className="w-[400px] relative">
                       <select
                         className="select-no-arrow w-[400px] px-[8px] py-[4px] text-sm border rounded-lg outline-none"
-                        onChange={handleSelectChange}
+                        onChange={() =>
+                          setIsSelfMessage(e.target.value === 'option5')
+                        }
                       >
                         <option value="">배송메시지를 선택해주세요.</option>
                         <option value="option1">
@@ -235,19 +231,19 @@ export default function Order() {
               <div className="flex justify-between">
                 <div
                   className={`product-order__button ${paymentMethod === '신용카드' && 'product-order__button__active'}`}
-                  onClick={handlePaymentMethod}
+                  onClick={() => setPaymentMethod('신용카드')}
                 >
                   신용카드
                 </div>
                 <div
                   className={`product-order__button ${paymentMethod === '무통장 입금' && 'product-order__button__active'}`}
-                  onClick={handlePaymentMethod}
+                  onClick={() => setPaymentMethod('무통장 입금')}
                 >
                   무통장 입금
                 </div>
                 <div
                   className={`product-order__button ${paymentMethod === '카카오페이' && 'product-order__button__active'}`}
-                  onClick={handlePaymentMethod}
+                  onClick={() => setPaymentMethod('카카오페이')}
                 >
                   카카오페이
                 </div>
@@ -296,6 +292,6 @@ export default function Order() {
           </div>
         </section>
       </section>
-    </main>
+    </section>
   );
 }

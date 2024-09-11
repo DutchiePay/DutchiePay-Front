@@ -16,33 +16,38 @@ export default function Used() {
 
   const [filter, setFilter] = useState('전체');
 
-  const handleFilter = (e) => {
-    setFilter(e.target.innerText);
-  };
-
   return (
-    <main className="min-h-[750px] w-[1020px] mb-[100px]">
+    <section className="min-h-[750px] w-[1020px] mb-[100px]">
       <div className="mt-[60px] flex justify-between">
-        <ul className="flex gap-[12px]">
-          <li
-            className={`community__filter ${filter === '전체' ? `community__filter--selected` : ''}`}
-            onClick={(e) => handleFilter(e)}
-          >
-            전체
-          </li>
-          <li
-            className={`community__filter ${filter === '나눔' ? `community__filter--selected` : ''}`}
-            onClick={(e) => handleFilter(e)}
-          >
-            나눔
-          </li>
-          <li
-            className={`community__filter ${filter === '거래' ? `community__filter--selected` : ''}`}
-            onClick={(e) => handleFilter(e)}
-          >
-            거래
-          </li>
-        </ul>
+        <nav aria-label="필터링">
+          <ul className="flex gap-[12px]">
+            <li
+              role="button"
+              tabindex="0"
+              className={`community__filter ${filter === '전체' ? `community__filter--selected` : ''}`}
+              onClick={() => setFilter('전체')}
+            >
+              전체
+            </li>
+            <li
+              role="button"
+              tabindex="0"
+              className={`community__filter ${filter === '나눔' ? `community__filter--selected` : ''}`}
+              onClick={() => setFilter('나눔')}
+            >
+              나눔
+            </li>
+            <li
+              role="button"
+              tabindex="0"
+              className={`community__filter ${filter === '거래' ? `community__filter--selected` : ''}`}
+              onClick={() => setFilter('거래')}
+            >
+              거래
+            </li>
+          </ul>
+        </nav>
+
         <button
           className="text-white rounded bg-blue--500 px-[16px] py-[8px] text-sm"
           onClick={handleButtonClick}
@@ -50,7 +55,10 @@ export default function Used() {
           게시글 작성
         </button>
       </div>
-      <section className="mt-[16px] flex flex-wrap gap-[20px]">
+      <section
+        className="mt-[16px] flex flex-wrap gap-[20px]"
+        aria-label="게시글 목록"
+      >
         <Post_Used />
         <Post_Used />
         <Post_Used />
@@ -64,6 +72,6 @@ export default function Used() {
         <Post_Used />
         <Post_Used />
       </section>
-    </main>
+    </section>
   );
 }

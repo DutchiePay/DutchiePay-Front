@@ -28,13 +28,9 @@ export default function Commerce() {
     }
   };
 
-  const handleFilter = (e) => {
-    setFilter(e.target.innerText);
-  };
-
   // 체크박스 bg 안 바뀜
   return (
-    <main className="min-h-[750px] w-[1020px]">
+    <section className="min-h-[750px] w-[1020px]">
       <ul className="mt-[60px] flex justify-center gap-[24px] mx-auto my-0">
         <li
           className="commerce-categories__item"
@@ -169,31 +165,37 @@ export default function Commerce() {
       </ul>
       <div className="mt-[60px] flex justify-between">
         <div className="flex items-center">
-          <input type="checkbox" className="input__checkbox" />
-          <label className="ml-[8px] text-sm">마감포함</label>
+          <input
+            id="include-expired"
+            type="checkbox"
+            className="input__checkbox"
+          />
+          <label className="ml-[8px] text-sm" htmlFor="include-expired">
+            마감포함
+          </label>
         </div>
         <ul className="flex">
           <li
             className={`fillter__item ${filter === '최신순' ? 'fillter__item--selected' : ''}`}
-            onClick={(e) => handleFilter(e)}
+            onClick={() => setFilter('최신순')}
           >
             최신순
           </li>
           <li
             className={`fillter__item ${filter === '마감임박순' ? 'fillter__item--selected' : ''}`}
-            onClick={(e) => handleFilter(e)}
+            onClick={() => setFilter('마감임박순')}
           >
             마감임박순
           </li>
           <li
             className={`fillter__item ${filter === '좋아요순' ? 'fillter__item--selected' : ''}`}
-            onClick={(e) => handleFilter(e)}
+            onClick={() => setFilter('좋아요순')}
           >
             좋아요순
           </li>
           <li
             className={`fillter__item ${filter === '할인율순' ? 'fillter__item--selected' : ''}`}
-            onClick={(e) => handleFilter(e)}
+            onClick={() => setFilter('할인율순')}
           >
             할인율순
           </li>
@@ -210,6 +212,6 @@ export default function Commerce() {
         <Product_List />
         <Product_List />
       </section>
-    </main>
+    </section>
   );
 }

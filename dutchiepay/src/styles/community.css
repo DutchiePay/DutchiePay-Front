@@ -44,7 +44,7 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   outline: none;
-  padding: 8px 30px 8px 12px;
+  padding: 8px 12px;
 }
 
 .community__input-date {
@@ -56,20 +56,14 @@
   font-size: 14px;
 }
 
-.community__input-text::placeholder {
+.community__input-text::placeholder,
+.community__input-price::placeholder {
   font-size: 14px;
 }
 
 .quill-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 800px;
-  margin-bottom: 24px;
-}
-
-.quill-editor {
-  height: 400px;
+  height: 450px;
+  overflow: hidden;
 }
 
 /* Chrome, Safari, Edge, Opera */
