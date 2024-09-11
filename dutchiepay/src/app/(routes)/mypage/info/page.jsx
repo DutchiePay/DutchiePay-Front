@@ -59,7 +59,7 @@ export default function Info() {
   };
 
   return (
-    <main className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
+    <section className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">회원 정보</h1>
       <section className="mt-[40px] flex flex-col gap-[36px] mb-[24px]">
         <article className="mypage-profile">
@@ -259,6 +259,6 @@ export default function Info() {
           회원탈퇴
         </button>
       </section>
-    </main>
+    </section>
   );
 }

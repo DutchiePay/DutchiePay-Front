@@ -1,59 +1,16 @@
-'use client';
-
 import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
+import CouponChoice from '@/app/_components/_commerce/CouponChoice';
 import Image from 'next/image';
 import Link from 'next/link';
 import OrderInfo from '@/app/_components/_commerce/OrderInfo';
-import kakaopay from '../../../../public/image/kakaoPayment.png';
-import selectArrow from '../../../../public/image/selectArrow.svg';
-import { useDaumPostcodePopup } from 'react-daum-postcode';
-import { useState } from 'react';
+import Orderer from '@/app/_components/_commerce/Orderer';
+import Payment from '@/app/_components/_commerce/Payment';
 
 export default function Order() {
-  const [isSelfMessage, setIsSelfMessage] = useState(false); // 배송 메시지 직접 입력 여부
-  const [paymentMethod, setPaymentMethod] = useState('');
-  const [addressInfo, setAddressInfo] = useState({
-    zipcode: '',
-    address: '',
-    detail: '',
-  });
-  const open = useDaumPostcodePopup();
-
-  /* 직접 입력 선택 시 true로 변경 */
-  const handleSelectChange = (e) => {
-    setIsSelfMessage(e.target.value === 'option5');
-  };
-
-  const handlePaymentMethod = (e) => {
-    setPaymentMethod(e.target.innerText);
-  };
-
-  const couponPopup = (e) => {
-    e.preventDefault();
-    window.open('/coupon', '_blank', 'width=620, height=670');
-  };
-
-  const handlePostCode = (e) => {
-    e.preventDefault();
-    open({
-      onComplete: (data) => {
-        setAddressInfo((prevState) => ({
-          ...prevState,
-          zipcode: data.zonecode,
-          address: data.jibunAddress,
-        }));
-      },
-      width: 500,
-      height: 600,
-      left: window.innerWidth / 2 - 500 / 2,
-      top: window.innerHeight / 2 - 600 / 2,
-    });
-  };
-
   return (
-    <section className="min-h-[750px] w-[1020px] mt-[40px] mb-[150px]">
+    <section className="min-h-[750px] w-[1020px] mt-[40px] mb-[100px]">
       <h1 className="text-3xl font-bold">주문/결제</h1>
       <p className="text-xs text-gray--500">
         ※ 공동구매 마감 시간 이전까지 결제가 완료 되어야 성공적으로 구매가
@@ -62,195 +19,10 @@ export default function Order() {
       <OrderInfo />
       <section className="mt-[40px] flex justify-between">
         <div className="w-[600px] flex flex-col gap-[32px]">
-          <form className="flex flex-col gap-[8px]">
-            <h2 className="text-2xl font-bold">주문자 정보</h2>
-            <table className="border border-collapse">
-              <tbody>
-                <tr className="border h-[60px]">
-                  <th className="w-[120px] bg-gray--100">받는분</th>
-                  <td className="px-[16px]">
-                    <input
-                      className="border rounded-lg px-[8px] py-[6px] text-sm outline-none"
-                      placeholder="받는분"
-                    />
-                  </td>
-                </tr>
-                <tr className="border h-[60px]">
-                  <th className="w-[120px] bg-gray--100">연락처</th>
-                  <td className="px-[16px]">
-                    <input
-                      className="border rounded-lg px-[8px] py-[6px] text-sm outline-none"
-                      placeholder="전화번호(ex) 01012345678)"
-                    />
-                  </td>
-                </tr>
-                <tr className="border h-[140px]">
-                  <th className="w-[120px] bg-gray--100">주소</th>
-                  <td className="px-[16px]">
-                    <div className="flex flex-col gap-[8px]">
-                      <div className="flex gap-[8px]">
-                        <input
-                          className="w-[70px] border rounded-lg px-[8px] py-[6px] text-sm outline-none"
-                          value={addressInfo.zipcode}
-                          placeholder="우편번호"
-                        />
-                        <button
-                          className="px-[8px] text-white text-sm bg-blue--500 rounded-lg"
-                          onClick={handlePostCode}
-                          type="button"
-                        >
-                          주소 검색
-                        </button>
-                      </div>
-                      <input
-                        className="border rounded-lg px-[8px] py-[6px] text-sm outline-none"
-                        value={addressInfo.address}
-                        placeholder="주소"
-                      />
-                      <input
-                        className="w-[300px] border rounded-lg px-[8px] py-[6px] text-sm outline-none"
-                        value={addressInfo.detail}
-                        placeholder="상세 주소"
-                      />
-                    </div>
-                  </td>
-                </tr>
-                <tr
-                  className={`border ${isSelfMessage ? 'h-[100px]' : 'h-[80px]'}`}
-                >
-                  <th className="w-[120px] bg-gray--100">배송메시지</th>
-                  <td
-                    className={`flex flex-col justify-center gap-[8px] px-[16px] ${isSelfMessage ? 'h-[100px]' : 'h-[80px]'}`}
-                  >
-                    <div className="w-[400px] relative">
-                      <select
-                        className="select-no-arrow w-[400px] px-[8px] py-[6px] text-sm border rounded-lg outline-none"
-                        onChange={handleSelectChange}
-                      >
-                        <option value="">배송메시지를 선택해주세요.</option>
-                        <option value="option1">
-                          문 앞에 놓아 주시면 돼요.
-                        </option>
-                        <option value="option2">
-                          직접 받을게요. (부재시 문 앞)
-                        </option>
-                        <option value="option3">벨 누르지 말아주세요.</option>
-                        <option value="option4">
-                          배송 전에 미리 연락주세요.
-                        </option>
-                        <option value="option5">직접 입력하기</option>
-                      </select>
-                      <Image
-                        className="w-[12px] h-[6px] absolute top-[12px] right-[10px] cursor-pointer pointer-events-none"
-                        src={selectArrow}
-                        alt="arrow"
-                        width={12}
-                        height={6}
-                        aria-hidden="true"
-                      />
-                    </div>
-                    {isSelfMessage && (
-                      <input
-                        className="w-full border rounded-lg px-[8px] py-[6px] text-sm outline-none"
-                        placeholder="배송메시지"
-                      />
-                    )}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </form>
-          <div className="flex flex-col gap-[8px]">
-            <div className="flex gap-[12px] items-center">
-              <h2 className="text-2xl font-bold">쿠폰 적용</h2>
-              <button
-                className="h-[28px] text-white text-sm bg-blue--500 rounded-lg px-[12px] flex justify-center items-center"
-                onClick={couponPopup}
-                type="button"
-              >
-                쿠폰 선택
-              </button>
-            </div>
-            <input
-              className="w-full text-sm p-[12px] rounded-lg"
-              type="text"
-              disabled={true}
-              placeholder="쿠폰을 선택해주세요."
-            />
-          </div>
-          <div className="flex flex-col gap-[8px]">
-            <h2 className="text-2xl font-bold">결제 수단 선택</h2>
-            <div className="flex justify-between">
-              <button
-                className={`product-order__button ${paymentMethod === '신용카드' && 'product-order__button__active'}`}
-                onClick={handlePaymentMethod}
-                type="button"
-              >
-                신용카드
-              </button>
-              <button
-                className={`product-order__button ${paymentMethod === '무통장 입금' && 'product-order__button__active'}`}
-                onClick={handlePaymentMethod}
-                type="button"
-              >
-                무통장 입금
-              </button>
-              <button
-                className={`flex justify-between product-order__button ${paymentMethod === '카카오페이' && 'product-order__button__active'}`}
-                onClick={handlePaymentMethod}
-                type="button"
-              >
-                카카오페이
-                <Image
-                  src={kakaopay}
-                  alt="카카오페이"
-                  width={50}
-                  height={24}
-                  unoptimized
-                />
-              </button>
-            </div>
-          </div>
+          <Orderer />
+          <CouponChoice />
         </div>
-        <div className="w-[400px]">
-          <div className="flex flex-col gap-[8px]">
-            <h2 className="text-2xl font-bold">결제 정보</h2>
-            <div className="pt-[12px] flex flex-col gap-[12px] border rounded">
-              <div className="flex justify-between px-[16px]">
-                <p className="text-gray--500 text-sm">판매가</p>
-                <p>30,000원</p>
-              </div>
-              <div className="flex justify-between px-[16px]">
-                <p className="text-gray--500 text-sm">구매가</p>
-                <p className="text-blue--500 font-semibold">24,500원</p>
-              </div>
-              <div className="flex justify-between px-[16px]">
-                <p className="text-gray--500 text-sm">수량</p>
-                <p>1개</p>
-              </div>
-              <div className="flex justify-between px-[16px]">
-                <p className="text-gray--500 text-sm">배송비</p>
-                <p>무료배송</p>
-              </div>
-              <div className="flex justify-between px-[16px]">
-                <p className="text-gray--500 text-sm">쿠폰할인</p>
-                <p className="text-red--500 font-semibold">7,350원</p>
-              </div>
-              <hr />
-              <div className="px-[16px] mb-[12px] flex justify-between items-center">
-                <strong className="text-lg">최종 결제 금액</strong>
-                <p className="text-xl text-blue--500 font-bold">17,150원</p>
-              </div>
-            </div>
-          </div>
-
-          <button
-            className="w-full mt-[24px] py-[8px] bg-blue--500 text-white text-lg font-semibold rounded-lg"
-            type="submit"
-          >
-            17,150원 ㆍ 결제하기
-          </button>
-        </div>
+        <Payment />
       </section>
     </section>
   );

@@ -17,7 +17,7 @@ import time from '../../../../../public/image/time.svg';
 
 export default function CommerceDetail() {
   const [tab, setTab] = useState('상품정보');
-  const [isEnd, setIsEnd] = useState(true); // 마감 여부
+  const [isEnd, setIsEnd] = useState(false); // 마감 여부
 
   const infoRef = useRef(null);
   const reviewRef = useRef(null);

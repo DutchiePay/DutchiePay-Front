@@ -1,6 +1,5 @@
-// app/event/[id]/page.tsx
-
 'use client';
+
 import Image from 'next/image';
 import event1 from '../../../../../public/image/event/eventDetail1.gif';
 import event1_2 from '../../../../../public/image/event/eventDetail1_2.jpg';
@@ -34,7 +33,7 @@ export default function EventPage({ params }) {
   const { id } = params;
   const event = events.find((event) => event.id === id);
   return (
-    <main className="min-h-[750px] w-[1020px] mb-[100px]">
+    <section className="min-h-[750px] w-[1020px] mb-[100px]">
       <div className="flex items-center justify-between">
         <h1 className="mt-[60px] font-bold text-3xl text-blue--500">
           {event.title}
@@ -53,6 +52,6 @@ export default function EventPage({ params }) {
           />
         ))}
       </section>
-    </main>
+    </section>
   );
 }
