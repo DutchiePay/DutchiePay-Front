@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default function getLocation() {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
