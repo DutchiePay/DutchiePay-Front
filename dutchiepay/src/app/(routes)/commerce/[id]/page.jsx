@@ -59,7 +59,7 @@ export default function CommerceDetail() {
 
   // 작성 리뷰/문의 없을 때 구현해야 함
   return (
-    <main className="min-h-[750px] w-[1020px]">
+    <section className="min-h-[750px] w-[1020px]">
       <section className="mt-[40px] flex justify-between">
         <div>
           <Image
@@ -122,6 +122,6 @@ export default function CommerceDetail() {
         <Company />
         <Ask />
       </section>
-    </main>
+    </section>
   );
 }
