@@ -16,71 +16,70 @@ import kakao from '../../../../public/image/kakao.png';
 import logo from '../../../../public/image/logo.jpg';
 import naver from '../../../../public/image/naver.png';
 import { useForm } from 'react-hook-form';
-
+import PhoneAuth from '@/app/_components/_user/PhoneAuth';
 export default function Signup() {
+  // 비밀번호 입력 시 비밀번호 type에 따라 보이게 할 지 결정하는 변수
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  // 비밀번호 확인 입력 시 type에 따라 보이게 할 지 결정하는 변수
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
+  // 더취페이 정책을 자세하게 볼지 정하는 변수
   const [isShowPolicy, setIsShowPolicy] = useState(false);
-  const [isAuthInputVisible, setIsAuthInputVisible] = useState(false);
+  // 주소 저장 변수
   const [address, setAddress] = useState('');
-  const [isPhoneValid, setIsPhoneValid] = useState(false); // New state for phone number validity
-
+  const [phoneCode, setPhoneCode] = useState('');
+  const [isAuthError, setIsAuthError] = useState(false);
   const {
     register,
     watch,
     handleSubmit,
+    trigger,
     formState: { errors, isValid, isSubmitting, touchedFields },
   } = useForm({
-    mode: 'onBlur',
+    mode: 'onTouched',
     criteriaMode: 'all',
-    reValidateMode: 'onChange',
+    reValidateMode: 'onblur',
     shouldFocusError: true,
     defaultValues: {
       name: '',
+      phone: '',
     },
   });
 
-  const rEmail =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  const rEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const rPassword = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*_-]).{8,}$/;
   const rNickname = /^[a-zA-Z0-9가-힣]{2,8}$/;
-  const rPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
   const password = watch('password');
   const confirmPassword = watch('confirmPassword');
-  const phone = watch('phone');
-
+  const nickname = watch('nickname');
+  const email = watch('email');
   useEffect(() => {
-    if (rPhone.test(phone)) {
-      setIsPhoneValid(true);
-    } else {
-      setIsPhoneValid(false);
+    if (password) {
+      trigger('confirmPassword');
     }
-  }, [phone]);
-
-  /* 해당 함수 inline으로  */
-  const handlePasswordVisibilityClick = () => {
-    setIsPasswordVisible((prev) => !prev);
-  };
-
-  const handleConfirmPasswordVisibilityClick = () => {
-    setIsConfirmPasswordVisible((prev) => !prev);
-  };
-
-  const handleTogglePolicy = () => {
-    setIsShowPolicy((prev) => !prev);
-  };
-
-  const handleAuthClick = () => {
-    setIsAuthInputVisible(true);
-  };
+  }, [password, trigger]);
 
   const onSubmit = async (formData) => {
-    const { confirmPassword, policy, name = '', ...userData } = formData;
+    const {
+      confirmPassword,
+      policy,
+      authCode,
+      name = '',
+      ...userData
+    } = formData;
+    console.log('authCode ===' + authCode);
+    console.log('phoneCode ===' + phoneCode);
+    // 전화번호가 제공된 경우에만 전화번호 인증 코드 검증
+    if (phoneCode && authCode !== phoneCode) {
+      console.log('인증번호 틀림');
+      setIsAuthError(true); // 인증 오류 상태 업데이트
+      return; // 함수 종료하여 회원가입 진행 방지
+    }
+
     const payload = {
       ...userData,
       location: address,
-      name: name.trim() === '' ? null : name,
+      name: userData.name || null, // userData.name이 빈 문자열일 경우 null 처리
     };
     console.log(payload);
     try {
@@ -88,14 +87,16 @@ export default function Signup() {
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/signup`,
         payload
       );
-      console.log(response.data);
+      console.log('authCode ===' + authCode);
+      console.log('phoneCode ===' + phoneCode);
+
+      console.log('회원가입 성공:', response.data);
     } catch (error) {
       console.error('회원가입 실패:', error);
     }
   };
 
   useEffect(() => {
-    getLocation();
     const fetchLocation = async () => {
       const location = await getLocation();
       setAddress(location);
@@ -104,8 +105,12 @@ export default function Signup() {
     fetchLocation();
   }, []);
 
+  const handleAuthSuccess = (code) => {
+    setPhoneCode(code); // PhoneAuth에서 넘어온 코드값 저장
+  };
+
   return (
-    <section className="w-full flex flex-col items-center justify-center min-h-[880px]">
+    <main className="w-full flex flex-col items-center justify-center min-h-[880px]">
       <Link href="/" className="mt-[80px]">
         <Image
           className="w-[200px] h-[120px] mb-[8px]"
@@ -123,17 +128,12 @@ export default function Signup() {
         <div className="flex gap-[20px] h-[70px]">
           <button
             className="user-signup__button bg-[#00c73c] text-white"
-            onClick={(e) => {
-              e.preventDefault();
-            }}
+            onClick={(e) => e.preventDefault()}
           >
             <Image src={naver} width={40} height={40} alt="naver" />
             <p>네이버로 시작하기</p>
           </button>
-          <button
-            className="user-signup__button bg-[#FBDB44]"
-            onClick={() => {}}
-          >
+          <button className="user-signup__button bg-[#FBDB44]">
             <Image src={kakao} width={40} height={40} alt="kakao" />
             <span>카카오로 시작하기</span>
           </button>
@@ -144,15 +144,14 @@ export default function Signup() {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-[4px] mt-[8px]"
         >
+          {/* 이메일 section */}
           <div>
             <label className="user__label">이메일</label>
             <input
               className={`user__input mt-[4px] ${
                 errors.email
                   ? 'user__input__invalid'
-                  : !errors.email && touchedFields.email
-                    ? 'user__input__valid'
-                    : ''
+                  : rEmail.test(email) && 'user__input__valid'
               }`}
               type="text"
               placeholder="이메일"
@@ -165,34 +164,41 @@ export default function Signup() {
               })}
             />
             <p
-              className={`text-sm min-h-[20px] ${touchedFields.email ? (errors.email ? 'text-red--500' : 'text-blue--500') : ''}`}
+              className={`text-sm min-h-[20px] mt-[8px] ${
+                errors.email
+                  ? 'text-red--500'
+                  : rEmail.test(email) && 'text-blue--500'
+              }`}
+              role="alert"
+              aria-live="assertive"
             >
-              {touchedFields.email
-                ? errors.email
-                  ? errors.email.message
-                  : '사용 가능한 이메일입니다.'
-                : ''}
+              {errors.email
+                ? errors.email.message
+                : rEmail.test(email) && '사용가능한 이메일 입니다.'}
             </p>
           </div>
-
+          {/* 비밀번호 section */}
           <div>
             <div className="flex items-center">
-              <label className="user__label">비밀번호</label>
+              <label className="user__label" htmlFor="password">
+                비밀번호
+              </label>
               <span className="ml-[8px] text-[12px]">
                 영문, 특수문자, 숫자를 모두 포함하여 8글자 이상
               </span>
             </div>
             <div className="mb-[8px] flex relative">
               <input
+                id="password"
                 className={`user__input-password mt-[4px] ${
                   errors.password
                     ? 'user__input-password__invalid'
-                    : !errors.password && touchedFields.password
-                      ? 'user__input-password__valid'
-                      : ''
+                    : rPassword.test(password) && 'user__input-password__valid'
                 }`}
                 placeholder="비밀번호"
                 type={isPasswordVisible ? 'text' : 'password'}
+                aria-required="true"
+                aria-describedby="passwordHelp"
                 {...register('password', {
                   required: '비밀번호를 입력해주세요',
                   minLength: {
@@ -210,49 +216,48 @@ export default function Signup() {
                   className="absolute top-[50%] right-[24px] transform -translate-y-1/2 cursor-pointer"
                   src={isPasswordVisible ? eyeOpen : eyeClosed}
                   alt="eyes"
-                  onClick={handlePasswordVisibilityClick}
+                  onClick={() => setIsPasswordVisible((prev) => !prev)}
                 />
               )}
             </div>
             <p
-              className={`text-sm min-h-[20px] ${touchedFields.password ? (errors.password ? 'text-red--500' : 'text-blue--500') : ''}`}
+              className={`text-sm font-medium min-h-[20px] ${errors.password ? 'text-red--500' : 'text-blue--500'}`}
+              role="alert"
+              aria-hidden={errors.password ? 'true' : 'false'}
             >
-              {touchedFields.password
-                ? errors.password
-                  ? errors.password.message
-                  : '사용 가능한 비밀번호입니다.'
-                : ''}
+              {errors.password
+                ? errors.password.message
+                : rPassword.test(password) && '사용가능한 비밀번호 입니다.'}
             </p>
           </div>
-
+          {/* 비밀번호 확안 section */}
           <div>
             <div className="flex items-center">
-              <label className="user__label">비밀번호 확인</label>
+              <label className="user__label" htmlFor="confirmPassword">
+                비밀번호 확인
+              </label>
               <span className="ml-[8px] text-[12px]">
                 비밀번호를 한 번 더 입력해주세요
               </span>
             </div>
-            <div className="flex relative">
+            <div className="mb-[8px] flex relative">
               <input
+                id="confirmPassword"
                 className={`user__input-password mt-[4px] ${
                   rPassword.test(password) &&
                   (errors.confirmPassword
                     ? 'user__input-password__invalid'
-                    : !errors.confirmPassword && touchedFields.confirmPassword
-                      ? 'user__input-password__valid'
-                      : '')
+                    : !errors.confirmPassword &&
+                      touchedFields.confirmPassword &&
+                      'user__input-password__valid')
                 }`}
                 placeholder="비밀번호 확인"
+                aria-required="true"
+                aria-describedby="confirmPasswordHelp"
                 type={isConfirmPasswordVisible ? 'text' : 'password'}
                 {...register('confirmPassword', {
-                  validate: (value) => {
-                    if (!rPassword.test(password)) {
-                      return '';
-                    }
-                    return (
-                      value === password || '비밀번호가 일치하지 않습니다.'
-                    );
-                  },
+                  validate: (value) =>
+                    value === password || '비밀번호가 일치하지 않습니다.',
                 })}
               />
               {confirmPassword && (
@@ -260,21 +265,24 @@ export default function Signup() {
                   className="absolute top-[50%] right-[24px] transform -translate-y-1/2 cursor-pointer"
                   src={isConfirmPasswordVisible ? eyeOpen : eyeClosed}
                   alt="eyes"
-                  onClick={handleConfirmPasswordVisibilityClick}
+                  onClick={() => setIsConfirmPasswordVisible((prev) => !prev)}
                 />
               )}
             </div>
             <p
-              className={`text-sm min-h-[20px] ${touchedFields.confirmPassword ? (errors.confirmPassword ? 'text-red--500' : 'text-blue--500') : ''}`}
+              className={`text-sm font-medium min-h-[20px] ${errors.confirmPassword ? 'text-red--500' : 'text-blue--500'}`}
+              role="alert"
+              aria-hidden={errors.confirmPassword ? 'true' : 'false'}
             >
-              {touchedFields.confirmPassword
-                ? errors.confirmPassword
+              {rPassword.test(password) &&
+                (errors.confirmPassword
                   ? errors.confirmPassword.message
-                  : '비밀번호가 일치합니다.'
-                : ''}
+                  : !errors.confirmPassword &&
+                    touchedFields.confirmPassword &&
+                    '비밀번호가 일치합니다.')}
             </p>
           </div>
-
+          {/* 닉네임 section */}
           <div>
             <div className="flex items-center">
               <label className="user__label">닉네임</label>
@@ -294,6 +302,7 @@ export default function Signup() {
                 placeholder="닉네임"
                 type="text"
                 maxLength={8}
+                aria-required="true"
                 {...register('nickname', {
                   required: '닉네임을 입력해주세요',
                   pattern: {
@@ -304,16 +313,20 @@ export default function Signup() {
               />
             </div>
             <p
-              className={`text-sm min-h-[20px] ${touchedFields.nickname ? (errors.nickname ? 'text-red--500' : 'text-blue--500') : ''}`}
+              className={`text-sm min-h-[20px] ${
+                touchedFields.nickname && errors.nickname
+                  ? 'text-red--500'
+                  : 'text-blue--500'
+              }`}
+              role="alert"
+              aria-live="assertive"
             >
-              {touchedFields.nickname
-                ? errors.nickname
-                  ? errors.nickname.message
-                  : '사용 가능한 닉네임입니다.'
-                : ''}
+              {errors.nickname
+                ? errors.nickname.message
+                : rNickname.test(nickname) && '사용가능한 닉네임 입니다.'}
             </p>
           </div>
-
+          {/* 성함 section */}
           <div>
             <label className="user__label">성함 (선택)</label>
             <div className="mb-[8px] flex relative">
@@ -325,91 +338,16 @@ export default function Signup() {
               />
             </div>
           </div>
-
-          <div>
-            <div className="flex items-center">
-              <label className="user__label">휴대폰 번호 (선택)</label>
-              <span className="ml-[8px] text-[12px]">
-                -을 제외한 전화번호를 입력해주세요
-              </span>
-            </div>
-            <div className="mb-[8px] flex relative">
-              <input
-                className={`user__input ${
-                  errors.phone && touchedFields.phone
-                    ? 'user__input__invalid'
-                    : !errors.phone && isPhoneValid
-                      ? 'user__input__valid'
-                      : ''
-                }`}
-                placeholder="휴대폰 번호 (ex : 01012345678)"
-                type="text"
-                maxLength={11}
-                {...register('phone', {
-                  pattern: {
-                    value: rPhone,
-                    message: '올바른 휴대폰 번호 형식을 입력해주세요',
-                  },
-                })}
-              />
-              <button
-                type="button"
-                className={`absolute right-0 top-0 h-full px-[20px] text-[14px] font-bold text-white bg-blue--500 rounded-r-[4px] ${
-                  errors.phone || !isPhoneValid
-                    ? 'bg-gray--200 cursor-not-allowed'
-                    : ''
-                }`}
-                onClick={handleAuthClick}
-                disabled={errors.phone || !isPhoneValid}
-              >
-                인증하기
-              </button>
-            </div>
-            <p
-              className={`text-sm min-h-[20px] ${touchedFields.phone ? (errors.phone ? 'text-red--500' : 'text-blue--500') : ''}`}
-            >
-              {touchedFields.phone
-                ? errors.phone
-                  ? errors.phone.message
-                  : isPhoneValid
-                    ? '유효한 휴대폰 번호입니다.'
-                    : ''
-                : ''}
-            </p>
-            {isAuthInputVisible && (
-              <div className="mt-[8px]">
-                <input
-                  className={`user__input ${
-                    errors.authCode
-                      ? 'user__input__invalid'
-                      : !errors.authCode && touchedFields.authCode
-                        ? 'user__input__valid'
-                        : ''
-                  }`}
-                  placeholder="인증번호 입력"
-                  type="text"
-                  {...register('authCode', {
-                    required: '인증번호를 입력해주세요',
-                  })}
-                />
-                <p
-                  className={`text-sm min-h-[20px] mt-[8px] ${touchedFields.authCode ? (errors.authCode ? 'text-red--500' : 'text-blue--500') : ''}`}
-                >
-                  {touchedFields.authCode
-                    ? errors.authCode
-                      ? errors.authCode.message
-                      : '인증번호가 일치합니다.'
-                    : ''}
-                </p>
-              </div>
-            )}
-            <span className="text-xs">
-              ※ 휴대폰 인증을 거치지 않을 경우,{' '}
-              <strong>일부 서비스가 제한</strong>됩니다.
-              <br /> 회원가입 이후에도 휴대폰 인증을 진행할 수 있습니다.
-            </span>
-          </div>
-
+          {/* 휴대폰 section */}
+          <PhoneAuth
+            register={register}
+            watch={watch}
+            errors={errors}
+            touchedFields={touchedFields}
+            onAuthSuccess={handleAuthSuccess}
+            isAuthError={isAuthError}
+          />
+          {/* 우리동네 section */}
           <div>
             <label className="user__label">우리동네</label>
             <div className="flex relative">
@@ -421,13 +359,14 @@ export default function Signup() {
               />
             </div>
           </div>
-
+          {/* 약관동의 section */}
           <div className="flex align-start items-center mt-[8px] justify-between">
             <div className="flex align-start items-center">
               <input
                 className="signup__checkbox"
                 id="signup-policy__checkbox"
                 type="checkbox"
+                aria-required="true"
                 {...register('policy', {
                   required: '정책에 동의하셔야 합니다.',
                 })}
@@ -443,7 +382,7 @@ export default function Signup() {
 
             <span
               className="text-end text-2xl cursor-pointer"
-              onClick={handleTogglePolicy}
+              onClick={() => setIsShowPolicy((prev) => !prev)}
             >
               {isShowPolicy ? '-' : '+'}
             </span>
@@ -471,6 +410,6 @@ export default function Signup() {
           </small>
         </form>
       </section>
-    </section>
+    </main>
   );
 }
