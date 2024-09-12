@@ -46,7 +46,8 @@ export default function Signup() {
     },
   });
 
-  const rEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const rEmail =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
   const rPassword = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*_-]).{8,}$/;
   const rNickname = /^[a-zA-Z0-9가-힣]{2,8}$/;
   const password = watch('password');
@@ -87,9 +88,6 @@ export default function Signup() {
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/signup`,
         payload
       );
-      console.log('authCode ===' + authCode);
-      console.log('phoneCode ===' + phoneCode);
-
       console.log('회원가입 성공:', response.data);
     } catch (error) {
       console.error('회원가입 실패:', error);
@@ -110,7 +108,7 @@ export default function Signup() {
   };
 
   return (
-    <main className="w-full flex flex-col items-center justify-center min-h-[880px]">
+    <section className="w-full flex flex-col items-center justify-center min-h-[880px]">
       <Link href="/" className="mt-[80px]">
         <Image
           className="w-[200px] h-[120px] mb-[8px]"
@@ -128,7 +126,7 @@ export default function Signup() {
         <div className="flex gap-[20px] h-[70px]">
           <button
             className="user-signup__button bg-[#00c73c] text-white"
-            onClick={(e) => e.preventDefault()}
+            type="button"
           >
             <Image src={naver} width={40} height={40} alt="naver" />
             <p>네이버로 시작하기</p>
@@ -170,7 +168,7 @@ export default function Signup() {
                   : rEmail.test(email) && 'text-blue--500'
               }`}
               role="alert"
-              aria-live="assertive"
+              aria-hidden={errors.email ? 'true' : 'false'}
             >
               {errors.email
                 ? errors.email.message
@@ -198,7 +196,6 @@ export default function Signup() {
                 placeholder="비밀번호"
                 type={isPasswordVisible ? 'text' : 'password'}
                 aria-required="true"
-                aria-describedby="passwordHelp"
                 {...register('password', {
                   required: '비밀번호를 입력해주세요',
                   minLength: {
@@ -253,7 +250,6 @@ export default function Signup() {
                 }`}
                 placeholder="비밀번호 확인"
                 aria-required="true"
-                aria-describedby="confirmPasswordHelp"
                 type={isConfirmPasswordVisible ? 'text' : 'password'}
                 {...register('confirmPassword', {
                   validate: (value) =>
@@ -319,7 +315,7 @@ export default function Signup() {
                   : 'text-blue--500'
               }`}
               role="alert"
-              aria-live="assertive"
+              aria-hidden={errors.nickname ? 'true' : 'false'}
             >
               {errors.nickname
                 ? errors.nickname.message
@@ -410,6 +406,6 @@ export default function Signup() {
           </small>
         </form>
       </section>
-    </main>
+    </section>
   );
 }
