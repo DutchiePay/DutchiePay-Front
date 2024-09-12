@@ -9,6 +9,17 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/mypage',
+        destination: '/mypage/info',
+        permanent: true,
+      },
+    ];
+  },
+  images: { unoptimized: true },
+  output: 'export',
 };
 
 export default nextConfig;

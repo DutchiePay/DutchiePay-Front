@@ -1,15 +1,25 @@
+'use client';
+
 import '@/styles/commerce.css';
 import '@/styles/globals.css';
 
-import CommerceTemp from '@/app/_components/_commerce/CommerceTemp';
+import { useEffect, useRef, useState } from 'react';
 
-export async function generateStaticParams() {
-  const ids = [1, 2, 3]; // 추후 데이터 API
+import Ask from '@/app/_components/_commerce/Ask';
+import Company from '@/app/_components/_commerce/Company';
+import Image from 'next/image';
+import ProductInfo from '@/app/_components/_commerce/ProductInfo';
+import RemainingTime from '@/app/_components/_commerce/RemainingTime';
+import Review from '@/app/_components/_commerce/Review';
+import product from '../../../../public/image/product1.jpg';
+import productDetail from '../../../../public/image/product_detail.jpg';
+import time from '../../../../public/image/time.svg';
+import { useParams } from 'next/navigation';
 
-<<<<<<< HEAD
-export default function CommerceDetail() {
+export default function CommerceTemp() {
   const [tab, setTab] = useState('상품정보');
-  const [isEnd, setIsEnd] = useState(false); // 마감 여부
+  const [isEnd, setIsEnd] = useState(true); // 마감 여부
+  const { id } = useParams();
 
   const infoRef = useRef(null);
   const reviewRef = useRef(null);
@@ -51,7 +61,7 @@ export default function CommerceDetail() {
 
   // 작성 리뷰/문의 없을 때 구현해야 함
   return (
-    <section className="min-h-[750px] w-[1020px]">
+    <main className="min-h-[750px] w-[1020px]">
       <section className="mt-[40px] flex justify-between">
         <div>
           <Image
@@ -114,17 +124,6 @@ export default function CommerceDetail() {
         <Company />
         <Ask />
       </section>
-    </section>
+    </main>
   );
-=======
-  return ids.map((id) => ({
-    id: id.toString(),
-  }));
-}
-
-export default function CommerceDetail({ params }) {
-  const { id } = { params };
-  // 작성 리뷰/문의 없을 때 구현해야 함
-  return <CommerceTemp />;
->>>>>>> origin/main
 }

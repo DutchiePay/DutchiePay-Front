@@ -61,8 +61,8 @@ export default function Reset() {
       <section className="flex flex-col w-[500px]">
         <h2 className="text-2xl font-bold">비밀번호 재설정</h2>
         <p className="text-sm">
-          비밀번호 재설정을 위해 새 비밀번호를 입력하고 '재설정' 버튼을
-          눌러주세요.
+          비밀번호 재설정을 위해 새 비밀번호를 입력하고 &apos;재설정&apos;
+          버튼을 눌러주세요.
         </p>
         <form
           className="flex flex-col gap-[8px] mt-[40px]"
