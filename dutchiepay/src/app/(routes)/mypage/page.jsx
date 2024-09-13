@@ -10,5 +10,5 @@ export default function Mypage() {
     router.push('/mypage/info');
   }, [router]);
 
-  return <div className="h-[750px]"></div>;
+  return <div className="h-[740px]"></div>;
 }
