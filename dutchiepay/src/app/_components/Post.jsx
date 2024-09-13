@@ -11,7 +11,7 @@ import profile from '../../../public/image/profile.jpg';
 export default function Post() {
   return (
     <Link
-      href="/mart/123"
+      href="/mart/detail?postId=123"
       className="w-[220px] flex flex-col gap-[4px] cursor-pointer"
     >
       <div className="w-full h-[148px] relative overflow-hidden">

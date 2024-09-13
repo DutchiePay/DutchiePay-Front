@@ -1,16 +1,14 @@
+'use client';
+
 import Image from 'next/image';
 import PostContent from '@/app/_components/_community/PostContent';
 import PostDetail from '@/app/_components/_community/PostDetail';
-
-export async function generateStaticParams() {
-  const ids = [1, 2, 3]; // 추후 데이터 API
-
-  return ids.map((id) => ({
-    id: id.toString(),
-  }));
-}
+import { useSearchParams } from 'next/navigation';
 
 export default function MartDetail() {
+  const searchParams = useSearchParams();
+  const postId = searchParams.get('postId');
+
   return (
     <section className="min-h-[750px] w-[1020px] w-full flex">
       <PostContent
