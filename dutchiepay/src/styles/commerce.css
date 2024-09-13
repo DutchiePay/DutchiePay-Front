@@ -173,11 +173,12 @@
 }
 
 .product-order__button {
-  width: 180px;
+  width: 120px;
   border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 8px;
+  padding: 12px;
   font-weight: 500;
+  font-size: 14px;
 }
 
 .product-order__button__active {
