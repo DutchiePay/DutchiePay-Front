@@ -11,7 +11,7 @@ export default function Product_Hot() {
   return (
     <>
       <Link
-        href="/commerce/123"
+        href="/commerce/detail?productId=123"
         title="애슐리 볶음밥 10인분 혼합 구성 10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침 대용 직장인 도시락"
         className="w-[480px] flex items-center"
       >
