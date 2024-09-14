@@ -11,15 +11,16 @@ import Image from 'next/image';
 import ProductInfo from '@/app/_components/_commerce/ProductInfo';
 import RemainingTime from '@/app/_components/_commerce/RemainingTime';
 import Review from '@/app/_components/_commerce/Review';
-import product from '../../../../public/image/product1.jpg';
-import productDetail from '../../../../public/image/product_detail.jpg';
-import time from '../../../../public/image/time.svg';
-import { useParams } from 'next/navigation';
+import product from '../../../../../public/image/product1.jpg';
+import productDetail from '../../../../../public/image/product_detail.jpg';
+import time from '../../../../../public/image/time.svg';
+import { useSearchParams } from 'next/navigation';
 
-export default function CommerceTemp() {
+export default function CommerceDetail() {
+  const searchParams = useSearchParams();
+  const productId = searchParams.get('productId');
   const [tab, setTab] = useState('상품정보');
   const [isEnd, setIsEnd] = useState(true); // 마감 여부
-  const { id } = useParams();
 
   const infoRef = useRef(null);
   const reviewRef = useRef(null);

@@ -23,7 +23,7 @@ export default function Product_List() {
   //추후 데이터 들어오면 Link title 글자수 제한 코드 추가 필요
   return (
     <Link
-      href="/commerce/123"
+      href="/commerce/detail?productId=123"
       title="애슐리 볶음밥 10인분 혼합 구성 10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침 대용 직장인 도시락"
       className="w-[232px] flex flex-col justify-center"
     >

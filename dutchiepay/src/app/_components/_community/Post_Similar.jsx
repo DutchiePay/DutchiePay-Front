@@ -20,7 +20,10 @@ export default function Post_Similar() {
         <strong className="text-sm">석양공주님</strong>
       </div>
       <div className="flex justify-between items-center mt-[4px]">
-        <Link href="/community/789" className="cursor-pointer text-sm">
+        <Link
+          href="/community/detail?postId=789"
+          className="cursor-pointer text-sm"
+        >
           자취 꿀팁 공유합니다!🐝
         </Link>
         <div className="flex gap-[4px] items-center">
