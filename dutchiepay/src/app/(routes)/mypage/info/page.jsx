@@ -123,7 +123,10 @@ export default function Info() {
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">회원 정보</h1>
-      <section className="mt-[40px] flex flex-col gap-[36px] mb-[24px]">
+      <section
+        className="mt-[40px] flex flex-col gap-[36px] mb-[24px]"
+        aria-label="회원 정보 수정 section"
+      >
         <article className="mypage-profile">
           <div className="flex items-center">
             <h2 className="mypage-profile__label">
@@ -144,6 +147,7 @@ export default function Info() {
               <button
                 className="mypage-profile__button"
                 onClick={() => setModifyType('')}
+                aria-label="프로필 이미지 변경 취소"
               >
                 변경취소
               </button>
@@ -151,6 +155,11 @@ export default function Info() {
             <button
               className={`mypage-profile__button ${modifyType === '프로필이미지' && 'mypage-profile__button-finish'}`}
               onClick={() => handleModifyType('프로필이미지')}
+              aria-label={
+                modifyType === '프로필이미지'
+                  ? '프로필 이미지 변경 완료'
+                  : '프로필 이미지 변경하기'
+              }
             >
               {modifyType === '프로필이미지' ? '변경완료' : '변경'}
             </button>
@@ -165,6 +174,7 @@ export default function Info() {
                 value={modifyNickname}
                 onChange={(e) => setModifyNickname(e.target.value)}
                 placeholder="닉네임"
+                aria-label="닉네임 입력"
               />
             ) : (
               <p className="mypage-profile__value">{userInfo.nickname}</p>
@@ -175,6 +185,7 @@ export default function Info() {
               <button
                 className="mypage-profile__button"
                 onClick={handleModifyCancel}
+                aria-label="닉네임 변경 취소"
               >
                 변경취소
               </button>
@@ -186,6 +197,9 @@ export default function Info() {
                   ? handleModifyComplete()
                   : handleModifyType('닉네임');
               }}
+              aria-label={
+                modifyType === '닉네임' ? '닉네임 변경 완료' : '닉네임 변경하기'
+              }
             >
               {modifyType === '닉네임' ? '변경완료' : '변경'}
             </button>
@@ -199,6 +213,7 @@ export default function Info() {
           <button
             className="mypage-profile__button"
             onClick={handleGetCurrentLocation}
+            aria-label="현재 위치 재설정"
           >
             재설정
           </button>
@@ -215,10 +230,12 @@ export default function Info() {
                     onChange={(e) => setModifyAddress(e.target.value)}
                     placeholder="지번 주소"
                     disabled={modifyAddress ? true : false}
+                    aria-label="지번 주소 입력"
                   />
                   <button
                     className="px-[8px] text-white text-sm bg-blue--500 rounded-lg"
                     onClick={handlePostCode}
+                    aria-label="우편번호 찾기"
                   >
                     우편번호 찾기
                   </button>
@@ -228,6 +245,7 @@ export default function Info() {
                   value={modifyDetail}
                   onChange={(e) => setModifyDetail(e.target.value)}
                   placeholder="상세 주소"
+                  aria-label="상세 주소 입력"
                 />
               </div>
             ) : (
@@ -244,6 +262,7 @@ export default function Info() {
               <button
                 className="mypage-profile__button"
                 onClick={handleModifyCancel}
+                aria-label="주소 변경 취소"
               >
                 변경취소
               </button>
@@ -255,6 +274,9 @@ export default function Info() {
                   ? handleModifyComplete()
                   : handleModifyType('주소');
               }}
+              aria-label={
+                modifyType === '주소' ? '주소 변경 완료' : '주소 변경하기'
+              }
             >
               {modifyType === '주소' ? '변경완료' : '변경'}
             </button>
@@ -269,6 +291,7 @@ export default function Info() {
                 value={modifyPhoneNumber}
                 onChange={(e) => setModifyPhoneNumber(e.target.value)}
                 placeholder="전화번호 (ex) 01012345678)"
+                aria-label="전화번호 입력"
               />
             ) : (
               <p className="mypage-profile__value">{userInfo.phoneNumber}</p>
@@ -279,6 +302,7 @@ export default function Info() {
               <button
                 className="mypage-profile__button"
                 onClick={() => setModifyType('')}
+                aria-label="전화번호 변경 취소"
               >
                 변경취소
               </button>
@@ -290,6 +314,11 @@ export default function Info() {
                   ? handleModifyComplete()
                   : handleModifyType('전화번호');
               }}
+              aria-label={
+                modifyType === '전화번호'
+                  ? '전화번호 인증 완료'
+                  : '전화번호 변경하기'
+              }
             >
               {modifyType === '전화번호' ? '번호인증' : '변경'}
             </button>
@@ -329,12 +358,16 @@ export default function Info() {
               href="/reset"
               className="mypage-profile__button-reset"
               role="button"
+              aria-label="비밀번호 변경"
             >
               비밀번호 변경
             </Link>
           )}
         </article>
-        <button className="flex justify-end text-[14px] text-gray--500 hover:underline">
+        <button
+          className="flex justify-end text-[14px] text-gray--500 hover:underline"
+          aria-label="회원 탈퇴"
+        >
           회원탈퇴
         </button>
       </section>
