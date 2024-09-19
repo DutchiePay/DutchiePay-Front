@@ -24,19 +24,39 @@ export default function Info() {
     address: '서울 강남구 논현동 29-7',
     detail: '1102호',
   });
+  const [modifyInfo, setModifyInfo] = useState({
+    nickname: userInfo.nickname,
+    phoneNumber: userInfo.phoneNumber,
+    zipcode: userInfo.zipcode,
+    address: userInfo.address,
+    detail: userInfo.detail,
+  });
   const open = useDaumPostcodePopup();
 
   const handleModifyType = (type) => {
-    if (modifyType === type) setModifyType('');
-    else setModifyType(type);
+    // 수정할 타입이 현재 타입과 다를 때만 취소 함수 호출
+    if (modifyType && modifyType !== type) {
+      handleModifyCancel(); // 이전 수정 상태 취소
+    }
+    setModifyType(modifyType === type ? '' : type); // 같은 타입일 경우 취소, 다른 타입일 경우 새로 설정
   };
-
+  // 수정 취소
+  const handleModifyCancel = () => {
+    setModifyInfo({
+      nickname: userInfo.nickname,
+      phoneNumber: userInfo.phoneNumber,
+      zipcode: userInfo.zipcode,
+      address: userInfo.address,
+      detail: userInfo.detail,
+    });
+    setModifyType('');
+  };
   // 추후 수정 취소 대비해서 값을 일시저장하는 느낌으로 변경
   const handlePostCode = (e) => {
     e.preventDefault();
     open({
       onComplete: (data) => {
-        setUserInfo((prevState) => ({
+        setModifyInfo((prevState) => ({
           ...prevState,
           zipcode: data.zonecode,
           address: data.jibunAddress,
@@ -56,6 +76,37 @@ export default function Info() {
       ...prevState,
       location: location,
     }));
+  };
+  const handleModifyComplete = () => {
+    switch (modifyType) {
+      case '닉네임':
+        const nicknameRegex = /^[a-zA-Z0-9가-힣]{2,8}$/;
+        if (!nicknameRegex.test(modifyInfo.nickname)) {
+          alert('닉네임은 2~8자의 한글, 영문 또는 숫자로만 가능합니다.');
+          return;
+        }
+        break;
+      case '전화번호':
+        const phoneRegex = /^010\d{7,8}$/;
+        if (!phoneRegex.test(modifyInfo.phoneNumber)) {
+          alert('전화번호 형식이 올바르지 않습니다. ex)01012345678');
+          return;
+        }
+        break;
+      case '주소':
+        if (!modifyInfo.zipcode || !modifyInfo.address || !modifyInfo.detail) {
+          alert('우편번호, 주소 및 상세 주소를 모두 입력해주세요.');
+          return;
+        }
+        break;
+      default:
+        break;
+    }
+    setUserInfo((prevState) => ({
+      ...prevState,
+      ...modifyInfo,
+    }));
+    setModifyType('');
   };
 
   return (
@@ -100,7 +151,13 @@ export default function Info() {
             {modifyType === '닉네임' ? (
               <input
                 className="px-[8px] py-[4px] border rounded-lg outline-none"
-                defaultValue={userInfo.nickname}
+                value={modifyInfo.nickname || ''}
+                onChange={(e) =>
+                  setModifyInfo((prevState) => ({
+                    ...prevState,
+                    nickname: e.target.value,
+                  }))
+                }
                 placeholder="닉네임"
               />
             ) : (
@@ -111,14 +168,18 @@ export default function Info() {
             {modifyType === '닉네임' && (
               <button
                 className="mypage-profile__button"
-                onClick={() => setModifyType('')}
+                onClick={handleModifyCancel}
               >
                 변경취소
               </button>
             )}
             <button
               className={`mypage-profile__button ${modifyType === '닉네임' && 'mypage-profile__button-finish'}`}
-              onClick={() => handleModifyType('닉네임')}
+              onClick={() => {
+                modifyType === '닉네임'
+                  ? handleModifyComplete()
+                  : handleModifyType('닉네임');
+              }}
             >
               {modifyType === '닉네임' ? '변경완료' : '변경'}
             </button>
@@ -144,8 +205,15 @@ export default function Info() {
                 <div className="flex gap-[8px]">
                   <input
                     className="w-[250px] px-[8px] py-[4px] border rounded-lg outline-none"
-                    value={userInfo.address}
+                    value={modifyInfo.address || ''}
+                    onChange={(e) =>
+                      setModifyInfo((prevState) => ({
+                        ...prevState,
+                        address: e.target.value,
+                      }))
+                    }
                     placeholder="지번 주소"
+                    disabled={modifyInfo.address ? true : false}
                   />
                   <button
                     className="px-[8px] text-white text-sm bg-blue--500 rounded-lg"
@@ -156,7 +224,13 @@ export default function Info() {
                 </div>
                 <input
                   className="w-[150px] px-[8px] py-[4px] border rounded-lg outline-none"
-                  defaultValue={userInfo.detail}
+                  value={modifyInfo.detail || ''}
+                  onChange={(e) =>
+                    setModifyInfo((prevState) => ({
+                      ...prevState,
+                      detail: e.target.value,
+                    }))
+                  }
                   placeholder="상세 주소"
                 />
               </div>
@@ -173,14 +247,18 @@ export default function Info() {
             {modifyType === '주소' && (
               <button
                 className="mypage-profile__button"
-                onClick={() => setModifyType('')}
+                onClick={handleModifyCancel}
               >
                 변경취소
               </button>
             )}
             <button
               className={`mypage-profile__button ${modifyType === '주소' && 'mypage-profile__button-finish'}`}
-              onClick={() => handleModifyType('주소')}
+              onClick={() => {
+                modifyType === '주소'
+                  ? handleModifyComplete()
+                  : handleModifyType('주소');
+              }}
             >
               {modifyType === '주소' ? '변경완료' : '변경'}
             </button>
@@ -192,7 +270,13 @@ export default function Info() {
             {modifyType === '전화번호' ? (
               <input
                 className="px-[8px] py-[4px] border rounded-lg outline-none"
-                defaultValue={userInfo.phoneNumber}
+                value={modifyInfo.phoneNumber || ''}
+                onChange={(e) =>
+                  setModifyInfo((prevState) => ({
+                    ...prevState,
+                    phoneNumber: e.target.value,
+                  }))
+                }
                 placeholder="전화번호 (ex) 01012345678)"
               />
             ) : (
@@ -203,14 +287,18 @@ export default function Info() {
             {modifyType === '전화번호' && (
               <button
                 className="mypage-profile__button"
-                onClick={() => setModifyType('')}
+                onClick={handleModifyCancel}
               >
                 변경취소
               </button>
             )}
             <button
               className={`mypage-profile__button ${modifyType === '전화번호' && 'mypage-profile__button-finish'}`}
-              onClick={() => handleModifyType('전화번호')}
+              onClick={() => {
+                modifyType === '전화번호'
+                  ? handleModifyComplete()
+                  : handleModifyType('전화번호');
+              }}
             >
               {modifyType === '전화번호' ? '번호인증' : '변경'}
             </button>
