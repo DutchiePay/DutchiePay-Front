@@ -11,15 +11,27 @@ import Image from 'next/image';
 import ProductInfo from '@/app/_components/_commerce/ProductInfo';
 import RemainingTime from '@/app/_components/_commerce/RemainingTime';
 import Review from '@/app/_components/_commerce/Review';
-import product from '../../../../public/image/product1.jpg';
-import productDetail from '../../../../public/image/product_detail.jpg';
-import time from '../../../../public/image/time.svg';
-import { useParams } from 'next/navigation';
+import product from '../../../../../public/image/product1.jpg';
+import productDetail from '../../../../../public/image/product_detail.jpg';
+import time from '../../../../../public/image/time.svg';
+import { useSearchParams } from 'next/navigation';
 
-export default function CommerceTemp() {
+<<<<<<< HEAD:dutchiepay/src/app/(routes)/commerce/[id]/page.jsx
+  return ids.map((id) => ({
+    id: id.toString(),
+  }));
+}
+
+export default function CommerceDetail({ params }) {
+  const { id } = { params };
+  // 작성 리뷰/문의 없을 때 구현해야 함
+  return <CommerceTemp />;
+=======
+export default function CommerceDetail() {
+  const searchParams = useSearchParams();
+  const productId = searchParams.get('productId');
   const [tab, setTab] = useState('상품정보');
   const [isEnd, setIsEnd] = useState(true); // 마감 여부
-  const { id } = useParams();
 
   const infoRef = useRef(null);
   const reviewRef = useRef(null);
@@ -126,4 +138,5 @@ export default function CommerceTemp() {
       </section>
     </main>
   );
+>>>>>>> origin/main:dutchiepay/src/app/(routes)/commerce/detail/page.jsx
 }

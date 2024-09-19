@@ -74,7 +74,7 @@ export default function MyReviews() {
         <div className="w-[558px]">
           <div className="flex justify-between items-center">
             <Link
-              href="#"
+              href="/commerce/detail?productId=123"
               className="inline-block max-w-[470px] title--single-line font-bold"
             >
               애슐리 볶음밥 10인분 혼합 구성

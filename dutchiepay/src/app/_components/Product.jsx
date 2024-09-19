@@ -21,7 +21,10 @@ export default function Product() {
   };
 
   return (
-    <Link href="/commerce/123" className="w-[220px] flex flex-col gap-[4px]">
+    <Link
+      href="/commerce/detail?productId=123"
+      className="w-[220px] flex flex-col gap-[4px]"
+    >
       <div className="w-full h-[148px] relative overflow-hidden">
         <Image
           className="w-full h-[148px] transform transition-transform duration-300 hover:scale-110"

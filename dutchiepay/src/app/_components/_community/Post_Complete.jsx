@@ -6,7 +6,7 @@ import Link from 'next/link';
 export default function Post_Complete() {
   return (
     <Link
-      href="/mart/456"
+      href="/mart/detail?postId=123"
       className="flex justify-between items-center cursor-pointer"
     >
       <p className="text-sm text-gray--500">
