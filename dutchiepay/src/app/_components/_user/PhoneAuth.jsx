@@ -8,6 +8,7 @@ export default function PhoneAuth({
   errors,
   setPhoneCode,
   isAuthError,
+  touchedFields,
 }) {
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [remainingTime, setRemainingTime] = useState(180);
@@ -67,10 +68,10 @@ export default function PhoneAuth({
       <div className="mt-[4px] mb-[8px] flex relative">
         <input
           disabled={isPhoneAuth}
-          className={`user__input ${
-            errors.phone
+          className={`user__input mt-[4px] ${
+            touchedFields.phone && errors.phone
               ? 'user__input__invalid'
-              : phone
+              : touchedFields.phone && !errors.phone && phone
                 ? 'user__input__valid'
                 : ''
           }`}
@@ -86,11 +87,11 @@ export default function PhoneAuth({
         />
         <button
           type="button"
-          className={`w-[90px] absolute right-0 top-0 h-full px-[20px] text-[14px] font-bold text-white rounded-r-[4px] 
+          className={`w-[90px] h-[50px] mt-[4px] absolute right-0 top-0  px-[20px] text-[14px] font-bold text-white rounded-r-[4px] 
                   ${
-                    errors.phone
+                    touchedFields.phone && errors.phone
                       ? 'bg-gray--200 cursor-not-allowed border border-red--500 border-l-0'
-                      : phone
+                      : touchedFields.phone && !errors.phone && phone
                         ? 'bg-blue--500 cursor-pointer border border-blue--500 border-l-0'
                         : 'border-none bg-gray--200 cursor-not-allowed'
                   }`}

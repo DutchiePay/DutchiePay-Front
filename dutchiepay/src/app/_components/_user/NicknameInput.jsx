@@ -3,7 +3,12 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-export default function NicknameInput({ register, errors, nickname }) {
+export default function NicknameInput({
+  register,
+  errors,
+  nickname,
+  touchedFields,
+}) {
   const rNickname = /^[a-zA-Z0-9가-힣]{2,8}$/;
 
   return (
@@ -17,9 +22,9 @@ export default function NicknameInput({ register, errors, nickname }) {
       <div className="flex relative">
         <input
           className={`user__input mt-[4px] ${
-            errors.nickname
+            touchedFields.nickname && errors.nickname
               ? 'user__input__invalid'
-              : !errors.nickname && nickname
+              : touchedFields.nickname && !errors.nickname && nickname
                 ? 'user__input__valid'
                 : ''
           }`}
@@ -37,15 +42,17 @@ export default function NicknameInput({ register, errors, nickname }) {
         />
       </div>
       <p
-        className={`text-sm min-h-[20px] ${
+        className={`text-sm min-h-[20px] font-medium ${
           nickname && !errors.nickname ? 'text-blue--500' : 'text-red--500'
         }`}
         role="alert"
         aria-hidden={errors.nickname ? 'true' : 'false'}
       >
-        {errors.nickname
+        {touchedFields.nickname && errors.nickname
           ? errors.nickname.message
-          : rNickname.test(nickname) && '사용가능한 닉네임 입니다.'}
+          : touchedFields.nickname && !errors.nickname && nickname
+            ? '사용가능한 닉네임 입니다'
+            : ''}
       </p>
     </>
   );

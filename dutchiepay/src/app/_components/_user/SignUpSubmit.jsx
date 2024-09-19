@@ -22,7 +22,7 @@ export default function SignUpSubmit() {
     watch,
     handleSubmit,
     trigger,
-    formState: { errors, isValid, isSubmitting },
+    formState: { errors, isValid, isSubmitting, touchedFields },
   } = useForm({
     mode: 'onTouched',
     criteriaMode: 'all',
@@ -57,7 +57,7 @@ export default function SignUpSubmit() {
       name: userData.name || null, // userData.name이 빈 문자열일 경우 null 처리
     };
     console.log(payload);
-    try {
+    /*try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/signup`,
         payload
@@ -65,7 +65,7 @@ export default function SignUpSubmit() {
       console.log('회원가입 성공:', response.data);
     } catch (error) {
       console.error('회원가입 실패:', error);
-    }
+    }*/
   };
 
   const password = watch('password');
@@ -78,15 +78,26 @@ export default function SignUpSubmit() {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-[4px] mt-[8px]"
     >
-      <EmailInput register={register} errors={errors} email={email} />
+      <EmailInput
+        register={register}
+        errors={errors}
+        email={email}
+        touchedFields={touchedFields}
+      />
       <PasswordInput
         register={register}
         trigger={trigger}
         errors={errors}
         password={password}
         confirmPassword={confirmPassword}
+        touchedFields={touchedFields}
       />
-      <NicknameInput register={register} errors={errors} nickname={nickname} />
+      <NicknameInput
+        register={register}
+        errors={errors}
+        nickname={nickname}
+        touchedFields={touchedFields}
+      />
       <NameInput register={register} />
       <PhoneAuth
         register={register}
@@ -94,12 +105,13 @@ export default function SignUpSubmit() {
         errors={errors}
         setPhoneCode={setPhoneCode}
         isAuthError={isAuthError}
+        touchedFields={touchedFields}
       />
       <AddressInput address={address} setAddress={setAddress} />
       <Policy register={register} />
       <button
         type="submit"
-        className={`px-[24px] py-[8px] text-bold w-full rounded-[4px] text-white text-[18px] border-none ${
+        className={`mt-[32px] px-[24px] py-[8px] text-bold w-full rounded-[4px] text-white text-[18px] border-none ${
           isValid ? 'bg-blue--500' : 'bg-gray--200 cursor-not-allowed'
         }`}
         disabled={!isValid || isSubmitting}

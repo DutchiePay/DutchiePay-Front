@@ -5,6 +5,7 @@ import '@/styles/user.css';
 
 import { useEffect, useState } from 'react';
 
+import Image from 'next/image';
 import eyeClosed from '../../../../public/image/eyeClosed.svg';
 import eyeOpen from '../../../../public/image/eyeOpen.svg';
 
@@ -12,6 +13,7 @@ export default function PasswordInput({
   register,
   trigger,
   errors,
+  touchedFields,
   password,
   confirmPassword,
 }) {
@@ -42,9 +44,11 @@ export default function PasswordInput({
           <input
             id="password"
             className={`user__input-password mt-[4px] ${
-              errors.password
+              touchedFields.password && errors.password
                 ? 'user__input-password__invalid'
-                : rPassword.test(password) && 'user__input-password__valid'
+                : touchedFields.password && !errors.password && password
+                  ? 'user__input-password__valid'
+                  : ''
             }`}
             placeholder="비밀번호"
             type={isPasswordVisible ? 'text' : 'password'}
@@ -75,9 +79,11 @@ export default function PasswordInput({
           role="alert"
           aria-hidden={errors.password ? 'true' : 'false'}
         >
-          {errors.password
+          {touchedFields.password && errors.password
             ? errors.password.message
-            : rPassword.test(password) && '사용가능한 비밀번호 입니다.'}
+            : touchedFields.password && !errors.password && password
+              ? '사용가능한 비밀번호 입니다'
+              : ''}
         </p>
       </div>
       <div>
@@ -93,12 +99,13 @@ export default function PasswordInput({
           <input
             id="confirmPassword"
             className={`user__input-password mt-[4px] ${
-              rPassword.test(password) &&
-              (errors.confirmPassword
+              touchedFields.confirmPassword && errors.confirmPassword
                 ? 'user__input-password__invalid'
-                : !errors.confirmPassword &&
-                  touchedFields.confirmPassword &&
-                  'user__input-password__valid')
+                : touchedFields.confirmPassword &&
+                    !errors.confirmPassword &&
+                    confirmPassword
+                  ? 'user__input-password__valid'
+                  : ''
             }`}
             placeholder="비밀번호 확인"
             aria-required="true"
@@ -122,12 +129,13 @@ export default function PasswordInput({
           role="alert"
           aria-hidden={errors.confirmPassword ? 'true' : 'false'}
         >
-          {rPassword.test(password) &&
-            (errors.confirmPassword
-              ? errors.confirmPassword.message
-              : !errors.confirmPassword &&
-                touchedFields.confirmPassword &&
-                '비밀번호가 일치합니다.')}
+          {touchedFields.confirmPassword && errors.confirmPassword
+            ? errors.confirmPassword.message
+            : touchedFields.confirmPassword &&
+                !errors.confirmPassword &&
+                confirmPassword
+              ? '두 비밀번호가 일치합니다'
+              : ''}
         </p>
       </div>
     </>

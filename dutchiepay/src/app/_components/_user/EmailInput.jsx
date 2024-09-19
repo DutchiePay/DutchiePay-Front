@@ -3,7 +3,7 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-export default function EmailInput({ register, errors, email }) {
+export default function EmailInput({ register, errors, email, touchedFields }) {
   const rEmail =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
 
@@ -12,9 +12,11 @@ export default function EmailInput({ register, errors, email }) {
       <label className="user__label">이메일</label>
       <input
         className={`user__input mt-[4px] ${
-          errors.email
+          touchedFields.email && errors.email
             ? 'user__input__invalid'
-            : rEmail.test(email) && 'user__input__valid'
+            : touchedFields.email && !errors.email && email
+              ? 'user__input__valid'
+              : ''
         }`}
         type="text"
         placeholder="이메일"
@@ -27,7 +29,7 @@ export default function EmailInput({ register, errors, email }) {
         })}
       />
       <p
-        className={`text-sm min-h-[20px] mt-[8px] ${
+        className={`text-sm min-h-[20px] mt-[8px] font-medium ${
           errors.email
             ? 'text-red--500'
             : rEmail.test(email) && 'text-blue--500'
@@ -35,9 +37,11 @@ export default function EmailInput({ register, errors, email }) {
         role="alert"
         aria-hidden={errors.email ? 'true' : 'false'}
       >
-        {errors.email
+        {touchedFields.email && errors.email
           ? errors.email.message
-          : rEmail.test(email) && '사용가능한 이메일 입니다.'}
+          : touchedFields.email && !errors.email && email
+            ? '사용가능한 이메일 입니다'
+            : ''}
       </p>
     </div>
   );
