@@ -16,17 +16,6 @@ import productDetail from '../../../../../public/image/product_detail.jpg';
 import time from '../../../../../public/image/time.svg';
 import { useSearchParams } from 'next/navigation';
 
-<<<<<<< HEAD:dutchiepay/src/app/(routes)/commerce/[id]/page.jsx
-  return ids.map((id) => ({
-    id: id.toString(),
-  }));
-}
-
-export default function CommerceDetail({ params }) {
-  const { id } = { params };
-  // 작성 리뷰/문의 없을 때 구현해야 함
-  return <CommerceTemp />;
-=======
 export default function CommerceDetail() {
   const searchParams = useSearchParams();
   const productId = searchParams.get('productId');
@@ -138,5 +127,4 @@ export default function CommerceDetail() {
       </section>
     </main>
   );
->>>>>>> origin/main:dutchiepay/src/app/(routes)/commerce/detail/page.jsx
 }
