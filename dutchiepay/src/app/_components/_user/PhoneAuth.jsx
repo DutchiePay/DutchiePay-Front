@@ -9,6 +9,7 @@ export default function PhoneAuth({
   setPhoneCode,
   isAuthError,
   touchedFields,
+  setHasPhone,
 }) {
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [remainingTime, setRemainingTime] = useState(180);
@@ -31,8 +32,17 @@ export default function PhoneAuth({
     return () => clearInterval(timer);
   }, [isPhoneAuth]);
 
+  useEffect(() => {
+    if (phone) {
+      setHasPhone(true);
+    } else {
+      setHasPhone(false);
+    }
+  }, [phone]);
+
   const handleAuthClick = async () => {
     if (rPhone.test(phone)) {
+      setHasPhone(false);
       try {
         // const response = await axios.post(
         //   `${process.env.NEXT_PUBLIC_BASE_URL}/users/auth`,
@@ -102,9 +112,9 @@ export default function PhoneAuth({
       </div>
 
       {isPhoneAuth && (
-        <div className="mt-[8px] flex w-[500px] text-[14px]">
+        <div className="mt-[8px] flex w-[500px]">
           <input
-            className="w-[150px] border border-[#d1d2d7] px-[16px] py-[12px] mr-[10px] rounded-[4px] outline-none"
+            className="w-[100px] border border-[#d1d2d7] px-[16px] py-[4px] mr-[10px] rounded-[4px] outline-none"
             placeholder="인증번호 입력"
             type="text"
             {...register('authCode', {
@@ -112,7 +122,7 @@ export default function PhoneAuth({
             })}
           />
           <div className="w-[300px]">
-            <p className="font-medium text-red-500">
+            <p className="font-medium text-red-500 text-sm">
               {formatTime(remainingTime)}
             </p>
             <p

@@ -12,9 +12,8 @@ export default function SocialSignup() {
 
   const handleSocial = async (type) => {
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/oauth/signup`,
-        { type: type }
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/oauth/signup?type=${type}`
       );
       console.log(`${type} 회원가입 성공 : ${response.data}`);
       router.push('/');

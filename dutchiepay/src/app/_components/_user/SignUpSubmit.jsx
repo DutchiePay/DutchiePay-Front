@@ -16,6 +16,7 @@ export default function SignUpSubmit() {
   const [address, setAddress] = useState('');
   const [phoneCode, setPhoneCode] = useState('');
   const [isAuthError, setIsAuthError] = useState(false);
+  const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부
 
   const {
     register,
@@ -57,7 +58,7 @@ export default function SignUpSubmit() {
       name: userData.name || null, // userData.name이 빈 문자열일 경우 null 처리
     };
     console.log(payload);
-    /*try {
+    try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/signup`,
         payload
@@ -65,7 +66,7 @@ export default function SignUpSubmit() {
       console.log('회원가입 성공:', response.data);
     } catch (error) {
       console.error('회원가입 실패:', error);
-    }*/
+    }
   };
 
   const password = watch('password');
@@ -106,15 +107,18 @@ export default function SignUpSubmit() {
         setPhoneCode={setPhoneCode}
         isAuthError={isAuthError}
         touchedFields={touchedFields}
+        setHasPhone={setHasPhone}
       />
       <AddressInput address={address} setAddress={setAddress} />
       <Policy register={register} />
       <button
         type="submit"
         className={`mt-[32px] px-[24px] py-[8px] text-bold w-full rounded-[4px] text-white text-[18px] border-none ${
-          isValid ? 'bg-blue--500' : 'bg-gray--200 cursor-not-allowed'
+          !isValid || isSubmitting || hasPhone
+            ? 'bg-gray--200 cursor-not-allowed'
+            : 'bg-blue--500'
         }`}
-        disabled={!isValid || isSubmitting}
+        disabled={!isValid || isSubmitting || hasPhone}
       >
         회원가입
       </button>
