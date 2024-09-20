@@ -11,13 +11,13 @@ import { useState } from 'react';
 export default function Search() {
   const searchParams = useSearchParams();
   const keyword = searchParams.get('keyword') || '검색어 없음';
-  const [hasCommunity, setHasCommunity] = useState(true); // 커뮤니티 결과 존재 여부
-  const [hasCommerce, setHasCommerce] = useState(true); // 공동구매 결과 존재 여부
+  const [hasCommunity, setHasCommunity] = useState(true); // 커뮤니티 결과 존재 여부 (추후 제거될 예정)
+  const [hasCommerce, setHasCommerce] = useState(true); // 공동구매 결과 존재 여부 (추후 제거될 예정)
 
   return (
-    <main className="min-h-[750px] w-[1020px] mb-[100px]">
+    <section className="min-h-[750px] w-[1020px] mb-[100px]">
       <h2 className="mt-[40px] text-2xl font-bold">
-        '{keyword}'에 대한 검색결과
+        &apos;{keyword}&apos;에 대한 검색결과
       </h2>
       {hasCommerce && (
         <section className="mt-[24px]">
@@ -66,8 +66,8 @@ export default function Search() {
       {!hasCommerce && !hasCommunity && (
         <section className="h-[300px] mt-[40px] border rounded-lg px-[60px] flex flex-col justify-center">
           <p className="text-xl font-bold">
-            <strong className="text-red--500">'{keyword}'</strong> 에 대한 검색
-            결과가 없습니다.
+            <strong className="text-red--500">&apos;{keyword}&apos;</strong> 에
+            대한 검색 결과가 없습니다.
           </p>
           <ul className="mt-[24px] text-gray--500">
             <li>단어의 철자가 정확한지 확인해 보세요.</li>
@@ -80,6 +80,6 @@ export default function Search() {
           </ul>
         </section>
       )}
-    </main>
+    </section>
   );
 }

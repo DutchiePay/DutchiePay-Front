@@ -30,14 +30,16 @@ export default function Help() {
     },
     {
       id: 3,
-      question: '[공동구매] 공동구매한 상품을 교환/환불할 수 있는 방법이 있나요?',
+      question:
+        '[공동구매] 공동구매한 상품을 교환/환불할 수 있는 방법이 있나요?',
       answer:
         '공동구매 특성상 구매자의 변심을 이유로 교환/환불을 하실 수 없습니다. 만약, 구매하신 상품에 문제가 있을 경우, 배송완료를 기준으로 7일 이내에 교환/환불 요청해 주시면 됩니다.',
     },
     {
       id: 4,
       question: '[공동구매] 결제는 어떤 방법으로 할 수 있나요?',
-      answer: '신용카드, 무통장입금, 카카오페이를 지원합니다. 결제 시 원하는 방법을 선택해 주시면 됩니다.',
+      answer:
+        '신용카드, 무통장입금, 카카오페이를 지원합니다. 결제 시 원하는 방법을 선택해 주시면 됩니다.',
     },
     {
       id: 5,
@@ -54,10 +56,10 @@ export default function Help() {
   ];
 
   return (
-    <main className="min-h-[690px] w-[1020px]">
+    <section className="min-h-[690px] w-[1020px]">
       <div className="flex items-baseline gap-[8px] mt-[40px] mb-[16px]">
         <h1 className="text-3xl font-bold">고객센터</h1>
-        <p className="text-sm text-gray--500">자주 물어보시는 질문</p>
+        <small className="text-sm text-gray--500">자주 물어보시는 질문</small>
       </div>
       <hr />
       <section className="w-[810px] mx-auto my-[60px]">
@@ -68,8 +70,13 @@ export default function Help() {
               onClick={() => handleToggle(index)}
             >
               <div className="flex gap-[24px] items-center">
-                <p className="text-blue--500 font-semibold">{String(index + 1).padStart(2, '0')}</p>
-                <button className="font-bold" aria-expanded={openIndexes[index]}>
+                <p className="text-blue--500 font-semibold">
+                  {String(index + 1).padStart(2, '0')}
+                </p>
+                <button
+                  className="font-bold"
+                  aria-expanded={openIndexes[index]}
+                >
                   {faq.question}
                 </button>
               </div>
@@ -91,6 +98,6 @@ export default function Help() {
           </article>
         ))}
       </section>
-    </main>
+    </section>
   );
 }

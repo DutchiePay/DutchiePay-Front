@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
 
 import CryptoJS from 'crypto-js';
@@ -125,56 +127,54 @@ export default function Location_Modal({ onLocationUpdate }) {
   };
 
   return (
-    <>
-      <main className="max-w-[600px] p-[32px] overflow-x-hidden border b-black m-0 m-auto">
-        <h1 className="text-3xl font-bold">거래 진행 위치 설정</h1>
-        <p className="text-xs font-bold mt-[8px]">
-          거래를 원하는 위치로 마커를 이동시켜주세요. 위치 설정 후에 게시글을
-          작성하실 수 있습니다.
-        </p>
-        <p className="text-xs text-gray--500 mt-[16px]">
-          ※ 추천 거래 진행 위치
-          <br />
-          마트의 경우 - 구매를 진행할 마트 위치나 구매한 상품을 분배하는 특정
-          장소 등<br />
-          배달의 경우 - 배달 시킨 음식을 나눌 장소 등<br />
-          나눔/배달의 경우 - 거래를 진행할 장소
-        </p>
+    <article className="max-w-[600px] p-[32px] overflow-x-hidden border b-black m-0 m-auto">
+      <h1 className="text-3xl font-bold">거래 진행 위치 설정</h1>
+      <p className="text-xs font-bold mt-[8px]">
+        거래를 원하는 위치로 마커를 이동시켜주세요. 위치 설정 후에 게시글을
+        작성하실 수 있습니다.
+      </p>
+      <p className="text-xs text-gray--500 mt-[16px]">
+        ※ 추천 거래 진행 위치
+        <br />
+        마트의 경우 - 구매를 진행할 마트 위치나 구매한 상품을 분배하는 특정 장소
+        등<br />
+        배달의 경우 - 배달 시킨 음식을 나눌 장소 등<br />
+        나눔/배달의 경우 - 거래를 진행할 장소
+      </p>
 
-        <section className="mt-[40px]">
-          <form onSubmit={handleSubmit}>
-            <div>
-              <div
-                className="border border-gray--200"
-                id="map"
-                style={{ width: '100%', height: '300px' }}
-              ></div>
-              <Script
-                src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_CLIENT_ID}`}
-                strategy="afterInteractive"
-                onLoad={initializeMap}
-              />
-            </div>
-
-            <input
-              className="w-full mt-[20px] text-sm border p-[12px] outline-none resize-none rounded"
-              type="text"
-              placeholder="해당 위치 이름 또는 설명을 적어주세요. (ex) 삼각지역 1번출구)"
-              value={locationDescription}
-              onChange={(e) => setLocationDescription(e.target.value)}
+      <section className="mt-[40px]">
+        <form onSubmit={handleSubmit}>
+          <div>
+            <div
+              className="border border-gray--200"
+              id="map"
+              style={{ width: '100%', height: '300px' }}
+            ></div>
+            <Script
+              src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_CLIENT_ID}`}
+              strategy="afterInteractive"
+              onLoad={initializeMap}
             />
+          </div>
 
-            <div className="flex justify-center mt-[36px]">
-              <button
-                type="submit"
-                className="w-[170px] text-white text-sm bg-blue-500 rounded-lg px-[24px] py-[8px]"
-              >
-                위치 설정
-              </button>
-            </div>
-          </form>
-        </section>
-      </main>
-    </>
+          <input
+            className="w-full mt-[20px] text-sm border p-[12px] outline-none resize-none rounded"
+            type="text"
+            placeholder="해당 위치 이름 또는 설명을 적어주세요. (ex) 삼각지역 1번출구)"
+            value={locationDescription}
+            onChange={(e) => setLocationDescription(e.target.value)}
+          />
+
+          <div className="flex justify-center mt-[36px]">
+            <button
+              type="submit"
+              className="w-[170px] text-white text-sm bg-blue-500 rounded-lg px-[24px] py-[8px]"
+            >
+              위치 설정
+            </button>
+          </div>
+        </form>
+      </section>
+    </article>
   );
 }

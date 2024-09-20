@@ -38,17 +38,20 @@ export default function Order() {
         <p className="mypage-orders__order-number">24072112345</p>
       </div>
       <div className="flex gap-[16px]">
-        <Image
-          className="w-[140px] h-[140px] rounded-lg cursor-pointer"
-          src={product}
-          alt="애슐리 볶음밥"
-          width={140}
-          height={140}
-        />
+        <Link href="/commerce/detail?productId=123">
+          <Image
+            className="w-[140px] h-[140px] rounded-lg cursor-pointer"
+            src={product}
+            alt="애슐리 볶음밥"
+            width={140}
+            height={140}
+          />
+        </Link>
+
         <div className="h-[140px] flex flex-col gap-[4px] justify-center">
           <strong className="text-2xl text-blue--500">배송완료</strong>
           <Link
-            href="#"
+            href="/commerce/detail?productId=123"
             className="max-w-[520px] title--single-line font-medium"
           >
             애슐리 볶음밥 10인분 혼합 구성

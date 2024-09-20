@@ -28,7 +28,7 @@ export default function MyAsks() {
               />
             )}
             <Link
-              href="/commerce/123"
+              href="/commerce/detail?productId=123"
               className="title--single-line max-w-[350px] text-[18px] font-bold"
             >
               애슐리 볶음밥 10인분 혼합 구성

@@ -17,7 +17,7 @@ export default function Post_Used() {
 
   return (
     <Link
-      href="/used/123"
+      href="/used/detail?postId=123"
       className="w-[240px] border rounded-xl flex flex-col gap-[4px] cursor-pointer"
     >
       <div className="rounded-t-xl h-[160px] relative overflow-hidden">
