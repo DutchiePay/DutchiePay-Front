@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useRouter } from 'next/navigation';
 
+import Cookies from 'universal-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
 import chat from '../../../../public/image/chat.svg';
@@ -19,6 +20,7 @@ export default function Header() {
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
   const router = useRouter();
+  const cookies = new Cookies();
 
   const pathname = usePathname();
 
