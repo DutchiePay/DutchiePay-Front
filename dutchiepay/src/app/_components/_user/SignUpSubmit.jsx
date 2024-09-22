@@ -1,3 +1,5 @@
+'use client';
+
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
@@ -84,6 +86,7 @@ export default function SignUpSubmit() {
         errors={errors}
         email={email}
         touchedFields={touchedFields}
+        isSignup={true}
       />
       <PasswordInput
         register={register}
@@ -99,6 +102,7 @@ export default function SignUpSubmit() {
         nickname={nickname}
         touchedFields={touchedFields}
       />
+      <AddressInput address={address} setAddress={setAddress} />
       <NameInput register={register} />
       <PhoneAuth
         register={register}
@@ -108,8 +112,13 @@ export default function SignUpSubmit() {
         isAuthError={isAuthError}
         touchedFields={touchedFields}
         setHasPhone={setHasPhone}
+        isSignup={true}
       />
-      <AddressInput address={address} setAddress={setAddress} />
+      <span className="text-xs mt-[4px]">
+        ※ 휴대폰 인증을 거치지 않을 경우, <strong>일부 서비스가 제한</strong>
+        됩니다.
+        <br /> 회원가입 이후에도 휴대폰 인증을 진행할 수 있습니다.
+      </span>
       <Policy register={register} />
       <button
         type="submit"

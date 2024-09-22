@@ -20,7 +20,7 @@ export default function AddressInput({ address, setAddress }) {
   return (
     <>
       <label className="user__label">우리동네</label>
-      <div className="flex relative">
+      <div className="flex relative mb-[20px]">
         <input
           disabled
           className="user__input mt-[4px] bg-gray--100"
