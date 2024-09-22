@@ -20,11 +20,15 @@ export default function Find() {
     handleSubmit,
     formState: { errors, isValid },
     reset,
+    watch,
   } = useForm({
     mode: 'onTouched',
     reValidateMode: 'onblur',
     shouldFocusError: true,
   });
+
+  const phoneNumber = watch('phone');
+  const email = watch('email');
 
   const handleTab = (e) => {
     setTab(e.target.innerText);
@@ -85,7 +89,7 @@ export default function Find() {
                 </p>
 
                 <form
-                  className="flex flex-col gap-[12px]"
+                  className="flex flex-col gap-[8px]"
                   onSubmit={handleSubmit(onSubmit)}
                 >
                   <div className="flex gap-[8px] items-baseline">
@@ -95,7 +99,7 @@ export default function Find() {
                     </p>
                   </div>
                   <input
-                    className="user__input"
+                    className={`user__input ${errors.phone ? 'user__input__invalid' : phoneNumber ? 'user__input__valid' : ''}`}
                     placeholder="휴대폰 번호 (ex : 01012345678)"
                     aria-invalid={errors.phone ? 'true' : 'false'}
                     type="text"
@@ -141,12 +145,12 @@ export default function Find() {
                 </p>
 
                 <form
-                  className="flex flex-col gap-[12px]"
+                  className="flex flex-col gap-[8px]"
                   onSubmit={handleSubmit(onSubmit)}
                 >
                   <label className="user__label">이메일 주소</label>
                   <input
-                    className="user__input"
+                    className={`user__input ${errors.email ? 'user__input__invalid' : email ? 'user__input__valid' : ''}`}
                     placeholder="이메일 주소"
                     type="text"
                     aria-invalid={errors.email ? 'true' : 'false'}
@@ -172,7 +176,7 @@ export default function Find() {
                     </p>
                   </div>
                   <input
-                    className="user__input"
+                    className={`user__input ${errors.phone ? 'user__input__invalid' : phoneNumber ? 'user__input__valid' : ''}`}
                     placeholder="휴대폰 번호 (ex : 01012345678)"
                     aria-invalid={errors.phone ? 'true' : 'false'}
                     type="text"
