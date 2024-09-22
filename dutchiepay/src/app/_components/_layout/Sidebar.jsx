@@ -1,3 +1,5 @@
+'use client';
+
 import '../../../styles/mypage.css';
 
 import Image from 'next/image';
@@ -10,20 +12,23 @@ import post from '../../../../public/image/post.svg';
 import profile from '../../../../public/image/profile.jpg';
 import question from '../../../../public/image/question.svg';
 import review from '../../../../public/image/review.svg';
+import { useSelector } from 'react-redux';
 import user from '../../../../public/image/user.svg';
 
 export default function Sidebar() {
+  const userInfo = useSelector((state) => state.login.user);
+
   return (
     <aside className="w-[250px] h-[730px] bg-white border-r p-[16px] mb-[70px] flex flex-col items-center gap-[32px] fixed">
       <div className="flex flex-col items-center">
         <Image
           className="w-[120px] h-[120px] rounded-full border mb-[12px]"
-          src={profile}
+          src={userInfo?.profileImage || profile}
           alt="profile"
           width={120}
           height={120}
         />
-        <strong>한유진</strong>
+        <strong>{userInfo?.nickname}</strong>
       </div>
       <ul>
         <li className="mypage-sidebar-navbar__item">

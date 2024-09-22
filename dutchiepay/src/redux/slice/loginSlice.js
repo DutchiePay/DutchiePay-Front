@@ -3,12 +3,15 @@ import { createSlice } from '@reduxjs/toolkit';
 // 초기 상태 정의
 const initialState = {
   isLoggedIn: false,
-  user: null, // 사용자 정보가 필요하다면 여기에 저장
-  jwt: {
-    access: '',
-    expirationTime: '',
+  loginType: null,
+  user: {
+    userId: null,
+    nickname: null,
+    profileImage: null,
+    location: null,
+    isCertified: null,
   },
-  // 인증 여부
+  access: '',
 };
 
 // 로그인 슬라이스 생성
@@ -18,13 +21,22 @@ const loginSlice = createSlice({
   reducers: {
     login(state, action) {
       state.isLoggedIn = true;
-      state.user = action.payload; // 로그인 시 사용자 정보를 payload로 받아서 저장
-      state.jwt = action.payload.jwt;
+      state.loginType = action.payload.loginType;
+      state.user = action.payload.user;
+      state.access = action.payload.access;
     },
+
     logout(state) {
       state.isLoggedIn = false;
-      state.user = null; // 로그아웃 시 사용자 정보 초기화 initialState.user
-      state.jwt = { access: '', expirationTime: '' };
+      state.loginType = null;
+      state.user = {
+        userId: null,
+        nickname: null,
+        profileImage: null,
+        location: null,
+        isCertified: null,
+      };
+      state.access = '';
     },
   },
 });
