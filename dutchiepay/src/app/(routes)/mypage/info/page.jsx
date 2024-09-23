@@ -31,7 +31,14 @@ export default function Info() {
     address: userInfo.address,
     detail: userInfo.detail,
   });
+  const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 휴대폰 인증 클릭 여부
   const open = useDaumPostcodePopup();
+
+  const handlePhoneAuth = () => {
+    setIsPhoneAuth(true);
+
+    // 휴대폰 인증 코드 추가
+  };
 
   const handleModifyType = (type) => {
     // 수정할 타입이 현재 타입과 다를 때만 취소 함수 호출
@@ -119,7 +126,7 @@ export default function Info() {
   }
 
   return (
-    <section className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
+    <section className="ml-[250px] px-[40px] py-[30px] min-h-[680px]">
       <h1 className="text-[32px] font-bold">회원 정보</h1>
       <section className="mt-[40px] flex flex-col gap-[36px] mb-[24px]">
         <article className="mypage-profile">
@@ -129,13 +136,25 @@ export default function Info() {
               <br />
               이미지
             </h2>
-            <Image
-              className="w-[150px] h-[150px] rounded-full border mb-[12px]"
-              src={profile}
-              alt="profile"
-              width={150}
-              height={150}
-            />
+            <div className="flex gap-[24px] items-center">
+              <Image
+                className="w-[150px] h-[150px] rounded-full border mb-[12px]"
+                src={profile}
+                alt="profile"
+                width={150}
+                height={150}
+              />
+              {modifyType === '프로필이미지' && (
+                <div className="flex flex-col gap-[4px]">
+                  <button className="border rounded-lg text-sm px-[16px] py-[4px]">
+                    프로필 변경
+                  </button>
+                  <button className="border rounded-lg text-sm px-[16px] py-[4px]">
+                    프로필 삭제
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
           <div className="flex gap-[12px]">
             {modifyType === '프로필이미지' && (
@@ -277,17 +296,22 @@ export default function Info() {
           <div className="flex items-center">
             <h2 className="mypage-profile__label">전화번호</h2>
             {modifyType === '전화번호' ? (
-              <input
-                className="px-[8px] py-[4px] border rounded-lg outline-none"
-                value={modifyInfo.phoneNumber || ''}
-                onChange={(e) =>
-                  setModifyInfo((prevState) => ({
-                    ...prevState,
-                    phoneNumber: e.target.value,
-                  }))
-                }
-                placeholder="전화번호 (ex) 01012345678)"
-              />
+              <div className="flex flex-col">
+                <input
+                  className="w-[180px] px-[8px] py-[4px] border rounded-lg outline-none"
+                  value={modifyInfo.phoneNumber || ''}
+                  onChange={(e) =>
+                    setModifyInfo((prevState) => ({
+                      ...prevState,
+                      phoneNumber: e.target.value,
+                    }))
+                  }
+                  placeholder="전화번호 (ex) 01012345678)"
+                />
+                <small>
+                  ※ 휴대폰 번호 변경 시 휴대폰 인증을 필요로 합니다.
+                </small>
+              </div>
             ) : (
               <p className="mypage-profile__value">{userInfo.phoneNumber}</p>
             )}
@@ -305,11 +329,17 @@ export default function Info() {
               className={`mypage-profile__button ${modifyType === '전화번호' && 'mypage-profile__button-finish'}`}
               onClick={() => {
                 modifyType === '전화번호'
-                  ? handleModifyComplete()
+                  ? isPhoneAuth
+                    ? handleModifyComplete()
+                    : handlePhoneAuth()
                   : handleModifyType('전화번호');
               }}
             >
-              {modifyType === '전화번호' ? '번호인증' : '변경'}
+              {modifyType === '전화번호'
+                ? isPhoneAuth
+                  ? '변경완료'
+                  : '번호인증'
+                : '변경'}
             </button>
           </div>
         </article>
