@@ -52,7 +52,7 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
           { email: formData.email, phone: formData.phone }
         );
 
-        // reset 이동하기 전에 email을 저장할 방법 결정해야 함.
+        sessionStorage.setItem('emailForReset', formData.email);
         router.push('/reset');
       } catch {}
     }

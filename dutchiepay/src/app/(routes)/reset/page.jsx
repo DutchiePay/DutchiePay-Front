@@ -7,8 +7,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ResetSubmit from '@/app/_components/_user/ResetSubmit';
 import logo from '../../../../public/image/logo.jpg';
+import { useEffect } from 'react';
 
 export default function Reset() {
+  useEffect(() => {
+    const email = sessionStorage.getItem('emailForReset');
+    console.log(email);
+  }, []);
+
   return (
     <section className="w-full flex flex-col items-center justify-center min-h-[890px]">
       <h1>
