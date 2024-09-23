@@ -3,16 +3,31 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
+import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import ResetSubmit from '@/app/_components/_user/ResetSubmit';
 import logo from '../../../../public/image/logo.jpg';
-import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 export default function Reset() {
+  const [isUser, setIsUser] = useState(false); // 회원 여부
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const router = useRouter();
+
   useEffect(() => {
     const email = sessionStorage.getItem('emailForReset');
     console.log(email);
+
+    if (!email && isLoggedIn) {
+      setIsUser(true);
+    } else if (!email && !isLoggedIn) {
+      // 비회원도, 회원도 아닌 경우 (= URL로 해당 페이지 진입한 비회원)
+      alert('잘못된 접근 방식');
+      router.push('/');
+    }
   }, []);
 
   return (

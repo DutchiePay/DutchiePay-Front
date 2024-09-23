@@ -19,6 +19,7 @@ export default function SignUpSubmit() {
   const [phoneCode, setPhoneCode] = useState('');
   const [isAuthError, setIsAuthError] = useState(false);
   const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부
+  const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
 
   const {
     register,
@@ -111,6 +112,8 @@ export default function SignUpSubmit() {
         setPhoneCode={setPhoneCode}
         isAuthError={isAuthError}
         touchedFields={touchedFields}
+        isPhoneAuth={isPhoneAuth}
+        setIsPhoneAuth={setIsPhoneAuth}
         setHasPhone={setHasPhone}
         isSignup={true}
       />

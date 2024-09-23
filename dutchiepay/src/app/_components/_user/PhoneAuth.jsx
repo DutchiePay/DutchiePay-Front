@@ -10,9 +10,10 @@ export default function PhoneAuth({
   isAuthError,
   touchedFields,
   setHasPhone,
+  isPhoneAuth,
+  setIsPhoneAuth,
   isSignup = false,
 }) {
-  const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [remainingTime, setRemainingTime] = useState(180);
   const phone = watch('phone');
   const rPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;

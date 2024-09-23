@@ -16,7 +16,8 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
   const router = useRouter();
   const [phoneCode, setPhoneCode] = useState('');
   const [isAuthError, setIsAuthError] = useState(false);
-  const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부
+  const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부 (회원가입 때문에 강제됨)
+  const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
 
   const {
     register,
@@ -60,6 +61,7 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
 
   useEffect(() => {
     reset();
+    setIsPhoneAuth(false);
   }, [tab]);
 
   return (
@@ -87,11 +89,13 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
               isAuthError={isAuthError}
               touchedFields={touchedFields}
               setHasPhone={setHasPhone}
+              isPhoneAuth={isPhoneAuth}
+              setIsPhoneAuth={setIsPhoneAuth}
             />
             <button
               type="submit"
-              className={`mt-[24px] ${isValid ? 'user__button-blue' : 'user__button-gray cursor-not-allowed'} `}
-              disabled={!isValid}
+              className={`mt-[24px] ${isPhoneAuth && isValid ? 'user__button-blue' : 'user__button-gray cursor-not-allowed'} `}
+              disabled={!(isPhoneAuth && isValid)}
             >
               아이디(이메일) 찾기
             </button>
@@ -136,11 +140,13 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
               isAuthError={isAuthError}
               touchedFields={touchedFields}
               setHasPhone={setHasPhone}
+              isPhoneAuth={isPhoneAuth}
+              setIsPhoneAuth={setIsPhoneAuth}
             />
             <button
               type="submit"
-              className={`mt-[24px] ${isValid ? 'user__button-blue' : 'user__button-gray cursor-not-allowed'} `}
-              disabled={!isValid}
+              className={`mt-[24px] ${isPhoneAuth && isValid ? 'user__button-blue' : 'user__button-gray cursor-not-allowed'} `}
+              disabled={!(isPhoneAuth && isValid)}
             >
               비밀번호 재설정
             </button>
