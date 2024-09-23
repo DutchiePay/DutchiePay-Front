@@ -1,24 +1,27 @@
 import { useEffect, useState } from 'react';
+
 import axios from 'axios';
+
 export default function PhoneAuth({
   register,
   watch,
   errors,
-  touchedFields,
-  onAuthSuccess,
+  setPhoneCode,
   isAuthError,
+  touchedFields,
+  setHasPhone,
 }) {
-  const [isAuthInputVisible, setIsAuthInputVisible] = useState(false);
+  const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [remainingTime, setRemainingTime] = useState(180);
   const phone = watch('phone');
   const rPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+
   useEffect(() => {
     let timer;
-    if (isAuthInputVisible) {
+    if (isPhoneAuth) {
       timer = setInterval(() => {
         setRemainingTime((prev) => {
           if (prev <= 1) {
-            setIsAuthInputVisible(false);
             clearInterval(timer);
             return 0;
           }
@@ -27,17 +30,19 @@ export default function PhoneAuth({
       }, 1000);
     }
     return () => clearInterval(timer);
-  }, [isAuthInputVisible]);
-  useEffect(() => {
-    if (isAuthInputVisible) {
-      // 테스트용 현재 인증번호 코드 1234로 고정
-      onAuthSuccess('1234');
-    }
-  }, [isAuthInputVisible]);
+  }, [isPhoneAuth]);
 
-  // 테스트용 코드
+  useEffect(() => {
+    if (phone) {
+      setHasPhone(true);
+    } else {
+      setHasPhone(false);
+    }
+  }, [phone]);
+
   const handleAuthClick = async () => {
     if (rPhone.test(phone)) {
+      setHasPhone(false);
       try {
         // const response = await axios.post(
         //   `${process.env.NEXT_PUBLIC_BASE_URL}/users/auth`,
@@ -48,7 +53,8 @@ export default function PhoneAuth({
         // console.log(response.data);
         // onAuthSuccess(response.data.code);
         setRemainingTime(180);
-        setIsAuthInputVisible(true);
+        setIsPhoneAuth(true);
+        setPhoneCode('1234');
       } catch (error) {
         console.error('인증번호 전송 실패:', error);
       }
@@ -60,6 +66,7 @@ export default function PhoneAuth({
     const remainingSeconds = String(seconds % 60).padStart(2, '0'); // 초 부분만 2자리로 맞춤
     return `${minutes}:${remainingSeconds}`;
   };
+
   return (
     <div>
       <div className="flex items-center">
@@ -68,15 +75,15 @@ export default function PhoneAuth({
           -을 제외한 전화번호를 입력해주세요
         </span>
       </div>
-      <div className="mb-[8px] flex relative">
+      <div className="mt-[4px] mb-[8px] flex relative">
         <input
-          disabled={rPhone.test(phone)}
-          className={`user__input ${
-            phone.length === 0
-              ? ''
-              : !rPhone.test(phone)
-                ? 'user__input__invalid'
-                : 'user__input__valid'
+          disabled={isPhoneAuth}
+          className={`user__input mt-[4px] ${
+            touchedFields.phone && errors.phone
+              ? 'user__input__invalid'
+              : touchedFields.phone && !errors.phone && phone
+                ? 'user__input__valid'
+                : ''
           }`}
           placeholder="휴대폰 번호 (ex : 01012345678)"
           type="text"
@@ -90,31 +97,24 @@ export default function PhoneAuth({
         />
         <button
           type="button"
-          className={`absolute right-0 top-0 h-full px-[20px] text-[14px] font-bold text-white rounded-r-[4px] 
+          className={`w-[90px] h-[50px] mt-[4px] absolute right-0 top-0  px-[20px] text-[14px] font-bold text-white rounded-r-[4px] 
                   ${
-                    phone.length === 0
-                      ? 'border-none bg-gray--200 cursor-not-allowed '
-                      : !rPhone.test(phone)
-                        ? 'bg-gray--200 cursor-not-allowed border border-red--500 border-l-0'
-                        : 'bg-blue--500 cursor-pointer border border-blue--500 border-l-0'
+                    touchedFields.phone && errors.phone
+                      ? 'bg-gray--200 cursor-not-allowed border border-red--500 border-l-0'
+                      : touchedFields.phone && !errors.phone && phone
+                        ? 'bg-blue--500 cursor-pointer border border-blue--500 border-l-0'
+                        : 'border-none bg-gray--200 cursor-not-allowed'
                   }`}
           onClick={handleAuthClick}
-          disabled={!rPhone.test(phone) || errors.phone}
         >
-          인증하기
+          {isPhoneAuth ? '재전송' : '인증하기'}
         </button>
       </div>
 
-      {isAuthInputVisible && (
-        <div className="mt-[8px] flex w-[500px] text-[14px]">
+      {isPhoneAuth && (
+        <div className="mt-[8px] flex w-[500px]">
           <input
-            className={`w-[200px] border border-[#d1d2d7] px-[16px] py-[12px] mr-[10px] rounded-[4px] outline-none ${
-              errors.authCode
-                ? 'user__input__invalid'
-                : !errors.authCode && touchedFields.authCode
-                  ? 'user__input__valid'
-                  : ''
-            }`}
+            className="w-[100px] border border-[#d1d2d7] px-[16px] py-[4px] mr-[10px] rounded-[4px] outline-none"
             placeholder="인증번호 입력"
             type="text"
             {...register('authCode', {
@@ -122,7 +122,9 @@ export default function PhoneAuth({
             })}
           />
           <div className="w-[300px]">
-            <p className="font-semibold">{formatTime(remainingTime)}</p>
+            <p className="font-medium text-red-500 text-sm">
+              {formatTime(remainingTime)}
+            </p>
             <p
               className={`text-sm min-h-[20px] mt-[8px] ${isAuthError ? 'text-red--500' : 'text-blue--500'}`}
               role="alert"
@@ -133,7 +135,7 @@ export default function PhoneAuth({
           </div>
         </div>
       )}
-      <span className="text-xs">
+      <span className="text-xs mt-[4px]">
         ※ 휴대폰 인증을 거치지 않을 경우, <strong>일부 서비스가 제한</strong>
         됩니다.
         <br /> 회원가입 이후에도 휴대폰 인증을 진행할 수 있습니다.
