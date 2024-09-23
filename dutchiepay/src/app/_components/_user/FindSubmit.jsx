@@ -12,7 +12,7 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
-export default function FindSubmit({ tab, setIsSuccess }) {
+export default function FindSubmit({ tab, setIsFindEmail }) {
   const router = useRouter();
   const [phoneCode, setPhoneCode] = useState('');
   const [isAuthError, setIsAuthError] = useState(false);
@@ -32,11 +32,29 @@ export default function FindSubmit({ tab, setIsSuccess }) {
 
   const email = watch('email');
 
-  const onSubmit = (formData) => {
+  const onSubmit = async (formData) => {
     console.log(formData);
-    if (tab === '아이디(이메일) 찾기') setIsSuccess(true);
-    else {
-      router.push('/reset');
+    if (tab === '아이디(이메일) 찾기') {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/users/email`,
+          { phone: formData.phone }
+        );
+        setIsFindEmail(response.data.email);
+      } catch (error) {
+        console.log(error);
+        // 에러 문구 표시
+      }
+    } else {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/users/pwd`,
+          { email: formData.email, phone: formData.phone }
+        );
+
+        // reset 이동하기 전에 email을 저장할 방법 결정해야 함.
+        router.push('/reset');
+      } catch {}
     }
   };
 

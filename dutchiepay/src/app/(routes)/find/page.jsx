@@ -12,11 +12,11 @@ import { useState } from 'react';
 
 export default function Find() {
   const [tab, setTab] = useState('아이디(이메일) 찾기');
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [isFindEmail, setIsFindEmail] = useState('');
 
   const handleTab = (e) => {
     setTab(e.target.innerText);
-    setIsSuccess(false);
+    setIsFindEmail('');
   };
 
   return (
@@ -47,10 +47,10 @@ export default function Find() {
         </div>
       </div>
       <section className="mb-[32px] w-[500px]">
-        {isSuccess ? (
-          <FindSuccess />
+        {isFindEmail ? (
+          <FindSuccess isFindEmail={isFindEmail} />
         ) : (
-          <FindSubmit tab={tab} setIsSuccess={setIsSuccess} />
+          <FindSubmit tab={tab} setIsFindEmail={setIsFindEmail} />
         )}
       </section>
     </section>
