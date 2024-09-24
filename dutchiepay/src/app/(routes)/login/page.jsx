@@ -3,26 +3,34 @@
 import '@/styles/user.css';
 import '@/styles/globals.css';
 
+import Cookies from 'universal-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
 import eyeClosed from '../../../../public/image/eyeClosed.svg';
 import eyeOpen from '../../../../public/image/eyeOpen.svg';
 import kakao from '../../../../public/image/kakao.png';
+import { login } from '@/redux/slice/loginSlice';
 import logo from '../../../../public/image/logo.jpg';
 import naver from '../../../../public/image/naver.png';
+import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Login() {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const cookies = new Cookies();
   const [isVisible, setIsVisible] = useState(false);
-  const loginType = 'naver';
+  const [loginType, setLoginType] = useState(''); // email/kakao/naver
+  const [isRemeberMe, setIsRememberMe] = useState(false); // 자동로그인 체크 여부
 
   const {
     register,
     watch,
     handleSubmit,
-    formState: { errors, touchedFields, isSubmitted },
+    formState: { errors, isSubmitted },
   } = useForm({
     mode: 'onSubmit',
     criteriaMode: 'all',
@@ -37,11 +45,42 @@ export default function Login() {
   const password = watch('password');
 
   const onSubmit = async (formData) => {
-    const { ...userData } = formData;
-    const payload = {
-      ...userData,
-    };
-    console.log(payload);
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users/login`,
+        formData
+      );
+
+      const userInfo = {
+        isLoggedIn: true,
+        loginType: response.data.type || 'email',
+        user: {
+          userId: response.data.userId,
+          nickname: response.data.nickname,
+          profileImage: response.data.profileImage,
+          location: response.data.location,
+          isCertified: response.data.isCertified,
+        },
+        access: response.data.access,
+      };
+
+      dispatch(
+        login({
+          loginType: userInfo.loginType,
+          user: userInfo.user,
+          access: userInfo.access,
+        })
+      );
+
+      const expires = isRemeberMe
+        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        : undefined;
+      cookies.set('refresh', response.data.refresh, { path: '/', expires });
+
+      router.push('/');
+    } catch {
+      // 오류 발생
+    }
   };
 
   const handleEnter = (e) => {
@@ -107,14 +146,18 @@ export default function Login() {
               <button type="submit" className="user__button-blue">
                 로그인
               </button>
-              <Link href="/signup" className="user__button-white">
+              <Link href="/signup" className="user__button-white" role="button">
                 회원가입
               </Link>
             </div>
 
             <div className="flex justify-between items-center mt-[8px] mb-[32px]">
               <div className="flex items-center gap-[8px]">
-                <input type="checkbox" className="login__checkbox" />
+                <input
+                  type="checkbox"
+                  className="login__checkbox"
+                  onChange={(e) => setIsRememberMe(e.target.checked)}
+                />
                 <label className="text-gray--500 text-sm">자동 로그인</label>
               </div>
               <Link

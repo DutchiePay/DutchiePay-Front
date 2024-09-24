@@ -2,12 +2,11 @@
 
 import '../../../styles/header.css';
 
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { useEffect, useState, useMemo, useCallback } from 'react';
-
 import { usePathname, useRouter } from 'next/navigation';
 
+import Cookies from 'universal-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
 import chat from '../../../../public/image/chat.svg';
@@ -21,6 +20,7 @@ export default function Header() {
   const user = useSelector((state) => state.login.user);
   const dispatch = useDispatch();
   const router = useRouter();
+  const cookies = new Cookies();
 
   const pathname = usePathname();
 
@@ -36,12 +36,9 @@ export default function Header() {
     return '';
   }, [pathname]);
 
-  const handleProfileClick = useCallback(() => {
-    router.push('/mypage');
-  }, [router]);
-
   const handleLogout = useCallback(() => {
     dispatch(logout());
+    cookies.remove('refresh', { path: '/' });
   }, [dispatch]);
 
   const handleKeyDown = useCallback(
@@ -69,9 +66,7 @@ export default function Header() {
             {isLoggedIn ? (
               <>
                 <li className="nav-item">
-                  <span className="font-bold text-xs">
-                    {user?.nickName || '사용자'}님
-                  </span>
+                  <span className="font-bold text-xs">{user?.nickname}님</span>
                 </li>
                 <li className="nav-item">
                   <button onClick={handleLogout} className="text-xs">
@@ -152,7 +147,7 @@ export default function Header() {
                 alt="profile"
                 width={55}
                 height={55}
-                onClick={handleProfileClick}
+                onClick={() => router.push('/mypage')}
               />
             </div>
           )}
