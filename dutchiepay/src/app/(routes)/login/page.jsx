@@ -72,14 +72,10 @@ export default function Login() {
         })
       );
 
-      if (isRemeberMe) {
-        // 자동로그인 - 지속 쿠키로 저장
-        const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30일동안 쿠키 저장 (임시 변경 예정)
-        cookies.set('refresh', response.data.refresh, { path: '/', expires });
-      } else {
-        // 자동로그인 X - 세션 쿠키로 저장
-        cookies.set('refresh', response.data.refresh, { path: '/' });
-      }
+      const expires = isRemeberMe
+        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        : undefined;
+      cookies.set('refresh', response.data.refresh, { path: '/', expires });
 
       router.push('/');
     } catch {
