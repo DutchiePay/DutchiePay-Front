@@ -2,6 +2,8 @@
 
 import '../../../../styles/mypage.css';
 
+import { useRef, useState } from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
@@ -10,7 +12,7 @@ import kakao from '../../../../../public/image/kakao.png';
 import naver from '../../../../../public/image/naver.png';
 import profile from '../../../../../public/image/profile.jpg';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
-import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Info() {
   const loginType = 'email'; // naver / email / kakao
@@ -32,6 +34,7 @@ export default function Info() {
     detail: userInfo.detail,
   });
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 휴대폰 인증 클릭 여부
+  const imageRef = useRef(null);
   const open = useDaumPostcodePopup();
 
   const handlePhoneAuth = () => {
@@ -116,14 +119,57 @@ export default function Info() {
     setModifyType('');
   };
 
+  // 이미지 불러오기
+  const hanldeImage = async (e) => {
+    if (!e.target.value) return;
+    const image = e.target.files[0];
+    const validMimeTypes = ['image/png', 'image/jpeg']; // PNG, JPG, JPEG MIME 타입
+    const maxSizeMB = 10; // 10MB
 
-  const handleFile = () => {
-    // 이미지 불러오기
-  }
+    if (!validMimeTypes.includes(image.type)) {
+      alert('프로필 이미지는 png, jpg/jpeg 파일만 가능합니다.');
+      return;
+    }
+    if (image.size > maxSizeMB * 1024 * 1024) {
+      alert('프로필 이미지는 10MB 이하의 파일만 가능합니다.');
+      return;
+    }
 
-  const handleImageUpload = () => {
-    // 이미지 S3 업로드
-  }
+    const imageName = uuidv4() + image.name; // 파일 이름 중복되지 않기 위함
+
+    try {
+      let response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/image`,
+        { fileName: imageName }
+      );
+      const uploadUrl = response.data.uploadUrl;
+
+      try {
+        response = await axios.put(uploadUrl, image, {
+          headers: {
+            'Content-Type': image.type,
+          },
+        });
+
+        const imageUrl = `https://${process.env.NEXT_PUBLIC_IMAGE_BUCKET}.s3.amazonaws.com/${imageName}`;
+        console.log(imageUrl);
+      } catch (error) {
+        // 에러 처리
+      }
+    } catch (error) {
+      // 에러 처리
+    } finally {
+      e.target.value = ''; // 같은 이미지 연속으로 업로드 가능하도록 값을 비움
+    }
+  };
+
+  // 버튼 클릭 시 input 호출
+  const handleUploadClick = (e) => {
+    if (!imageRef.current) {
+      return;
+    }
+    imageRef.current.click();
+  };
 
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[680px]">
@@ -146,9 +192,18 @@ export default function Info() {
               />
               {modifyType === '프로필이미지' && (
                 <div className="flex flex-col gap-[4px]">
-                  <button className="border rounded-lg text-sm px-[16px] py-[4px]">
+                  <button
+                    className="border rounded-lg text-sm px-[16px] py-[4px]"
+                    onClick={handleUploadClick}
+                  >
                     프로필 변경
                   </button>
+                  <input
+                    ref={imageRef}
+                    type="file"
+                    className="hidden"
+                    onChange={hanldeImage}
+                  />
                   <button className="border rounded-lg text-sm px-[16px] py-[4px]">
                     프로필 삭제
                   </button>
