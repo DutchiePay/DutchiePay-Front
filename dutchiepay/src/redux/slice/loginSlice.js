@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 // 초기 상태 정의
 const initialState = {
   isLoggedIn: false,
-  loginType: null,
   user: {
     userId: null,
     nickname: null,
@@ -21,14 +20,12 @@ const loginSlice = createSlice({
   reducers: {
     login(state, action) {
       state.isLoggedIn = true;
-      state.loginType = action.payload.loginType;
       state.user = action.payload.user;
       state.access = action.payload.access;
     },
 
     logout(state) {
       state.isLoggedIn = false;
-      state.loginType = null;
       state.user = {
         userId: null,
         nickname: null,

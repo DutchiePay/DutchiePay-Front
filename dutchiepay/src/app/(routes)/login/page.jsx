@@ -64,9 +64,9 @@ export default function Login() {
         access: response.data.access,
       };
 
+      localStorage.setItem('loginType', userInfo.loginType);
       dispatch(
         login({
-          loginType: userInfo.loginType,
           user: userInfo.user,
           access: userInfo.access,
         })
