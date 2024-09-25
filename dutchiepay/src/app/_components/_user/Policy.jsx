@@ -11,7 +11,7 @@ export default function Policy({ register }) {
 
   return (
     <>
-      <div className="flex items-center mt-[8px] justify-between">
+      <div className="flex items-center mt-[16px] justify-between">
         <div className="flex items-center">
           <input
             className="signup__checkbox"

@@ -151,7 +151,7 @@ export default function Info() {
           },
         });
 
-        const imageUrl = `https://dutchiepay-image.s3.amazonaws.com/${imageName}`;
+        const imageUrl = `https://${process.env.NEXT_PUBLIC_IMAGE_BUCKET}.s3.amazonaws.com/${imageName}`;
         console.log(imageUrl);
       } catch (error) {
         // 에러 처리

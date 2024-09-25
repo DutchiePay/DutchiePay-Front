@@ -8,14 +8,14 @@ import Link from 'next/link';
 import logo from '../../../../public/image/logo.jpg';
 import { useState } from 'react';
 
-export default function FindSuccess() {
+export default function FindSuccess({ isFindEmail }) {
   return (
     <section className="mb-[32px] w-[500px] min-h-[340px]">
       <p className="my-[40px]">
         입력하신 휴대폰 정보와 일치하는 <strong>아이디(이메일)</strong> 입니다.
       </p>
       <p className="text-center text-xl">
-        아이디: <strong>q*******3@naver.com</strong>
+        아이디: <strong>{isFindEmail}</strong>
       </p>
       <div className="flex items-center justify-center mt-[60px]">
         <Link
