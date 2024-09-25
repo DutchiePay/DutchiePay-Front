@@ -10,9 +10,11 @@ import PhoneAuth from './PhoneAuth';
 import Policy from './Policy';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function SignUpSubmit() {
+  const router = useRouter();
   const [address, setAddress] = useState('');
   const [phoneCode, setPhoneCode] = useState('');
   const [isAuthError, setIsAuthError] = useState(false);
@@ -64,6 +66,7 @@ export default function SignUpSubmit() {
         payload
       );
       console.log('회원가입 성공:', response.data);
+      router.push('/');
     } catch (error) {
       console.error('회원가입 실패:', error);
     }

@@ -6,13 +6,12 @@ import '@/styles/globals.css';
 import Cookies from 'universal-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
+import SocialLogin from '@/app/_components/_user/SocialLogin';
 import axios from 'axios';
 import eyeClosed from '../../../../public/image/eyeClosed.svg';
 import eyeOpen from '../../../../public/image/eyeOpen.svg';
-import kakao from '../../../../public/image/kakao.png';
 import { login } from '@/redux/slice/loginSlice';
 import logo from '../../../../public/image/logo.jpg';
-import naver from '../../../../public/image/naver.png';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -23,7 +22,6 @@ export default function Login() {
   const dispatch = useDispatch();
   const cookies = new Cookies();
   const [isVisible, setIsVisible] = useState(false);
-  const [loginType, setLoginType] = useState(''); // email/kakao/naver
   const [isRemeberMe, setIsRememberMe] = useState(false); // 자동로그인 체크 여부
 
   const {
@@ -169,52 +167,7 @@ export default function Login() {
             </div>
           </form>
 
-          <section>
-            <h2 className="user-login-sns__title">
-              &nbsp;SNS 계정으로 로그인&nbsp;
-            </h2>
-            <div className="flex mt-[24px] gap-[60px] items-center justify-center">
-              <div className="relative">
-                <Image
-                  className="w-[60px] h-[60px] cursor-pointer"
-                  src={naver}
-                  alt="naver"
-                />
-                {loginType === 'naver' && (
-                  <div className="user-last__login user-last__login--naver">
-                    <div
-                      className="absolute w-[50px] h-[50px] top-[0px] left-[30%] bg-white z-[-1]"
-                      aria-hidden="true"
-                    >
-                      {/* 말풍선꼬리 */}
-                    </div>
-                    <strong>마지막</strong>으로
-                    <br />
-                    로그인한 방식
-                  </div>
-                )}
-              </div>
-              <div className="relative">
-                <Image
-                  className="w-[60px] h-[60px] cursor-pointer"
-                  src={kakao}
-                  alt="kakao"
-                />
-                {loginType === 'kakao' && (
-                  <div className="user-last__login user-last__login--kakao">
-                    <div
-                      className="absolute w-[50px] h-[50px] top-[0px] left-[30%] bg-white z-[-1]"
-                      aria-hidden="true"
-                    >
-                      {/* 말풍선꼬리 */}
-                    </div>
-                    <strong>마지막</strong>으로
-                    <br /> 로그인한 방식
-                  </div>
-                )}
-              </div>
-            </div>
-          </section>
+          <SocialLogin />
         </section>
       </div>
     </section>
