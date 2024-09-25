@@ -16,6 +16,7 @@ export default function PasswordInput({
   touchedFields,
   password,
   confirmPassword,
+  isReset = false,
 }) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // 비밀번호 표시 여부
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
@@ -34,7 +35,7 @@ export default function PasswordInput({
       <div>
         <div className="flex items-center">
           <label className="user__label" htmlFor="password">
-            비밀번호
+            {isReset && '새'} 비밀번호
           </label>
           <span className="ml-[8px] text-[12px]">
             영문, 특수문자, 숫자를 모두 포함하여 8글자 이상

@@ -116,6 +116,15 @@ export default function Info() {
     setModifyType('');
   };
 
+
+  const handleFile = () => {
+    // 이미지 불러오기
+  }
+
+  const handleImageUpload = () => {
+    // 이미지 S3 업로드
+  }
+
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[680px]">
       <h1 className="text-[32px] font-bold">회원 정보</h1>

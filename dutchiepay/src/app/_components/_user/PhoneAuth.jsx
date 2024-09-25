@@ -10,8 +10,10 @@ export default function PhoneAuth({
   isAuthError,
   touchedFields,
   setHasPhone,
+  isPhoneAuth,
+  setIsPhoneAuth,
+  isSignup = false,
 }) {
-  const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [remainingTime, setRemainingTime] = useState(180);
   const phone = watch('phone');
   const rPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
@@ -70,7 +72,9 @@ export default function PhoneAuth({
   return (
     <div>
       <div className="flex items-center">
-        <label className="user__label">휴대폰 번호 (선택)</label>
+        <label className="user__label">
+          휴대폰 번호 {isSignup && '(선택)'}
+        </label>
         <span className="ml-[8px] text-[12px]">
           -을 제외한 전화번호를 입력해주세요
         </span>
@@ -82,7 +86,9 @@ export default function PhoneAuth({
             touchedFields.phone && errors.phone
               ? 'user__input__invalid'
               : touchedFields.phone && !errors.phone && phone
-                ? 'user__input__valid'
+                ? isSignup
+                  ? 'user__input__valid'
+                  : ''
                 : ''
           }`}
           placeholder="휴대폰 번호 (ex : 01012345678)"
@@ -93,53 +99,53 @@ export default function PhoneAuth({
               value: rPhone,
               message: '올바른 휴대폰 번호 형식을 입력해주세요',
             },
+            ...(isSignup === false && {
+              required: '휴대폰 번호를 입력해주세요.',
+            }),
           })}
         />
         <button
           type="button"
           className={`w-[90px] h-[50px] mt-[4px] absolute right-0 top-0  px-[20px] text-[14px] font-bold text-white rounded-r-[4px] 
                   ${
-                    touchedFields.phone && errors.phone
+                    errors.phone
                       ? 'bg-gray--200 cursor-not-allowed border border-red--500 border-l-0'
-                      : touchedFields.phone && !errors.phone && phone
+                      : !errors.phone && phone
                         ? 'bg-blue--500 cursor-pointer border border-blue--500 border-l-0'
                         : 'border-none bg-gray--200 cursor-not-allowed'
                   }`}
           onClick={handleAuthClick}
+          disabled={!phone || errors.phone}
         >
           {isPhoneAuth ? '재전송' : '인증하기'}
         </button>
       </div>
 
       {isPhoneAuth && (
-        <div className="mt-[8px] flex w-[500px]">
-          <input
-            className="w-[100px] border border-[#d1d2d7] px-[16px] py-[4px] mr-[10px] rounded-[4px] outline-none"
-            placeholder="인증번호 입력"
-            type="text"
-            {...register('authCode', {
-              required: '인증번호를 입력해주세요',
-            })}
-          />
-          <div className="w-[300px]">
-            <p className="font-medium text-red-500 text-sm">
+        <div className="mt-[8px] flex">
+          <div className="relative w-full">
+            <input
+              className="w-full user__input mt-[4px]"
+              placeholder="인증번호"
+              type="text"
+              {...register('authCode', {
+                required: '인증번호를 입력해주세요',
+              })}
+            />
+            <p className="absolute top-[18px] right-[30px] font-medium text-red-500 text-sm">
               {formatTime(remainingTime)}
             </p>
-            <p
-              className={`text-sm min-h-[20px] mt-[8px] ${isAuthError ? 'text-red--500' : 'text-blue--500'}`}
-              role="alert"
-              aria-hidden={isAuthError ? 'true' : 'false'}
-            >
-              {isAuthError && '인증번호가 일치하지 않습니다.'}
-            </p>
           </div>
+
+          <p
+            className={`text-sm min-h-[20px] mt-[8px] ${isAuthError ? 'text-red--500' : 'text-blue--500'}`}
+            role="alert"
+            aria-hidden={isAuthError ? 'true' : 'false'}
+          >
+            {isAuthError && '인증번호가 일치하지 않습니다.'}
+          </p>
         </div>
       )}
-      <span className="text-xs mt-[4px]">
-        ※ 휴대폰 인증을 거치지 않을 경우, <strong>일부 서비스가 제한</strong>
-        됩니다.
-        <br /> 회원가입 이후에도 휴대폰 인증을 진행할 수 있습니다.
-      </span>
     </div>
   );
 }
