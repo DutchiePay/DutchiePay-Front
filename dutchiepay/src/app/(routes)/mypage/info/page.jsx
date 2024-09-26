@@ -350,51 +350,20 @@ export default function Info() {
         <article className="mypage-profile">
           <div className="flex items-center">
             <h2 className="mypage-profile__label">전화번호</h2>
-            {modifyType === '전화번호' ? (
-              <div className="flex flex-col">
-                <input
-                  className="w-[180px] px-[8px] py-[4px] border rounded-lg outline-none"
-                  value={modifyInfo.phoneNumber || ''}
-                  onChange={(e) =>
-                    setModifyInfo((prevState) => ({
-                      ...prevState,
-                      phoneNumber: e.target.value,
-                    }))
-                  }
-                  placeholder="전화번호 (ex) 01012345678)"
-                />
-                <small>
-                  ※ 휴대폰 번호 변경 시 휴대폰 인증을 필요로 합니다.
-                </small>
-              </div>
-            ) : (
-              <p className="mypage-profile__value">{userInfo.phoneNumber}</p>
-            )}
+            <p className="mypage-profile__value">{userInfo.phoneNumber}</p>
           </div>
           <div className="flex gap-[12px]">
-            {modifyType === '전화번호' && (
-              <button
-                className="mypage-profile__button"
-                onClick={handleModifyCancel}
-              >
-                변경취소
-              </button>
-            )}
             <button
-              className={`mypage-profile__button ${modifyType === '전화번호' && 'mypage-profile__button-finish'}`}
+              className="mypage-profile__button"
               onClick={() => {
-                modifyType === '전화번호'
-                  ? isPhoneAuth
-                    ? handleModifyComplete()
-                    : handlePhoneAuth()
-                  : handleModifyType('전화번호');
+                window.open(
+                  '/change-number',
+                  '휴대폰 번호 변경',
+                  'width=620, height=670, location=1'
+                );
               }}
             >
-              {modifyType === '전화번호'
-                ? isPhoneAuth
-                  ? '변경완료'
-                  : '번호인증'
-                : '변경'}
+              변경
             </button>
           </div>
         </article>

@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 
 import axios from 'axios';
@@ -81,6 +83,7 @@ export default function PhoneAuth({
       </div>
       <div className="mt-[4px] mb-[8px] flex relative">
         <input
+          type="number"
           disabled={isPhoneAuth}
           className={`user__input mt-[4px] ${
             touchedFields.phone && errors.phone
@@ -92,7 +95,6 @@ export default function PhoneAuth({
                 : ''
           }`}
           placeholder="휴대폰 번호 (ex : 01012345678)"
-          type="text"
           maxLength={11}
           {...register('phone', {
             pattern: {
