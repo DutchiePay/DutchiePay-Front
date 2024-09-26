@@ -15,7 +15,7 @@ import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function Info() {
-  const loginType = 'email'; // naver / email / kakao
+  const [loginType, setLoginType] = useState(''); // email/kakao/naver
   const [modifyType, setModifyType] = useState(''); // 수정 중인 영역 ''일 경우 아무 것도 수정 중이지 않은 상태
   const [userInfo, setUserInfo] = useState({
     nickname: '한유진',
@@ -28,20 +28,17 @@ export default function Info() {
   });
   const [modifyInfo, setModifyInfo] = useState({
     nickname: userInfo.nickname,
-    phoneNumber: userInfo.phoneNumber,
     zipcode: userInfo.zipcode,
     address: userInfo.address,
     detail: userInfo.detail,
   });
-  const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 휴대폰 인증 클릭 여부
   const imageRef = useRef(null);
   const open = useDaumPostcodePopup();
 
-  const handlePhoneAuth = () => {
-    setIsPhoneAuth(true);
-
-    // 휴대폰 인증 코드 추가
-  };
+  useEffect(() => {
+    const storedLoginType = localStorage.getItem('loginType');
+    setLoginType(storedLoginType || '');
+  }, []);
 
   const handleModifyType = (type) => {
     // 수정할 타입이 현재 타입과 다를 때만 취소 함수 호출
@@ -54,7 +51,6 @@ export default function Info() {
   const handleModifyCancel = () => {
     setModifyInfo({
       nickname: userInfo.nickname,
-      phoneNumber: userInfo.phoneNumber,
       zipcode: userInfo.zipcode,
       address: userInfo.address,
       detail: userInfo.detail,
@@ -93,13 +89,6 @@ export default function Info() {
         const nicknameRegex = /^[a-zA-Z0-9가-힣]{2,8}$/;
         if (!nicknameRegex.test(modifyInfo.nickname)) {
           alert('닉네임은 2~8자의 한글, 영문 또는 숫자로만 가능합니다.');
-          return;
-        }
-        break;
-      case '전화번호':
-        const phoneRegex = /^010\d{7,8}$/;
-        if (!phoneRegex.test(modifyInfo.phoneNumber)) {
-          alert('전화번호 형식이 올바르지 않습니다. ex)01012345678');
           return;
         }
         break;
