@@ -14,10 +14,9 @@ import { useRouter } from 'next/navigation';
 
 export default function FindSubmit({ tab, setIsFindEmail }) {
   const router = useRouter();
-  const [phoneCode, setPhoneCode] = useState('');
-  const [isAuthError, setIsAuthError] = useState(false);
   const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부 (회원가입 때문에 강제됨)
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
+  const [isCodeMatch, setIsCodeMatch] = useState(null);
 
   const {
     register,
@@ -29,6 +28,7 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
     mode: 'onTouched',
     reValidateMode: 'onblur',
     shouldFocusError: true,
+    shouldUseNativeValidation: false,
   });
 
   const email = watch('email');
@@ -48,10 +48,10 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
       }
     } else {
       try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/users/pwd`,
-          { email: formData.email, phone: formData.phone }
-        );
+        await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/users/pwd`, {
+          email: formData.email,
+          phone: formData.phone,
+        });
 
         sessionStorage.setItem('emailForReset', formData.email);
         router.push('/reset');
@@ -85,12 +85,12 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
               register={register}
               watch={watch}
               errors={errors}
-              setPhoneCode={setPhoneCode}
-              isAuthError={isAuthError}
               touchedFields={touchedFields}
               setHasPhone={setHasPhone}
               isPhoneAuth={isPhoneAuth}
               setIsPhoneAuth={setIsPhoneAuth}
+              isCodeMatch={isCodeMatch}
+              setIsCodeMatch={setIsCodeMatch}
             />
             <button
               type="submit"
@@ -136,12 +136,12 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
               register={register}
               watch={watch}
               errors={errors}
-              setPhoneCode={setPhoneCode}
-              isAuthError={isAuthError}
               touchedFields={touchedFields}
               setHasPhone={setHasPhone}
               isPhoneAuth={isPhoneAuth}
               setIsPhoneAuth={setIsPhoneAuth}
+              isCodeMatch={isCodeMatch}
+              setIsCodeMatch={setIsCodeMatch}
             />
             <button
               type="submit"

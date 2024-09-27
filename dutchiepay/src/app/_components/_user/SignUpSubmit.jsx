@@ -18,10 +18,9 @@ import { useState } from 'react';
 export default function SignUpSubmit() {
   const router = useRouter();
   const [address, setAddress] = useState('');
-  const [phoneCode, setPhoneCode] = useState('');
-  const [isAuthError, setIsAuthError] = useState(false);
   const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
+  const [isCodeMatch, setIsCodeMatch] = useState(null);
 
   const {
     register,
@@ -34,10 +33,7 @@ export default function SignUpSubmit() {
     criteriaMode: 'all',
     reValidateMode: 'onblur',
     shouldFocusError: true,
-    defaultValues: {
-      name: '',
-      phone: '',
-    },
+    shouldUseNativeValidation: false,
   });
 
   const onSubmit = async (formData) => {
@@ -48,14 +44,6 @@ export default function SignUpSubmit() {
       name = '',
       ...userData
     } = formData;
-    console.log('authCode ===' + authCode);
-    console.log('phoneCode ===' + phoneCode);
-
-    if (phoneCode && authCode !== phoneCode) {
-      console.log('인증번호 틀림');
-      setIsAuthError(true);
-      return; // 함수 종료하여 회원가입 진행 방지
-    }
 
     const payload = {
       ...userData,
@@ -112,12 +100,12 @@ export default function SignUpSubmit() {
         register={register}
         watch={watch}
         errors={errors}
-        setPhoneCode={setPhoneCode}
-        isAuthError={isAuthError}
         touchedFields={touchedFields}
         isPhoneAuth={isPhoneAuth}
         setIsPhoneAuth={setIsPhoneAuth}
         setHasPhone={setHasPhone}
+        isCodeMatch={isCodeMatch}
+        setIsCodeMatch={setIsCodeMatch}
         isSignup={true}
       />
       <span className="text-xs mt-[4px]">
@@ -129,11 +117,11 @@ export default function SignUpSubmit() {
       <button
         type="submit"
         className={`mt-[32px] px-[24px] py-[8px] text-bold w-full rounded-[4px] text-white text-[18px] border-none ${
-          !isValid || isSubmitting || hasPhone
+          !isValid || isSubmitting || isCodeMatch === false
             ? 'bg-gray--200 cursor-not-allowed'
             : 'bg-blue--500'
         }`}
-        disabled={!isValid || isSubmitting || hasPhone}
+        disabled={!isValid || isSubmitting || isCodeMatch === false}
       >
         회원가입
       </button>

@@ -26,7 +26,7 @@ export default function EmailInput({
                 : ''
               : ''
         }`}
-        type="text"
+        type="email"
         placeholder="이메일"
         {...register('email', {
           required: '이메일을 입력해주세요',
