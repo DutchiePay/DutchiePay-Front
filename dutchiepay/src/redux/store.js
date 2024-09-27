@@ -1,7 +1,7 @@
 import { persistReducer, persistStore } from 'redux-persist';
-
 import { configureStore } from '@reduxjs/toolkit';
 import loginReducer from '../redux/slice/loginSlice';
+import userReducer from '../redux/slice/userSlice';
 import sessionStorage from 'redux-persist/lib/storage/session';
 
 const persistConfig = {
@@ -15,11 +15,12 @@ const persistedReducer = persistReducer(persistConfig, loginReducer);
 const store = configureStore({
   reducer: {
     login: persistedReducer,
+    user: userReducer,
   },
-  middleware: (defaultMiddleware) =>
-    defaultMiddleware({
-      serializableCheck: false,
-    }), // serializableCheck를 사용하지 않도록 함
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // serializableCheck를 사용하지 않도록 함
+    }),
 });
 
 const persistor = persistStore(store);

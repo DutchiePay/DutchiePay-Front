@@ -35,9 +35,16 @@ const loginSlice = createSlice({
       };
       state.access = '';
     },
+    setProfileImage(state, action) {
+      state.user.profileImage = action.payload.profileImage;
+    },
+    setNickname(state, action) {
+      state.user.nickname = action.payload.nickname;
+    },
   },
 });
 
 // 액션 및 리듀서 내보내기
-export const { login, logout } = loginSlice.actions;
+export const { login, logout, setProfileImage, setNickname } =
+  loginSlice.actions;
 export default loginSlice.reducer;
