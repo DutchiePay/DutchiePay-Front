@@ -20,7 +20,7 @@ export default function Find() {
   };
 
   return (
-    <section className="w-full flex flex-col items-center justify-center min-h-[890x]">
+    <section className="w-full flex flex-col items-center justify-center min-h-[890px]">
       <h1>
         <Link href="/">
           <Image
