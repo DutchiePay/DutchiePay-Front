@@ -5,7 +5,6 @@ import '@/styles/user.css';
 
 import AddressInput from './AddressInput';
 import EmailInput from './EmailInput';
-import NameInput from './NameInput';
 import NicknameInput from './NicknameInput';
 import PasswordInput from './PasswordInput';
 import PhoneAuth from './PhoneAuth';
@@ -37,18 +36,11 @@ export default function SignUpSubmit() {
   });
 
   const onSubmit = async (formData) => {
-    const {
-      confirmPassword,
-      policy,
-      authCode,
-      name = '',
-      ...userData
-    } = formData;
+    const { confirmPassword, policy, authCode, ...userData } = formData;
 
     const payload = {
       ...userData,
       location: address,
-      name: userData.name || null, // userData.name이 빈 문자열일 경우 null 처리
     };
     console.log(payload);
     try {
@@ -95,7 +87,6 @@ export default function SignUpSubmit() {
         touchedFields={touchedFields}
       />
       <AddressInput address={address} setAddress={setAddress} />
-      <NameInput register={register} />
       <PhoneAuth
         register={register}
         watch={watch}
