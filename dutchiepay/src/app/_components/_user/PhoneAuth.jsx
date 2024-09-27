@@ -124,13 +124,17 @@ export default function PhoneAuth({
                     errors.phone
                       ? 'bg-gray--200 cursor-not-allowed border border-red--500 border-l-0'
                       : !errors.phone && phone
-                        ? 'bg-blue--500 cursor-pointer border border-blue--500 border-l-0'
+                        ? 'bg-blue--500 border border-blue--500 border-l-0'
                         : 'border-none bg-gray--200 cursor-not-allowed'
-                  }`}
+                  } ${isCodeMatch === true ? 'cursor-not-allowed' : ''}`}
           onClick={handleAuthClick}
-          disabled={!phone || errors.phone}
+          disabled={!phone || errors.phone || isCodeMatch === true}
         >
-          {isPhoneAuth ? '재전송' : '인증하기'}
+          {isPhoneAuth
+            ? '재전송'
+            : isCodeMatch === true
+              ? '인증완료'
+              : '인증하기'}
         </button>
       </div>
 
