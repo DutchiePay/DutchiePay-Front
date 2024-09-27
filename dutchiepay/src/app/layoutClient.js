@@ -16,13 +16,13 @@ export default function RootLayoutClient({ children }) {
   const pathname = usePathname();
 
   const rhideHeader = pathname.match(
-    /\/(login|reset|find|signup|ask|report|cancel|refund|review|coupon)/
+    /\/(login|reset|find|signup|ask|report|cancel|refund|review|coupon|change-number)/
   );
   const rhideFooter = pathname.match(
-    /\/(ask|report|cancel|refund|review|coupon)/
+    /\/(ask|report|cancel|refund|review|coupon|change-number)/
   );
   const rhideFloating = pathname.match(
-    /\/(login|find|signup|ask|report|cancel|refund|review|coupon)/
+    /\/(login|find|signup|ask|report|cancel|refund|review|coupon|change-number)/
   );
 
   return (
