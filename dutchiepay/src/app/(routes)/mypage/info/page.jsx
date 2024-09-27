@@ -2,19 +2,27 @@
 
 import '../../../../styles/mypage.css';
 
-import { useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
 
+import Cookies from 'universal-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
 import getLocation from '@/app/_components/_user/GetLocation';
 import kakao from '../../../../../public/image/kakao.png';
+import { logout } from '@/redux/slice/loginSlice';
 import naver from '../../../../../public/image/naver.png';
 import profile from '../../../../../public/image/profile.jpg';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
+import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function Info() {
+  const cookies = new Cookies();
+  const dispatch = useDispatch();
+  const access = useSelector((state) => state.login.access);
+  const router = useRouter();
   const [loginType, setLoginType] = useState(''); // email/kakao/naver
   const [modifyType, setModifyType] = useState(''); // 수정 중인 영역 ''일 경우 아무 것도 수정 중이지 않은 상태
   const [userInfo, setUserInfo] = useState({
@@ -158,6 +166,26 @@ export default function Info() {
       return;
     }
     imageRef.current.click();
+  };
+
+  const handleWithdraw = async () => {
+    if (confirm('정말 탈퇴하실겁니까?')) {
+      try {
+        await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/users`, {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        });
+
+        dispatch(logout());
+        cookies.remove('refresh', { path: '/' });
+        alert('정상적으로 탈퇴처리 되었습니다.');
+        router.push('/');
+      } catch (error) {
+        // 에러 처리
+        console.log(error);
+      }
+    }
   };
 
   return (
@@ -395,7 +423,10 @@ export default function Info() {
             </Link>
           )}
         </article>
-        <button className="flex justify-end text-[14px] text-gray--500 hover:underline">
+        <button
+          className="flex justify-end text-[14px] text-gray--500 hover:underline"
+          onClick={handleWithdraw}
+        >
           회원탈퇴
         </button>
       </section>
