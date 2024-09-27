@@ -94,8 +94,8 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
             />
             <button
               type="submit"
-              className={`mt-[24px] ${isPhoneAuth && isValid ? 'user__button-blue' : 'user__button-gray cursor-not-allowed'} `}
-              disabled={!(isPhoneAuth && isValid)}
+              className={`mt-[24px] ${isCodeMatch === true && isValid ? 'user__button-blue' : 'user__button-gray cursor-not-allowed'} `}
+              disabled={!(isCodeMatch === true && isValid)}
             >
               아이디(이메일) 찾기
             </button>
@@ -145,8 +145,8 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
             />
             <button
               type="submit"
-              className={`mt-[24px] ${isPhoneAuth && isValid ? 'user__button-blue' : 'user__button-gray cursor-not-allowed'} `}
-              disabled={!(isPhoneAuth && isValid)}
+              className={`mt-[24px] ${isCodeMatch === true && isValid ? 'user__button-blue' : 'user__button-gray cursor-not-allowed'} `}
+              disabled={!(isCodeMatch === true && isValid)}
             >
               비밀번호 재설정
             </button>
