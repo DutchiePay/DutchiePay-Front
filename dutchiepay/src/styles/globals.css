@@ -59,6 +59,14 @@
   margin: 0 8px;
 }
 
+/* input 자동완성 background 제거 */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
 /* HTML: <div class="loader"></div> */
 .loader {
   --r1: 154%;
