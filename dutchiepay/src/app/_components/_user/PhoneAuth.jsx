@@ -8,16 +8,18 @@ export default function PhoneAuth({
   register,
   watch,
   errors,
-  setPhoneCode,
-  isAuthError,
   touchedFields,
   setHasPhone,
   isPhoneAuth,
   setIsPhoneAuth,
+  isCodeMatch,
+  setIsCodeMatch,
   isSignup = false,
 }) {
   const [remainingTime, setRemainingTime] = useState(180);
+  const [phoneCode, setPhoneCode] = useState(null);
   const phone = watch('phone');
+  const authCode = watch('authCode');
   const rPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 
   useEffect(() => {
@@ -39,30 +41,42 @@ export default function PhoneAuth({
   useEffect(() => {
     if (phone) {
       setHasPhone(true);
+      setIsCodeMatch(false);
     } else {
       setHasPhone(false);
+      setIsCodeMatch(null);
     }
   }, [phone]);
 
   const handleAuthClick = async () => {
-    if (rPhone.test(phone)) {
-      setHasPhone(false);
+    if (!errors.phone && phone) {
+      setIsPhoneAuth(true);
       try {
-        // const response = await axios.post(
-        //   `${process.env.NEXT_PUBLIC_BASE_URL}/users/auth`,
-        //   {
-        //     phone,
-        //   }
-        // );
-        // console.log(response.data);
-        // onAuthSuccess(response.data.code);
+        /*const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/users/auth`,
+          {
+            phone: phone,
+          }
+        );*/
         setRemainingTime(180);
-        setIsPhoneAuth(true);
         setPhoneCode('1234');
+        //setPhoneCode(response.data.code);
       } catch (error) {
         console.error('인증번호 전송 실패:', error);
       }
     }
+  };
+
+  const handleAuthCheck = () => {
+    if (authCode !== phoneCode) {
+      alert('인증번호가 일치하지 않습니다.');
+      setIsCodeMatch(false);
+      return;
+    }
+
+    alert('인증번호가 확인되었습니다.');
+    setIsCodeMatch(true);
+    setIsPhoneAuth(false); // timer 제거용 (인증번호도 같이 표시 사라짐)
   };
 
   const formatTime = (seconds) => {
@@ -84,7 +98,6 @@ export default function PhoneAuth({
       <div className="mt-[4px] mb-[8px] flex relative">
         <input
           type="number"
-          disabled={isPhoneAuth}
           className={`user__input mt-[4px] ${
             touchedFields.phone && errors.phone
               ? 'user__input__invalid'
@@ -101,25 +114,30 @@ export default function PhoneAuth({
               value: rPhone,
               message: '올바른 휴대폰 번호 형식을 입력해주세요',
             },
-            ...(isSignup === false && {
+            ...(!isSignup && {
               required: '휴대폰 번호를 입력해주세요.',
             }),
           })}
+          disabled={isPhoneAuth}
         />
         <button
           type="button"
-          className={`w-[90px] h-[50px] mt-[4px] absolute right-0 top-0  px-[20px] text-[14px] font-bold text-white rounded-r-[4px] 
+          className={`w-[90px] h-[50px] mt-[4px] absolute right-0 top-0  px-[20px] text-sm font-bold text-white rounded-r-[4px] 
                   ${
                     errors.phone
                       ? 'bg-gray--200 cursor-not-allowed border border-red--500 border-l-0'
                       : !errors.phone && phone
-                        ? 'bg-blue--500 cursor-pointer border border-blue--500 border-l-0'
+                        ? 'bg-blue--500 border border-blue--500 border-l-0'
                         : 'border-none bg-gray--200 cursor-not-allowed'
-                  }`}
+                  } ${isCodeMatch === true ? 'cursor-not-allowed' : ''}`}
           onClick={handleAuthClick}
-          disabled={!phone || errors.phone}
+          disabled={!phone || errors.phone || isCodeMatch === true}
         >
-          {isPhoneAuth ? '재전송' : '인증하기'}
+          {isPhoneAuth
+            ? '재전송'
+            : isCodeMatch === true
+              ? '인증완료'
+              : '인증하기'}
         </button>
       </div>
 
@@ -127,25 +145,35 @@ export default function PhoneAuth({
         <div className="mt-[8px] flex">
           <div className="relative w-full">
             <input
-              className="w-full user__input mt-[4px]"
+              className={`w-full user__input mt-[4px] ${isCodeMatch === true ? 'user__input__valid' : ''}`}
               placeholder="인증번호"
-              type="text"
+              type="number"
               {...register('authCode', {
                 required: '인증번호를 입력해주세요',
               })}
+              disabled={isCodeMatch}
             />
-            <p className="absolute top-[18px] right-[30px] font-medium text-red-500 text-sm">
+            <p className="absolute top-[18px] right-[110px] font-medium text-red-500 text-sm">
               {formatTime(remainingTime)}
             </p>
+            <button
+              type="button"
+              className={`w-[90px] h-[50px] mt-[4px] absolute right-0 top-0 px-[20px] text-sm font-bold text-white rounded-r-[4px]
+                  ${
+                    !errors.authCode && authCode
+                      ? 'bg-blue--500 cursor-pointer border border-blue--500 border-l-0'
+                      : isCodeMatch === false && authCode
+                        ? 'bg-gray--200 cursor-not-allowed border border-red--500 border-l-0'
+                        : 'border-none bg-gray--200 cursor-not-allowed'
+                  }`}
+              onClick={handleAuthCheck}
+              disabled={!authCode || errors.authCode}
+            >
+              인증번호
+              <br />
+              확인
+            </button>
           </div>
-
-          <p
-            className={`text-sm min-h-[20px] mt-[8px] ${isAuthError ? 'text-red--500' : 'text-blue--500'}`}
-            role="alert"
-            aria-hidden={isAuthError ? 'true' : 'false'}
-          >
-            {isAuthError && '인증번호가 일치하지 않습니다.'}
-          </p>
         </div>
       )}
     </div>
