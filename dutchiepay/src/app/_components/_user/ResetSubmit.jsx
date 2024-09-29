@@ -22,11 +22,7 @@ export default function ResetSubmit() {
     mode: 'onTouched',
     reValidateMode: 'onblur',
     shouldFocusError: true,
-    criteriaMode: 'all',
-    defaultValues: {
-      password: '',
-      confirmPassword: '',
-    },
+    shouldUseNativeValidation: false,
   });
 
   const password = watch('password', '');
