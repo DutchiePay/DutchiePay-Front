@@ -3,13 +3,13 @@
 import '@/styles/user.css';
 import '@/styles/globals.css';
 
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 import PhoneAuth from '@/app/_components/_user/PhoneAuth';
 import axios from 'axios';
-import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import { setPhone } from '@/redux/slice/userSlice';
+import { useForm } from 'react-hook-form';
 
 export default function ChangeNumber() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
@@ -42,7 +42,7 @@ export default function ChangeNumber() {
 
   const onSubmit = async (formData) => {
     try {
-      const response = await axios.patch(
+      await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/profile/phone`,
         { phone: formData.phone },
         {
@@ -52,9 +52,7 @@ export default function ChangeNumber() {
         }
       );
       dispatch(setPhone({ phone: formData.phone }));
-      console.log(response);
       window.close();
-      // 핸드폰 번호를 formData.phone으로 바꾸는 로직 추가
     } catch (error) {
       // 에러 처리
     }

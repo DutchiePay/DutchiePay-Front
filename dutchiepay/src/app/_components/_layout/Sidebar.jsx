@@ -2,9 +2,12 @@
 
 import '../../../styles/mypage.css';
 
+import { useDispatch, useSelector } from 'react-redux';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import arrow from '../../../../public/image/arrow.svg';
+import axios from 'axios';
 import coupon from '../../../../public/image/coupon.svg';
 import delivery from '../../../../public/image/delivery.svg';
 import heart from '../../../../public/image/heart.svg';
@@ -12,12 +15,10 @@ import post from '../../../../public/image/post.svg';
 import profile from '../../../../public/image/profile.jpg';
 import question from '../../../../public/image/question.svg';
 import review from '../../../../public/image/review.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import userIcon from '../../../../public/image/user.svg';
-import { useEffect } from 'react';
-import axios from 'axios';
 import { setUser } from '@/redux/slice/userSlice';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import userIcon from '../../../../public/image/user.svg';
 
 export default function Sidebar() {
   const userInfo = useSelector((state) => state.login.user);
@@ -29,10 +30,10 @@ export default function Sidebar() {
   useEffect(() => {
     const initMypage = async () => {
       // 로그인이 안되어 있으면 메인 페이지로 리다이렉트
-      if (!isLoggedIn) {
+      /*if (!isLoggedIn) {
         router.push('/');
         return;
-      }
+      }*/
 
       if (accessToken) {
         try {
