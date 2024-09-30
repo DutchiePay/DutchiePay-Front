@@ -3,11 +3,13 @@
 import '../../../../styles/mypage.css';
 
 import { useEffect, useRef, useState } from 'react';
+
 import {
   setProfileImage,
   setNickname,
   setLocation,
 } from '@/redux/slice/loginSlice';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
