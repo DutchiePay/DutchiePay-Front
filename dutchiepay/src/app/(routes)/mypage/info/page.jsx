@@ -3,8 +3,11 @@
 import '../../../../styles/mypage.css';
 
 import { useEffect, useRef, useState } from 'react';
-import { setUser, setPhone } from '@/redux/slice/userSlice';
-import { setProfileImage, setNickname } from '@/redux/slice/loginSlice';
+import {
+  setProfileImage,
+  setNickname,
+  setLocation,
+} from '@/redux/slice/loginSlice';
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
@@ -15,66 +18,25 @@ import profile from '../../../../../public/image/profile.jpg';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/navigation';
 export default function Info() {
   const [loginType, setLoginType] = useState(''); // email/kakao/naver
-
-  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const user = useSelector((state) => state.user.user);
   const location = useSelector((state) => state.login.user.location);
   const nickname = useSelector((state) => state.login.user.nickname);
   const profileImage = useSelector((state) => state.login.user.profileImage);
   const accessToken = useSelector((state) => state.login.access);
   const dispatch = useDispatch();
-  const router = useRouter();
-  console.log(accessToken);
+  console.log(user);
 
-  useEffect(() => {
-    const initMypage = async () => {
-      // 로그인이 안되어 있으면 메인 페이지로 리다이렉트
-      if (!isLoggedIn) {
-        router.push('/');
-        return;
-      }
-
-      if (accessToken) {
-        try {
-          // accessToken을 Authorization 헤더에 추가하여 프로필 요청
-          const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/profile`,
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          );
-          const userinfo = {
-            address: response.data.address,
-            coupon: response.data.coupon,
-            detail: response.data.detail,
-            email: response.data.email,
-            order: response.data.order,
-            phone: response.data.phone,
-            zipcode: response.data.zipcode,
-          };
-          dispatch(setUser({ user: userinfo }));
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    };
-
-    initMypage();
-  }, []);
   const [modifyType, setModifyType] = useState(''); // 수정 중인 영역 ''일 경우 아무 것도 수정 중이지 않은 상태
   const [modifyInfo, setModifyInfo] = useState({
     nickname: nickname,
     profileImage: profileImage ? profileImage : profile,
-    phone: user.phone,
+    phone: user?.phone,
     location: location,
-    zipcode: user.zipcode,
-    address: user.address,
-    detail: user.detail,
+    zipcode: user?.zipcode,
+    address: user?.address,
+    detail: user?.detail,
   });
   const imageRef = useRef(null);
   const open = useDaumPostcodePopup();
@@ -134,10 +96,7 @@ export default function Info() {
   const handleGetCurrentLocation = async () => {
     // 정말 재설정 할 것인지 물어보는 alert 추가
     const location = await getLocation();
-    setUserInfo((prevState) => ({
-      ...prevState,
-      location: location,
-    }));
+    dispatch(setLocation({ location: location }));
   };
   const handleModifyComplete = async () => {
     switch (modifyType) {
@@ -397,7 +356,7 @@ export default function Info() {
                 </div>
                 <input
                   className="w-[150px] px-[8px] py-[4px] border rounded-lg outline-none"
-                  value={user.detail || ''}
+                  value={user?.detail || ''}
                   onChange={(e) =>
                     setModifyInfo((prevState) => ({
                       ...prevState,
@@ -410,9 +369,9 @@ export default function Info() {
             ) : (
               <div className="flex flex-col">
                 <p className="mypage-profile__value">
-                  {user.address} ({user.zipcode})
+                  {user?.address} ({user?.zipcode})
                 </p>
-                <p className="mypage-profile__value">{user.detail}</p>
+                <p className="mypage-profile__value">{user?.detail}</p>
               </div>
             )}
           </div>
@@ -440,7 +399,7 @@ export default function Info() {
         <article className="mypage-profile">
           <div className="flex items-center">
             <h2 className="mypage-profile__label">전화번호</h2>
-            <p className="mypage-profile__value">{user.phone}</p>
+            <p className="mypage-profile__value">{user?.phone}</p>
           </div>
           <div className="flex gap-[12px]">
             <button
@@ -461,7 +420,7 @@ export default function Info() {
           <div className="flex items-center">
             <h2 className="mypage-profile__label">계정정보</h2>
             {loginType === 'email' ? (
-              <p className="mypage-profile__value">{user.email}</p>
+              <p className="mypage-profile__value">{user?.email}</p>
             ) : loginType === 'kakao' ? (
               <div className="flex items-center gap-[12px]">
                 <Image

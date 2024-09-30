@@ -41,10 +41,13 @@ const loginSlice = createSlice({
     setNickname(state, action) {
       state.user.nickname = action.payload.nickname;
     },
+    setLocation(state, action) {
+      state.user.location = action.payload.location;
+    },
   },
 });
 
 // 액션 및 리듀서 내보내기
-export const { login, logout, setProfileImage, setNickname } =
+export const { login, logout, setProfileImage, setNickname, setLocation } =
   loginSlice.actions;
 export default loginSlice.reducer;

@@ -8,17 +8,18 @@ import { useEffect, useState } from 'react';
 import PhoneAuth from '@/app/_components/_user/PhoneAuth';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPhone } from '@/redux/slice/userSlice';
 
 export default function ChangeNumber() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const access = useSelector((state) => state.login.access);
-
-  const [phoneCode, setPhoneCode] = useState('');
-  const [isAuthError, setIsAuthError] = useState(false);
   const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
-
+  const [isCodeMatch, setIsCodeMatch] = useState(null);
+  const phone = useSelector((state) => state.user.user.phone);
+  console.log(phone);
+  const dispatch = useDispatch();
   const {
     register,
     watch,
@@ -39,13 +40,8 @@ export default function ChangeNumber() {
   }, []);*/ // 개발을 위해 비회원일 때도 페이지 접근 가능하도록 임시 비활성화
 
   const onSubmit = async (formData) => {
-    if (formData.authCode !== phoneCode) {
-      alert('인증번호 불일치');
-      return;
-    }
-
     try {
-      await axios.patch(
+      const response = await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/profile/phone`,
         { phone: formData.phone },
         {
@@ -54,9 +50,10 @@ export default function ChangeNumber() {
           },
         }
       );
-
-      // 핸드폰 번호를 formData.phone으로 바꾸는 로직 추가
+      dispatch(setPhone({ phone: formData.phone }));
+      console.log(response);
       window.close();
+      // 핸드폰 번호를 formData.phone으로 바꾸는 로직 추가
     } catch (error) {
       // 에러 처리
     }
@@ -83,16 +80,24 @@ export default function ChangeNumber() {
           watch={watch}
           errors={errors}
           touchedFields={touchedFields}
-          setPhoneCode={setPhoneCode}
-          isAuthError={isAuthError}
           setHasPhone={setHasPhone}
           isPhoneAuth={isPhoneAuth}
           setIsPhoneAuth={setIsPhoneAuth}
+          isCodeMatch={isCodeMatch}
+          setIsCodeMatch={setIsCodeMatch}
         />
+        {isCodeMatch && (
+          <p className="text-sm">
+            휴대폰 번호 인증이 완료되었습니다.
+            <br />
+            <strong>변경</strong> 버튼을 누르시면 정상적으로 번호가 변경됩니다.
+          </p>
+        )}
         <div className="mt-[40px] flex gap-[12px] justify-center">
           <button
-            className="text-red-500 text-sm bg-red--100 rounded-lg px-[24px] py-[8px]"
+            className={`text-red-500 text-sm rounded-lg px-[24px] py-[8px] ${!isCodeMatch ? 'cursor-not-allowed bg-gray--100 text-white' : 'bg-red--100'}`}
             type="submit"
+            disabled={!isCodeMatch}
           >
             변경
           </button>
