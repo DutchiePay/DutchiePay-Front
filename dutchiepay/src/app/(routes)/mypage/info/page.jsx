@@ -4,6 +4,12 @@ import '../../../../styles/mypage.css';
 
 import { useEffect, useRef, useState } from 'react';
 
+import {
+  setProfileImage,
+  setNickname,
+  setLocation,
+} from '@/redux/slice/loginSlice';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
@@ -13,24 +19,26 @@ import naver from '../../../../../public/image/naver.png';
 import profile from '../../../../../public/image/profile.jpg';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { v4 as uuidv4 } from 'uuid';
-
+import { useDispatch, useSelector } from 'react-redux';
 export default function Info() {
   const [loginType, setLoginType] = useState(''); // email/kakao/naver
+  const user = useSelector((state) => state.user.user);
+  const location = useSelector((state) => state.login.user.location);
+  const nickname = useSelector((state) => state.login.user.nickname);
+  const profileImage = useSelector((state) => state.login.user.profileImage);
+  const accessToken = useSelector((state) => state.login.access);
+  const dispatch = useDispatch();
+  console.log(user);
+
   const [modifyType, setModifyType] = useState(''); // 수정 중인 영역 ''일 경우 아무 것도 수정 중이지 않은 상태
-  const [userInfo, setUserInfo] = useState({
-    nickname: '한유진',
-    profileImage: profile,
-    phoneNumber: '01012345678',
-    location: '평택시',
-    zipcode: '06041',
-    address: '서울 강남구 논현동 29-7',
-    detail: '1102호',
-  });
   const [modifyInfo, setModifyInfo] = useState({
-    nickname: userInfo.nickname,
-    zipcode: userInfo.zipcode,
-    address: userInfo.address,
-    detail: userInfo.detail,
+    nickname: nickname,
+    profileImage: profileImage ? profileImage : profile,
+    phone: user?.phone,
+    location: location,
+    zipcode: user?.zipcode,
+    address: user?.address,
+    detail: user?.detail,
   });
   const imageRef = useRef(null);
   const open = useDaumPostcodePopup();
@@ -49,14 +57,26 @@ export default function Info() {
   };
   // 수정 취소
   const handleModifyCancel = () => {
-    setModifyInfo({
-      nickname: userInfo.nickname,
-      zipcode: userInfo.zipcode,
-      address: userInfo.address,
-      detail: userInfo.detail,
+    setModifyInfo((prevModifyInfo) => {
+      switch (modifyType) {
+        case '닉네임':
+          return { ...prevModifyInfo, nickname: nickname };
+        case '프로필이미지':
+          return { ...prevModifyInfo, profileImage: profileImage };
+        case '주소':
+          return {
+            ...prevModifyInfo,
+            zipcode: user.zipcode,
+            address: user.address,
+            detail: user.detail,
+          };
+        default:
+          return prevModifyInfo;
+      }
     });
-    setModifyType('');
+    setModifyType(''); // 수정 중인 상태 초기화
   };
+
   // 추후 수정 취소 대비해서 값을 일시저장하는 느낌으로 변경
   const handlePostCode = (e) => {
     e.preventDefault();
@@ -78,18 +98,59 @@ export default function Info() {
   const handleGetCurrentLocation = async () => {
     // 정말 재설정 할 것인지 물어보는 alert 추가
     const location = await getLocation();
-    setUserInfo((prevState) => ({
-      ...prevState,
-      location: location,
-    }));
+    dispatch(setLocation({ location: location }));
   };
-  const handleModifyComplete = () => {
+  const handleModifyComplete = async () => {
     switch (modifyType) {
+      case '프로필이미지':
+        if (accessToken) {
+          try {
+            console.log(accessToken);
+
+            // accessToken을 Authorization 헤더에 추가하여 프로필 요청
+            const response = await axios.patch(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/profile/image`,
+              { profileImg: modifyInfo.profileImage },
+              {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+                },
+              }
+            );
+            console.log(response);
+
+            dispatch(
+              setProfileImage({ profileImage: modifyInfo.profileImage })
+            );
+            console.log(response);
+          } catch (error) {
+            console.log(error);
+          }
+        }
+        break;
       case '닉네임':
         const nicknameRegex = /^[a-zA-Z0-9가-힣]{2,8}$/;
         if (!nicknameRegex.test(modifyInfo.nickname)) {
           alert('닉네임은 2~8자의 한글, 영문 또는 숫자로만 가능합니다.');
           return;
+        } else if (nicknameRegex.test(modifyInfo.nickname) && accessToken) {
+          try {
+            console.log(accessToken);
+
+            // accessToken을 Authorization 헤더에 추가하여 프로필 요청
+            const response = await axios.patch(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/profile/nickname`,
+              { nickname: modifyInfo.nickname },
+              {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+                },
+              }
+            );
+            dispatch(setNickname({ nickname: modifyInfo.nickname }));
+          } catch (error) {
+            console.log(error);
+          }
         }
         break;
       case '주소':
@@ -101,10 +162,6 @@ export default function Info() {
       default:
         break;
     }
-    setUserInfo((prevState) => ({
-      ...prevState,
-      ...modifyInfo,
-    }));
     setModifyType('');
   };
 
@@ -141,7 +198,7 @@ export default function Info() {
         });
 
         const imageUrl = `https://${process.env.NEXT_PUBLIC_IMAGE_BUCKET}.s3.amazonaws.com/${imageName}`;
-        console.log(imageUrl);
+        setModifyInfo({ profileImage: imageUrl });
       } catch (error) {
         // 에러 처리
       }
@@ -159,7 +216,6 @@ export default function Info() {
     }
     imageRef.current.click();
   };
-
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[680px]">
       <h1 className="text-[32px] font-bold">회원 정보</h1>
@@ -174,7 +230,7 @@ export default function Info() {
             <div className="flex gap-[24px] items-center">
               <Image
                 className="w-[150px] h-[150px] rounded-full border mb-[12px]"
-                src={profile}
+                src={modifyInfo.profileImage || profile}
                 alt="profile"
                 width={150}
                 height={150}
@@ -204,14 +260,18 @@ export default function Info() {
             {modifyType === '프로필이미지' && (
               <button
                 className="mypage-profile__button"
-                onClick={() => setModifyType('')}
+                onClick={handleModifyCancel}
               >
                 변경취소
               </button>
             )}
             <button
               className={`mypage-profile__button ${modifyType === '프로필이미지' && 'mypage-profile__button-finish'}`}
-              onClick={() => handleModifyType('프로필이미지')}
+              onClick={() =>
+                modifyType === '프로필이미지'
+                  ? handleModifyComplete()
+                  : handleModifyType('프로필이미지')
+              }
             >
               {modifyType === '프로필이미지' ? '변경완료' : '변경'}
             </button>
@@ -233,7 +293,7 @@ export default function Info() {
                 placeholder="닉네임"
               />
             ) : (
-              <p className="mypage-profile__value">{userInfo.nickname}</p>
+              <p className="mypage-profile__value">{nickname}</p>
             )}
           </div>
           <div className="flex gap-[12px]">
@@ -260,7 +320,7 @@ export default function Info() {
         <article className="mypage-profile">
           <div className="flex items-center">
             <h2 className="mypage-profile__label">지역</h2>
-            <p className="mypage-profile__value">{userInfo.location}</p>
+            <p className="mypage-profile__value">{location}</p>
           </div>
           <button
             className="mypage-profile__button"
@@ -277,7 +337,7 @@ export default function Info() {
                 <div className="flex gap-[8px]">
                   <input
                     className="w-[250px] px-[8px] py-[4px] border rounded-lg outline-none"
-                    value={modifyInfo.address || ''}
+                    value={user.address || ''}
                     onChange={(e) =>
                       setModifyInfo((prevState) => ({
                         ...prevState,
@@ -285,7 +345,9 @@ export default function Info() {
                       }))
                     }
                     placeholder="지번 주소"
-                    disabled={modifyInfo.address ? true : false}
+                    disabled={
+                      user.address || user.address == null ? true : false
+                    }
                   />
                   <button
                     className="px-[8px] text-white text-sm bg-blue--500 rounded-lg"
@@ -296,7 +358,7 @@ export default function Info() {
                 </div>
                 <input
                   className="w-[150px] px-[8px] py-[4px] border rounded-lg outline-none"
-                  value={modifyInfo.detail || ''}
+                  value={user?.detail || ''}
                   onChange={(e) =>
                     setModifyInfo((prevState) => ({
                       ...prevState,
@@ -309,9 +371,9 @@ export default function Info() {
             ) : (
               <div className="flex flex-col">
                 <p className="mypage-profile__value">
-                  {userInfo.address} ({userInfo.zipcode})
+                  {user?.address} ({user?.zipcode})
                 </p>
-                <p className="mypage-profile__value">{userInfo.detail}</p>
+                <p className="mypage-profile__value">{user?.detail}</p>
               </div>
             )}
           </div>
@@ -339,7 +401,7 @@ export default function Info() {
         <article className="mypage-profile">
           <div className="flex items-center">
             <h2 className="mypage-profile__label">전화번호</h2>
-            <p className="mypage-profile__value">{userInfo.phoneNumber}</p>
+            <p className="mypage-profile__value">{user?.phone}</p>
           </div>
           <div className="flex gap-[12px]">
             <button
@@ -360,7 +422,7 @@ export default function Info() {
           <div className="flex items-center">
             <h2 className="mypage-profile__label">계정정보</h2>
             {loginType === 'email' ? (
-              <p className="mypage-profile__value">email123@naver.com</p>
+              <p className="mypage-profile__value">{user?.email}</p>
             ) : loginType === 'kakao' ? (
               <div className="flex items-center gap-[12px]">
                 <Image

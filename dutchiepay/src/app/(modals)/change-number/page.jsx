@@ -8,7 +8,8 @@ import { useEffect, useState } from 'react';
 import PhoneAuth from '@/app/_components/_user/PhoneAuth';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPhone } from '@/redux/slice/userSlice';
 
 export default function ChangeNumber() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
@@ -16,6 +17,9 @@ export default function ChangeNumber() {
   const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
+  const phone = useSelector((state) => state.user.user.phone);
+  console.log(phone);
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -38,7 +42,7 @@ export default function ChangeNumber() {
 
   const onSubmit = async (formData) => {
     try {
-      await axios.patch(
+      const response = await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/profile/phone`,
         { phone: formData.phone },
         {
@@ -47,9 +51,10 @@ export default function ChangeNumber() {
           },
         }
       );
-
-      // 핸드폰 번호를 formData.phone으로 바꾸는 로직 추가
+      dispatch(setPhone({ phone: formData.phone }));
+      console.log(response);
       window.close();
+      // 핸드폰 번호를 formData.phone으로 바꾸는 로직 추가
     } catch (error) {
       // 에러 처리
     }
