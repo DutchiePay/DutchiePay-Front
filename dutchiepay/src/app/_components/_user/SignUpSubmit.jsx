@@ -5,7 +5,6 @@ import '@/styles/user.css';
 
 import AddressInput from './AddressInput';
 import EmailInput from './EmailInput';
-import NameInput from './NameInput';
 import NicknameInput from './NicknameInput';
 import PasswordInput from './PasswordInput';
 import PhoneAuth from './PhoneAuth';
@@ -18,10 +17,9 @@ import { useState } from 'react';
 export default function SignUpSubmit() {
   const router = useRouter();
   const [address, setAddress] = useState('');
-  const [phoneCode, setPhoneCode] = useState('');
-  const [isAuthError, setIsAuthError] = useState(false);
   const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
+  const [isCodeMatch, setIsCodeMatch] = useState(null);
 
   const {
     register,
@@ -34,33 +32,15 @@ export default function SignUpSubmit() {
     criteriaMode: 'all',
     reValidateMode: 'onblur',
     shouldFocusError: true,
-    defaultValues: {
-      name: '',
-      phone: '',
-    },
+    shouldUseNativeValidation: false,
   });
 
   const onSubmit = async (formData) => {
-    const {
-      confirmPassword,
-      policy,
-      authCode,
-      name = '',
-      ...userData
-    } = formData;
-    console.log('authCode ===' + authCode);
-    console.log('phoneCode ===' + phoneCode);
-
-    if (phoneCode && authCode !== phoneCode) {
-      console.log('인증번호 틀림');
-      setIsAuthError(true);
-      return; // 함수 종료하여 회원가입 진행 방지
-    }
+    const { confirmPassword, policy, authCode, ...userData } = formData;
 
     const payload = {
       ...userData,
       location: address,
-      name: userData.name || null, // userData.name이 빈 문자열일 경우 null 처리
     };
     console.log(payload);
     try {
@@ -107,17 +87,16 @@ export default function SignUpSubmit() {
         touchedFields={touchedFields}
       />
       <AddressInput address={address} setAddress={setAddress} />
-      <NameInput register={register} />
       <PhoneAuth
         register={register}
         watch={watch}
         errors={errors}
-        setPhoneCode={setPhoneCode}
-        isAuthError={isAuthError}
         touchedFields={touchedFields}
         isPhoneAuth={isPhoneAuth}
         setIsPhoneAuth={setIsPhoneAuth}
         setHasPhone={setHasPhone}
+        isCodeMatch={isCodeMatch}
+        setIsCodeMatch={setIsCodeMatch}
         isSignup={true}
       />
       <span className="text-xs mt-[4px]">
@@ -129,11 +108,11 @@ export default function SignUpSubmit() {
       <button
         type="submit"
         className={`mt-[32px] px-[24px] py-[8px] text-bold w-full rounded-[4px] text-white text-[18px] border-none ${
-          !isValid || isSubmitting || hasPhone
+          !isValid || isSubmitting || isCodeMatch === false
             ? 'bg-gray--200 cursor-not-allowed'
             : 'bg-blue--500'
         }`}
-        disabled={!isValid || isSubmitting || hasPhone}
+        disabled={!isValid || isSubmitting || isCodeMatch === false}
       >
         회원가입
       </button>

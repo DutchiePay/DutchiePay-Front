@@ -32,14 +32,10 @@ export default function Login() {
     formState: { errors, isSubmitted },
   } = useForm({
     mode: 'onSubmit',
-    criteriaMode: 'all',
-    reValidateMode: 'onChange',
+    reValidateMode: 'onblur',
     shouldFocusError: true,
+    shouldUseNativeValidation: false,
   });
-
-  const handleCilckEyeIcon = () => {
-    setIsVisible((prev) => !prev);
-  };
 
   const password = watch('password');
 
@@ -56,7 +52,7 @@ export default function Login() {
         user: {
           userId: response.data.userId,
           nickname: response.data.nickname,
-          profileImage: response.data.profileImage,
+          profileImage: response.data.profileImg,
           location: response.data.location,
           isCertified: response.data.isCertified,
         },
@@ -109,7 +105,7 @@ export default function Login() {
               <input
                 className="user__input mt-[4px]"
                 placeholder="이메일"
-                type="text"
+                type="email"
                 {...register('email', {
                   required: true,
                 })}
@@ -130,7 +126,7 @@ export default function Login() {
                   className="absolute top-[50%] right-[24px] transform -translate-y-1/2 cursor-pointer"
                   src={isVisible ? eyeOpen : eyeClosed}
                   alt="eyes"
-                  onClick={handleCilckEyeIcon}
+                  onClick={() => setIsVisible((prev) => !prev)}
                 />
               )}
             </div>
