@@ -23,6 +23,7 @@ export default function Login() {
   const cookies = new Cookies();
   const [isVisible, setIsVisible] = useState(false);
   const [isRemeberMe, setIsRememberMe] = useState(false); // 자동로그인 체크 여부
+  const [isUnauthorized, setIsUnauthorized] = useState(false);
 
   const {
     register,
@@ -72,8 +73,9 @@ export default function Login() {
       cookies.set('refresh', response.data.refresh, { path: '/', expires });
 
       router.push('/');
-    } catch {
-      // 오류 발생
+    } catch (error) {
+      if (error.status === 401) setIsUnauthorized(true);
+      console.log(error);
     }
   };
 
@@ -133,8 +135,10 @@ export default function Login() {
               className={`text-sm min-h-[20px] mt-[8px] text-red--500 text-start font-medium`}
             >
               {isSubmitted && (errors.email || errors.password)
-                ? '아이디/비밀번호를 입력해주세요'
-                : ''}
+                ? '이메일/비밀번호를 입력해주세요'
+                : isUnauthorized
+                  ? '일치하는 회원정보가 없습니다.'
+                  : ''}
             </p>
             <div className="flex flex-col gap-[8px] mt-[12px]">
               <button type="submit" className="user__button-blue">

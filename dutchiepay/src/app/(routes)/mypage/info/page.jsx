@@ -2,16 +2,17 @@
 
 import '../../../../styles/mypage.css';
 
-import { useEffect, useRef, useState } from 'react';
-
 import {
-  setProfileImage,
-  setNickname,
   setLocation,
+  setNickname,
+  setProfileImage,
 } from '@/redux/slice/loginSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import Withdraw from '@/app/_components/_mypage/Withdraw';
 import axios from 'axios';
 import getLocation from '@/app/_components/_user/GetLocation';
 import kakao from '../../../../../public/image/kakao.png';
@@ -459,9 +460,7 @@ export default function Info() {
             </Link>
           )}
         </article>
-        <button className="flex justify-end text-[14px] text-gray--500 hover:underline">
-          회원탈퇴
-        </button>
+        <Withdraw />
       </section>
     </section>
   );
