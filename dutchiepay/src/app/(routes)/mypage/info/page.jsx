@@ -20,6 +20,7 @@ import profile from '../../../../../public/image/profile.jpg';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
+
 export default function Info() {
   const [loginType, setLoginType] = useState(''); // email/kakao/naver
   const user = useSelector((state) => state.user.user);
@@ -28,6 +29,7 @@ export default function Info() {
   const profileImage = useSelector((state) => state.login.user.profileImage);
   const accessToken = useSelector((state) => state.login.access);
   const dispatch = useDispatch();
+
   console.log(user);
 
   const [modifyType, setModifyType] = useState(''); // 수정 중인 영역 ''일 경우 아무 것도 수정 중이지 않은 상태

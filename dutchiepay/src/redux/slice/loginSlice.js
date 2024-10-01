@@ -44,10 +44,19 @@ const loginSlice = createSlice({
     setLocation(state, action) {
       state.user.location = action.payload.location;
     },
+    setAccessToken(state, action) {
+      state.access = action.payload.access;
+    },
   },
 });
 
 // 액션 및 리듀서 내보내기
-export const { login, logout, setProfileImage, setNickname, setLocation } =
-  loginSlice.actions;
+export const {
+  login,
+  logout,
+  setProfileImage,
+  setNickname,
+  setLocation,
+  setAccessToken,
+} = loginSlice.actions;
 export default loginSlice.reducer;

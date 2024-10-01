@@ -8,9 +8,16 @@ import PasswordInput from './PasswordInput';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import Cookies from 'universal-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '@/redux/slice/loginSlice';
 
 export default function ResetSubmit() {
   const router = useRouter();
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const accessToken = useSelector((state) => state.login.access);
+  const dispatch = useDispatch();
+  const cookies = new Cookies();
 
   const {
     register,
@@ -20,7 +27,7 @@ export default function ResetSubmit() {
     watch,
   } = useForm({
     mode: 'onTouched',
-    reValidateMode: 'onblur',
+    reValidateMode: 'onBlur',
     shouldFocusError: true,
     shouldUseNativeValidation: false,
   });
@@ -28,11 +35,42 @@ export default function ResetSubmit() {
   const password = watch('password', '');
   const confirmPassword = watch('confirmPassword', '');
 
-  const onSubmit = (formData) => {
-    // 로그인 유무에 따라 api 호출
-    console.log(formData);
-    // 로그인한 사용자의 경우 로그아웃 처리 후 main 이동
-    router.push('/');
+  const onSubmit = async (formData) => {
+    if (!isLoggedIn || !accessToken) {
+      alert('잘못된 접근입니다.');
+      return router.push('/');
+    }
+
+    try {
+      const response = await axios.patch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users/pwd-user`,
+        { password: formData.password },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        // 벡엔드에서 API아직 미구현
+        // await axios.post(
+        //   `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
+        //   {},
+        //   {
+        //     headers: {
+        //       Authorization: `Bearer ${accessToken}`,
+        //     },
+        //   }
+        // );
+        dispatch(logout());
+        cookies.remove('refresh');
+        router.push('/');
+      }
+    } catch (error) {
+      console.error('비밀번호 재설정 중 오류 발생:', error);
+      alert('비밀번호 재설정에 실패했습니다. 다시 시도해 주세요.');
+    }
   };
 
   return (
@@ -51,12 +89,13 @@ export default function ResetSubmit() {
       />
 
       <button
-        className={`${isValid ? 'user__button-blue' : 'user__button-gray'} `}
+        className={`user__button-${isValid ? 'blue' : 'gray'}`}
         type="submit"
         disabled={!isValid}
       >
         비밀번호 재설정
       </button>
+
       <Link
         href="/"
         className="text-gray--500 text-sm text-center underline"
