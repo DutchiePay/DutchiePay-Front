@@ -8,6 +8,11 @@ const addressSlice = createSlice({
   name: 'address',
   initialState,
   reducers: {
+    setAddresses(state, action) {
+      if (Array.isArray(action.payload) && action.payload.length <= 5) {
+        state.addresses = action.payload;
+      }
+    },
     addAddress(state, action) {
       if (state.addresses.length < 5) {
         state.addresses.push(action.payload);
@@ -28,6 +33,6 @@ const addressSlice = createSlice({
   },
 });
 
-export const { addAddress, updateAddress, removeAddress } =
+export const { setAddresses, addAddress, updateAddress, removeAddress } =
   addressSlice.actions;
 export default addressSlice.reducer;

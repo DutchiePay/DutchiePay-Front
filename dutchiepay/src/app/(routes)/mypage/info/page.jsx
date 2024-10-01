@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from 'react';
 import DeliveryAddress from '@/app/_components/_mypage/DeliveryAddress';
 import Image from 'next/image';
 import Link from 'next/link';
+import Withdraw from '@/app/_components/_mypage/Withdraw';
 import axios from 'axios';
 import getLocation from '@/app/_components/_user/GetLocation';
 import kakao from '../../../../../public/image/kakao.png';
@@ -36,9 +37,6 @@ export default function Info() {
     profileImage: profileImage ? profileImage : profile,
     phone: user?.phone,
     location: location,
-    zipcode: user?.zipcode,
-    address: user?.address,
-    detail: user?.detail,
   });
   const imageRef = useRef(null);
 
@@ -230,7 +228,12 @@ export default function Info() {
                     className="hidden"
                     onChange={hanldeImage}
                   />
-                  <button className="border rounded-lg text-sm px-[16px] py-[4px]">
+                  <button
+                    className="border rounded-lg text-sm px-[16px] py-[4px]"
+                    onClick={() =>
+                      dispatch(setProfileImage({ profileImage: profile }))
+                    }
+                  >
                     프로필 삭제
                   </button>
                 </div>
@@ -370,9 +373,7 @@ export default function Info() {
           )}
         </article>
         <DeliveryAddress />
-        <button className="mt-[24px] flex justify-end text-sm text-gray--500 hover:underline">
-          회원탈퇴
-        </button>
+        <Withdraw />
       </section>
     </section>
   );

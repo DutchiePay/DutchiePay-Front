@@ -1,6 +1,6 @@
 'use client';
 
-import '../../../styles/mypage.css';
+import '@/styles/mypage.css';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -9,13 +9,14 @@ import Link from 'next/link';
 import arrow from '../../../../public/image/arrow.svg';
 import axios from 'axios';
 import coupon from '../../../../public/image/coupon.svg';
+import crypto from 'crypto-js';
 import delivery from '../../../../public/image/delivery.svg';
 import heart from '../../../../public/image/heart.svg';
 import post from '../../../../public/image/post.svg';
 import profile from '../../../../public/image/profile.jpg';
 import question from '../../../../public/image/question.svg';
 import review from '../../../../public/image/review.svg';
-import { setUser } from '@/redux/slice/userSlice';
+import { setAddresses } from '@/redux/slice/addressSlice';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import userIcon from '../../../../public/image/user.svg';
@@ -25,7 +26,6 @@ export default function Sidebar() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const accessToken = useSelector((state) => state.login.access);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
   const router = useRouter();
   useEffect(() => {
     const initMypage = async () => {
@@ -35,7 +35,7 @@ export default function Sidebar() {
         return;
       }*/
 
-      if (accessToken) {
+      if (isLoggedIn && accessToken) {
         try {
           // accessToken을 Authorization 헤더에 추가하여 프로필 요청
           const response = await axios.get(
@@ -46,18 +46,15 @@ export default function Sidebar() {
               },
             }
           );
-          console.log('test');
 
-          const userinfo = {
-            address: response.data.address,
+          const user = {
             coupon: response.data.coupon,
-            detail: response.data.detail,
             email: response.data.email,
             order: response.data.order,
             phone: response.data.phone,
-            zipcode: response.data.zipcode,
           };
-          dispatch(setUser({ user: userinfo }));
+
+          dispatch(setAddresses(response.data.deliveryAddress));
         } catch (error) {
           console.log(error);
         }
