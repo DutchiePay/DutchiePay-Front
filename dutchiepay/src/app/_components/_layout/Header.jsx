@@ -30,7 +30,7 @@ export default function Header() {
 
   useEffect(async () => {
     const refresh = cookies.get('refresh');
-    if (refresh) {
+    if (refresh && !isLoggedIn) {
       try {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_BASE_URL}/users/relogin`,
@@ -59,6 +59,8 @@ export default function Header() {
         );
       } catch (error) {
         // 에러처리 refresh token 만료 메시지가 반환될 경우, 로그아웃 처리
+        alert('로그아웃 유지시간이 만료되어 자동으로 로그아웃되었습니다.');
+        handleLogout();
       }
     }
   }, []);
