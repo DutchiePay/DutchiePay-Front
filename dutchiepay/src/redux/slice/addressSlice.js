@@ -11,8 +11,6 @@ const addressSlice = createSlice({
     addAddress(state, action) {
       if (state.addresses.length < 5) {
         state.addresses.push(action.payload);
-      } else {
-        console.log('최대 5개의 주소만 저장 가능합니다.');
       }
     },
     updateAddress(state, action) {
