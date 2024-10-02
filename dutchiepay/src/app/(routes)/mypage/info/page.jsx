@@ -23,26 +23,59 @@ import profile from '../../../../../public/image/profile.jpg';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function Info() {
-  const [loginType, setLoginType] = useState(''); // email/kakao/naver
-  const user = useSelector((state) => state.user.user);
   const location = useSelector((state) => state.login.user.location);
   const nickname = useSelector((state) => state.login.user.nickname);
   const profileImage = useSelector((state) => state.login.user.profileImage);
   const accessToken = useSelector((state) => state.login.access);
   const dispatch = useDispatch();
 
+  const [loginType, setLoginType] = useState(''); // email/kakao/naver
+  const [userInfo, setUserInfo] = useState({
+    email: null,
+    phone: null,
+  });
   const [modifyType, setModifyType] = useState(''); // 수정 중인 영역 ''일 경우 아무 것도 수정 중이지 않은 상태
   const [modifyInfo, setModifyInfo] = useState({
     nickname: nickname,
     profileImage: profileImage ? profileImage : profile,
-    phone: user?.phone,
     location: location,
   });
   const imageRef = useRef(null);
 
+  // loginType과 email/phone API 호출 및 session 저장
   useEffect(() => {
     const storedLoginType = localStorage.getItem('loginType');
     setLoginType(storedLoginType || '');
+
+    const initMypage = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/profile`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        const user = {
+          email: response.data.email,
+          phone: response.data.phone,
+        };
+        setUserInfo(user);
+        sessionStorage.setItem('user', JSON.stringify(user));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (!sessionStorage.getItem('user')) initMypage();
+    else {
+      setUserInfo({
+        email: JSON.parse(sessionStorage.getItem('user'))?.email,
+        phone: JSON.parse(sessionStorage.getItem('user'))?.phone,
+      });
+    }
   }, []);
 
   const handleModifyType = (type) => {
@@ -60,13 +93,6 @@ export default function Info() {
           return { ...prevModifyInfo, nickname: nickname };
         case '프로필이미지':
           return { ...prevModifyInfo, profileImage: profileImage };
-        case '주소':
-          return {
-            ...prevModifyInfo,
-            zipcode: user.zipcode,
-            address: user.address,
-            detail: user.detail,
-          };
         default:
           return prevModifyInfo;
       }
@@ -75,10 +101,12 @@ export default function Info() {
   };
 
   const handleGetCurrentLocation = async () => {
-    // 정말 재설정 할 것인지 물어보는 alert 추가
-    const location = await getLocation();
-    dispatch(setLocation({ location: location }));
+    if (confirm('지역을 재설정 하시겠습니까?')) {
+      const location = await getLocation();
+      dispatch(setLocation({ location: location }));
+    }
   };
+
   const handleModifyComplete = async () => {
     switch (modifyType) {
       case '프로필이미지':
@@ -130,12 +158,6 @@ export default function Info() {
           } catch (error) {
             console.log(error);
           }
-        }
-        break;
-      case '주소':
-        if (!modifyInfo.zipcode || !modifyInfo.address || !modifyInfo.detail) {
-          alert('우편번호, 주소 및 상세 주소를 모두 입력해주세요.');
-          return;
         }
         break;
       default:
@@ -316,7 +338,7 @@ export default function Info() {
         <article className="mypage-profile">
           <div className="flex items-center">
             <h2 className="mypage-profile__label">전화번호</h2>
-            <p className="mypage-profile__value">{user?.phone}</p>
+            <p className="mypage-profile__value">{userInfo.phone}</p>
           </div>
           <div className="flex gap-[12px]">
             <button
@@ -337,7 +359,7 @@ export default function Info() {
           <div className="flex items-center">
             <h2 className="mypage-profile__label">계정정보</h2>
             {loginType === 'email' ? (
-              <p className="mypage-profile__value">{user?.email}</p>
+              <p className="mypage-profile__value">{userInfo.email}</p>
             ) : loginType === 'kakao' ? (
               <div className="flex items-center gap-[12px]">
                 <Image
@@ -374,6 +396,9 @@ export default function Info() {
         </article>
         <DeliveryAddress />
         <Withdraw />
+        <button onClick={() => console.log(sessionStorage.getItem('user'))}>
+          test
+        </button>
       </section>
     </section>
   );
