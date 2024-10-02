@@ -381,9 +381,6 @@ export default function Info() {
         </article>
         <DeliveryAddress />
         <Withdraw />
-        <button onClick={() => console.log(sessionStorage.getItem('user'))}>
-          test
-        </button>
       </section>
     </section>
   );

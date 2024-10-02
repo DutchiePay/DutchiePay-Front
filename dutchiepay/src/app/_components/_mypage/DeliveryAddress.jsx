@@ -6,7 +6,7 @@ import Image from 'next/image';
 import delivery from '../../../../public/image/delivery.svg';
 
 export default function DeliveryAddress() {
-  const deliveryAddress = [
+  /*const deliveryAddress = [
     {
       addressId: 1,
       addressName: '자취방',
@@ -37,7 +37,9 @@ export default function DeliveryAddress() {
       zipcode: '12345',
       isDefault: false,
     },
-  ];
+  ];*/
+
+  const deliveryAddress = [];
 
   return (
     <article>
