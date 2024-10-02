@@ -42,7 +42,7 @@ export default function ChangeNumber() {
 
   const onSubmit = async (formData) => {
     try {
-      const response = await axios.patch(
+      await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/profile/phone`,
         { phone: formData.phone },
         {
@@ -52,7 +52,7 @@ export default function ChangeNumber() {
         }
       );
       dispatch(setPhone({ phone: formData.phone }));
-      console.log(response);
+
       window.close();
       // 핸드폰 번호를 formData.phone으로 바꾸는 로직 추가
     } catch (error) {

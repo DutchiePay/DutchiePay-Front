@@ -2,12 +2,7 @@
 
 import '../../../../styles/mypage.css';
 
-import {
-  setLocation,
-  setNickname,
-  setProfileImage,
-} from '@/redux/slice/loginSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { setUserInfoChange } from '@/redux/slice/loginSlice';
 import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
@@ -20,6 +15,7 @@ import naver from '../../../../../public/image/naver.png';
 import profile from '../../../../../public/image/profile.jpg';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Info() {
   const [loginType, setLoginType] = useState(''); // email/kakao/naver
@@ -29,6 +25,7 @@ export default function Info() {
   const profileImage = useSelector((state) => state.login.user.profileImage);
   const accessToken = useSelector((state) => state.login.access);
   const dispatch = useDispatch();
+
   console.log(user);
 
   const [modifyType, setModifyType] = useState(''); // 수정 중인 영역 ''일 경우 아무 것도 수정 중이지 않은 상태
@@ -99,7 +96,7 @@ export default function Info() {
   const handleGetCurrentLocation = async () => {
     // 정말 재설정 할 것인지 물어보는 alert 추가
     const location = await getLocation();
-    dispatch(setLocation({ location: location }));
+    dispatch(setUserInfoChange({ location: location }));
   };
   const handleModifyComplete = async () => {
     switch (modifyType) {
@@ -121,7 +118,7 @@ export default function Info() {
             console.log(response);
 
             dispatch(
-              setProfileImage({ profileImage: modifyInfo.profileImage })
+              setUserInfoChange({ profileImage: modifyInfo.profileImage })
             );
             console.log(response);
           } catch (error) {
@@ -148,7 +145,7 @@ export default function Info() {
                 },
               }
             );
-            dispatch(setNickname({ nickname: modifyInfo.nickname }));
+            dispatch(setUserInfoChange({ nickname: modifyInfo.nickname }));
           } catch (error) {
             console.log(error);
           }

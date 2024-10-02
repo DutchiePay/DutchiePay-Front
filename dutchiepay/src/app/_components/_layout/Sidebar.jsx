@@ -18,18 +18,27 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { setUser } from '@/redux/slice/userSlice';
 import { useRouter } from 'next/navigation';
+import Cookies from 'universal-cookie';
+import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function Sidebar() {
   const userInfo = useSelector((state) => state.login.user);
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const accessToken = useSelector((state) => state.login.access);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
   const router = useRouter();
+  const cookies = new Cookies();
+  const refreshToken = cookies.get('refresh');
+  const newAccessToken = useReissueToken(refreshToken);
+  console.log(refreshToken);
+
+  console.log(newAccessToken);
+
   useEffect(() => {
     const initMypage = async () => {
       // 로그인이 안되어 있으면 메인 페이지로 리다이렉트
       if (!isLoggedIn) {
+        alert('비정상적인 접근입니다.');
         router.push('/');
         return;
       }

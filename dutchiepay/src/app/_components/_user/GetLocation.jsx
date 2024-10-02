@@ -26,7 +26,11 @@ export default function getLocation() {
           }
         },
         (error) => {
-          resolve('위치 정보를 가져오지 못 했습니다.');
+          alert(
+            '위치정보를 불러올 수 없어 기본 설정 지역으로 가입이 진행됩니다.'
+          );
+
+          resolve('서울시 중구');
         }
       );
     } else {
