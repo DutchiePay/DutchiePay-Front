@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build && next export && next-image-export-optimizer",
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "build-static": "next build && next export && npm run build-static-repair-index",
+    "build-static-repair-index": "replace-in-files --string \"/_next/static\" --replacement \"./_next/static\" out/index.html"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
@@ -16,6 +18,7 @@
     "crypto-js": "^4.2.0",
     "dutchiepay": "file:",
     "next": "14.2.5",
+    "next-image-export-optimizer": "^1.15.1",
     "quill": "^2.0.2",
     "react": "^18",
     "react-daum-postcode": "^3.1.3",
@@ -25,6 +28,8 @@
     "react-redux": "^9.1.2",
     "react-slick": "^0.30.2",
     "redux-persist": "^6.0.0",
+    "replace-in-file": "^8.2.0",
+    "replace-in-files-cli": "^3.0.0",
     "slick-carousel": "^1.8.1",
     "universal-cookie": "^7.2.0",
     "uuid": "^10.0.0"
