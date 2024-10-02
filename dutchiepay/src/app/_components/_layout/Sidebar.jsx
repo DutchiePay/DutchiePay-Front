@@ -1,37 +1,35 @@
 'use client';
 
 import '@/styles/mypage.css';
-
-import { useDispatch, useSelector } from 'react-redux';
+import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
 import arrow from '../../../../public/image/arrow.svg';
-import axios from 'axios';
 import coupon from '../../../../public/image/coupon.svg';
-import crypto from 'crypto-js';
 import delivery from '../../../../public/image/delivery.svg';
 import heart from '../../../../public/image/heart.svg';
 import post from '../../../../public/image/post.svg';
 import profile from '../../../../public/image/profile.jpg';
 import question from '../../../../public/image/question.svg';
 import review from '../../../../public/image/review.svg';
-import { setAddresses } from '@/redux/slice/addressSlice';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 import userIcon from '../../../../public/image/user.svg';
 
 export default function Sidebar() {
   const userInfo = useSelector((state) => state.login.user);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const router = useRouter();
 
-  /*
   useEffect(() => {
-      if (!isLoggedIn) {
-        router.push('/');
-        return;
-      }
-  }, []);*/
+    if (!isLoggedIn) {
+      alert('비정상적인 접근입니다.');
+      router.push('/');
+      return;
+    }
+  }, []);
 
   return (
     <aside className="w-[250px] h-[730px] bg-white border-r p-[16px] mb-[70px] flex flex-col items-center gap-[32px] fixed">

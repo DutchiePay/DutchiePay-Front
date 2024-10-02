@@ -2,7 +2,7 @@
 
 import '@/styles/globals.css';
 import '@/styles/user.css';
-
+import axios from 'axios';
 export default function NicknameInput({
   register,
   errors,
@@ -10,7 +10,26 @@ export default function NicknameInput({
   touchedFields,
 }) {
   const rNickname = /^[a-zA-Z0-9가-힣]{2,8}$/;
+  const checkNicknameAvailability = async (e) => {
+    const value = e.target.value;
+    console.log(value);
 
+    if (rNickname.test(value)) {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
+          {
+            params: {
+              nickname: value,
+            },
+          }
+        );
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   return (
     <>
       <div className="flex items-center">
@@ -38,6 +57,7 @@ export default function NicknameInput({
               value: rNickname,
               message: '올바른 닉네임 형식을 입력해주세요',
             },
+            onBlur: checkNicknameAvailability,
           })}
         />
       </div>

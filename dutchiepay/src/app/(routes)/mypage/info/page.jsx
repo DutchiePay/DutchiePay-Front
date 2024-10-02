@@ -3,11 +3,6 @@
 import '@/styles/globals.css';
 import '@/styles/mypage.css';
 
-import {
-  setLocation,
-  setNickname,
-  setProfileImage,
-} from '@/redux/slice/loginSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 
@@ -20,6 +15,7 @@ import getLocation from '@/app/_components/_user/GetLocation';
 import kakao from '../../../../../public/image/kakao.png';
 import naver from '../../../../../public/image/naver.png';
 import profile from '../../../../../public/image/profile.jpg';
+import { setUserInfoChange } from '@/redux/slice/loginSlice';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function Info() {
@@ -105,7 +101,7 @@ export default function Info() {
   const handleGetCurrentLocation = async () => {
     if (confirm('지역을 재설정 하시겠습니까?')) {
       const location = await getLocation();
-      dispatch(setLocation({ location: location }));
+      dispatch(setUserInfoChange({ location: location }));
     }
   };
 
@@ -122,7 +118,7 @@ export default function Info() {
               },
             }
           );
-          dispatch(setProfileImage({ profileImage: modifyInfo.profileImage }));
+          setUserInfoChange({ profileImage: modifyInfo.profileImage });
         } catch (error) {
           console.log(error);
         }
@@ -143,7 +139,7 @@ export default function Info() {
               },
             }
           );
-          dispatch(setNickname({ nickname: modifyInfo.nickname }));
+          dispatch(setUserInfoChange({ nickname: modifyInfo.nickname }));
         } catch (error) {
           console.log(error);
         }

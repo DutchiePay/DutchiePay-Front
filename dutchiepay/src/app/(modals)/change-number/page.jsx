@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 
 import PhoneAuth from '@/app/_components/_user/PhoneAuth';
 import axios from 'axios';
-import { setPhone } from '@/redux/slice/userSlice';
 import { useForm } from 'react-hook-form';
 
 export default function ChangeNumber() {
@@ -17,8 +16,6 @@ export default function ChangeNumber() {
   const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
-  const phone = useSelector((state) => state.user.user.phone);
-  console.log(phone);
   const dispatch = useDispatch();
 
   const {
@@ -51,7 +48,8 @@ export default function ChangeNumber() {
           },
         }
       );
-      dispatch(setPhone({ phone: formData.phone }));
+
+      // 휴대폰 변경 처리
       window.close();
     } catch (error) {
       // 에러 처리
