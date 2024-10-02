@@ -41,6 +41,7 @@ export default function Info() {
     location: location,
   });
   const imageRef = useRef(null);
+  const rnickname = /^[a-zA-Z0-9가-힣]{2,8}$/;
 
   // loginType과 email/phone API 호출 및 session 저장
   useEffect(() => {
@@ -85,6 +86,7 @@ export default function Info() {
     }
     setModifyType(modifyType === type ? '' : type); // 같은 타입일 경우 취소, 다른 타입일 경우 새로 설정
   };
+
   // 수정 취소
   const handleModifyCancel = () => {
     setModifyInfo((prevModifyInfo) => {
@@ -110,54 +112,40 @@ export default function Info() {
   const handleModifyComplete = async () => {
     switch (modifyType) {
       case '프로필이미지':
-        if (accessToken) {
-          try {
-            console.log(accessToken);
-
-            // accessToken을 Authorization 헤더에 추가하여 프로필 요청
-            const response = await axios.patch(
-              `${process.env.NEXT_PUBLIC_BASE_URL}/profile/image`,
-              { profileImg: modifyInfo.profileImage },
-              {
-                headers: {
-                  Authorization: `Bearer ${accessToken}`,
-                },
-              }
-            );
-            console.log(response);
-
-            dispatch(
-              setProfileImage({ profileImage: modifyInfo.profileImage })
-            );
-            console.log(response);
-          } catch (error) {
-            console.log(error);
-          }
+        try {
+          await axios.patch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/profile/image`,
+            { profileImg: modifyInfo.profileImage },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          dispatch(setProfileImage({ profileImage: modifyInfo.profileImage }));
+        } catch (error) {
+          console.log(error);
         }
         break;
       case '닉네임':
-        const nicknameRegex = /^[a-zA-Z0-9가-힣]{2,8}$/;
-        if (!nicknameRegex.test(modifyInfo.nickname)) {
+        if (!rnickname.test(modifyInfo.nickname)) {
           alert('닉네임은 2~8자의 한글, 영문 또는 숫자로만 가능합니다.');
           return;
-        } else if (nicknameRegex.test(modifyInfo.nickname) && accessToken) {
-          try {
-            console.log(accessToken);
+        }
 
-            // accessToken을 Authorization 헤더에 추가하여 프로필 요청
-            const response = await axios.patch(
-              `${process.env.NEXT_PUBLIC_BASE_URL}/profile/nickname`,
-              { nickname: modifyInfo.nickname },
-              {
-                headers: {
-                  Authorization: `Bearer ${accessToken}`,
-                },
-              }
-            );
-            dispatch(setNickname({ nickname: modifyInfo.nickname }));
-          } catch (error) {
-            console.log(error);
-          }
+        try {
+          await axios.patch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/profile/nickname`,
+            { nickname: modifyInfo.nickname },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          dispatch(setNickname({ nickname: modifyInfo.nickname }));
+        } catch (error) {
+          console.log(error);
         }
         break;
       default:
@@ -198,8 +186,9 @@ export default function Info() {
           },
         });
 
-        const imageUrl = `https://${process.env.NEXT_PUBLIC_IMAGE_BUCKET}.s3.amazonaws.com/${imageName}`;
-        setModifyInfo({ profileImage: imageUrl });
+        setModifyInfo({
+          profileImage: `https://${process.env.NEXT_PUBLIC_IMAGE_BUCKET}.s3.amazonaws.com/${imageName}`,
+        });
       } catch (error) {
         // 에러 처리
       }
