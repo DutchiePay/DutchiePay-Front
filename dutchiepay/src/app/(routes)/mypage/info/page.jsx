@@ -2,16 +2,17 @@
 
 import '../../../../styles/mypage.css';
 
-import { useEffect, useRef, useState } from 'react';
-
 import {
-  setProfileImage,
-  setNickname,
   setLocation,
+  setNickname,
+  setProfileImage,
 } from '@/redux/slice/loginSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import Withdraw from '@/app/_components/_mypage/Withdraw';
 import axios from 'axios';
 import getLocation from '@/app/_components/_user/GetLocation';
 import kakao from '../../../../../public/image/kakao.png';
@@ -19,7 +20,7 @@ import naver from '../../../../../public/image/naver.png';
 import profile from '../../../../../public/image/profile.jpg';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { v4 as uuidv4 } from 'uuid';
-import { useDispatch, useSelector } from 'react-redux';
+
 export default function Info() {
   const [loginType, setLoginType] = useState(''); // email/kakao/naver
   const user = useSelector((state) => state.user.user);
@@ -457,9 +458,7 @@ export default function Info() {
             </Link>
           )}
         </article>
-        <button className="flex justify-end text-[14px] text-gray--500 hover:underline">
-          회원탈퇴
-        </button>
+        <Withdraw />
       </section>
     </section>
   );

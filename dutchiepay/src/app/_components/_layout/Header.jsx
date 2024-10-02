@@ -14,6 +14,8 @@ import logo from '../../../../public/image/logo.jpg';
 import { logout } from '@/redux/slice/loginSlice';
 import profile from '../../../../public/image/profile.jpg';
 import search from '../../../../public/image/search.svg';
+import Cookies from 'universal-cookie';
+import axios from 'axios';
 
 export default function Header() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
@@ -25,6 +27,43 @@ export default function Header() {
   const pathname = usePathname();
 
   const [keyword, setKeyword] = useState('');
+
+  useEffect(async () => {
+    const refresh = cookies.get('refresh');
+    if (refresh && !isLoggedIn) {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/users/relogin`,
+          { refresh: refresh }
+        );
+
+        const userInfo = {
+          isLoggedIn: true,
+          loginType: response.data.type || 'email',
+          user: {
+            userId: response.data.userId,
+            nickname: response.data.nickname,
+            profileImage: response.data.profileImage,
+            location: response.data.location,
+            isCertified: response.data.isCertified,
+          },
+          access: response.data.access,
+        };
+
+        localStorage.setItem('loginType', userInfo.loginType);
+        dispatch(
+          login({
+            user: userInfo.user,
+            access: userInfo.access,
+          })
+        );
+      } catch (error) {
+        // 에러처리 refresh token 만료 메시지가 반환될 경우, 로그아웃 처리
+        alert('로그아웃 유지시간이 만료되어 자동으로 로그아웃되었습니다.');
+        handleLogout();
+      }
+    }
+  }, []);
 
   // 필터를 useMemo로 메모이제이션하여 렌더링 최적화
   const filter = useMemo(() => {
@@ -44,7 +83,6 @@ export default function Header() {
   const handleKeyDown = useCallback(
     (e) => {
       if (e.key === 'Enter') {
-        // Enter key
         router.push(`/search?keyword=${encodeURIComponent(e.target.value)}`);
       }
     },
