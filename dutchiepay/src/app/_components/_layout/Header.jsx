@@ -9,13 +9,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import Cookies from 'universal-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
+import axios from 'axios';
 import chat from '../../../../public/image/chat.svg';
 import logo from '../../../../public/image/logo.jpg';
 import { logout } from '@/redux/slice/loginSlice';
 import profile from '../../../../public/image/profile.jpg';
 import search from '../../../../public/image/search.svg';
-import Cookies from 'universal-cookie';
-import axios from 'axios';
 
 export default function Header() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
@@ -28,9 +27,13 @@ export default function Header() {
 
   const [keyword, setKeyword] = useState('');
 
-  useEffect(async () => {
+  useEffect(() => {
     const refresh = cookies.get('refresh');
     if (refresh && !isLoggedIn) {
+      handleRelogin();
+    }
+
+    const handleRelogin = async () => {
       try {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_BASE_URL}/users/relogin`,
@@ -62,7 +65,7 @@ export default function Header() {
         alert('로그아웃 유지시간이 만료되어 자동으로 로그아웃되었습니다.');
         handleLogout();
       }
-    }
+    };
   }, []);
 
   // 필터를 useMemo로 메모이제이션하여 렌더링 최적화
