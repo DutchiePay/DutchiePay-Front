@@ -24,6 +24,7 @@ export default function NicknameInput({
             },
           }
         );
+        console.log(response);
       } catch (error) {
         console.log(error);
       }

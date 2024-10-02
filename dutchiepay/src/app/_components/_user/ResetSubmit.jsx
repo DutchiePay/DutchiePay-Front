@@ -16,6 +16,7 @@ export default function ResetSubmit() {
   const router = useRouter();
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const accessToken = useSelector((state) => state.login.access);
+  const email = useSelector((state) => state.user.user.email);
   const dispatch = useDispatch();
   const cookies = new Cookies();
 
@@ -27,7 +28,7 @@ export default function ResetSubmit() {
     watch,
   } = useForm({
     mode: 'onTouched',
-    reValidateMode: 'onBlur',
+    reValidateMode: 'onTouched',
     shouldFocusError: true,
     shouldUseNativeValidation: false,
   });
@@ -37,39 +38,47 @@ export default function ResetSubmit() {
 
   const onSubmit = async (formData) => {
     if (!isLoggedIn || !accessToken) {
-      alert('잘못된 접근입니다.');
-      return router.push('/');
-    }
-
-    try {
-      const response = await axios.patch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/users/pwd-user`,
-        { password: formData.password },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        // 벡엔드에서 API아직 미구현
-        // await axios.post(
-        //   `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
-        //   {},
-        //   {
-        //     headers: {
-        //       Authorization: `Bearer ${accessToken}`,
-        //     },
-        //   }
-        // );
-        dispatch(logout());
-        cookies.remove('refresh');
+      try {
+        await axios.patch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/users/pwd-nonuser`,
+          { email: email, password: formData.password }
+        );
+        alert('변경이 완료되었습니다.');
         router.push('/');
+      } catch (error) {
+        console.error('비밀번호 재설정 중 오류 발생:', error);
+        alert('비밀번호 재설정에 실패했습니다. 다시 시도해 주세요.');
       }
-    } catch (error) {
-      console.error('비밀번호 재설정 중 오류 발생:', error);
-      alert('비밀번호 재설정에 실패했습니다. 다시 시도해 주세요.');
+    } else {
+      try {
+        const response = await axios.patch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/users/pwd-user`,
+          { password: formData.password },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          await axios.post(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          dispatch(logout());
+          cookies.remove('refresh');
+          router.push('/');
+        }
+      } catch (error) {
+        console.error('비밀번호 재설정 중 오류 발생:', error);
+        alert('비밀번호 재설정에 실패했습니다. 다시 시도해 주세요.');
+      }
     }
   };
 

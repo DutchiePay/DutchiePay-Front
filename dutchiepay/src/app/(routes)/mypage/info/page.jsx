@@ -2,12 +2,7 @@
 
 import '../../../../styles/mypage.css';
 
-import {
-  setLocation,
-  setNickname,
-  setProfileImage,
-} from '@/redux/slice/loginSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { setUserInfoChange } from '@/redux/slice/loginSlice';
 import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
@@ -101,7 +96,7 @@ export default function Info() {
   const handleGetCurrentLocation = async () => {
     // 정말 재설정 할 것인지 물어보는 alert 추가
     const location = await getLocation();
-    dispatch(setLocation({ location: location }));
+    dispatch(setUserInfoChange({ location: location }));
   };
   const handleModifyComplete = async () => {
     switch (modifyType) {
@@ -123,7 +118,7 @@ export default function Info() {
             console.log(response);
 
             dispatch(
-              setProfileImage({ profileImage: modifyInfo.profileImage })
+              setUserInfoChange({ profileImage: modifyInfo.profileImage })
             );
             console.log(response);
           } catch (error) {
@@ -150,7 +145,7 @@ export default function Info() {
                 },
               }
             );
-            dispatch(setNickname({ nickname: modifyInfo.nickname }));
+            dispatch(setUserInfoChange({ nickname: modifyInfo.nickname }));
           } catch (error) {
             console.log(error);
           }
