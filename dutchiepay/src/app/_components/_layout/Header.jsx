@@ -29,10 +29,6 @@ export default function Header() {
 
   useEffect(() => {
     const refresh = cookies.get('refresh');
-    if (refresh && !isLoggedIn) {
-      handleRelogin();
-    }
-
     const handleRelogin = async () => {
       try {
         const response = await axios.post(
@@ -66,6 +62,10 @@ export default function Header() {
         handleLogout();
       }
     };
+
+    if (refresh && !isLoggedIn) {
+      handleRelogin();
+    }
   }, []);
 
   // 필터를 useMemo로 메모이제이션하여 렌더링 최적화
