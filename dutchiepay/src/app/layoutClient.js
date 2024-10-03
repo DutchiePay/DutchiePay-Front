@@ -16,13 +16,13 @@ export default function RootLayoutClient({ children }) {
   const pathname = usePathname();
 
   const rhideHeader = pathname.match(
-    /\/(login|reset|find|signup|ask|report|cancel|refund|review|coupon|change-number)/
+    /\/(login|reset|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address)/
   );
   const rhideFooter = pathname.match(
-    /\/(ask|report|cancel|refund|review|coupon|change-number)/
+    /\/(ask|report|cancel|refund|review|coupon|change-number|delivery-address)/
   );
   const rhideFloating = pathname.match(
-    /\/(login|find|signup|ask|report|cancel|refund|review|coupon|change-number)/
+    /\/(login|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address)/
   );
 
   return (
@@ -33,7 +33,7 @@ export default function RootLayoutClient({ children }) {
         <main className={`layout ${!rhideHeader ? 'mt-[155px]' : ''}`}>
           {children}
           {!rhideFloating && <Floating />}
-          <UpDownButton />
+          {!rhideFloating && <UpDownButton />}
         </main>
         {!rhideFooter && <Footer />}
       </PersistGate>
