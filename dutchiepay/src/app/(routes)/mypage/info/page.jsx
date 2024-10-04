@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import DeliveryAddress from '@/app/_components/_mypage/DeliveryAddress';
 import Image from 'next/image';
 import Link from 'next/link';
+import { P } from 'storybook/internal/components';
 import Withdraw from '@/app/_components/_mypage/Withdraw';
 import axios from 'axios';
 import getLocation from '@/app/_components/_user/GetLocation';
@@ -73,6 +74,29 @@ export default function Info() {
         phone: JSON.parse(sessionStorage.getItem('user'))?.phone,
       });
     }
+  }, []);
+
+  // 휴대폰 번호 변경 체크
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.origin !== window.location.origin) return;
+
+      if (event.data && event.data.type === 'UPDATE_PHONE') {
+        setUserInfo((prev) => ({
+          ...prev,
+          phone: event.data.phone,
+        }));
+
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        user.phone = event.data.phone;
+        sessionStorage.setItem('user', JSON.stringify(user));
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
   }, []);
 
   const handleModifyType = (type) => {
@@ -381,6 +405,13 @@ export default function Info() {
         </article>
         <DeliveryAddress />
         <Withdraw />
+        <button
+          onClick={() =>
+            console.log(JSON.parse(sessionStorage.getItem('user'))?.phone)
+          }
+        >
+          test
+        </button>
       </section>
     </section>
   );

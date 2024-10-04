@@ -49,14 +49,15 @@ export default function ChangeNumber() {
         }
       );
 
-      // 휴대폰 변경 처리
-      {
-        /* 휴대폰 번호 가운데 마스킹 처리 */
-      }
+      const changedNumber = formData.phone.replace(
+        /(\d{3})(\d{4})(\d{4})/,
+        '$1****$3'
+      );
 
-      {
-        /* 휴대폰 번호 session 저장 */
-      }
+      window.opener.postMessage(
+        { type: 'UPDATE_PHONE', phone: changedNumber },
+        window.location.origin
+      );
 
       window.close();
     } catch (error) {
