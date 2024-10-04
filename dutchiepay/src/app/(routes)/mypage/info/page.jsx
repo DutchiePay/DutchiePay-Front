@@ -9,7 +9,6 @@ import { useEffect, useRef, useState } from 'react';
 import DeliveryAddress from '@/app/_components/_mypage/DeliveryAddress';
 import Image from 'next/image';
 import Link from 'next/link';
-import { P } from 'storybook/internal/components';
 import Withdraw from '@/app/_components/_mypage/Withdraw';
 import axios from 'axios';
 import getLocation from '@/app/_components/_user/GetLocation';
