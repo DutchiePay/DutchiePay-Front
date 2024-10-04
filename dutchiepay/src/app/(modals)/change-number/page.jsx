@@ -22,7 +22,7 @@ export default function ChangeNumber() {
     register,
     watch,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting, touchedFields },
+    formState: { errors, touchedFields },
   } = useForm({
     mode: 'onTouched',
     criteriaMode: 'all',
@@ -50,6 +50,14 @@ export default function ChangeNumber() {
       );
 
       // 휴대폰 변경 처리
+      {
+        /* 휴대폰 번호 가운데 마스킹 처리 */
+      }
+
+      {
+        /* 휴대폰 번호 session 저장 */
+      }
+
       window.close();
     } catch (error) {
       // 에러 처리
