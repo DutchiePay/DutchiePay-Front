@@ -3,6 +3,7 @@ import '@/styles/mypage.css';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Cookies from 'universal-cookie';
+import axios from 'axios';
 import { logout } from '@/redux/slice/loginSlice';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
