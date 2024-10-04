@@ -124,3 +124,11 @@
   width: 360px;
   padding: 16px;
 }
+
+.address__input {
+  border: 1px solid #d1d2d7;
+  padding: 12px 16px;
+  width: 100%;
+  border-radius: 4px;
+  outline: none;
+}

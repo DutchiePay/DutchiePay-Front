@@ -66,19 +66,6 @@
   overflow: hidden;
 }
 
-/* Chrome, Safari, Edge, Opera */
-.community__input-number::-webkit-outer-spin-button,
-.community__input-number::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox  */
-.community__input-number {
-  -moz-appearance: textfield;
-  outline: none;
-}
-
 .community__button-number {
   width: 25px;
   height: 25px;

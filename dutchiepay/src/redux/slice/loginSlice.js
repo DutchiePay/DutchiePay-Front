@@ -35,19 +35,33 @@ const loginSlice = createSlice({
       };
       state.access = '';
     },
-    setProfileImage(state, action) {
-      state.user.profileImage = action.payload.profileImage;
+    setUserInfoChange(state, action) {
+      if (action.payload.profileImage) {
+        state.user.profileImage = action.payload.profileImage;
+      }
+      if (action.payload.nickname) {
+        state.user.nickname = action.payload.nickname;
+      }
+      if (action.payload.location) {
+        state.user.location = action.payload.location;
+      }
     },
-    setNickname(state, action) {
-      state.user.nickname = action.payload.nickname;
-    },
-    setLocation(state, action) {
-      state.user.location = action.payload.location;
+    // setProfileImage(state, action) {
+    //   state.user.profileImage = action.payload.profileImage;
+    // },
+    // setNickname(state, action) {
+    //   state.user.nickname = action.payload.nickname;
+    // },
+    // setLocation(state, action) {
+    //   state.user.location = action.payload.location;
+    // },
+    setAccessToken(state, action) {
+      state.access = action.payload.access;
     },
   },
 });
 
 // 액션 및 리듀서 내보내기
-export const { login, logout, setProfileImage, setNickname, setLocation } =
+export const { login, logout, setUserInfoChange, setAccessToken } =
   loginSlice.actions;
 export default loginSlice.reducer;

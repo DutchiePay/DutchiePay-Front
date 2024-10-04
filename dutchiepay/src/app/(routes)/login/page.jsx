@@ -73,6 +73,7 @@ export default function Login() {
       cookies.set('refresh', response.data.refresh, { path: '/', expires });
 
       router.push('/');
+      console.log(userInfo);
     } catch (error) {
       if (error.status === 401) setIsUnauthorized(true);
       console.log(error);

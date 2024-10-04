@@ -81,6 +81,8 @@ export default function Header() {
   const handleLogout = useCallback(() => {
     dispatch(logout());
     cookies.remove('refresh', { path: '/' });
+    sessionStorage.removeItem('user');
+    router.push('/');
   }, [dispatch]);
 
   const handleKeyDown = useCallback(
