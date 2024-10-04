@@ -29,9 +29,6 @@ export default function Header() {
 
   useEffect(() => {
     const refresh = cookies.get('refresh');
-    if (refresh && !isLoggedIn) {
-      handleRelogin();
-    }
 
     const handleRelogin = async () => {
       try {
@@ -66,6 +63,10 @@ export default function Header() {
         handleLogout();
       }
     };
+    
+    if (refresh && !isLoggedIn) {
+      handleRelogin();
+    }
   }, []);
 
   // 필터를 useMemo로 메모이제이션하여 렌더링 최적화
@@ -81,6 +82,8 @@ export default function Header() {
   const handleLogout = useCallback(() => {
     dispatch(logout());
     cookies.remove('refresh', { path: '/' });
+    sessionStorage.removeItem('user');
+    router.push('/');
   }, [dispatch]);
 
   const handleKeyDown = useCallback(

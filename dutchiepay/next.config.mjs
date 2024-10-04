@@ -17,6 +17,7 @@ const nextConfig = {
   },
   assetPrefix: isProd ? 'https://d2m4bskl88m9ql.cloudfront.net' : '',
   output: 'export',
+  trailingSlash: true,
 };
 
 export default nextConfig;

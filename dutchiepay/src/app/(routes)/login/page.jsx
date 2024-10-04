@@ -47,23 +47,18 @@ export default function Login() {
       );
 
       const userInfo = {
-        isLoggedIn: true,
-        loginType: response.data.type || 'email',
-        user: {
-          userId: response.data.userId,
-          nickname: response.data.nickname,
-          profileImage: response.data.profileImg,
-          location: response.data.location,
-          isCertified: response.data.isCertified,
-        },
-        access: response.data.access,
+        userId: response.data.userId,
+        nickname: response.data.nickname,
+        profileImage: response.data.profileImg,
+        location: response.data.location,
+        isCertified: response.data.isCertified,
       };
 
-      localStorage.setItem('loginType', userInfo.loginType);
+      localStorage.setItem('loginType', response.data.loginType || 'email');
       dispatch(
         login({
-          user: userInfo.user,
-          access: userInfo.access,
+          user: userInfo,
+          access: response.data.access,
         })
       );
 
@@ -73,6 +68,7 @@ export default function Login() {
       cookies.set('refresh', response.data.refresh, { path: '/', expires });
 
       router.push('/');
+      console.log(userInfo);
     } catch (error) {
       if (error.status === 401) setIsUnauthorized(true);
       console.log(error);
