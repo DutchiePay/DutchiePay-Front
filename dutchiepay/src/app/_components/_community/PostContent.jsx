@@ -5,7 +5,7 @@ import '@/styles/globals.css';
 
 import Comment from '@/app/_components/_community/Comment';
 import Image from 'next/image';
-import Post_Complete from '@/app/_components/_community/Post_complete';
+import Post_Complete from '@/app/_components/_community/Post_Complete';
 import prev from '../../../../public/image/prev.svg';
 import profile from '../../../../public/image/profile.jpg';
 import { useRouter } from 'next/navigation';
