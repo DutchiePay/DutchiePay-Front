@@ -25,7 +25,6 @@ const nextConfig = {
     ],
     unoptimized: true,
   },
-  trailingSlash: true,
 };
 
 export default nextConfig;
