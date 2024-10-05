@@ -403,14 +403,7 @@ export default function Info() {
           )}
         </article>
         <DeliveryAddress />
-        <Withdraw />
-        <button
-          onClick={() =>
-            console.log(JSON.parse(sessionStorage.getItem('user'))?.phone)
-          }
-        >
-          test
-        </button>
+        <Withdraw loginType={loginType} />
       </section>
     </section>
   );
