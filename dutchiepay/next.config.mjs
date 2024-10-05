@@ -9,6 +9,15 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/mypage',
+        destination: '/mypage/info',
+        permanent: true,
+      },
+    ];
+  },
   images: {
     domains: [
       'https://d2m4bskl88m9ql.cloudfront.net',
