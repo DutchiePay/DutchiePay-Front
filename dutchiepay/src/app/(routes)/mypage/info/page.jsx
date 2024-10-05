@@ -380,7 +380,7 @@ export default function Info() {
           )}
         </article>
         <DeliveryAddress />
-        <Withdraw />
+        <Withdraw loginType={loginType} />
       </section>
     </section>
   );
