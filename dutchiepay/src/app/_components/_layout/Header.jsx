@@ -29,7 +29,6 @@ export default function Header() {
 
   useEffect(() => {
     const refresh = cookies.get('refresh');
-
     const handleRelogin = async () => {
       try {
         const response = await axios.post(

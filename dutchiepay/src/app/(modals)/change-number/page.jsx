@@ -22,7 +22,7 @@ export default function ChangeNumber() {
     register,
     watch,
     handleSubmit,
-    formState: { errors, isValid, isSubmitting, touchedFields },
+    formState: { errors, touchedFields },
   } = useForm({
     mode: 'onTouched',
     criteriaMode: 'all',
@@ -49,7 +49,16 @@ export default function ChangeNumber() {
         }
       );
 
-      // 휴대폰 변경 처리
+      const changedNumber = formData.phone.replace(
+        /(\d{3})(\d{4})(\d{4})/,
+        '$1****$3'
+      );
+
+      window.opener.postMessage(
+        { type: 'UPDATE_PHONE', phone: changedNumber },
+        window.location.origin
+      );
+
       window.close();
     } catch (error) {
       // 에러 처리
