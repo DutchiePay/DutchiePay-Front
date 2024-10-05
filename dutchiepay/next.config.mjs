@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
-const isProd = process.env.NODE_ENV === 'production';
-
 const nextConfig = {
   async rewrites() {
     return [
@@ -12,10 +10,12 @@ const nextConfig = {
     ];
   },
   images: {
-    domains: ['https://d2m4bskl88m9ql.cloudfront.net'],
+    domains: [
+      'https://d2m4bskl88m9ql.cloudfront.net',
+      `https://${process.env.NEXT_PUBLIC_IMAGE_BUCKET}.s3.amazonaws.com`,
+    ],
     unoptimized: true,
   },
-  assetPrefix: isProd ? 'https://d2m4bskl88m9ql.cloudfront.net' : '',
   trailingSlash: true,
 };
 
