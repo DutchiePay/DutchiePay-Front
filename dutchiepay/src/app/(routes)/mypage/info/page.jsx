@@ -76,6 +76,29 @@ export default function Info() {
     }
   }, []);
 
+  // 휴대폰 번호 변경 체크
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.origin !== window.location.origin) return;
+
+      if (event.data && event.data.type === 'UPDATE_PHONE') {
+        setUserInfo((prev) => ({
+          ...prev,
+          phone: event.data.phone,
+        }));
+
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        user.phone = event.data.phone;
+        sessionStorage.setItem('user', JSON.stringify(user));
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
+
   const handleModifyType = (type) => {
     // 수정할 타입이 현재 타입과 다를 때만 취소 함수 호출
     if (modifyType && modifyType !== type) {
@@ -381,7 +404,7 @@ export default function Info() {
           )}
         </article>
         <DeliveryAddress />
-        <Withdraw />
+        <Withdraw loginType={loginType} />
       </section>
     </section>
   );

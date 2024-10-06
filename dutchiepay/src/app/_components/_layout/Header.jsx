@@ -62,7 +62,7 @@ export default function Header() {
         handleLogout();
       }
     };
-
+    
     if (refresh && !isLoggedIn) {
       handleRelogin();
     }
