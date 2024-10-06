@@ -19,9 +19,7 @@ const nextConfig = {
     ];
   },
   images: {
-    domains: [
-      `https://${process.env.NEXT_PUBLIC_IMAGE_BUCKET}.s3.amazonaws.com`,
-    ],
+    domains: [`${process.env.NEXT_PUBLIC_IMAGE_BUCKET}.s3.amazonaws.com`],
   },
 };
 

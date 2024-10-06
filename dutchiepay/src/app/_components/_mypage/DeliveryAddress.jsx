@@ -13,7 +13,7 @@ import { setAddresses } from '@/redux/slice/addressSlice';
 
 export default function DeliveryAddress() {
   const encryptedAddresses = useSelector((state) => state.address.addresses);
-  const [deliveryAddress, setDeliveryAddress] = useState([]);
+  const [deliveryAddress, setDeliveryAddress] = useState(null);
 
   useEffect(() => {
     const initMypage = async () => {
@@ -33,6 +33,7 @@ export default function DeliveryAddress() {
           process.env.NEXT_PUBLIC_SECRET_KEY
         ).toString();
         dispatch(setAddresses(encryptData));
+        console.log(deliveryAddress);
       } catch (error) {
         console.log(error);
       }
@@ -40,21 +41,21 @@ export default function DeliveryAddress() {
 
     if (!encryptedAddresses) initMypage();
     else {
-      /*setDeliveryAddress(
+      setDeliveryAddress(
         JSON.parse(
           CryptoJS.AES.decrypt(
             encryptedAddresses,
             process.env.NEXT_PUBLIC_SECRET_KEY
           ).toString(CryptoJS.enc.Utf8)
         )
-      );*/
+      );
     }
   }, []);
 
   return (
     <article>
       <h2 className="font-semibold text-2xl">배송지 관리</h2>
-      {deliveryAddress.length === 0 ? (
+      {!deliveryAddress || deliveryAddress.length === 0 ? (
         <div className="mt-[40px] flex flex-col justify-center items-center">
           <Image
             className="opacity-50"
