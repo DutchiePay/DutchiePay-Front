@@ -23,6 +23,7 @@ export default function Info() {
   const nickname = useSelector((state) => state.login.user.nickname);
   const profileImage = useSelector((state) => state.login.user.profileImage);
   const accessToken = useSelector((state) => state.login.access);
+
   const dispatch = useDispatch();
 
   const [loginType, setLoginType] = useState(''); // email/kakao/naver
@@ -261,7 +262,7 @@ export default function Info() {
                   <button
                     className="border rounded-lg text-sm px-[16px] py-[4px]"
                     onClick={() =>
-                      dispatch(setProfileImage({ profileImage: profile }))
+                      dispatch(setUserInfoChange({ profileImage: profile }))
                     }
                   >
                     프로필 삭제

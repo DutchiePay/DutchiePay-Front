@@ -1,45 +1,55 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+
+import CryptoJS from 'crypto-js';
 import DeliveryAddressItem from './DeliveryAddressItem';
 import Image from 'next/image';
+import axios from 'axios';
 import delivery from '../../../../public/image/delivery.svg';
+import { setAddresses } from '@/redux/slice/addressSlice';
 
 export default function DeliveryAddress() {
-  /*const deliveryAddress = [
-    {
-      addressId: 1,
-      addressName: '자취방',
-      name: '박용호',
-      phone: '01012341234',
-      address: '강원 속초시 중앙로129번길 21',
-      detail: '1층',
-      zipcode: '12345',
-      isDefault: true,
-    },
-    {
-      addressId: 2,
-      addressName: '자취방',
-      name: '박용호',
-      phone: '01012341234',
-      address: '강원 속초시 중앙로129번길 21',
-      detail: '1층',
-      zipcode: '12345',
-      isDefault: false,
-    },
-    {
-      addressId: 3,
-      addressName: '자취방',
-      name: '박용호',
-      phone: '01012341234',
-      address: '강원 속초시 중앙로129번길 21',
-      detail: '1층',
-      zipcode: '12345',
-      isDefault: false,
-    },
-  ];*/
+  const encryptedAddresses = useSelector((state) => state.address.addresses);
+  const [deliveryAddress, setDeliveryAddress] = useState([]);
 
-  const deliveryAddress = [];
+  useEffect(() => {
+    const initMypage = async () => {
+      try {
+        response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/delivery`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        setDeliveryAddress(response.data);
+        const encryptData = CryptoJS.AES.encrypt(
+          JSON.stringify(response.data),
+          process.env.NEXT_PUBLIC_SECRET_KEY
+        ).toString();
+        dispatch(setAddresses(encryptData));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    if (!encryptedAddresses) initMypage();
+    else {
+      /*setDeliveryAddress(
+        JSON.parse(
+          CryptoJS.AES.decrypt(
+            encryptedAddresses,
+            process.env.NEXT_PUBLIC_SECRET_KEY
+          ).toString(CryptoJS.enc.Utf8)
+        )
+      );*/
+    }
+  }, []);
 
   return (
     <article>

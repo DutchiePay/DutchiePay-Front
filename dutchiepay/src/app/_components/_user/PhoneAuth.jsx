@@ -52,15 +52,14 @@ export default function PhoneAuth({
     if (!errors.phone && phone) {
       setIsPhoneAuth(true);
       try {
-        /*const response = await axios.post(
+        const response = await axios.post(
           `${process.env.NEXT_PUBLIC_BASE_URL}/users/auth`,
           {
             phone: phone,
           }
-        );*/
+        );
         setRemainingTime(180);
-        setPhoneCode('1234');
-        //setPhoneCode(response.data.code);
+        setPhoneCode(response.data.code);
       } catch (error) {
         console.error('인증번호 전송 실패:', error);
       }
