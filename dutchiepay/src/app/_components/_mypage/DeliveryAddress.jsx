@@ -40,14 +40,14 @@ export default function DeliveryAddress() {
 
     if (!encryptedAddresses) initMypage();
     else {
-      setDeliveryAddress(
+      /*setDeliveryAddress(
         JSON.parse(
           CryptoJS.AES.decrypt(
             encryptedAddresses,
             process.env.NEXT_PUBLIC_SECRET_KEY
           ).toString(CryptoJS.enc.Utf8)
         )
-      );
+      );*/
     }
   }, []);
 

@@ -15,12 +15,10 @@ import { useSelector } from 'react-redux';
 export default function Reset() {
   const [isUser, setIsUser] = useState(false); // 회원 여부
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const [email, setEmail] = useState(sessionStorage.getItem('emailForReset'));
   const router = useRouter();
 
   useEffect(() => {
-    const email = sessionStorage.getItem('emailForReset');
-    console.log(email);
-
     if (!email && isLoggedIn) {
       setIsUser(true);
     } else if (!email && !isLoggedIn) {
@@ -49,7 +47,7 @@ export default function Reset() {
           비밀번호 재설정을 위해 <strong>새 비밀번호</strong>를 입력하고
           &apos;재설정&apos; 버튼을 눌러주세요.
         </p>
-        <ResetSubmit />
+        <ResetSubmit email={email} />
       </section>
     </section>
   );

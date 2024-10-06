@@ -3,20 +3,20 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
+import { useDispatch, useSelector } from 'react-redux';
+
+import Cookies from 'universal-cookie';
 import Link from 'next/link';
 import PasswordInput from './PasswordInput';
 import axios from 'axios';
+import { logout } from '@/redux/slice/loginSlice';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import Cookies from 'universal-cookie';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '@/redux/slice/loginSlice';
 
-export default function ResetSubmit() {
+export default function ResetSubmit({ email }) {
   const router = useRouter();
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const accessToken = useSelector((state) => state.login.access);
-  const email = useSelector((state) => state.user.user.email);
   const dispatch = useDispatch();
   const cookies = new Cookies();
 
