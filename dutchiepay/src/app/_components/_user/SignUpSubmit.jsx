@@ -13,6 +13,7 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function SignUpSubmit() {
   const router = useRouter();
@@ -20,12 +21,13 @@ export default function SignUpSubmit() {
   const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
-
   const {
     register,
     watch,
     handleSubmit,
     trigger,
+    setError,
+    clearErrors,
     formState: { errors, isValid, isSubmitting, touchedFields },
   } = useForm({
     mode: 'onTouched',
@@ -40,6 +42,7 @@ export default function SignUpSubmit() {
 
     const payload = {
       ...userData,
+      password: newPassword,
       location: address,
     };
     console.log(payload);
@@ -49,13 +52,14 @@ export default function SignUpSubmit() {
         payload
       );
       console.log('회원가입 성공:', response.data);
+
       router.push('/');
     } catch (error) {
       console.error('회원가입 실패:', error);
     }
   };
 
-  const password = watch('password');
+  const newPassword = watch('newPassword');
   const confirmPassword = watch('confirmPassword');
   const nickname = watch('nickname');
   const email = watch('email');
@@ -70,13 +74,15 @@ export default function SignUpSubmit() {
         errors={errors}
         email={email}
         touchedFields={touchedFields}
+        setError={setError} // setError 함수 전달
+        clearErrors={clearErrors} // clearErrors 함수 전달
         isSignup={true}
       />
       <PasswordInput
         register={register}
         trigger={trigger}
         errors={errors}
-        password={password}
+        newPassword={newPassword}
         confirmPassword={confirmPassword}
         touchedFields={touchedFields}
       />
@@ -85,6 +91,8 @@ export default function SignUpSubmit() {
         errors={errors}
         nickname={nickname}
         touchedFields={touchedFields}
+        setError={setError} // setError 함수 전달
+        clearErrors={clearErrors} // clearErrors 함수 전달
       />
       <AddressInput address={address} setAddress={setAddress} />
       <PhoneAuth

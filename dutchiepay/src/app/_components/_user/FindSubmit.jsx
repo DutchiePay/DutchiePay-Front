@@ -17,13 +17,14 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
   const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부 (회원가입 때문에 강제됨)
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
-
   const {
     register,
     handleSubmit,
     formState: { errors, isValid, touchedFields },
     reset,
     watch,
+    setError,
+    clearErrors,
   } = useForm({
     mode: 'onTouched',
     reValidateMode: 'onblur',
@@ -128,8 +129,11 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
             <EmailInput
               register={register}
               errors={errors}
+              setError={setError}
+              clearErrors={clearErrors}
               email={email}
               touchedFields={touchedFields}
+              isFind={true}
             />
 
             <PhoneAuth

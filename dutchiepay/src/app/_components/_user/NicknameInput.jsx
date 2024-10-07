@@ -3,33 +3,45 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 import axios from 'axios';
+import { useState } from 'react';
+
 export default function NicknameInput({
   register,
   errors,
   nickname,
   touchedFields,
+  setError,
+  clearErrors,
 }) {
   const rNickname = /^[a-zA-Z0-9가-힣]{2,8}$/;
+
   const checkNicknameAvailability = async (e) => {
     const value = e.target.value;
-    console.log(value);
 
     if (rNickname.test(value)) {
       try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
-          {
-            params: {
-              nickname: value,
-            },
-          }
-        );
-        console.log(response);
+        await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/users`, {
+          params: {
+            nickname: value,
+          },
+        });
+        clearErrors('nickname'); // 사용 가능한 닉네임이므로 오류를 클리어
       } catch (error) {
-        console.log(error);
+        // 400 오류가 발생하면 nickname에 대한 오류를 설정
+        if (error.response && error.response.status === 400) {
+          setError('nickname', {
+            type: 'manual',
+            message: '사용중인 닉네임입니다',
+          });
+        } else {
+          console.error('닉네임 체크 중 오류 발생:', error);
+        }
       }
+    } else {
+      clearErrors('nickname'); // 닉네임 형식이 유효하지 않을 경우 초기화
     }
   };
+
   return (
     <>
       <div className="flex items-center">
