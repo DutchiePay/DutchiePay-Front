@@ -15,6 +15,7 @@ import logo from '../../../../public/image/logo.jpg';
 import { logout } from '@/redux/slice/loginSlice';
 import profile from '../../../../public/image/profile.jpg';
 import search from '../../../../public/image/search.svg';
+import { setAddresses } from '@/redux/slice/addressSlice';
 
 export default function Header() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
@@ -95,6 +96,7 @@ export default function Header() {
       cookies.remove('refresh', { path: '/' });
       sessionStorage.removeItem('user');
       router.push('/');
+      dispatch(setAddresses(null));
     } catch (error) {
       console.error('로그아웃 중 오류 발생:', error);
     }
