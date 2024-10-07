@@ -35,25 +35,36 @@ export default function ResetSubmit({ email }) {
 
   const password = watch('password', '');
   const confirmPassword = watch('confirmPassword', '');
-
+  const newPassword = watch('newPassword', '');
   const onSubmit = async (formData) => {
     if (!isLoggedIn || !accessToken) {
       try {
         await axios.patch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/users/pwd-nonuser`,
-          { email: email, password: formData.password }
+          { email: email, password: formData.newPassword }
         );
         alert('변경이 완료되었습니다.');
         router.push('/');
       } catch (error) {
-        console.error('비밀번호 재설정 중 오류 발생:', error);
-        alert('비밀번호 재설정에 실패했습니다. 다시 시도해 주세요.');
+        if (error.response && error.response.status === 400) {
+          alert('기존 비밀번호와 동일합니다.');
+        } else if (error.response && error.response.status === 401) {
+          alert('인증되지 않은 사용자입니다.');
+          router.push('/');
+        } else {
+          console.error('비밀번호 변경 중 오류 발생:', error);
+        }
       }
     } else {
       try {
+        console.log(formData);
+
         const response = await axios.patch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/users/pwd-user`,
-          { password: formData.password },
+          {
+            password: formData.password,
+            newPassword: formData.newPassword,
+          },
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -62,6 +73,7 @@ export default function ResetSubmit({ email }) {
         );
 
         if (response.status === 200) {
+          alert('비밀번호 변경이 완료되었습니다.');
           await axios.post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
             {},
@@ -76,8 +88,14 @@ export default function ResetSubmit({ email }) {
           router.push('/');
         }
       } catch (error) {
-        console.error('비밀번호 재설정 중 오류 발생:', error);
-        alert('비밀번호 재설정에 실패했습니다. 다시 시도해 주세요.');
+        if (error.response && error.response.status === 400) {
+          alert('기존 비밀번호와 동일합니다.');
+        } else if (error.response && error.response.status === 401) {
+          alert('인증되지 않은 사용자입니다.');
+          router.push('/');
+        } else {
+          console.error('비밀번호 변경 중 오류 발생:', error);
+        }
       }
     }
   };
@@ -94,6 +112,7 @@ export default function ResetSubmit({ email }) {
         touchedFields={touchedFields}
         password={password}
         confirmPassword={confirmPassword}
+        newPassword={newPassword}
         isReset={true}
       />
 
