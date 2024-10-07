@@ -3,92 +3,117 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
+import axios from 'axios';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 export default function Address() {
   const searchParams = useSearchParams();
   const open = useDaumPostcodePopup();
   const addressId = searchParams.get('addressid'); // 해당 값이 존재하면 수정, 존재하지 않으면 추가
-  const [address, setAddress] = useState({
-    addressId: addressId,
-    addressName: null,
-    name: null,
-    phone: null,
-    address: null,
-    zipcode: null,
-    detail: null,
-    isDefault: false,
-  });
+  const access = useSelector((state) => state.login.access);
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, touchedFields },
+    setValue,
+    formState: { errors, isValid },
   } = useForm({
-    mode: 'onTouched',
+    mode: 'onSubmit',
     reValidateMode: 'onblur',
     shouldFocusError: true,
     shouldUseNativeValidation: false,
   });
 
+  const rPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+
+  // 값 불러오기 (수정일 때만 전달 됨)
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.origin !== window.location.origin) return;
+
+      if (event.data && event.data.type === 'PASS_ADDRESS') {
+        setValue('addressName', event.data.addressName);
+        setValue('name', event.data.name);
+        setValue('phone', event.data.phone);
+        setValue('zipCode', event.data.zipCode);
+        setValue('address', event.data.address);
+        setValue('detail', event.data.detail);
+        setValue('isDefault', event.data.isDefault);
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
+
   const onSubmit = async (formData) => {
     if (addressId) {
       try {
         await axios.patch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/profile/address`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/delivery`,
           { addressId: addressId, ...formData },
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${access}`,
             },
           }
         );
+
+        const message = {
+          type: 'UPDATE_ADDRESS',
+          addressId: addressId,
+          ...formData,
+        };
+
+        window.opener.postMessage(message, window.location.origin);
 
         alert('주소지가 수정되었습니다.');
         closeWindow();
       } catch (error) {
         // 에러 처리
+        console.log(error);
       }
     } else {
       try {
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/profile/address`,
-          { formData },
+          `${process.env.NEXT_PUBLIC_BASE_URL}/delivery`,
+          { ...formData },
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${access}`,
             },
           }
         );
 
-        setAddress((prevState) => ({
-          ...prevState,
+        const message = {
+          type: 'ADD_ADDRESS',
           addressId: response.data.addressId,
-        }));
+          ...formData,
+        };
+
+        window.opener.postMessage(message, window.location.origin);
 
         alert('배송지가 추가되었습니다.');
         closeWindow();
       } catch (error) {
         // 에러 처리
+        console.log(error);
       }
     }
   };
 
-  const rPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
-
-  const handlePostCode = (e) => {
+  const handlePostCode = () => {
     open({
       onComplete: (data) => {
-        console.log(data);
-        setAddress((prevState) => ({
-          ...prevState,
-          zipcode: data.zonecode,
-          address: data.jibunAddress,
-        }));
+        setValue('zipCode', data.zonecode);
+        setValue('address', data.jibunAddress);
       },
       width: 500,
       height: 600,
@@ -107,14 +132,13 @@ export default function Address() {
         주소지 {addressId ? '수정' : '추가'}
       </h1>
       <form
-        className="mt-[40px] flex flex-col gap-[4px]"
+        className="mt-[40px] flex flex-col gap-[8px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <input
           className="address__input"
           type="text"
           placeholder="배송지 이름"
-          defaultValue={address.addressName}
           {...register('addressName', {
             required: '배송지 이름을 작성해주세요.',
           })}
@@ -123,7 +147,6 @@ export default function Address() {
           className="address__input"
           type="text"
           placeholder="받는 사람"
-          defaultValue={address.name}
           {...register('name', {
             required: '받는 사람의 이름을 입력해주세요.',
           })}
@@ -132,7 +155,6 @@ export default function Address() {
           className="address__input"
           type="number"
           placeholder="전화번호"
-          defaultValue={address.phone}
           {...register('phone', {
             required: '전화번호를 입력해주세요,',
             pattern: {
@@ -147,8 +169,7 @@ export default function Address() {
             type="number"
             placeholder="우편번호"
             disabled
-            defaultValue={address.zipcode}
-            {...register('zipcode', {
+            {...register('zipCode', {
               required: '우편번호 찾기를 통해 주소를 입력해주세요.',
             })}
           />
@@ -165,7 +186,6 @@ export default function Address() {
           type="text"
           placeholder="주소"
           disabled
-          defaultValue={address.address}
           {...register('address', {
             required: '우편번호 찾기를 통해 주소를 입력해주세요.',
           })}
@@ -174,37 +194,28 @@ export default function Address() {
           className="address__input"
           type="text"
           placeholder="상세주소"
-          defaultValue={address.detail}
           {...register('detail')}
         />
         <div className="flex items-center gap-[8px]">
-          <input
-            type="checkbox"
-            onChange={(e) =>
-              setAddress((prevState) => ({
-                ...prevState,
-                isDefault: e.target.checked,
-              }))
-            }
-          />
+          <input type="checkbox" {...register('isDefault')} />
           <label className="text-sm">기본배송지로 설정</label>
         </div>
+        <div className="mt-[40px] flex gap-[12px] justify-center">
+          <button
+            className="bg-red-100 text-red-500 text-sm rounded-lg px-[24px] py-[8px]"
+            type="submit"
+          >
+            {addressId ? '수정' : '추가'}
+          </button>
+          <button
+            className="text-blue--500 text-sm border border-blue--200 rounded-lg px-[24px] py-[8px]"
+            type="button"
+            onClick={closeWindow}
+          >
+            취소
+          </button>
+        </div>
       </form>
-      <div className="mt-[40px] flex gap-[12px] justify-center">
-        <button
-          className="bg-red-100 text-red-500 text-sm rounded-lg px-[24px] py-[8px]"
-          type="submit"
-        >
-          {addressId ? '수정' : '추가'}
-        </button>
-        <button
-          className="text-blue--500 text-sm border border-blue--200 rounded-lg px-[24px] py-[8px]"
-          type="button"
-          onClick={closeWindow}
-        >
-          취소
-        </button>
-      </div>
     </section>
   );
 }

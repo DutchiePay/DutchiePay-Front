@@ -1,3 +1,5 @@
+'use client';
+
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
@@ -14,26 +16,28 @@ import { setAddresses } from '@/redux/slice/addressSlice';
 export default function DeliveryAddress() {
   const encryptedAddresses = useSelector((state) => state.address.addresses);
   const [deliveryAddress, setDeliveryAddress] = useState(null);
+  const access = useSelector((state) => state.login.access);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const initMypage = async () => {
       try {
-        response = await axios.get(
+        const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BASE_URL}/delivery`,
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${access}`,
             },
           }
         );
-
+        console.log(response.data);
         setDeliveryAddress(response.data);
         const encryptData = CryptoJS.AES.encrypt(
           JSON.stringify(response.data),
           process.env.NEXT_PUBLIC_SECRET_KEY
         ).toString();
         dispatch(setAddresses(encryptData));
-        console.log(deliveryAddress);
       } catch (error) {
         console.log(error);
       }
@@ -50,6 +54,48 @@ export default function DeliveryAddress() {
         )
       );
     }
+  }, []);
+
+  useEffect(() => {
+    const handleMessage = (event) => {
+      if (event.origin !== window.location.origin) return;
+      if (event.data) {
+        const { type, ...addressData } = event.data;
+
+        if (type === 'ADD_ADDRESS') {
+          setDeliveryAddress((prev) => {
+            const updatedAddress = [...prev, addressData];
+
+            const encryptData = CryptoJS.AES.encrypt(
+              JSON.stringify(updatedAddress),
+              process.env.NEXT_PUBLIC_SECRET_KEY
+            ).toString();
+            dispatch(setAddresses(encryptData));
+
+            return updatedAddress;
+          });
+        } else if (type === 'UPDATE_ADDRESS') {
+          setDeliveryAddress((prev) => {
+            const updatedAddress = prev.map((address) =>
+              address.id === addressData.id ? addressData : address
+            );
+
+            const encryptData = CryptoJS.AES.encrypt(
+              JSON.stringify(updatedAddress),
+              process.env.NEXT_PUBLIC_SECRET_KEY
+            ).toString();
+            dispatch(setAddresses(encryptData));
+
+            return updatedAddress;
+          });
+        }
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
   }, []);
 
   return (
@@ -78,6 +124,7 @@ export default function DeliveryAddress() {
             <DeliveryAddressItem
               key={index}
               deliveryAddress={item}
+              setDeliveryAddress={setDeliveryAddress}
               isFirst={index === 0}
             />
           ))}
@@ -86,11 +133,15 @@ export default function DeliveryAddress() {
       <button
         className="w-[150px] mt-[24px] px-[24px] py-[8px] bg-blue--500 text-white text-sm flex justify-between rounded block mx-auto"
         onClick={() => {
-          window.open(
-            '/delivery-address',
-            '주소지 추가',
-            'width=620, height=670, location=1'
-          );
+          if (!deliveryAddress || deliveryAddress.length < 5) {
+            window.open(
+              '/delivery-address',
+              '주소지 추가',
+              'width=620, height=670, location=1'
+            );
+          } else {
+            alert('최대 5개까지의 주소지를 저장할 수 있습니다.');
+          }
         }}
       >
         주소지 추가<p>+</p>

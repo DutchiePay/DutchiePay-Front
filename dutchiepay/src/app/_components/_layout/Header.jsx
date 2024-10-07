@@ -15,6 +15,7 @@ import logo from '../../../../public/image/logo.jpg';
 import { logout } from '@/redux/slice/loginSlice';
 import profile from '../../../../public/image/profile.jpg';
 import search from '../../../../public/image/search.svg';
+import { setAddresses } from '@/redux/slice/addressSlice';
 
 export default function Header() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
@@ -62,7 +63,7 @@ export default function Header() {
         handleLogout();
       }
     };
-    
+
     if (refresh && !isLoggedIn) {
       handleRelogin();
     }
@@ -80,6 +81,7 @@ export default function Header() {
 
   const handleLogout = useCallback(() => {
     dispatch(logout());
+    dispatch(setAddresses(null));
     cookies.remove('refresh', { path: '/' });
     sessionStorage.removeItem('user');
     router.push('/');
