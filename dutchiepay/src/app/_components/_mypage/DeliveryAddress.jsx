@@ -16,12 +16,13 @@ import { setAddresses } from '@/redux/slice/addressSlice';
 export default function DeliveryAddress() {
   const encryptedAddresses = useSelector((state) => state.address.addresses);
   const [deliveryAddress, setDeliveryAddress] = useState(null);
+  const [isChanged, setIsChanged] = useState(false);
   const access = useSelector((state) => state.login.access);
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const initMypage = async () => {
+    const handleDelivery = async () => {
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BASE_URL}/delivery`,
@@ -31,19 +32,19 @@ export default function DeliveryAddress() {
             },
           }
         );
-        console.log(response.data);
         setDeliveryAddress(response.data);
         const encryptData = CryptoJS.AES.encrypt(
           JSON.stringify(response.data),
           process.env.NEXT_PUBLIC_SECRET_KEY
         ).toString();
         dispatch(setAddresses(encryptData));
+        setIsChanged(false);
       } catch (error) {
         console.log(error);
       }
     };
 
-    if (!encryptedAddresses) initMypage();
+    if (!encryptedAddresses || isChanged) handleDelivery();
     else {
       setDeliveryAddress(
         JSON.parse(
@@ -54,41 +55,16 @@ export default function DeliveryAddress() {
         )
       );
     }
-  }, []);
+  }, [isChanged]);
 
   useEffect(() => {
     const handleMessage = (event) => {
       if (event.origin !== window.location.origin) return;
-      if (event.data) {
-        const { type, ...addressData } = event.data;
-
-        if (type === 'ADD_ADDRESS') {
-          setDeliveryAddress((prev) => {
-            const updatedAddress = [...prev, addressData];
-
-            const encryptData = CryptoJS.AES.encrypt(
-              JSON.stringify(updatedAddress),
-              process.env.NEXT_PUBLIC_SECRET_KEY
-            ).toString();
-            dispatch(setAddresses(encryptData));
-
-            return updatedAddress;
-          });
-        } else if (type === 'UPDATE_ADDRESS') {
-          setDeliveryAddress((prev) => {
-            const updatedAddress = prev.map((address) =>
-              address.id === addressData.id ? addressData : address
-            );
-
-            const encryptData = CryptoJS.AES.encrypt(
-              JSON.stringify(updatedAddress),
-              process.env.NEXT_PUBLIC_SECRET_KEY
-            ).toString();
-            dispatch(setAddresses(encryptData));
-
-            return updatedAddress;
-          });
-        }
+      if (
+        event.data &&
+        (event.data.type === 'ADD_ADDRESS' || 'UPDATE_ADDRESS')
+      ) {
+        setIsChanged(true);
       }
     };
 
@@ -124,7 +100,7 @@ export default function DeliveryAddress() {
             <DeliveryAddressItem
               key={index}
               deliveryAddress={item}
-              setDeliveryAddress={setDeliveryAddress}
+              setIsChanged={setIsChanged}
               isFirst={index === 0}
             />
           ))}
