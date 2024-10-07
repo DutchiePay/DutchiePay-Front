@@ -19,6 +19,7 @@ import search from '../../../../public/image/search.svg';
 export default function Header() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const user = useSelector((state) => state.login.user);
+  const accessToken = useSelector((state) => state.login.access);
   const dispatch = useDispatch();
   const router = useRouter();
   const cookies = new Cookies();
@@ -62,7 +63,7 @@ export default function Header() {
         handleLogout();
       }
     };
-    
+
     if (refresh && !isLoggedIn) {
       handleRelogin();
     }
@@ -78,7 +79,17 @@ export default function Header() {
     return '';
   }, [pathname]);
 
-  const handleLogout = useCallback(() => {
+  const handleLogout = useCallback(async () => {
+    await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
     dispatch(logout());
     cookies.remove('refresh', { path: '/' });
     sessionStorage.removeItem('user');
