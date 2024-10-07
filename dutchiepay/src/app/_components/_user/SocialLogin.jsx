@@ -4,6 +4,7 @@ import '@/styles/user.css';
 import { useEffect, useState } from 'react';
 
 import Cookies from 'universal-cookie';
+import CryptoJS from 'crypto-js';
 import Image from 'next/image';
 import LastLogin from './LastLogin';
 import kakao from '../../../../public/image/kakao.png';
@@ -29,24 +30,34 @@ export default function SocialLogin() {
     const handleMessage = (event) => {
       const allowedOrigins = [process.env.NEXT_PUBLIC_BASE_URL];
 
-      if (allowedOrigins.includes(event.origin)) {
+      if (
+        allowedOrigins.includes(event.origin) &&
+        event.data.type === 'OAUTH_LOGIN'
+      ) {
+        const decrypted = JSON.parse(
+          CryptoJS.AES.decrypt(
+            event.data.encrypted,
+            process.env.NEXT_PUBLIC_SECRET_KEY
+          ).toString(CryptoJS.enc.Utf8)
+        );
+
         const userInfo = {
-          userId: event.data.userId,
-          nickname: event.data.nickname,
-          profileImage: event.data.profileImg,
-          location: event.data.location,
-          isCertified: event.data.isCertified,
+          userId: decrypted.userId,
+          nickname: decrypted.nickname,
+          profileImage: decrypted.profileImg,
+          location: decrypted.location,
+          isCertified: decrypted.isCertified,
         };
 
-        localStorage.setItem('loginType', event.data.loginType || 'email');
+        localStorage.setItem('loginType', decrypted.loginType || 'email');
         dispatch(
           login({
             user: userInfo,
-            access: event.data.access,
+            access: decrypted.access,
           })
         );
 
-        cookies.set('refresh', event.data.refresh, { path: '/' });
+        cookies.set('refresh', decrypted.refresh, { path: '/' });
 
         router.push('/');
         console.log(userInfo);
