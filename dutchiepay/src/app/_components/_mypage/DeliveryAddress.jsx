@@ -22,7 +22,7 @@ export default function DeliveryAddress() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const handleDelivery = async () => {
+    const fetchDelivery = async () => {
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BASE_URL}/delivery`,
@@ -44,7 +44,7 @@ export default function DeliveryAddress() {
       }
     };
 
-    if (!encryptedAddresses || isChanged) handleDelivery();
+    if (!encryptedAddresses || isChanged) fetchDelivery();
     else {
       setDeliveryAddress(
         JSON.parse(
