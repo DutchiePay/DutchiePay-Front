@@ -55,17 +55,16 @@ export default function AddInfoSubmit() {
         }
       );
 
-      if (hasPhone) {
-        await axios.patch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/profile/phone`,
-          { phone: payload.phone },
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-      }
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/profile/phone`,
+        { phone: payload.phone },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
       alert('저장되었습니다.');
     } catch (error) {
       console.error('추가정보 입력 실패:', error);
@@ -89,11 +88,6 @@ export default function AddInfoSubmit() {
         isCodeMatch={isCodeMatch}
         setIsCodeMatch={setIsCodeMatch}
       />
-      <span className="text-xs mt-[4px]">
-        ※ 휴대폰 인증을 거치지 않을 경우, <strong>일부 서비스가 제한</strong>
-        됩니다.
-      </span>
-
       <button
         type="submit"
         className={`mt-[32px] px-[24px] py-[8px] text-bold w-full rounded-[4px] text-white text-[18px] border-none ${

@@ -67,12 +67,7 @@ export default function Login() {
         ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
         : undefined;
       cookies.set('refresh', response.data.refresh, { path: '/', expires });
-      if (!response.data.isCertified) {
-        router.push('/addInfo');
-      } else {
-        router.push('/');
-      }
-      console.log(userInfo);
+      router.push('/');
     } catch (error) {
       if (error.status === 401) setIsUnauthorized(true);
       console.log(error);
