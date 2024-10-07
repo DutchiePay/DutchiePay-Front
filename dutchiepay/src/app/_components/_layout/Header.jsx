@@ -80,20 +80,24 @@ export default function Header() {
   }, [pathname]);
 
   const handleLogout = useCallback(async () => {
-    await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
-    dispatch(logout());
-    cookies.remove('refresh', { path: '/' });
-    sessionStorage.removeItem('user');
-    router.push('/');
+      dispatch(logout());
+      cookies.remove('refresh', { path: '/' });
+      sessionStorage.removeItem('user');
+      router.push('/');
+    } catch (error) {
+      console.error('로그아웃 중 오류 발생:', error);
+    }
   }, [dispatch]);
 
   const handleKeyDown = useCallback(
