@@ -12,7 +12,7 @@ import eyeClosed from '../../../../public/image/eyeClosed.svg';
 import eyeOpen from '../../../../public/image/eyeOpen.svg';
 import { login } from '@/redux/slice/loginSlice';
 import logo from '../../../../public/image/logo.jpg';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -24,6 +24,7 @@ export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
   const [isRemeberMe, setIsRememberMe] = useState(false); // 자동로그인 체크 여부
   const [isUnauthorized, setIsUnauthorized] = useState(false);
+  const isCertified = useSelector((state) => state.login.user.isCertified);
 
   const {
     register,
@@ -66,8 +67,11 @@ export default function Login() {
         ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
         : undefined;
       cookies.set('refresh', response.data.refresh, { path: '/', expires });
-
-      router.push('/');
+      if (!response.data.isCertified) {
+        router.push('/addInfo');
+      } else {
+        router.push('/');
+      }
       console.log(userInfo);
     } catch (error) {
       if (error.status === 401) setIsUnauthorized(true);
