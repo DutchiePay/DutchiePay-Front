@@ -87,9 +87,7 @@ export default function PhoneAuth({
   return (
     <div>
       <div className="flex items-center">
-        <label className="user__label">
-          휴대폰 번호 {isSignup && '(선택)'}
-        </label>
+        <label className="user__label">휴대폰 번호</label>
         <span className="ml-[8px] text-[12px]">
           -을 제외한 전화번호를 입력해주세요
         </span>
@@ -113,9 +111,7 @@ export default function PhoneAuth({
               value: rPhone,
               message: '올바른 휴대폰 번호 형식을 입력해주세요',
             },
-            ...(!isSignup && {
-              required: '휴대폰 번호를 입력해주세요.',
-            }),
+            required: '휴대폰 번호를 입력해주세요.',
           })}
           disabled={isPhoneAuth}
         />
