@@ -21,6 +21,7 @@ export default function Header() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const user = useSelector((state) => state.login.user);
   let accessToken = useSelector((state) => state.login.access);
+  const addresses = useSelector((state) => state.address.addresses);
   const dispatch = useDispatch();
   const router = useRouter();
   const cookies = new Cookies();
@@ -84,7 +85,7 @@ export default function Header() {
 
   const handleLogout = useCallback(async () => {
     try {
-      /*await axios.post(
+      await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
         {},
         {
@@ -92,17 +93,22 @@ export default function Header() {
             Authorization: `Bearer ${accessToken}`,
           },
         }
-      );*/
+      );
 
       dispatch(logout());
       cookies.remove('refresh', { path: '/' });
       sessionStorage.removeItem('user');
       router.push('/');
-      dispatch(setAddresses(null));
     } catch (error) {
       console.error('로그아웃 중 오류 발생:', error);
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    if (pathname === '/' && !isLoggedIn && addresses) {
+      dispatch(setAddresses(null));
+    }
+  }, [isLoggedIn, pathname, addresses, dispatch]);
 
   const handleKeyDown = useCallback(
     (e) => {
