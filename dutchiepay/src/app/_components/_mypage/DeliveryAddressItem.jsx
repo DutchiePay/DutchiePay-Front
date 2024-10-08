@@ -3,20 +3,16 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
-import { useDispatch, useSelector } from 'react-redux';
-
-import CryptoJS from 'crypto-js';
 import Link from 'next/link';
 import axios from 'axios';
-import { setAddresses } from '@/redux/slice/addressSlice';
+import { useSelector } from 'react-redux';
 
 export default function DeliveryAddressItem({
   deliveryAddress,
-  setDeliveryAddress,
+  setIsChanged,
   isFirst,
 }) {
   const access = useSelector((state) => state.login.access);
-  const dispatch = useDispatch();
 
   const handleDelete = async () => {
     if (confirm('주소지를 삭제하시겠습니까?')) {
@@ -31,38 +27,13 @@ export default function DeliveryAddressItem({
           }
         );
 
-        setDeliveryAddress((prev) =>
-          prev.filter(
-            (address) => address.addressId !== deliveryAddress.addressId
-          )
-        );
-        const encryptData = CryptoJS.AES.encrypt(
-          JSON.stringify(deliveryAddress),
-          process.env.NEXT_PUBLIC_SECRET_KEY
-        ).toString();
-        dispatch(setAddresses(encryptData));
-
+        setIsChanged(true);
         alert('정상적으로 삭제되었습니다.');
       } catch (error) {
         //에러 처리
         console.log(error);
       }
     }
-  };
-
-  const handleUpdate = () => {
-    const popup = window.open(
-      `/delivery-address?addressid=${deliveryAddress.addressId}`,
-      '주소지 수정',
-      'width=620, height=670, location=1'
-    );
-
-    popup.onload = () => {
-      popup.postMessage(
-        { type: 'PASS_ADDRESS', ...deliveryAddress },
-        window.location.origin
-      );
-    };
   };
 
   return (
@@ -77,7 +48,16 @@ export default function DeliveryAddressItem({
           )}
         </div>
         <div className="flex gap-[12px] items-center text-sm text-gray--500">
-          <button className="hover:underline" onClick={handleUpdate}>
+          <button
+            className="hover:underline"
+            onClick={() => {
+              window.open(
+                `/delivery-address?addressid=${deliveryAddress.addressId}`,
+                '주소지 수정',
+                'width=620, height=670, location=1'
+              );
+            }}
+          >
             수정
           </button>
           <button className="hover:underline" onClick={handleDelete}>

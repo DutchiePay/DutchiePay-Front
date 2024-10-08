@@ -34,12 +34,16 @@ export default function SocialLogin() {
         allowedOrigins.includes(event.origin) &&
         event.data.type === 'OAUTH_LOGIN'
       ) {
+        console.log(event.data);
+        console.log(event.data.encrypted);
         const decrypted = JSON.parse(
           CryptoJS.AES.decrypt(
             event.data.encrypted,
             process.env.NEXT_PUBLIC_SECRET_KEY
           ).toString(CryptoJS.enc.Utf8)
         );
+
+        console.log(decrypted);
 
         const userInfo = {
           userId: decrypted.userId,

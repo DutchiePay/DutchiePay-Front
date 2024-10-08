@@ -5,6 +5,7 @@ import '@/styles/globals.css';
 
 import { useEffect, useState } from 'react';
 
+import CryptoJS from 'crypto-js';
 import axios from 'axios';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { useForm } from 'react-hook-form';
@@ -16,6 +17,7 @@ export default function Address() {
   const open = useDaumPostcodePopup();
   const addressId = searchParams.get('addressid'); // 해당 값이 존재하면 수정, 존재하지 않으면 추가
   const access = useSelector((state) => state.login.access);
+  const encryptedAddresses = useSelector((state) => state.address.addresses);
 
   const {
     register,
@@ -31,27 +33,29 @@ export default function Address() {
 
   const rPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 
-  // 값 불러오기 (수정일 때만 전달 됨)
   useEffect(() => {
-    const handleMessage = (event) => {
-      if (event.origin !== window.location.origin) return;
+    const fetchAddress = () => {
+      const decrypted = JSON.parse(
+        CryptoJS.AES.decrypt(
+          encryptedAddresses,
+          process.env.NEXT_PUBLIC_SECRET_KEY
+        ).toString(CryptoJS.enc.Utf8)
+      );
 
-      if (event.data && event.data.type === 'PASS_ADDRESS') {
-        setValue('addressName', event.data.addressName);
-        setValue('name', event.data.name);
-        setValue('phone', event.data.phone);
-        setValue('zipCode', event.data.zipCode);
-        setValue('address', event.data.address);
-        setValue('detail', event.data.detail);
-        setValue('isDefault', event.data.isDefault);
-      }
+      const findAddress = decrypted.find(
+        (address) => address.addressId === Number(addressId)
+      );
+      setValue('addressName', findAddress.addressName);
+      setValue('name', findAddress.name);
+      setValue('phone', findAddress.phone);
+      setValue('zipCode', findAddress.zipCode);
+      setValue('address', findAddress.address);
+      setValue('detail', findAddress.detail);
+      setValue('isDefault', findAddress.isDefault);
     };
 
-    window.addEventListener('message', handleMessage);
-    return () => {
-      window.removeEventListener('message', handleMessage);
-    };
-  }, []);
+    if (addressId) fetchAddress();
+  }, [addressId]);
 
   const onSubmit = async (formData) => {
     if (addressId) {
@@ -113,7 +117,7 @@ export default function Address() {
     open({
       onComplete: (data) => {
         setValue('zipCode', data.zonecode);
-        setValue('address', data.jibunAddress);
+        setValue('address', data.roadAddress);
       },
       width: 500,
       height: 600,

@@ -2,6 +2,7 @@
 
 import '@/styles/globals.css';
 import '@/styles/user.css';
+
 import axios from 'axios';
 
 export default function EmailInput({
@@ -14,8 +15,6 @@ export default function EmailInput({
   isSignup = false,
   isFind = false,
 }) {
-  console.log(isFind);
-
   const rEmail =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
   const checkEmailAvailability = async (e) => {
