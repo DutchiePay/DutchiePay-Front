@@ -5,14 +5,14 @@ import '@/styles/user.css';
 
 import { useEffect, useState } from 'react';
 
+import AddInfoSubmit from '@/app/_components/_user/AddInfoSubmit';
 import Image from 'next/image';
 import Link from 'next/link';
-import AddInfoSubmit from '@/app/_components/_user/AddInfoSubmit';
 import logo from '../../../../public/image/logo.jpg';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
-export default function AddInfo() {
+export default function ExtraInfo() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const isCertified = useSelector((state) => state.login.user.isCertified);
   const router = useRouter();
