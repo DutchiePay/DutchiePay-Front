@@ -18,7 +18,6 @@ export default function DeliveryAddress() {
   const [deliveryAddress, setDeliveryAddress] = useState(null);
   const [isChanged, setIsChanged] = useState(false);
   const access = useSelector((state) => state.login.access);
-  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,8 +43,9 @@ export default function DeliveryAddress() {
       }
     };
 
-    if (!encryptedAddresses || isChanged) fetchDelivery();
-    else {
+    if (!encryptedAddresses || isChanged) {
+      fetchDelivery();
+    } else {
       setDeliveryAddress(
         JSON.parse(
           CryptoJS.AES.decrypt(
@@ -62,7 +62,8 @@ export default function DeliveryAddress() {
       if (event.origin !== window.location.origin) return;
       if (
         event.data &&
-        (event.data.type === 'ADD_ADDRESS' || 'UPDATE_ADDRESS')
+        (event.data.type === 'ADD_ADDRESS' ||
+          event.data.type === 'UPDATE_ADDRESS')
       ) {
         setIsChanged(true);
       }
