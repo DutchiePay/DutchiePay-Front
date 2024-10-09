@@ -17,12 +17,12 @@ export default function ExtraInfo() {
   const isCertified = useSelector((state) => state.login.user.isCertified);
   const router = useRouter();
 
-  /*useEffect(() => {
+  useEffect(() => {
     if ((isCertified && isLoggedIn) || !isLoggedIn) {
       alert('잘못된 접근 방식');
       router.push('/');
     }
-  }, []);*/
+  }, []);
 
   return (
     <section className="w-full flex flex-col items-center justify-center min-h-[735px]">

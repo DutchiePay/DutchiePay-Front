@@ -11,6 +11,7 @@ import Footer from './_components/_layout/Footer';
 import Header from './_components/_layout/Header';
 import { PersistGate } from 'redux-persist/integration/react';
 import UpDownButton from './_components/_layout/UpDownButton';
+import { useEffect } from 'react';
 
 export default function RootLayoutClient({ children }) {
   return (
@@ -35,22 +36,17 @@ function LayoutWrapper({ children }) {
     /\/(ask|report|cancel|refund|review|coupon|change-number|delivery-address)/
   );
   const rhideFloating = pathname.match(
-    /\/(login|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address)/
+    /\/(login|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address|extra-info)/
   );
 
-  if (isLoggedIn && !isCertified) {
-    // 사용자가 extra-info 페이지로 리다이렉션
-    if (!pathname.startsWith('/extra-info')) {
-      router.push('/extra-info');
+  useEffect(() => {
+    if (isLoggedIn && !isCertified) {
+      // 사용자가 extra-info 페이지로 리다이렉션
+      if (!pathname.startsWith('/extra-info')) {
+        router.push('/extra-info');
+      }
     }
-    return (
-      <>
-        <Header />
-        <main className={`layout mt-[155px]`}>{children}</main>
-        <Footer />
-      </>
-    );
-  }
+  }, [isLoggedIn, isCertified, pathname, router]);
 
   return (
     <>
