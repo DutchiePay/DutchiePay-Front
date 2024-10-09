@@ -2,18 +2,31 @@
 
 import '../styles/globals.css';
 
+import { Provider, useSelector } from 'react-redux';
 import { persistor, store } from '@/redux/store';
+import { usePathname, useRouter } from 'next/navigation';
 
 import Floating from './_components/_layout/Floating';
 import Footer from './_components/_layout/Footer';
 import Header from './_components/_layout/Header';
 import { PersistGate } from 'redux-persist/integration/react';
-import { Provider } from 'react-redux';
 import UpDownButton from './_components/_layout/UpDownButton';
-import { usePathname } from 'next/navigation';
 
 export default function RootLayoutClient({ children }) {
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <LayoutWrapper>{children}</LayoutWrapper>
+      </PersistGate>
+    </Provider>
+  );
+}
+
+function LayoutWrapper({ children }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const isCertified = useSelector((state) => state.login.user.isCertified);
 
   const rhideHeader = pathname.match(
     /\/(login|reset|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address)/
@@ -25,18 +38,29 @@ export default function RootLayoutClient({ children }) {
     /\/(login|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address)/
   );
 
-  return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        {!rhideHeader && <Header />}
+  if (isLoggedIn && !isCertified) {
+    // 사용자가 extra-info 페이지로 리다이렉션
+    if (!pathname.startsWith('/extra-info')) {
+      router.push('/extra-info');
+    }
+    return (
+      <>
+        <Header />
+        <main className={`layout mt-[155px]`}>{children}</main>
+        <Footer />
+      </>
+    );
+  }
 
-        <main className={`layout ${!rhideHeader ? 'mt-[155px]' : ''}`}>
-          {children}
-          {!rhideFloating && <Floating />}
-          {!rhideFloating && <UpDownButton />}
-        </main>
-        {!rhideFooter && <Footer />}
-      </PersistGate>
-    </Provider>
+  return (
+    <>
+      {!rhideHeader && <Header />}
+      <main className={`layout ${!rhideHeader ? 'mt-[155px]' : ''}`}>
+        {children}
+        {!rhideFloating && <Floating />}
+        {!rhideFloating && <UpDownButton />}
+      </main>
+      {!rhideFooter && <Footer />}
+    </>
   );
 }
