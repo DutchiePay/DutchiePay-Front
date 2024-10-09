@@ -4,7 +4,7 @@ import '../styles/globals.css';
 
 import { Provider, useSelector } from 'react-redux';
 import { persistor, store } from '@/redux/store';
-import { usePathname, useRouter } from 'next/navigation';
+import { redirect, usePathname, useRouter } from 'next/navigation';
 
 import Floating from './_components/_layout/Floating';
 import Footer from './_components/_layout/Footer';
@@ -43,7 +43,7 @@ function LayoutWrapper({ children }) {
     if (isLoggedIn && !isCertified) {
       // 사용자가 extra-info 페이지로 리다이렉션
       if (!pathname.startsWith('/extra-info')) {
-        router.push('/extra-info');
+        redirect('/extra-info');
       }
     }
   }, [isLoggedIn, isCertified, pathname, router]);
