@@ -57,7 +57,7 @@ export default function SocialSignup() {
           nickname: extracted[2],
           profileImage: extracted[3] === 'null' ? null : extracted[3],
           location: extracted[4],
-          isCertified: Boolean(extracted[7]),
+          isCertified: extracted[7] === 'ture' ? true : false,
         };
 
         localStorage.setItem('loginType', extracted[1] || 'email');
