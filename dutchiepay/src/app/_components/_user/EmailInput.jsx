@@ -81,11 +81,14 @@ export default function EmailInput({
             message: '올바른 이메일 형식을 입력해주세요',
           },
           onBlur: async (e) => {
-            const isValid = await trigger('email'); // 패턴 검사를 수행
-            if (isValid) {
-              checkEmailAvailability(e); // API 호출
-            } else {
-              setIsEmailAvailable(null); // 패턴이 유효하지 않을 경우 가용성 초기화
+            if (isSignup) {
+              // isSignup이 true일 때만 체크
+              const isValid = await trigger('email'); // 패턴 검사를 수행
+              if (isValid) {
+                checkEmailAvailability(e); // API 호출
+              } else {
+                setIsEmailAvailable(null); // 패턴이 유효하지 않을 경우 가용성 초기화
+              }
             }
           },
         })}
