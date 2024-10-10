@@ -142,7 +142,9 @@ export default function Info() {
               },
             }
           );
-          setUserInfoChange({ profileImage: modifyInfo.profileImage });
+          dispatch(
+            setUserInfoChange({ profileImage: modifyInfo.profileImage })
+          );
         } catch (error) {
           console.log(error);
         }

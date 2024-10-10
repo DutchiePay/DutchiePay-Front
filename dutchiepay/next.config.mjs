@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const IMAGE_BUCKET = process.env.NEXT_PUBLIC_IMAGE_BUCKET;
+
 const nextConfig = {
   async rewrites() {
     return [
@@ -19,11 +21,13 @@ const nextConfig = {
     ];
   },
   images: {
-    domains: [
-      'https://d2m4bskl88m9ql.cloudfront.net',
-      `https://${process.env.NEXT_PUBLIC_IMAGE_BUCKET}.s3.amazonaws.com`,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: `${IMAGE_BUCKET}.s3.amazonaws.com`,
+        pathname: '/**',
+      },
     ],
-    unoptimized: true,
   },
 };
 

@@ -4,6 +4,7 @@ import '@/styles/user.css';
 import { useEffect, useState } from 'react';
 
 import Cookies from 'universal-cookie';
+import CryptoJS from 'crypto-js';
 import Image from 'next/image';
 import LastLogin from './LastLogin';
 import kakao from '../../../../public/image/kakao.png';
@@ -29,24 +30,46 @@ export default function SocialLogin() {
     const handleMessage = (event) => {
       const allowedOrigins = [process.env.NEXT_PUBLIC_BASE_URL];
 
-      if (allowedOrigins.includes(event.origin)) {
+      if (
+        allowedOrigins.includes(event.origin) &&
+        event.data.type === 'OAUTH_LOGIN'
+      ) {
+        const encryptedData = CryptoJS.enc.Base64.parse(event.data.encrypted);
+        const key = CryptoJS.enc.Utf8.parse(process.env.NEXT_PUBLIC_SECRET_KEY);
+        const decrypted = CryptoJS.AES.decrypt(
+          { ciphertext: encryptedData },
+          key,
+          {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7,
+          }
+        ).toString(CryptoJS.enc.Utf8);
+
+        const extracted = decrypted
+          .trim()
+          .split(',')
+          .map((item) => {
+            const value = item.split(':')[1].trim();
+            return value.replace(/(^"|"$)/g, '');
+          });
+
         const userInfo = {
-          userId: event.data.userId,
-          nickname: event.data.nickname,
-          profileImage: event.data.profileImg,
-          location: event.data.location,
-          isCertified: event.data.isCertified,
+          userId: Number(extracted[0]),
+          nickname: extracted[2],
+          profileImage: extracted[3] === 'null' ? null : extracted[3],
+          location: extracted[4],
+          isCertified: extracted[7] === 'ture' ? true : false,
         };
 
-        localStorage.setItem('loginType', event.data.loginType || 'email');
+        localStorage.setItem('loginType', extracted[1] || 'email');
         dispatch(
           login({
             user: userInfo,
-            access: event.data.access,
+            access: extracted[5],
           })
         );
 
-        cookies.set('refresh', event.data.refresh, { path: '/' });
+        cookies.set('refresh', extracted[6], { path: '/' });
 
         router.push('/');
         console.log(userInfo);
