@@ -113,7 +113,7 @@ export default function PhoneAuth({
             },
             required: '휴대폰 번호를 입력해주세요.',
           })}
-          disabled={isPhoneAuth}
+          disabled={isPhoneAuth || isCodeMatch}
         />
         <button
           type="button"

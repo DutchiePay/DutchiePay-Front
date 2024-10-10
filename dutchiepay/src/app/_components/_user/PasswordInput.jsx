@@ -4,7 +4,6 @@ import '@/styles/globals.css';
 import '@/styles/user.css';
 
 import { useEffect, useState } from 'react';
-
 import Image from 'next/image';
 import eyeClosed from '../../../../public/image/eyeClosed.svg';
 import eyeOpen from '../../../../public/image/eyeOpen.svg';
@@ -21,16 +20,11 @@ export default function PasswordInput({
   isReset = false,
 }) {
   const [isNewPasswordVisible, setIsNewPasswordVisible] = useState(false);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // 비밀번호 표시 여부
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
-    useState(false); // 비밀번호 확인 표시 여부
+    useState(false);
   const accessToken = useSelector((state) => state.login.access);
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
-  useEffect(() => {
-    if (password) {
-      trigger('confirmPassword');
-    }
-  }, [password, trigger]);
 
   const rPassword = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*_-]).{8,}$/;
 
@@ -153,11 +147,14 @@ export default function PasswordInput({
           <input
             id="confirmPassword"
             className={`user__input-password mt-[4px] ${
-              touchedFields.confirmPassword && errors.confirmPassword
+              touchedFields.confirmPassword &&
+              errors.confirmPassword &&
+              rPassword.test(newPassword)
                 ? 'user__input-password__invalid'
                 : touchedFields.confirmPassword &&
                     !errors.confirmPassword &&
-                    confirmPassword
+                    confirmPassword &&
+                    rPassword.test(newPassword)
                   ? 'user__input-password__valid'
                   : ''
             }`}
@@ -165,8 +162,14 @@ export default function PasswordInput({
             aria-required="true"
             type={isConfirmPasswordVisible ? 'text' : 'password'}
             {...register('confirmPassword', {
-              validate: (value) =>
-                value === newPassword || '비밀번호가 일치하지 않습니다.',
+              validate: (value) => {
+                if (newPassword && rPassword.test(newPassword)) {
+                  return (
+                    value === newPassword || '비밀번호가 일치하지 않습니다.'
+                  );
+                }
+                return false; // newPassword가 유효하지 않으면 항상 false 반환
+              },
             })}
           />
           {confirmPassword && (

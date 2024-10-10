@@ -32,7 +32,7 @@ export default function SignUpSubmit() {
   } = useForm({
     mode: 'onTouched',
     criteriaMode: 'all',
-    reValidateMode: 'onblur',
+    reValidateMode: 'onChange',
     shouldFocusError: true,
     shouldUseNativeValidation: false,
   });
@@ -77,6 +77,7 @@ export default function SignUpSubmit() {
         setError={setError} // setError 함수 전달
         clearErrors={clearErrors} // clearErrors 함수 전달
         isSignup={true}
+        trigger={trigger}
       />
       <PasswordInput
         register={register}
@@ -107,11 +108,7 @@ export default function SignUpSubmit() {
         setIsCodeMatch={setIsCodeMatch}
         isSignup={true}
       />
-      <span className="text-xs mt-[4px]">
-        ※ 휴대폰 인증을 거치지 않을 경우, <strong>일부 서비스가 제한</strong>
-        됩니다.
-        <br /> 회원가입 이후에도 휴대폰 인증을 진행할 수 있습니다.
-      </span>
+
       <Policy register={register} />
       <button
         type="submit"
