@@ -142,9 +142,7 @@ export default function Info() {
               },
             }
           );
-          dispatch(
-            setUserInfoChange({ profileImage: modifyInfo.profileImage })
-          );
+          setUserInfoChange({ profileImage: modifyInfo.profileImage });
         } catch (error) {
           console.log(error);
         }
@@ -156,20 +154,43 @@ export default function Info() {
         }
 
         try {
-          await axios.patch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/profile/nickname`,
-            { nickname: modifyInfo.nickname },
+          const response2 = await axios.get(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
             {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
+              params: {
+                nickname: modifyInfo.nickname,
               },
             }
           );
-          dispatch(setUserInfoChange({ nickname: modifyInfo.nickname }));
+
+          // 중복 검사: response2.status가 200일 경우
+          if (response2.status === 200) {
+            console.log(response2.data);
+
+            const reponse = await axios.patch(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/profile/nickname`,
+              { nickname: modifyInfo.nickname },
+              {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+                },
+              }
+            );
+            console.log(reponse);
+
+            dispatch(setUserInfoChange({ nickname: modifyInfo.nickname }));
+          }
         } catch (error) {
-          console.log(error);
+          if (
+            error.response &&
+            error.response.data.message === '이미 사용중인 닉네임입니다.'
+          ) {
+            handleModifyCancel();
+            alert('이미 사용중인 닉네임입니다.');
+          }
         }
         break;
+
       default:
         break;
     }
