@@ -85,7 +85,7 @@ export default function Header() {
 
   const handleLogout = useCallback(async () => {
     try {
-      await axios.post(
+      /*await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
         {},
         {
@@ -93,7 +93,7 @@ export default function Header() {
             Authorization: `Bearer ${accessToken}`,
           },
         }
-      );
+      );*/
 
       dispatch(logout());
       cookies.remove('refresh', { path: '/' });
