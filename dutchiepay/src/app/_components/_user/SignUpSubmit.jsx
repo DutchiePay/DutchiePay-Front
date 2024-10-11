@@ -32,7 +32,7 @@ export default function SignUpSubmit() {
   } = useForm({
     mode: 'onTouched',
     criteriaMode: 'all',
-    reValidateMode: 'onChange',
+    reValidateMode: 'onblur',
     shouldFocusError: true,
     shouldUseNativeValidation: false,
   });
