@@ -3,6 +3,8 @@
 import '@/styles/user.css';
 import '@/styles/globals.css';
 
+import { useDispatch, useSelector } from 'react-redux';
+
 import Cookies from 'universal-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -12,7 +14,6 @@ import eyeClosed from '../../../../public/image/eyeClosed.svg';
 import eyeOpen from '../../../../public/image/eyeOpen.svg';
 import { login } from '@/redux/slice/loginSlice';
 import logo from '../../../../public/image/logo.jpg';
-import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -69,8 +70,8 @@ export default function Login() {
       cookies.set('refresh', response.data.refresh, { path: '/', expires });
       router.push('/');
     } catch (error) {
-      if (error.status === 401) setIsUnauthorized(true);
-      console.log(error);
+      if (error.response.data.message === '해당하는 유저가 없습니다.')
+        setIsUnauthorized(true);
     }
   };
 

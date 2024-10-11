@@ -46,20 +46,13 @@ export default function ResetSubmit({ email }) {
         alert('변경이 완료되었습니다.');
         router.push('/');
       } catch (error) {
-        if (error.response && error.response.status === 400) {
-          alert('기존 비밀번호와 동일합니다.');
-        } else if (error.response && error.response.status === 401) {
-          alert('인증되지 않은 사용자입니다.');
-          router.push('/');
-        } else {
-          console.error('비밀번호 변경 중 오류 발생:', error);
+        if (error.response.data.message === '기존 비밀번호와 동일합니다.') {
+          alert('기존과 동일한 비밀번호로 재설정하실 수 없습니다.');
         }
       }
     } else {
       try {
-        console.log(formData);
-
-        const response = await axios.patch(
+        await axios.patch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/users/pwd-user`,
           {
             password: formData.password,
@@ -72,29 +65,29 @@ export default function ResetSubmit({ email }) {
           }
         );
 
-        if (response.status === 200) {
-          alert('비밀번호 변경이 완료되었습니다.');
-          await axios.post(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
-            {},
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          );
-          dispatch(logout());
-          cookies.remove('refresh');
-          router.push('/');
-        }
+        alert('비밀번호 변경이 완료되었습니다.');
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        dispatch(logout());
+        cookies.remove('refresh');
+        router.push('/');
       } catch (error) {
-        if (error.response && error.response.status === 400) {
-          alert('기존 비밀번호와 동일합니다.');
-        } else if (error.response && error.response.status === 401) {
-          alert('인증되지 않은 사용자입니다.');
-          router.push('/');
-        } else {
-          console.error('비밀번호 변경 중 오류 발생:', error);
+        if (
+          error.response.data.message ===
+          '기존 비밀번호와 새로운 비밀번호가 같습니다.'
+        ) {
+          alert('기존과 동일한 비밀번호로 재설정하실 수 없습니다.');
+        } else if (
+          error.response.data.message === '기존 비밀번호가 올바르지 않습니다.'
+        ) {
+          alert('기존 비밀번호가 일치하지 않아 비밀번호를 변경할 수 없습니다.');
         }
       }
     }
