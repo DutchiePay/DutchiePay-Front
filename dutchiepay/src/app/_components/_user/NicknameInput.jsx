@@ -10,35 +10,34 @@ export default function NicknameInput({
   errors,
   nickname,
   touchedFields,
+  trigger,
   setError,
   clearErrors,
 }) {
+  const [isNicknameAvailable, setIsNicknameAvailable] = useState(null); // 이메일 가용성 상태 추가
   const rNickname = /^[a-zA-Z0-9가-힣]{2,8}$/;
 
   const checkNicknameAvailability = async (e) => {
     const value = e.target.value;
 
-    if (rNickname.test(value)) {
-      try {
-        await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/users`, {
-          params: {
-            nickname: value,
-          },
+    try {
+      await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users?nickname=${value}`
+      );
+      setIsNicknameAvailable(true);
+      clearErrors('nickname'); // 사용 가능한 닉네임이므로 오류를 클리어
+    } catch (error) {
+      // 400 오류가 발생하면 nickname에 대한 오류를 설정
+      if (error.response.data.message === '이미 사용중인 닉네임입니다.') {
+        setError('nickname', {
+          type: 'manual',
+          message: '사용중인 닉네임입니다',
         });
-        clearErrors('nickname'); // 사용 가능한 닉네임이므로 오류를 클리어
-      } catch (error) {
-        // 400 오류가 발생하면 nickname에 대한 오류를 설정
-        if (error.response && error.response.status === 400) {
-          setError('nickname', {
-            type: 'manual',
-            message: '사용중인 닉네임입니다',
-          });
-        } else {
-          console.error('닉네임 체크 중 오류 발생:', error);
-        }
+        setIsNicknameAvailable(false);
+      } else {
+        console.error('닉네임 체크 중 오류 발생:', error);
+        setIsNicknameAvailable(null); // 오류 발생 시 초기화
       }
-    } else {
-      clearErrors('nickname'); // 닉네임 형식이 유효하지 않을 경우 초기화
     }
   };
 
@@ -69,7 +68,15 @@ export default function NicknameInput({
               value: rNickname,
               message: '올바른 닉네임 형식을 입력해주세요',
             },
-            onBlur: checkNicknameAvailability,
+            onBlur: async (e) => {
+              // isTrigger가 true일 때만 체크
+              const isTrigger = await trigger('nickname'); // 패턴 검사를 수행
+              if (isTrigger) {
+                checkNicknameAvailability(e); // API 호출
+              } else {
+                setIsNicknameAvailable(null); // 패턴이 유효하지 않을 경우 가용성 초기화
+              }
+            },
           })}
         />
       </div>
@@ -82,9 +89,14 @@ export default function NicknameInput({
       >
         {touchedFields.nickname && errors.nickname
           ? errors.nickname.message
-          : touchedFields.nickname && !errors.nickname && nickname
+          : touchedFields.nickname &&
+              !errors.nickname &&
+              nickname &&
+              isNicknameAvailable
             ? '사용가능한 닉네임 입니다'
-            : ''}
+            : touchedFields.nickname && !errors.nickname && nickname
+              ? '올바른 닉네임 형식입니다.'
+              : ''}
       </p>
     </>
   );

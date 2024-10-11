@@ -24,16 +24,12 @@ export default function EmailInput({
     const value = e.target.value;
 
     try {
-      await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/users`, {
-        params: {
-          email: value,
-        },
-      });
+      await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users?email=${value}`
+      );
       setIsEmailAvailable(true); // 이메일 사용 가능
       clearErrors('email');
     } catch (error) {
-      console.log(error.response);
-
       if (error.response.data.message === '이미 사용중인 이메일입니다.') {
         setError('email', {
           type: 'manual',
@@ -82,9 +78,9 @@ export default function EmailInput({
           },
           onBlur: async (e) => {
             if (isSignup) {
-              // isSignup이 true일 때만 체크
-              const isValid = await trigger('email'); // 패턴 검사를 수행
-              if (isValid) {
+              // isTrigger가 true일 때만 체크
+              const isTrigger = await trigger('email'); // 패턴 검사를 수행
+              if (isTrigger) {
                 checkEmailAvailability(e); // API 호출
               } else {
                 setIsEmailAvailable(null); // 패턴이 유효하지 않을 경우 가용성 초기화
