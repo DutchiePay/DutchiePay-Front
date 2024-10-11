@@ -158,12 +158,7 @@ export default function Info() {
 
         try {
           const duplicatedResponse = await axios.get(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
-            {
-              params: {
-                nickname: modifyInfo.nickname,
-              },
-            }
+            `${process.env.NEXT_PUBLIC_BASE_URL}/users?nickname=${modifyInfo.nickname}`
           );
 
           // 중복 검사: duplicatedResponse.status가 200일 경우
