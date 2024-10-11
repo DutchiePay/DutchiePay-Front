@@ -3,7 +3,6 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
-import Link from 'next/link';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
@@ -18,7 +17,7 @@ export default function DeliveryAddressItem({
     if (confirm('주소지를 삭제하시겠습니까?')) {
       try {
         await axios.delete(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/delivery?addressid${deliveryAddress.addressId}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/delivery?addressid=${deliveryAddress.addressId}`,
 
           {
             headers: {

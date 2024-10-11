@@ -18,6 +18,7 @@ export default function Address() {
   const addressId = searchParams.get('addressid'); // 해당 값이 존재하면 수정, 존재하지 않으면 추가
   const access = useSelector((state) => state.login.access);
   const encryptedAddresses = useSelector((state) => state.address.addresses);
+  const [isDefaultAddress, setIsDefaultAddress] = useState(false); // 수정 요청 주소지가 기본 배송지였을 경우 true
 
   const {
     register,
@@ -52,6 +53,8 @@ export default function Address() {
       setValue('address', findAddress.address);
       setValue('detail', findAddress.detail);
       setValue('isDefault', findAddress.isDefault);
+
+      setIsDefaultAddress(findAddress.isDefault);
     };
 
     if (addressId) fetchAddress();
@@ -60,6 +63,16 @@ export default function Address() {
   const onSubmit = async (formData) => {
     if (addressId) {
       try {
+        if (isDefaultAddress && !formData.isDefault) {
+          if (
+            confirm(
+              '최소 1개의 기본 배송지를 가져야 합니다.\n확인 시 기본 배송지로 설정된 채로 수정됩니다.'
+            )
+          ) {
+            formData.isDefault = true;
+          } else return;
+        }
+
         await axios.patch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/delivery`,
           { addressId: addressId, ...formData },
@@ -78,7 +91,6 @@ export default function Address() {
         alert('주소지가 수정되었습니다.');
         closeWindow();
       } catch (error) {
-        // 에러 처리
         console.log(error);
       }
     } else {
