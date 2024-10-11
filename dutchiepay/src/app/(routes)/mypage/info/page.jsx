@@ -129,7 +129,8 @@ export default function Info() {
     }
   };
 
-  const handleModifyComplete = async () => {
+  const handleModifyComplete = async (e) => {
+    e.preventDefault(); // 기본 동작 방지
     switch (modifyType) {
       case '프로필이미지':
         try {
@@ -142,7 +143,9 @@ export default function Info() {
               },
             }
           );
-          setUserInfoChange({ profileImage: modifyInfo.profileImage });
+          dispatch(
+            setUserInfoChange({ profileImage: modifyInfo.profileImage })
+          );
         } catch (error) {
           console.log(error);
         }
@@ -154,7 +157,7 @@ export default function Info() {
         }
 
         try {
-          const response2 = await axios.get(
+          const duplicatedResponse = await axios.get(
             `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
             {
               params: {
@@ -163,11 +166,9 @@ export default function Info() {
             }
           );
 
-          // 중복 검사: response2.status가 200일 경우
-          if (response2.status === 200) {
-            console.log(response2.data);
-
-            const reponse = await axios.patch(
+          // 중복 검사: duplicatedResponse.status가 200일 경우
+          if (duplicatedResponse.status === 200) {
+            await axios.patch(
               `${process.env.NEXT_PUBLIC_BASE_URL}/profile/nickname`,
               { nickname: modifyInfo.nickname },
               {
@@ -176,17 +177,21 @@ export default function Info() {
                 },
               }
             );
-            console.log(reponse);
 
             dispatch(setUserInfoChange({ nickname: modifyInfo.nickname }));
+            setModifyType('');
           }
         } catch (error) {
           if (
             error.response &&
             error.response.data.message === '이미 사용중인 닉네임입니다.'
           ) {
-            handleModifyCancel();
             alert('이미 사용중인 닉네임입니다.');
+            setModifyType('닉네임');
+            setModifyInfo((prevState) => ({
+              ...prevState,
+              nickname: nickname, // 현재 입력된 닉네임 유지
+            }));
           }
         }
         break;
@@ -194,7 +199,6 @@ export default function Info() {
       default:
         break;
     }
-    setModifyType('');
   };
 
   // 이미지 불러오기
@@ -305,9 +309,9 @@ export default function Info() {
             )}
             <button
               className={`mypage-profile__button ${modifyType === '프로필이미지' && 'mypage-profile__button-finish'}`}
-              onClick={() =>
+              onClick={(e) =>
                 modifyType === '프로필이미지'
-                  ? handleModifyComplete()
+                  ? handleModifyComplete(e)
                   : handleModifyType('프로필이미지')
               }
             >
@@ -345,9 +349,9 @@ export default function Info() {
             )}
             <button
               className={`mypage-profile__button ${modifyType === '닉네임' && 'mypage-profile__button-finish'}`}
-              onClick={() => {
+              onClick={(e) => {
                 modifyType === '닉네임'
-                  ? handleModifyComplete()
+                  ? handleModifyComplete(e)
                   : handleModifyType('닉네임');
               }}
             >
