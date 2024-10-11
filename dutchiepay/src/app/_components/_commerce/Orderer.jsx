@@ -11,7 +11,7 @@ import { useState } from 'react';
 export default function Orderer() {
   const [isSelfMessage, setIsSelfMessage] = useState(false); // 배송 메시지 직접 입력 여부
   const [addressInfo, setAddressInfo] = useState({
-    zipcode: '',
+    zipCode: '',
     address: '',
     detail: '',
   });
@@ -22,8 +22,8 @@ export default function Orderer() {
       onComplete: (data) => {
         setAddressInfo((prevState) => ({
           ...prevState,
-          zipcode: data.zonecode,
-          address: data.jibunAddress,
+          zipCode: data.zonecode,
+          address: data.roadAddress,
         }));
       },
       width: 500,
@@ -63,7 +63,7 @@ export default function Orderer() {
                 <div className="flex items-center gap-[8px]">
                   <input
                     className="w-[70px] border rounded-lg px-[8px] py-[6px] text-sm outline-none"
-                    value={addressInfo.zipcode}
+                    value={addressInfo.zipCode}
                     placeholder="우편번호"
                   />
                   <button

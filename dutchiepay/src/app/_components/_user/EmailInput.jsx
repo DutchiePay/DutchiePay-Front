@@ -2,6 +2,7 @@
 
 import '@/styles/globals.css';
 import '@/styles/user.css';
+
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -17,6 +18,7 @@ export default function EmailInput({
   isFind = false,
 }) {
   const [isEmailAvailable, setIsEmailAvailable] = useState(null); // 이메일 가용성 상태 추가
+
   const rEmail =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
 

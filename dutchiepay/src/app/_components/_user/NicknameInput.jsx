@@ -27,6 +27,8 @@ export default function NicknameInput({
       setIsNicknameAvailable(true);
       clearErrors('nickname'); // 사용 가능한 닉네임이므로 오류를 클리어
     } catch (error) {
+      console.log(error.response.data);
+
       // 400 오류가 발생하면 nickname에 대한 오류를 설정
       if (error.response.data.message === '이미 사용중인 닉네임입니다.') {
         setError('nickname', {

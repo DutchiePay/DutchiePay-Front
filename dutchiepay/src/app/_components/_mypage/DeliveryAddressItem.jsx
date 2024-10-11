@@ -1,3 +1,5 @@
+'use client';
+
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
@@ -5,15 +7,19 @@ import Link from 'next/link';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-export default function DeliveryAddressItem({ deliveryAddress, isFirst }) {
+export default function DeliveryAddressItem({
+  deliveryAddress,
+  setIsChanged,
+  isFirst,
+}) {
   const access = useSelector((state) => state.login.access);
 
   const handleDelete = async () => {
     if (confirm('주소지를 삭제하시겠습니까?')) {
       try {
         await axios.delete(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/profile/address`,
-          { addressId: deliveryAddress.addressId },
+          `${process.env.NEXT_PUBLIC_BASE_URL}/delivery?addressid${deliveryAddress.addressId}`,
+
           {
             headers: {
               Authorization: `Bearer ${access}`,
@@ -21,13 +27,15 @@ export default function DeliveryAddressItem({ deliveryAddress, isFirst }) {
           }
         );
 
-        // 주소지 삭제 처리 코드 추가
+        setIsChanged(true);
         alert('정상적으로 삭제되었습니다.');
       } catch (error) {
         //에러 처리
+        console.log(error);
       }
     }
   };
+
   return (
     <div className={`${isFirst ? 'border-y' : 'border-b'} px-[12px] py-[8px]`}>
       <div className="flex justify-between items-center">
@@ -45,7 +53,7 @@ export default function DeliveryAddressItem({ deliveryAddress, isFirst }) {
             onClick={() => {
               window.open(
                 `/delivery-address?addressid=${deliveryAddress.addressId}`,
-                '주소지 추가',
+                '주소지 수정',
                 'width=620, height=670, location=1'
               );
             }}
@@ -63,7 +71,7 @@ export default function DeliveryAddressItem({ deliveryAddress, isFirst }) {
         <p className="text-gray--500">{deliveryAddress.phone}</p>
       </div>
       <p className="flex gap-[8px] items-center">
-        {deliveryAddress.address} <p>({deliveryAddress.zipcode})</p>
+        {deliveryAddress.address} <p>({deliveryAddress.zipCode})</p>
       </p>
       <p>{deliveryAddress.detail}</p>
     </div>

@@ -2,6 +2,7 @@
 
 import '../../../styles/header.css';
 
+import { login, logout } from '@/redux/slice/loginSlice';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useRouter } from 'next/navigation';
@@ -12,13 +13,15 @@ import Link from 'next/link';
 import axios from 'axios';
 import chat from '../../../../public/image/chat.svg';
 import logo from '../../../../public/image/logo.jpg';
-import { logout } from '@/redux/slice/loginSlice';
 import profile from '../../../../public/image/profile.jpg';
 import search from '../../../../public/image/search.svg';
+import { setAddresses } from '@/redux/slice/addressSlice';
 
 export default function Header() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const user = useSelector((state) => state.login.user);
+  let accessToken = useSelector((state) => state.login.access);
+  const addresses = useSelector((state) => state.address.addresses);
   const dispatch = useDispatch();
   const router = useRouter();
   const cookies = new Cookies();
@@ -56,13 +59,15 @@ export default function Header() {
             access: userInfo.access,
           })
         );
+        accessToken = userInfo.access;
       } catch (error) {
         // 에러처리 refresh token 만료 메시지가 반환될 경우, 로그아웃 처리
+        console.log(error);
         alert('로그아웃 유지시간이 만료되어 자동으로 로그아웃되었습니다.');
-        handleLogout();
+        //handleLogout();
       }
     };
-    
+
     if (refresh && !isLoggedIn) {
       handleRelogin();
     }
@@ -78,12 +83,32 @@ export default function Header() {
     return '';
   }, [pathname]);
 
-  const handleLogout = useCallback(() => {
-    dispatch(logout());
-    cookies.remove('refresh', { path: '/' });
-    sessionStorage.removeItem('user');
-    router.push('/');
+  const handleLogout = useCallback(async () => {
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      dispatch(logout());
+      cookies.remove('refresh', { path: '/' });
+      sessionStorage.removeItem('user');
+      router.push('/');
+    } catch (error) {
+      console.error('로그아웃 중 오류 발생:', error);
+    }
   }, [dispatch]);
+
+  useEffect(() => {
+    if (pathname === '/' && !isLoggedIn && addresses) {
+      dispatch(setAddresses(null));
+    }
+  }, [isLoggedIn, pathname, addresses, dispatch]);
 
   const handleKeyDown = useCallback(
     (e) => {

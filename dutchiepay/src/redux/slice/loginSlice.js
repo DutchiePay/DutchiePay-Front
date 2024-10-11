@@ -46,15 +46,6 @@ const loginSlice = createSlice({
         state.user.location = action.payload.location;
       }
     },
-    // setProfileImage(state, action) {
-    //   state.user.profileImage = action.payload.profileImage;
-    // },
-    // setNickname(state, action) {
-    //   state.user.nickname = action.payload.nickname;
-    // },
-    // setLocation(state, action) {
-    //   state.user.location = action.payload.location;
-    // },
     setAccessToken(state, action) {
       state.access = action.payload.access;
     },
