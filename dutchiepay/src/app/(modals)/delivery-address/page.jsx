@@ -70,13 +70,10 @@ export default function Address() {
           }
         );
 
-        const message = {
-          type: 'UPDATE_ADDRESS',
-          addressId: addressId,
-          ...formData,
-        };
-
-        window.opener.postMessage(message, window.location.origin);
+        window.opener.postMessage(
+          { type: 'UPDATE_ADDRESS' },
+          window.location.origin
+        );
 
         alert('주소지가 수정되었습니다.');
         closeWindow();
@@ -86,7 +83,7 @@ export default function Address() {
       }
     } else {
       try {
-        const response = await axios.post(
+        await axios.post(
           `${process.env.NEXT_PUBLIC_BASE_URL}/delivery`,
           { ...formData },
           {
@@ -96,13 +93,10 @@ export default function Address() {
           }
         );
 
-        const message = {
-          type: 'ADD_ADDRESS',
-          addressId: response.data.addressId,
-          ...formData,
-        };
-
-        window.opener.postMessage(message, window.location.origin);
+        window.opener.postMessage(
+          { type: 'ADD_ADDRESS' },
+          window.location.origin
+        );
 
         alert('배송지가 추가되었습니다.');
         closeWindow();

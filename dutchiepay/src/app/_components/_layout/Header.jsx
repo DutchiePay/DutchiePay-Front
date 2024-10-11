@@ -45,7 +45,7 @@ export default function Header() {
           user: {
             userId: response.data.userId,
             nickname: response.data.nickname,
-            profileImage: response.data.profileImage,
+            profileImage: response.data.profileImg,
             location: response.data.location,
             isCertified: response.data.isCertified,
           },
@@ -102,7 +102,7 @@ export default function Header() {
     } catch (error) {
       console.error('로그아웃 중 오류 발생:', error);
     }
-  }, [dispatch]);
+  }, [dispatch, accessToken, router]);
 
   useEffect(() => {
     if (pathname === '/' && !isLoggedIn && addresses) {
