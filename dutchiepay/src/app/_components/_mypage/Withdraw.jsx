@@ -7,13 +7,14 @@ import axios from 'axios';
 import { logout } from '@/redux/slice/loginSlice';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import useLogout from '@/app/hooks/useLogout';
 
 export default function Withdraw({ loginType }) {
   const cookies = new Cookies();
   const dispatch = useDispatch();
   const access = useSelector((state) => state.login.access);
   const router = useRouter();
-
+  const handleLogout = useLogout(access);
   const handleWithdraw = async () => {
     if (confirm('정말 탈퇴하실겁니까?')) {
       try {
@@ -34,8 +35,7 @@ export default function Withdraw({ loginType }) {
           );
         }
 
-        dispatch(logout());
-        cookies.remove('refresh', { path: '/' });
+        handleLogout();
         alert('정상적으로 탈퇴처리 되었습니다.');
         router.push('/');
       } catch (error) {

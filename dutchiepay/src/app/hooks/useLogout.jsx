@@ -10,6 +10,8 @@ const useLogout = (accessToken) => {
   const router = useRouter();
   const cookies = new Cookies();
   const handleLogout = useCallback(async () => {
+    console.log('hi');
+
     try {
       await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,

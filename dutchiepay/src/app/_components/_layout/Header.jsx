@@ -46,7 +46,7 @@ export default function Header() {
           user: {
             userId: response.data.userId,
             nickname: response.data.nickname,
-            profileImage: response.data.profileImage,
+            profileImage: response.data.profileImg,
             location: response.data.location,
             isCertified: response.data.isCertified,
           },
