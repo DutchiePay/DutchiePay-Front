@@ -157,37 +157,28 @@ export default function Info() {
         }
 
         try {
-          const duplicatedResponse = await axios.get(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/users?nickname=${modifyInfo.nickname}`
+          const response = await axios.patch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/profile/nickname`,
+            { nickname: modifyInfo.nickname },
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
           );
+          console.log(response.data);
 
-          // 중복 검사: duplicatedResponse.status가 200일 경우
-          if (duplicatedResponse.status === 200) {
-            await axios.patch(
-              `${process.env.NEXT_PUBLIC_BASE_URL}/profile/nickname`,
-              { nickname: modifyInfo.nickname },
-              {
-                headers: {
-                  Authorization: `Bearer ${accessToken}`,
-                },
-              }
-            );
-
-            dispatch(setUserInfoChange({ nickname: modifyInfo.nickname }));
-            setModifyType('');
-          }
+          dispatch(setUserInfoChange({ nickname: modifyInfo.nickname }));
+          setModifyType('');
         } catch (error) {
-          if (
-            error.response &&
-            error.response.data.message === '이미 사용중인 닉네임입니다.'
-          ) {
-            alert('이미 사용중인 닉네임입니다.');
-            setModifyType('닉네임');
-            setModifyInfo((prevState) => ({
-              ...prevState,
-              nickname: nickname, // 현재 입력된 닉네임 유지
-            }));
-          }
+          console.log(error);
+
+          alert('이미 사용중인 닉네임입니다.');
+          setModifyType('닉네임');
+          setModifyInfo((prevState) => ({
+            ...prevState,
+            nickname: nickname, // 현재 입력된 닉네임 유지
+          }));
         }
         break;
 
