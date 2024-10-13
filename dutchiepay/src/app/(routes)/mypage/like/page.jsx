@@ -4,15 +4,20 @@ import '@/styles/mypage.css';
 
 import Image from 'next/image';
 import Product_Like from '@/app/_components/Product';
+import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
 // 좋아요 상품 없을 때 UI도 구현해야 함
 export default function Like() {
   const [filter, setFilter] = useState('전체');
+  const nickname = useSelector((state) => state.login.user.nickname);
 
   return (
     <section className="ml-[250px] p-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">좋아요한 상품</h1>
+      <small>
+        {nickname}님께서 좋아요한 공동구매 상품을 확인할 수 있습니다.
+      </small>
       <ul className="flex gap-[8px] my-[16px]">
         <li>
           <button

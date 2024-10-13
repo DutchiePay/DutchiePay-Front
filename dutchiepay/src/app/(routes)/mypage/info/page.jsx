@@ -244,6 +244,7 @@ export default function Info() {
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[680px]">
       <h1 className="text-[32px] font-bold">회원 정보</h1>
+      <small>{nickname}님의 계정 정보를 확인하고 변경하실 수 있습니다.</small>
       <section className="mt-[40px] flex flex-col gap-[36px] mb-[24px]">
         <article className="mypage-profile">
           <div className="flex items-center">
