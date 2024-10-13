@@ -1,10 +1,11 @@
 'use client';
 
-import '../styles/globals.css';
+import '@/styles/globals.css';
 
 import { Provider, useSelector } from 'react-redux';
 import { persistor, store } from '@/redux/store';
-import { redirect, usePathname, useRouter } from 'next/navigation';
+import { redirect, usePathname } from 'next/navigation';
+
 
 import Floating from './_components/_layout/Floating';
 import Footer from './_components/_layout/Footer';
@@ -25,7 +26,6 @@ export default function RootLayoutClient({ children }) {
 
 function LayoutWrapper({ children }) {
   const pathname = usePathname();
-  const router = useRouter();
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const isCertified = useSelector((state) => state.login.user.isCertified);
 
@@ -46,7 +46,7 @@ function LayoutWrapper({ children }) {
         redirect('/extra-info');
       }
     }
-  }, [isLoggedIn, isCertified, pathname, router]);
+  }, [isLoggedIn, isCertified, pathname]);
 
   return (
     <>
