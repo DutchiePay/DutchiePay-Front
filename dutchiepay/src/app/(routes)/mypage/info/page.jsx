@@ -23,7 +23,6 @@ export default function Info() {
   const nickname = useSelector((state) => state.login.user.nickname);
   const profileImage = useSelector((state) => state.login.user.profileImage);
   const accessToken = useSelector((state) => state.login.access);
-
   const dispatch = useDispatch();
 
   const [loginType, setLoginType] = useState(''); // email/kakao/naver
@@ -34,7 +33,7 @@ export default function Info() {
   const [modifyType, setModifyType] = useState(''); // 수정 중인 영역 ''일 경우 아무 것도 수정 중이지 않은 상태
   const [modifyInfo, setModifyInfo] = useState({
     nickname: nickname,
-    profileImage: profileImage ? profileImage : profile,
+    profileImage: profileImage,
     location: location,
   });
   const imageRef = useRef(null);
@@ -131,6 +130,7 @@ export default function Info() {
 
   const handleModifyComplete = async (e) => {
     e.preventDefault(); // 기본 동작 방지
+
     switch (modifyType) {
       case '프로필이미지':
         try {
@@ -158,7 +158,7 @@ export default function Info() {
         }
 
         try {
-          const response = await axios.patch(
+          await axios.patch(
             `${process.env.NEXT_PUBLIC_BASE_URL}/profile/nickname`,
             { nickname: modifyInfo.nickname },
             {
@@ -167,12 +167,10 @@ export default function Info() {
               },
             }
           );
-          console.log(response.data);
 
           dispatch(setUserInfoChange({ nickname: modifyInfo.nickname }));
           setModifyType('');
         } catch (error) {
-          console.log(error);
           if (error.response.data.message === '이미 사용중인 닉네임입니다.') {
             alert('이미 사용중인 닉네임입니다.');
             setModifyType('닉네임');
@@ -225,10 +223,10 @@ export default function Info() {
           profileImage: `https://${process.env.NEXT_PUBLIC_IMAGE_BUCKET}.s3.amazonaws.com/${imageName}`,
         });
       } catch (error) {
-        // 에러 처리
+        console.log(error);
       }
     } catch (error) {
-      // 에러 처리
+      console.log(error);
     } finally {
       e.target.value = ''; // 같은 이미지 연속으로 업로드 가능하도록 값을 비움
     }
@@ -276,9 +274,14 @@ export default function Info() {
                   />
                   <button
                     className="border rounded-lg text-sm px-[16px] py-[4px]"
-                    onClick={() =>
-                      dispatch(setUserInfoChange({ profileImage: profile }))
-                    }
+                    onClick={() => {
+                      // 기본 프로필 이미지로 변경
+                      setModifyInfo((prevState) => ({
+                        ...prevState,
+                        profileImage: profile.src, // 기본 프로필 이미지로 설정
+                      }));
+                      dispatch(setUserInfoChange({ profileImage: profile })); // Redux 상태 업데이트
+                    }}
                   >
                     프로필 삭제
                   </button>

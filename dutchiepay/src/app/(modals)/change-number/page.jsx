@@ -61,7 +61,7 @@ export default function ChangeNumber() {
 
       window.close();
     } catch (error) {
-      // 에러 처리
+      console.log(error);
     }
   };
 
