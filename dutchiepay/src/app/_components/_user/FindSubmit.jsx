@@ -44,8 +44,16 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
         );
         setIsFindEmail(response.data.email);
       } catch (error) {
-        console.log(error);
-        // 에러 문구 표시
+        if (error.response.data.message === '해당하는 유저가 없습니다.') {
+          alert('입력하신 전화번호로 등록된 계정이 존재하지 않습니다.');
+        } else if (
+          error.response.data.message === '정지된 회원입니다.' ||
+          error.response.data.message === '탈퇴한 회원입니다.'
+        ) {
+          alert(
+            '해당 계정은 정지 또는 탈퇴되어 사용이 불가능한 계정입니다.\n고객센터로 문의 바랍니다.'
+          );
+        }
       }
     } else {
       try {
@@ -56,7 +64,13 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
 
         sessionStorage.setItem('emailForReset', formData.email);
         router.push('/reset');
-      } catch {}
+      } catch (error) {
+        if (error.response.data.message === '해당하는 유저가 없습니다.') {
+          alert(
+            '입력하신 전화번호와 이메일에 일치하는 계정이 존재하지 않습니다.'
+          );
+        }
+      }
     }
   };
 

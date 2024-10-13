@@ -61,10 +61,12 @@ export default function Header() {
         );
         accessToken = userInfo.access;
       } catch (error) {
-        // 에러처리 refresh token 만료 메시지가 반환될 경우, 로그아웃 처리
-        console.log(error);
-        alert('로그아웃 유지시간이 만료되어 자동으로 로그아웃되었습니다.');
-        //handleLogout();
+        if (
+          error.response.data.message === '리프레시 토큰이 유효하지 않습니다.'
+        ) {
+          alert('자동로그인이 만료되었습니다. 다시 로그인해 주세요.');
+          cookies.remove('refresh', { path: '/' });
+        }
       }
     };
 
