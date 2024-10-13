@@ -60,6 +60,10 @@ export default function Address() {
     if (addressId) fetchAddress();
   }, [addressId]);
 
+  const onError = () => {
+    alert('상세주소 외에 모든 내용은 필수 값입니다.');
+  };
+
   const onSubmit = async (formData) => {
     if (addressId) {
       try {
@@ -143,7 +147,7 @@ export default function Address() {
       </h1>
       <form
         className="mt-[40px] flex flex-col gap-[8px]"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit, onError)}
       >
         <input
           className="address__input"
