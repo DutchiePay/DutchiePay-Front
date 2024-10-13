@@ -146,6 +146,7 @@ export default function Info() {
           dispatch(
             setUserInfoChange({ profileImage: modifyInfo.profileImage })
           );
+          setModifyType('');
         } catch (error) {
           console.log(error);
         }
@@ -172,13 +173,14 @@ export default function Info() {
           setModifyType('');
         } catch (error) {
           console.log(error);
-
-          alert('이미 사용중인 닉네임입니다.');
-          setModifyType('닉네임');
-          setModifyInfo((prevState) => ({
-            ...prevState,
-            nickname: nickname, // 현재 입력된 닉네임 유지
-          }));
+          if (error.response.data.message === '이미 사용중인 닉네임입니다.') {
+            alert('이미 사용중인 닉네임입니다.');
+            setModifyType('닉네임');
+            setModifyInfo((prevState) => ({
+              ...prevState,
+              nickname: nickname, // 현재 입력된 닉네임 유지
+            }));
+          }
         }
         break;
 
@@ -311,7 +313,7 @@ export default function Info() {
             {modifyType === '닉네임' ? (
               <input
                 className="px-[8px] py-[4px] border rounded-lg outline-none"
-                value={modifyInfo.nickname || ''}
+                value={modifyInfo.nickname || nickname}
                 onChange={(e) =>
                   setModifyInfo((prevState) => ({
                     ...prevState,
