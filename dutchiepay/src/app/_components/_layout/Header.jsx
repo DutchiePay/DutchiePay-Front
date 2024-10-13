@@ -2,7 +2,7 @@
 
 import '../../../styles/header.css';
 
-import { login, logout } from '@/redux/slice/loginSlice';
+import { login } from '@/redux/slice/loginSlice';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useRouter } from 'next/navigation';
@@ -16,6 +16,7 @@ import logo from '../../../../public/image/logo.jpg';
 import profile from '../../../../public/image/profile.jpg';
 import search from '../../../../public/image/search.svg';
 import { setAddresses } from '@/redux/slice/addressSlice';
+import useLogout from '@/app/hooks/useLogout';
 
 export default function Header() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
@@ -45,13 +46,12 @@ export default function Header() {
           user: {
             userId: response.data.userId,
             nickname: response.data.nickname,
-            profileImage: response.data.profileImage,
+            profileImage: response.data.profileImg,
             location: response.data.location,
             isCertified: response.data.isCertified,
           },
           access: response.data.access,
         };
-
         localStorage.setItem('loginType', userInfo.loginType);
         dispatch(
           login({
@@ -61,10 +61,12 @@ export default function Header() {
         );
         accessToken = userInfo.access;
       } catch (error) {
-        // 에러처리 refresh token 만료 메시지가 반환될 경우, 로그아웃 처리
-        console.log(error);
-        alert('로그아웃 유지시간이 만료되어 자동으로 로그아웃되었습니다.');
-        //handleLogout();
+        if (
+          error.response.data.message === '리프레시 토큰이 유효하지 않습니다.'
+        ) {
+          alert('자동로그인이 만료되었습니다. 다시 로그인해 주세요.');
+          cookies.remove('refresh', { path: '/' });
+        }
       }
     };
 
@@ -83,26 +85,7 @@ export default function Header() {
     return '';
   }, [pathname]);
 
-  const handleLogout = useCallback(async () => {
-    try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      dispatch(logout());
-      cookies.remove('refresh', { path: '/' });
-      sessionStorage.removeItem('user');
-      router.push('/');
-    } catch (error) {
-      console.error('로그아웃 중 오류 발생:', error);
-    }
-  }, [dispatch]);
+  const handleLogout = useLogout(accessToken);
 
   useEffect(() => {
     if (pathname === '/' && !isLoggedIn && addresses) {
