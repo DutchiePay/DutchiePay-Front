@@ -65,14 +65,8 @@ export default function Header() {
           error.response.data.message === '리프레시 토큰이 유효하지 않습니다.'
         ) {
           alert('자동로그인이 만료되었습니다. 다시 로그인해 주세요.');
-        } else if (
-          error.response.data.message === '해당하는 유저가 없습니다.'
-        ) {
-          alert(
-            '자동 로그인에 문제가 발생했습니다. 다시 로그인해 주시기 바랍니다.'
-          );
+          cookies.remove('refresh', { path: '/' });
         }
-        cookies.remove('refresh', { path: '/' });
       }
     };
 
