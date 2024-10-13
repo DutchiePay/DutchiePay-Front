@@ -289,12 +289,10 @@ export default function Info() {
                   <button
                     className="border rounded-lg text-sm px-[16px] py-[4px]"
                     onClick={() => {
-                      // 기본 프로필 이미지로 변경
                       setModifyInfo((prevState) => ({
                         ...prevState,
-                        profileImage: profile.src, // 기본 프로필 이미지로 설정
+                        profileImage: null,
                       }));
-                      dispatch(setUserInfoChange({ profileImage: profile })); // Redux 상태 업데이트
                     }}
                   >
                     프로필 삭제
