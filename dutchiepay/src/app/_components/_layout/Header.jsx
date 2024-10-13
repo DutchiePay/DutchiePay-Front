@@ -2,7 +2,7 @@
 
 import '../../../styles/header.css';
 
-import { login, logout } from '@/redux/slice/loginSlice';
+import { login } from '@/redux/slice/loginSlice';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useRouter } from 'next/navigation';
@@ -16,6 +16,7 @@ import logo from '../../../../public/image/logo.jpg';
 import profile from '../../../../public/image/profile.jpg';
 import search from '../../../../public/image/search.svg';
 import { setAddresses } from '@/redux/slice/addressSlice';
+import useLogout from '@/app/hooks/useLogout';
 
 export default function Header() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
@@ -45,13 +46,12 @@ export default function Header() {
           user: {
             userId: response.data.userId,
             nickname: response.data.nickname,
-            profileImage: response.data.profileImage,
+            profileImage: response.data.profileImg,
             location: response.data.location,
             isCertified: response.data.isCertified,
           },
           access: response.data.access,
         };
-
         localStorage.setItem('loginType', userInfo.loginType);
         dispatch(
           login({
@@ -85,26 +85,7 @@ export default function Header() {
     return '';
   }, [pathname]);
 
-  const handleLogout = useCallback(async () => {
-    try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      dispatch(logout());
-      cookies.remove('refresh', { path: '/' });
-      sessionStorage.removeItem('user');
-      router.push('/');
-    } catch (error) {
-      console.error('로그아웃 중 오류 발생:', error);
-    }
-  }, [dispatch]);
+  const handleLogout = useLogout(accessToken);
 
   useEffect(() => {
     if (pathname === '/' && !isLoggedIn && addresses) {

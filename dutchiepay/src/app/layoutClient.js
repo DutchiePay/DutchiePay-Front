@@ -45,7 +45,7 @@ function LayoutWrapper({ children }) {
         redirect('/extra-info');
       }
     }
-  }, [isLoggedIn, isCertified, pathname, router]);
+  }, [isLoggedIn, isCertified, pathname]);
 
   return (
     <>

@@ -11,6 +11,7 @@ import PasswordInput from './PasswordInput';
 import axios from 'axios';
 import { logout } from '@/redux/slice/loginSlice';
 import { useForm } from 'react-hook-form';
+import useLogout from '@/app/hooks/useLogout';
 import { useRouter } from 'next/navigation';
 
 export default function ResetSubmit({ email }) {
@@ -36,6 +37,8 @@ export default function ResetSubmit({ email }) {
   const password = watch('password', '');
   const confirmPassword = watch('confirmPassword', '');
   const newPassword = watch('newPassword', '');
+  // 훅 호출
+  const handleLogout = useLogout(accessToken);
   const onSubmit = async (formData) => {
     if (!isLoggedIn || !accessToken) {
       try {
@@ -66,18 +69,7 @@ export default function ResetSubmit({ email }) {
         );
 
         alert('비밀번호 변경이 완료되었습니다.');
-        await axios.post(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/users/logout`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        dispatch(logout());
-        cookies.remove('refresh');
-        router.push('/');
+        await handleLogout();
       } catch (error) {
         if (
           error.response.data.message ===
