@@ -2,7 +2,6 @@
 
 import '../../../styles/header.css';
 
-import { login } from '@/redux/slice/loginSlice';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useRouter } from 'next/navigation';
@@ -12,6 +11,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
 import chat from '../../../../public/image/chat.svg';
+import { login } from '@/redux/slice/loginSlice';
 import logo from '../../../../public/image/logo.jpg';
 import profile from '../../../../public/image/profile.jpg';
 import search from '../../../../public/image/search.svg';
@@ -26,8 +26,8 @@ export default function Header() {
   const dispatch = useDispatch();
   const router = useRouter();
   const cookies = new Cookies();
-
   const pathname = usePathname();
+  const handleLogout = useLogout(accessToken);
 
   const [keyword, setKeyword] = useState('');
 
@@ -84,8 +84,6 @@ export default function Header() {
     if (pathname.startsWith('/event')) return '이벤트';
     return '';
   }, [pathname]);
-
-  const handleLogout = useLogout(accessToken);
 
   useEffect(() => {
     if (pathname === '/' && !isLoggedIn && addresses) {

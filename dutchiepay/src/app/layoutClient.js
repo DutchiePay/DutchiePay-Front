@@ -6,6 +6,7 @@ import { Provider, useSelector } from 'react-redux';
 import { persistor, store } from '@/redux/store';
 import { redirect, usePathname } from 'next/navigation';
 
+
 import Floating from './_components/_layout/Floating';
 import Footer from './_components/_layout/Footer';
 import Header from './_components/_layout/Header';
