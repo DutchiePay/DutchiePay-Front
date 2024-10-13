@@ -52,7 +52,7 @@ export default function EmailInput({
         setIsEmailAvailable(false);
       } else {
         console.error('이메일 체크 중 오류 발생:', error);
-        setIsEmailAvailable(null); // 오류 발생 시 초기화
+        setIsEmailAvailable(false); // 오류 발생 시 초기화
       }
     }
   };
