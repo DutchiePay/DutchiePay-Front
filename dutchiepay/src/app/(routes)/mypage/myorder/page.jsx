@@ -3,15 +3,20 @@
 import Image from 'next/image';
 import Order from '@/app/_components/_mypage/Order';
 import arrow from '../../../../../public/image/arrow.svg';
+import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
 export default function MyOrder() {
   const [filter, setFilter] = useState('전체');
+  const nickname = useSelector((state) => state.login.user.nickname);
 
   // 구매내역 없을 때 UI도 구현해야 함
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">구매내역</h1>
+      <small>
+        {nickname}님께서 구매하신 공동구매 상품을 확인할 수 있습니다.
+      </small>
       <ul className="flex gap-[8px] my-[16px]">
         <li>
           <button
