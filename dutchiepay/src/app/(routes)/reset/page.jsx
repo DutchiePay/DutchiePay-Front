@@ -11,15 +11,12 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
 export default function Reset() {
-  const [isUser, setIsUser] = useState(false); // 회원 여부
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const [email, setEmail] = useState(sessionStorage.getItem('emailForReset'));
   const router = useRouter();
 
   useEffect(() => {
-    if (!email && isLoggedIn) {
-      setIsUser(true);
-    } else if (!email && !isLoggedIn) {
+    if (!email && !isLoggedIn) {
       // 비회원도, 회원도 아닌 경우 (= URL로 해당 페이지 진입한 비회원)
       alert('잘못된 접근 방식');
       router.push('/');
