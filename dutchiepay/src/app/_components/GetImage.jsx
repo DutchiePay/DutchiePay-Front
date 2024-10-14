@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export default async function getImage({ image }) {
   const validMimeTypes = ['image/png', 'image/jpeg']; // PNG, JPG, JPEG MIME 타입
   const maxSizeMB = 10; // 10MB

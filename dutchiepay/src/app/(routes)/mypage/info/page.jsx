@@ -17,7 +17,6 @@ import kakao from '../../../../../public/image/kakao.png';
 import naver from '../../../../../public/image/naver.png';
 import profile from '../../../../../public/image/profile.jpg';
 import { setUserInfoChange } from '@/redux/slice/loginSlice';
-import { v4 as uuidv4 } from 'uuid';
 
 export default function Info() {
   const location = useSelector((state) => state.login.user.location);
