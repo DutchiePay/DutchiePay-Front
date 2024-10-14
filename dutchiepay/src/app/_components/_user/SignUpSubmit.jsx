@@ -12,8 +12,8 @@ import Policy from './Policy';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 export default function SignUpSubmit() {
   const router = useRouter();
@@ -45,17 +45,16 @@ export default function SignUpSubmit() {
       password: newPassword,
       location: address,
     };
-    console.log(payload);
     try {
-      const response = await axios.post(
+      await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/signup`,
         payload
       );
-      console.log('회원가입 성공:', response.data);
-
       router.push('/');
     } catch (error) {
-      console.error('회원가입 실패:', error);
+      if (error.response.data.message === '이미 사용중인 전화번호입니다.') {
+        alert('입력하신 전화번호로 가입하신 계정이 존재합니다.');
+      }
     }
   };
 
