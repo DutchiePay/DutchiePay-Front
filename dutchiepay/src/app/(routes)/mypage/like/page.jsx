@@ -2,7 +2,6 @@
 
 import '@/styles/mypage.css';
 
-import Image from 'next/image';
 import Product_Like from '@/app/_components/Product';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';

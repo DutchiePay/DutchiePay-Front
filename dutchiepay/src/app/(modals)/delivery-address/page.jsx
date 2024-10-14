@@ -95,7 +95,7 @@ export default function Address() {
         alert('주소지가 수정되었습니다.');
         closeWindow();
       } catch (error) {
-        console.log(error);
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     } else {
       try {
@@ -117,8 +117,7 @@ export default function Address() {
         alert('배송지가 추가되었습니다.');
         closeWindow();
       } catch (error) {
-        // 에러 처리
-        console.log(error);
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     }
   };
@@ -211,8 +210,10 @@ export default function Address() {
           {...register('detail')}
         />
         <div className="flex items-center gap-[8px]">
-          <input type="checkbox" {...register('isDefault')} />
-          <label className="text-sm">기본배송지로 설정</label>
+          <input id="default" type="checkbox" {...register('isDefault')} />
+          <label htmlFor="default" className="text-sm">
+            기본배송지로 설정
+          </label>
         </div>
         <div className="mt-[40px] flex gap-[12px] justify-center">
           <button

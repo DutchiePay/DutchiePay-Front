@@ -61,7 +61,7 @@ export default function Info() {
         setUserInfo(user);
         sessionStorage.setItem('user', JSON.stringify(user));
       } catch (error) {
-        console.log(error);
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     };
 
@@ -161,7 +161,7 @@ export default function Info() {
           );
           setModifyType('');
         } catch (error) {
-          console.log(error);
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
         break;
       case '닉네임':
@@ -236,10 +236,10 @@ export default function Info() {
           profileImage: `https://${process.env.NEXT_PUBLIC_IMAGE_BUCKET}.s3.amazonaws.com/${imageName}`,
         });
       } catch (error) {
-        console.log(error);
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     } catch (error) {
-      console.log(error);
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
     } finally {
       e.target.value = ''; // 같은 이미지 연속으로 업로드 가능하도록 값을 비움
     }

@@ -3,8 +3,6 @@
 import '@/styles/commerce.css';
 import '@/styles/globals.css';
 
-import Image from 'next/image';
-import kakaopay from '../../../../public/image/kakaoPayment.png';
 import { useState } from 'react';
 
 export default function PaymentChoice() {

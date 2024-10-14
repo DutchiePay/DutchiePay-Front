@@ -24,10 +24,6 @@ export default function Payment() {
           <p className="text-gray--500 text-sm">배송비</p>
           <p>무료배송</p>
         </div>
-        <div className="flex justify-between px-[16px]">
-          <p className="text-gray--500 text-sm">쿠폰할인</p>
-          <p className="text-red--500 font-semibold">7,350원</p>
-        </div>
         <hr />
         <div className="px-[16px] mb-[12px] flex justify-between items-center">
           <strong className="text-lg">최종 결제 금액</strong>
