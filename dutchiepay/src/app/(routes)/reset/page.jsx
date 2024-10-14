@@ -5,10 +5,8 @@ import '@/styles/user.css';
 
 import { useEffect, useState } from 'react';
 
-import Image from 'next/image';
-import Link from 'next/link';
+import Logo from '@/app/_components/Logo';
 import ResetSubmit from '@/app/_components/_user/ResetSubmit';
-import logo from '../../../../public/image/logo.jpg';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
@@ -30,17 +28,7 @@ export default function Reset() {
 
   return (
     <section className="w-full flex flex-col items-center justify-center min-h-[890px]">
-      <h1>
-        <Link href="/">
-          <Image
-            className="w-[200px] h-[120px] mb-[16px]"
-            src={logo}
-            alt="더취페이"
-            width={200}
-            height={120}
-          />
-        </Link>
-      </h1>
+      <Logo />
       <section className="flex flex-col w-[500px]">
         <h2 className="text-2xl font-bold">비밀번호 재설정</h2>
         <p className="text-sm">

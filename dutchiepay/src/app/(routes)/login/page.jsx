@@ -13,7 +13,6 @@ import axios from 'axios';
 import eyeClosed from '../../../../public/image/eyeClosed.svg';
 import eyeOpen from '../../../../public/image/eyeOpen.svg';
 import { login } from '@/redux/slice/loginSlice';
-import logo from '../../../../public/image/logo.jpg';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -84,16 +83,7 @@ export default function Login() {
   return (
     <section className="w-full min-h-[890px] flex items-center justify-center">
       <div className="flex flex-col gap-[16px] justify-center items-center">
-        <Link href="/">
-          <Image
-            className="w-[200px] h-[120px] mb-[16px]"
-            src={logo}
-            alt="logo"
-            width={200}
-            height={120}
-          />
-        </Link>
-
+        <Logo />
         <section className="text-center mb-[32px] w-[450px]">
           <form onSubmit={handleSubmit(onSubmit)} onKeyUp={handleEnter}>
             <div className="mb-[8px]">

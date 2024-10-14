@@ -5,9 +5,7 @@ import '@/styles/user.css';
 
 import FindSubmit from '@/app/_components/_user/FindSubmit';
 import FindSuccess from '@/app/_components/_user/FindSuccess';
-import Image from 'next/image';
-import Link from 'next/link';
-import logo from '../../../../public/image/logo.jpg';
+import Logo from '@/app/_components/Logo';
 import { useState } from 'react';
 
 export default function Find() {
@@ -21,17 +19,7 @@ export default function Find() {
 
   return (
     <section className="w-full flex flex-col items-center justify-center min-h-[890px]">
-      <h1>
-        <Link href="/">
-          <Image
-            className="w-[200px] h-[120px] mb-[16px]"
-            src={logo}
-            alt="더취페이"
-            width={200}
-            height={120}
-          />
-        </Link>
-      </h1>
+      <Logo />
       <div className="flex justify-center">
         <div
           className={`user-find__header ${tab === '아이디(이메일) 찾기' ? 'user-find__header__active' : ''}`}
