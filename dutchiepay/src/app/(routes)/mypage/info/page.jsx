@@ -162,6 +162,7 @@ export default function Info() {
           setModifyType('');
         } catch (error) {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
+          console.log(error);
         }
         break;
       case '닉네임':
@@ -205,7 +206,8 @@ export default function Info() {
     if (!e.target.value) return;
     const image = e.target.files[0];
     const uploaded = await getImage(image);
-    setModifyInfo({ profileImage: uploaded });
+    if (uploaded) setModifyInfo({ profileImage: uploaded });
+    e.target.value = ''; // 연속적으로 같은 값이 들어오도록 값을 비워줌
   };
 
   // 버튼 클릭 시 input 호출

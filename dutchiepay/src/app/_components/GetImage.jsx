@@ -1,6 +1,8 @@
+import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
-export default async function getImage({ image }) {
+export default async function getImage(image) {
+  console.log(image);
   const validMimeTypes = ['image/png', 'image/jpeg']; // PNG, JPG, JPEG MIME 타입
   const maxSizeMB = 10; // 10MB
 
@@ -32,10 +34,10 @@ export default async function getImage({ image }) {
       return `https://${process.env.NEXT_PUBLIC_IMAGE_BUCKET}.s3.amazonaws.com/${imageName}`;
     } catch (error) {
       alert('오류가 발생했습니다. 다시 시도해주세요.');
+      console.log(error);
     }
   } catch (error) {
     alert('오류가 발생했습니다. 다시 시도해주세요.');
-  } finally {
-    e.target.value = ''; // 같은 이미지 연속으로 업로드 가능하도록 값을 비움
+    console.log(error);
   }
 }
