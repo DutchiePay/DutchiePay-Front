@@ -34,7 +34,6 @@ export default function Info() {
   const [modifyInfo, setModifyInfo] = useState({
     nickname: nickname,
     profileImage: profileImage,
-    location: location,
   });
   const imageRef = useRef(null);
   const rnickname = /^[a-zA-Z0-9가-힣]{2,8}$/;
@@ -124,7 +123,21 @@ export default function Info() {
   const handleGetCurrentLocation = async () => {
     if (confirm('지역을 재설정 하시겠습니까?')) {
       const location = await getLocation();
-      dispatch(setUserInfoChange({ location: location }));
+
+      try {
+        await axios.patch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/profile/location`,
+          { location: location },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        dispatch(setUserInfoChange({ location: location }));
+      } catch (error) {
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
+      }
     }
   };
 
@@ -276,12 +289,10 @@ export default function Info() {
                   <button
                     className="border rounded-lg text-sm px-[16px] py-[4px]"
                     onClick={() => {
-                      // 기본 프로필 이미지로 변경
                       setModifyInfo((prevState) => ({
                         ...prevState,
-                        profileImage: profile.src, // 기본 프로필 이미지로 설정
+                        profileImage: null,
                       }));
-                      dispatch(setUserInfoChange({ profileImage: profile })); // Redux 상태 업데이트
                     }}
                   >
                     프로필 삭제
@@ -317,7 +328,7 @@ export default function Info() {
             {modifyType === '닉네임' ? (
               <input
                 className="px-[8px] py-[4px] border rounded-lg outline-none"
-                value={modifyInfo.nickname || nickname}
+                value={modifyInfo.nickname || ''}
                 onChange={(e) =>
                   setModifyInfo((prevState) => ({
                     ...prevState,

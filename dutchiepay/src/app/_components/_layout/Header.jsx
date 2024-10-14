@@ -191,7 +191,7 @@ export default function Header() {
                 src={chat}
               />
               <Image
-                className="w-[55px] h-[55px] rounded-full border ml-[18px]"
+                className="w-[55px] h-[55px] rounded-full border ml-[18px] cursor-pointer"
                 src={user?.profileImage || profile}
                 alt="profile"
                 width={55}
