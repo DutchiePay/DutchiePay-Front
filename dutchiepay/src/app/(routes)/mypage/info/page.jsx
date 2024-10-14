@@ -162,7 +162,6 @@ export default function Info() {
           setModifyType('');
         } catch (error) {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
-          console.log(error);
         }
         break;
       case '닉네임':

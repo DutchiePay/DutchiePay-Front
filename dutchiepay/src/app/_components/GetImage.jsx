@@ -34,10 +34,8 @@ export default async function getImage(image) {
       return `https://${process.env.NEXT_PUBLIC_IMAGE_BUCKET}.s3.amazonaws.com/${imageName}`;
     } catch (error) {
       alert('오류가 발생했습니다. 다시 시도해주세요.');
-      console.log(error);
     }
   } catch (error) {
     alert('오류가 발생했습니다. 다시 시도해주세요.');
-    console.log(error);
   }
 }
