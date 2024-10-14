@@ -3,15 +3,13 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import eyeClosed from '../../../../public/image/eyeClosed.svg';
 import eyeOpen from '../../../../public/image/eyeOpen.svg';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 export default function PasswordInput({
   register,
-  trigger,
   errors,
   touchedFields,
   password,
@@ -23,15 +21,13 @@ export default function PasswordInput({
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
-  const accessToken = useSelector((state) => state.login.access);
-  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
 
   const rPassword = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*_-]).{8,}$/;
 
   return (
     <>
-      {accessToken && isLoggedIn && (
-        <>
+      {isReset && (
+        <div>
           <div className="flex items-center">
             <label className="user__label" htmlFor="password">
               현재 비밀번호
@@ -40,7 +36,7 @@ export default function PasswordInput({
               현재 사용중인 비밀번호를 입력해주세요
             </span>
           </div>
-          <div className="mb-[8px] flex relative">
+          <div className="mb-[30px] flex relative">
             <input
               id="password"
               className={`user__input-password mt-[4px] ${
@@ -74,9 +70,8 @@ export default function PasswordInput({
               />
             )}
           </div>
-        </>
+        </div>
       )}
-
       <div>
         <div className="flex items-center">
           <label className="user__label" htmlFor="newPassword">
