@@ -81,7 +81,6 @@ export default function Header() {
     if (pathname.startsWith('/mart')) return '마트/배달';
     if (pathname.startsWith('/used')) return '거래/나눔';
     if (pathname.startsWith('/community')) return '커뮤니티';
-    if (pathname.startsWith('/event')) return '이벤트';
     return '';
   }, [pathname]);
 
@@ -202,7 +201,7 @@ export default function Header() {
           )}
         </div>
 
-        <ul className="flex justify-center text-center w-[1020px] gap-[42px] mb-[4px]">
+        <ul className="flex justify-center text-center w-[1020px] gap-[60px] mb-[4px]">
           <li
             className={`cursor-pointer hover:text-blue--500 ${
               filter === '공동구매' ? ' text-blue-500' : ''
@@ -237,15 +236,6 @@ export default function Header() {
           >
             <Link href="/community" className="font-bold">
               커뮤니티
-            </Link>
-          </li>
-          <li
-            className={`cursor-pointer hover:text-blue--500 ${
-              filter === '이벤트' ? ' text-blue-500' : ''
-            }`}
-          >
-            <Link href="/event" className="font-bold">
-              이벤트
             </Link>
           </li>
         </ul>
