@@ -9,6 +9,7 @@ export default function PhoneAuth({
   watch,
   errors,
   touchedFields,
+  setValue,
   setHasPhone,
   isPhoneAuth,
   setIsPhoneAuth,
@@ -94,7 +95,7 @@ export default function PhoneAuth({
       </div>
       <div className="mt-[4px] mb-[8px] flex relative">
         <input
-          type="number"
+          type="text"
           className={`user__input mt-[4px] ${
             touchedFields.phone && errors.phone
               ? 'user__input__invalid'
@@ -107,6 +108,10 @@ export default function PhoneAuth({
           placeholder="휴대폰 번호 (ex : 01012345678)"
           maxLength={11}
           {...register('phone', {
+            onChange: (e) => {
+              const newValue = e.target.value.replace(/[^0-9]/g, '');
+              setValue('phone', newValue);
+            },
             pattern: {
               value: rPhone,
               message: '올바른 휴대폰 번호 형식을 입력해주세요',

@@ -52,7 +52,7 @@ export default function Orderer() {
             <td className="px-[16px]">
               <input
                 className="border rounded-lg px-[8px] py-[6px] text-sm outline-none"
-                placeholder="전화번호(ex) 01012345678)"
+                placeholder="전화번호(ex) 01012345678)" /* 추후 하이픈 제거 코드 추가 */
               />
             </td>
           </tr>
