@@ -29,8 +29,7 @@ export default function DeliveryAddressItem({
         setIsChanged(true);
         alert('정상적으로 삭제되었습니다.');
       } catch (error) {
-        //에러 처리
-        console.log(error);
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     }
   };
@@ -55,7 +54,7 @@ export default function DeliveryAddressItem({
         setIsChanged(true);
         alert('기본 배송지로 변경되었습니다.');
       } catch (error) {
-        console.log(error);
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     }
   };

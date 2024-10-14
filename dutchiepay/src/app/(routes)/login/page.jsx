@@ -25,7 +25,6 @@ export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
   const [isRemeberMe, setIsRememberMe] = useState(false); // 자동로그인 체크 여부
   const [isUnauthorized, setIsUnauthorized] = useState(false);
-  const isCertified = useSelector((state) => state.login.user.isCertified);
 
   const {
     register,
@@ -148,11 +147,14 @@ export default function Login() {
             <div className="flex justify-between items-center mt-[8px] mb-[32px]">
               <div className="flex items-center gap-[8px]">
                 <input
+                  id="remeberMe"
                   type="checkbox"
                   className="login__checkbox"
                   onChange={(e) => setIsRememberMe(e.target.checked)}
                 />
-                <label className="text-gray--500 text-sm">자동 로그인</label>
+                <label className="text-gray--500 text-sm" htmlFor="remeberMe">
+                  자동 로그인
+                </label>
               </div>
               <Link
                 href="/find"

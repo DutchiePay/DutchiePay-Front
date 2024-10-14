@@ -1,9 +1,6 @@
 import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
-import CouponChoice from '@/app/_components/_commerce/CouponChoice';
-import Image from 'next/image';
-import Link from 'next/link';
 import OrderInfo from '@/app/_components/_commerce/OrderInfo';
 import Orderer from '@/app/_components/_commerce/Orderer';
 import Payment from '@/app/_components/_commerce/Payment';
@@ -20,7 +17,6 @@ export default function Order() {
       <section className="mt-[40px] flex justify-between">
         <div className="w-[600px] flex flex-col gap-[32px]">
           <Orderer />
-          <CouponChoice />
         </div>
         <Payment />
       </section>

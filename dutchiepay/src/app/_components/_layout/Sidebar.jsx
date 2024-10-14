@@ -6,7 +6,6 @@ import '@/styles/globals.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import arrow from '../../../../public/image/arrow.svg';
-import coupon from '../../../../public/image/coupon.svg';
 import delivery from '../../../../public/image/delivery.svg';
 import heart from '../../../../public/image/heart.svg';
 import post from '../../../../public/image/post.svg';
@@ -94,15 +93,6 @@ export default function Sidebar() {
             <div className="flex gap-[16px]">
               <Image src={review} alt="review" width={20} height={20} />
               후기내역
-            </div>
-            <Image src={arrow} alt="arrow" width={8} height={12} />
-          </Link>
-        </li>
-        <li className="mypage-sidebar-navbar__item">
-          <Link href="/mypage/mycoupon" className="mypage-sidebar-navbar__link">
-            <div className="flex gap-[16px]">
-              <Image src={coupon} alt="coupon" width={20} height={20} />
-              쿠폰함
             </div>
             <Image src={arrow} alt="arrow" width={8} height={12} />
           </Link>

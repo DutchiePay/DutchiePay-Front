@@ -3,23 +3,18 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import { useDispatch, useSelector } from 'react-redux';
-
-import Cookies from 'universal-cookie';
 import Link from 'next/link';
 import PasswordInput from './PasswordInput';
 import axios from 'axios';
-import { logout } from '@/redux/slice/loginSlice';
 import { useForm } from 'react-hook-form';
 import useLogout from '@/app/hooks/useLogout';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 export default function ResetSubmit({ email }) {
   const router = useRouter();
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const accessToken = useSelector((state) => state.login.access);
-  const dispatch = useDispatch();
-  const cookies = new Cookies();
 
   const {
     register,
@@ -68,7 +63,7 @@ export default function ResetSubmit({ email }) {
           }
         );
 
-        alert('비밀번호 변경이 완료되었습니다.');
+        alert('비밀번호가 변경되어 로그아웃되었습니다.');
         await handleLogout();
       } catch (error) {
         if (
