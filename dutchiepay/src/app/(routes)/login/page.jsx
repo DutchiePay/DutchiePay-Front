@@ -25,7 +25,6 @@ export default function Login() {
   const [isVisible, setIsVisible] = useState(false);
   const [isRemeberMe, setIsRememberMe] = useState(false); // 자동로그인 체크 여부
   const [isUnauthorized, setIsUnauthorized] = useState(false);
-  const isCertified = useSelector((state) => state.login.user.isCertified);
 
   const {
     register,

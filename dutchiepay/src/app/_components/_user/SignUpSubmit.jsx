@@ -12,7 +12,6 @@ import Policy from './Policy';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
 export default function SignUpSubmit() {
