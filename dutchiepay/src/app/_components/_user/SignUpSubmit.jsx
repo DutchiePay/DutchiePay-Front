@@ -21,6 +21,8 @@ export default function SignUpSubmit() {
   const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
+  const [isEmailAvailable, setIsEmailAvailable] = useState(null); // 이메일 가용성 상태
+
   const {
     register,
     watch,
@@ -73,10 +75,12 @@ export default function SignUpSubmit() {
         errors={errors}
         email={email}
         touchedFields={touchedFields}
-        setError={setError} // setError 함수 전달
-        clearErrors={clearErrors} // clearErrors 함수 전달
+        setError={setError}
+        clearErrors={clearErrors}
         isSignup={true}
         trigger={trigger}
+        isEmailAvailable={isEmailAvailable}
+        setIsEmailAvailable={setIsEmailAvailable}
       />
       <PasswordInput
         register={register}
@@ -113,11 +117,13 @@ export default function SignUpSubmit() {
       <button
         type="submit"
         className={`mt-[32px] px-[24px] py-[8px] text-bold w-full rounded-[4px] text-white text-[18px] border-none ${
-          !isValid || isSubmitting || isCodeMatch === false
+          !isValid || isSubmitting || isCodeMatch === false || !isEmailAvailable
             ? 'bg-gray--200 cursor-not-allowed'
             : 'bg-blue--500'
         }`}
-        disabled={!isValid || isSubmitting || isCodeMatch === false}
+        disabled={
+          !isValid || isSubmitting || isCodeMatch === false || !isEmailAvailable
+        }
       >
         회원가입
       </button>

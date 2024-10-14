@@ -4,7 +4,6 @@ import '@/styles/globals.css';
 import '@/styles/user.css';
 
 import axios from 'axios';
-import { useState } from 'react';
 
 export default function EmailInput({
   register,
@@ -15,21 +14,18 @@ export default function EmailInput({
   trigger,
   clearErrors,
   isSignup = false,
-  isFind = false,
+  isEmailAvailable,
+  setIsEmailAvailable,
 }) {
-  const [isEmailAvailable, setIsEmailAvailable] = useState(null); // 이메일 가용성 상태 추가
-
   const rEmail =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
 
   const checkEmailAvailability = async (e) => {
-    const value = e.target.value;
-
     try {
       await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/users?email=${value}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users?email=${e.target.value}`
       );
-      setIsEmailAvailable(true); // 이메일 사용 가능
+      setIsEmailAvailable(true);
       clearErrors('email');
     } catch (error) {
       if (error.response.data.message === '이미 사용중인 이메일입니다.') {
@@ -37,23 +33,18 @@ export default function EmailInput({
           type: 'manual',
           message: '이미 사용중인 이메일입니다',
         });
-        setIsEmailAvailable(false);
       } else if (error.response.data.message === '탈퇴한 회원입니다.') {
         setError('email', {
           type: 'manual',
           message: '탈퇴된 이메일입니다',
         });
-        setIsEmailAvailable(false);
       } else if (error.response.data.message === '정지된 회원입니다.') {
         setError('email', {
           type: 'manual',
           message: '정지된 이메일입니다',
         });
-        setIsEmailAvailable(false);
-      } else {
-        console.error('이메일 체크 중 오류 발생:', error);
-        setIsEmailAvailable(false); // 오류 발생 시 초기화
       }
+      setIsEmailAvailable(false);
     }
   };
 

@@ -17,6 +17,8 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
   const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부 (회원가입 때문에 강제됨)
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
+  const [isEmailAvailable, setIsEmailAvailable] = useState(true); // 이메일 사용 가능 여부 (회원가입 때문에 강제됨)
+
   const {
     register,
     handleSubmit,
@@ -35,7 +37,6 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
   const email = watch('email');
 
   const onSubmit = async (formData) => {
-    console.log(formData);
     if (tab === '아이디(이메일) 찾기') {
       try {
         const response = await axios.post(
@@ -147,7 +148,8 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
               clearErrors={clearErrors}
               email={email}
               touchedFields={touchedFields}
-              isFind={true}
+              isEmailAvailable={isEmailAvailable}
+              setIsEmailAvailable={setIsEmailAvailable}
             />
 
             <PhoneAuth
