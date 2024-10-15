@@ -11,12 +11,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Withdraw from '@/app/_components/_mypage/Withdraw';
 import axios from 'axios';
+import getImage from '@/app/_components/GetImage';
 import getLocation from '@/app/_components/_user/GetLocation';
 import kakao from '../../../../../public/image/kakao.png';
 import naver from '../../../../../public/image/naver.png';
 import profile from '../../../../../public/image/profile.jpg';
 import { setUserInfoChange } from '@/redux/slice/loginSlice';
-import { v4 as uuidv4 } from 'uuid';
 
 export default function Info() {
   const location = useSelector((state) => state.login.user.location);
@@ -204,45 +204,9 @@ export default function Info() {
   const hanldeImage = async (e) => {
     if (!e.target.value) return;
     const image = e.target.files[0];
-    const validMimeTypes = ['image/png', 'image/jpeg']; // PNG, JPG, JPEG MIME 타입
-    const maxSizeMB = 10; // 10MB
-
-    if (!validMimeTypes.includes(image.type)) {
-      alert('프로필 이미지는 png, jpg/jpeg 파일만 가능합니다.');
-      return;
-    }
-    if (image.size > maxSizeMB * 1024 * 1024) {
-      alert('프로필 이미지는 10MB 이하의 파일만 가능합니다.');
-      return;
-    }
-
-    const imageName = uuidv4() + image.name; // 파일 이름 중복되지 않기 위함
-
-    try {
-      let response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/image`,
-        { fileName: imageName }
-      );
-      const uploadUrl = response.data.uploadUrl;
-
-      try {
-        response = await axios.put(uploadUrl, image, {
-          headers: {
-            'Content-Type': image.type,
-          },
-        });
-
-        setModifyInfo({
-          profileImage: `https://${process.env.NEXT_PUBLIC_IMAGE_BUCKET}.s3.amazonaws.com/${imageName}`,
-        });
-      } catch (error) {
-        alert('오류가 발생했습니다. 다시 시도해주세요.');
-      }
-    } catch (error) {
-      alert('오류가 발생했습니다. 다시 시도해주세요.');
-    } finally {
-      e.target.value = ''; // 같은 이미지 연속으로 업로드 가능하도록 값을 비움
-    }
+    const uploaded = await getImage(image);
+    if (uploaded) setModifyInfo({ profileImage: uploaded });
+    e.target.value = ''; // 연속적으로 같은 값이 들어오도록 값을 비워줌
   };
 
   // 버튼 클릭 시 input 호출
@@ -252,6 +216,7 @@ export default function Info() {
     }
     imageRef.current.click();
   };
+
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[680px]">
       <h1 className="text-[32px] font-bold">회원 정보</h1>
