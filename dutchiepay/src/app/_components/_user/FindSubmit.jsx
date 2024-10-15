@@ -7,14 +7,13 @@ import { useEffect, useState } from 'react';
 
 import EmailInput from './EmailInput';
 import Link from 'next/link';
-import PhoneAuth from './PhoneAuth';
+import PhoneAuth from './_phone/PhoneAuth';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
 export default function FindSubmit({ tab, setIsFindEmail }) {
   const router = useRouter();
-  const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부 (회원가입 때문에 강제됨)
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
   const [isEmailAvailable, setIsEmailAvailable] = useState(true); // 이메일 사용 가능 여부 (회원가입 때문에 강제됨)
@@ -160,7 +159,6 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
               errors={errors}
               touchedFields={touchedFields}
               setValue={setValue}
-              setHasPhone={setHasPhone}
               isPhoneAuth={isPhoneAuth}
               setIsPhoneAuth={setIsPhoneAuth}
               isCodeMatch={isCodeMatch}

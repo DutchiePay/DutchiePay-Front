@@ -5,7 +5,7 @@ import '@/styles/globals.css';
 
 import { useEffect, useState } from 'react';
 
-import PhoneAuth from '@/app/_components/_user/PhoneAuth';
+import PhoneAuth from '@/app/_components/_user/_phone/PhoneAuth';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -13,7 +13,6 @@ import { useSelector } from 'react-redux';
 export default function ChangeNumber() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const access = useSelector((state) => state.login.access);
-  const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
 
@@ -87,7 +86,6 @@ export default function ChangeNumber() {
           errors={errors}
           touchedFields={touchedFields}
           setValue={setValue}
-          setHasPhone={setHasPhone}
           isPhoneAuth={isPhoneAuth}
           setIsPhoneAuth={setIsPhoneAuth}
           isCodeMatch={isCodeMatch}

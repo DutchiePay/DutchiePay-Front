@@ -2,7 +2,7 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import logo from '../../../public/image/logo.jpg';
+import logo from '/public/image/logo.jpg';
 
 export default function Logo() {
   return (
