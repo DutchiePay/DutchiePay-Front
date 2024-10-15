@@ -3,11 +3,11 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import AddressInput from './AddressInput';
-import EmailInput from './EmailInput';
-import NicknameInput from './NicknameInput';
-import PasswordInput from './PasswordInput';
-import PhoneAuth from './PhoneAuth';
+import AddressInput from '../AddressInput';
+import EmailInput from '../EmailInput';
+import NicknameInput from '../NicknameInput';
+import PasswordInput from '../PasswordInput';
+import PhoneAuth from '../_phone/PhoneAuth';
 import Policy from './Policy';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
@@ -17,7 +17,6 @@ import { useState } from 'react';
 export default function SignUpSubmit() {
   const router = useRouter();
   const [address, setAddress] = useState('');
-  const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
   const [isEmailAvailable, setIsEmailAvailable] = useState(null); // 이메일 가용성 상태
@@ -27,6 +26,7 @@ export default function SignUpSubmit() {
     watch,
     handleSubmit,
     trigger,
+    setValue,
     setError,
     clearErrors,
     formState: { errors, isValid, isSubmitting, touchedFields },
@@ -105,8 +105,8 @@ export default function SignUpSubmit() {
         errors={errors}
         touchedFields={touchedFields}
         isPhoneAuth={isPhoneAuth}
+        setValue={setValue}
         setIsPhoneAuth={setIsPhoneAuth}
-        setHasPhone={setHasPhone}
         isCodeMatch={isCodeMatch}
         setIsCodeMatch={setIsCodeMatch}
         isSignup={true}

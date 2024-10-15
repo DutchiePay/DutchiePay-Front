@@ -13,14 +13,6 @@ import { useRouter } from 'next/navigation';
 export default function PostContent({ category, menu, isMyPostWritten }) {
   const router = useRouter();
 
-  const reportPopup = () => {
-    window.open(
-      '/report?postId=123',
-      '신고하기',
-      'width=620, height=670, location=1'
-    );
-  };
-
   return (
     <section
       className="min-h-[750px] w-[730px] px-[24px] py-[40px] border-r"
@@ -64,25 +56,16 @@ export default function PostContent({ category, menu, isMyPostWritten }) {
         </p>
         <div className="flex justify-between">
           <p className="text-xs text-gray--500">2024년 08월 07일 오후 09:07</p>
-          <div className="flex gap-[16px]">
-            {isMyPostWritten ? (
-              <>
-                <button className="text-sm text-gray--500 hover:underline">
-                  수정하기
-                </button>
-                <button className="text-sm text-gray--500 hover:underline">
-                  삭제하기
-                </button>
-              </>
-            ) : (
-              <button
-                className="text-sm text-gray--500 hover:underline"
-                onClick={reportPopup}
-              >
-                신고하기
+          {isMyPostWritten && (
+            <div className="flex gap-[16px]">
+              <button className="text-sm text-gray--500 hover:underline">
+                수정하기
               </button>
-            )}
-          </div>
+              <button className="text-sm text-gray--500 hover:underline">
+                삭제하기
+              </button>
+            </div>
+          )}
         </div>
         {menu !== '커뮤니티' ? (
           <div className="border rounded-lg px-[32px] py-[16px] mt-[24px]">

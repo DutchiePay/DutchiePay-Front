@@ -166,13 +166,17 @@ export default function Address() {
         />
         <input
           className="address__input"
-          type="number"
+          type="text"
           placeholder="전화번호"
           {...register('phone', {
             required: '전화번호를 입력해주세요,',
             pattern: {
               value: rPhone,
               message: '올바른 휴대폰 번호 형식을 입력해주세요',
+            },
+            onChange: (e) => {
+              const newValue = e.target.value.replace(/[^0-9]/g, '');
+              setValue('phone', newValue);
             },
           })}
         />

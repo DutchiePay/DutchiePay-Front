@@ -7,13 +7,13 @@ import AddressInput from './AddressInput';
 import EmailInput from './EmailInput';
 import NicknameInput from './NicknameInput';
 import PasswordInput from './PasswordInput';
-import PhoneAuth from './PhoneAuth';
+import PhoneAuth from './_phone/PhoneAuth';
 import Policy from './Policy';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 export default function AddInfoSubmit() {
   const router = useRouter();

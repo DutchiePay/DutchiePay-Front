@@ -3,25 +3,24 @@
 import '@/styles/user.css';
 import '@/styles/globals.css';
 
-import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
-import PhoneAuth from '@/app/_components/_user/PhoneAuth';
+import PhoneAuth from '@/app/_components/_user/_phone/PhoneAuth';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
 export default function ChangeNumber() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const access = useSelector((state) => state.login.access);
-  const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
-  const dispatch = useDispatch();
 
   const {
     register,
     watch,
     handleSubmit,
+    setValue,
     formState: { errors, touchedFields },
   } = useForm({
     mode: 'onTouched',
@@ -30,12 +29,12 @@ export default function ChangeNumber() {
     shouldFocusError: true,
   });
 
-  /*useEffect(() => {
+  useEffect(() => {
     if (!isLoggedIn || !access) {
       alert('비정상적인 접속');
       closeWindow();
     }
-  }, []);*/ // 개발을 위해 비회원일 때도 페이지 접근 가능하도록 임시 비활성화
+  }, []);
 
   const onSubmit = async (formData) => {
     try {
@@ -86,7 +85,7 @@ export default function ChangeNumber() {
           watch={watch}
           errors={errors}
           touchedFields={touchedFields}
-          setHasPhone={setHasPhone}
+          setValue={setValue}
           isPhoneAuth={isPhoneAuth}
           setIsPhoneAuth={setIsPhoneAuth}
           isCodeMatch={isCodeMatch}

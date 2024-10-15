@@ -1,30 +1,18 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import Image from 'next/image';
 import Link from 'next/link';
-import SignUpSubmit from '@/app/_components/_user/SignUpSubmit';
-import SocialSignup from '@/app/_components/_user/SocialSignup';
-import logo from '../../../../public/image/logo.jpg';
+import Logo from '@/app/_components/Logo';
+import SignUpSubmit from '@/app/_components/_user/_signup/SignUpSubmit';
+import SocialSignup from '@/app/_components/_user/_signup/SocialSignup';
 
 export default function Signup() {
   return (
-    <section className="w-full flex flex-col items-center justify-center min-h-[880px]">
-      <Link href="/" className="mt-[80px]">
-        <Image
-          className="w-[200px] h-[120px] mb-[8px]"
-          src={logo}
-          alt="logo"
-          width={200}
-          height={120}
-        />
-      </Link>
-      <h2 className="text-[20px] font-bold text-start w-[500px] mb-[16px]">
-        간편 회원가입
-      </h2>
+    <section className="w-full flex flex-col items-center justify-center min-h-[880px] pt-[60px]">
+      <Logo />
+      <SocialSignup />
+      <hr className="w-[500px] my-[10px] border-t-[2px] border-gray--300" />
       <section className="w-[500px]">
-        <SocialSignup />
-        <hr className="w-[500px] my-[10px] border-t-[2px] border-gray--300" />
         <SignUpSubmit />
         <div className="flex flex-col">
           <Link

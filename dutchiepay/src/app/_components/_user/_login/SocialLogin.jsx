@@ -4,26 +4,17 @@ import '@/styles/globals.css';
 import '@/styles/user.css';
 
 import Cookies from 'universal-cookie';
-import Image from 'next/image';
-import kakao from '../../../../public/image/kakao.png';
+import CryptoJS from 'crypto-js';
+import SocialButton from './SocialButton';
 import { login } from '@/redux/slice/loginSlice';
-import naver from '../../../../public/image/naver.png';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function SocialSignup() {
+export default function SocialLogin() {
   const router = useRouter();
   const cookies = new Cookies();
   const dispatch = useDispatch();
-
-  const openPopup = (type) => {
-    window.open(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/oauth/signup?type=${type}`,
-      `${type} 회원가입`,
-      'width=600,height=400'
-    );
-  };
 
   useEffect(() => {
     const handleMessage = (event) => {
@@ -83,23 +74,12 @@ export default function SocialSignup() {
   }, []);
 
   return (
-    <div className="flex gap-[20px] h-[70px]">
-      <button
-        className="user-signup__button bg-[#00c73c] text-white"
-        onClick={() => openPopup('naver')}
-        type="button"
-      >
-        <Image src={naver} width={40} height={40} alt="naver" />
-        <p>네이버로 시작하기</p>
-      </button>
-      <button
-        className="user-signup__button bg-[#FBDB44]"
-        onClick={() => openPopup('kakao')}
-        type="button"
-      >
-        <Image src={kakao} width={40} height={40} alt="kakao" />
-        <span>카카오로 시작하기</span>
-      </button>
-    </div>
+    <section>
+      <h2 className="user-login-sns__title">&nbsp;SNS 계정으로 로그인&nbsp;</h2>
+      <div className="flex mt-[24px] gap-[60px] items-center justify-center">
+        <SocialButton type={'naver'} />
+        <SocialButton type={'kakao'} />
+      </div>
+    </section>
   );
 }

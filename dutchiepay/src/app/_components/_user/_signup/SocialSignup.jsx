@@ -1,30 +1,19 @@
+'use client';
+
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import { useEffect, useState } from 'react';
-
 import Cookies from 'universal-cookie';
-import CryptoJS from 'crypto-js';
-import Image from 'next/image';
-import LastLogin from './LastLogin';
-import kakao from '../../../../public/image/kakao.png';
+import SocialSignupButton from './SocialSignupButton';
 import { login } from '@/redux/slice/loginSlice';
-import naver from '../../../../public/image/naver.png';
 import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function SocialLogin() {
+export default function SocialSignup() {
   const router = useRouter();
   const cookies = new Cookies();
   const dispatch = useDispatch();
-
-  const openPopup = (type) => {
-    window.open(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/oauth/signup?type=${type}`,
-      `${type} 회원가입`,
-      'width=600,height=400'
-    );
-  };
 
   useEffect(() => {
     const handleMessage = (event) => {
@@ -72,7 +61,6 @@ export default function SocialLogin() {
         cookies.set('refresh', extracted[6], { path: '/' });
 
         router.push('/');
-        console.log(userInfo);
       }
     };
 
@@ -84,26 +72,14 @@ export default function SocialLogin() {
   }, []);
 
   return (
-    <section>
-      <h2 className="user-login-sns__title">&nbsp;SNS 계정으로 로그인&nbsp;</h2>
-      <div className="flex mt-[24px] gap-[60px] items-center justify-center">
-        <button className="relative" onClick={() => openPopup('naver')}>
-          <Image
-            className="w-[60px] h-[60px] cursor-pointer"
-            src={naver}
-            alt="naver"
-          />
-          <LastLogin type={'naver'} />
-        </button>
-        <button className="relative" onClick={() => openPopup('kakao')}>
-          <Image
-            className="w-[60px] h-[60px] cursor-pointer"
-            src={kakao}
-            alt="kakao"
-          />
-          <LastLogin type={'kakao'} />
-        </button>
+    <>
+      <h2 className="text-[20px] font-bold text-start w-[500px] mb-[16px]">
+        간편 회원가입
+      </h2>
+      <div className="w-[500px] flex justify-between">
+        <SocialSignupButton type={'naver'} />
+        <SocialSignupButton type={'kakao'} />
       </div>
-    </section>
+    </>
   );
 }
