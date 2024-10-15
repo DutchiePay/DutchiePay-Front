@@ -6,7 +6,6 @@ import { Provider, useSelector } from 'react-redux';
 import { persistor, store } from '@/redux/store';
 import { redirect, usePathname } from 'next/navigation';
 
-
 import Floating from './_components/_layout/Floating';
 import Footer from './_components/_layout/Footer';
 import Header from './_components/_layout/Header';
@@ -30,13 +29,13 @@ function LayoutWrapper({ children }) {
   const isCertified = useSelector((state) => state.login.user.isCertified);
 
   const rhideHeader = pathname.match(
-    /\/(login|reset|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address)/
+    /\/(login|reset|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address|auth-phone)/
   );
   const rhideFooter = pathname.match(
-    /\/(ask|report|cancel|refund|review|coupon|change-number|delivery-address)/
+    /\/(ask|report|cancel|refund|review|coupon|change-number|delivery-address|auth-phone)/
   );
   const rhideFloating = pathname.match(
-    /\/(login|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address|extra-info)/
+    /\/(login|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address|extra-info|auth-phone)/
   );
 
   useEffect(() => {
