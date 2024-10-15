@@ -3,8 +3,8 @@ import '@/styles/user.css';
 
 import Link from 'next/link';
 import Logo from '@/app/_components/Logo';
-import SignUpSubmit from '@/app/_components/_user/SignUpSubmit';
-import SocialSignup from '@/app/_components/_user/SocialSignup';
+import SignUpSubmit from '@/app/_components/_user/_signup/SignUpSubmit';
+import SocialSignup from '@/app/_components/_user/_signup/SocialSignup';
 
 export default function Signup() {
   return (
