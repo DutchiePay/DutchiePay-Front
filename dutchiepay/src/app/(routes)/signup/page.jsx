@@ -10,9 +10,9 @@ export default function Signup() {
   return (
     <section className="w-full flex flex-col items-center justify-center min-h-[880px] pt-[60px]">
       <Logo />
+      <SocialSignup />
+      <hr className="w-[500px] my-[10px] border-t-[2px] border-gray--300" />
       <section className="w-[500px]">
-        <SocialSignup />
-        <hr className="w-[500px] my-[10px] border-t-[2px] border-gray--300" />
         <SignUpSubmit />
         <div className="flex flex-col">
           <Link
