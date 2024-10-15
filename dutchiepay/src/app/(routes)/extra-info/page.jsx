@@ -3,9 +3,8 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import { useEffect, useState } from 'react';
-
 import AddInfoSubmit from '@/app/_components/_user/AddInfoSubmit';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
