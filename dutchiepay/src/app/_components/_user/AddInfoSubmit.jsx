@@ -3,10 +3,10 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import AddressInput from './AddressInput';
-import EmailInput from './EmailInput';
-import NicknameInput from './NicknameInput';
-import PasswordInput from './PasswordInput';
+import AddressInput from './_input/AddressInput';
+import EmailInput from './_input/EmailInput';
+import NicknameInput from './_input/NicknameInput';
+import PasswordInput from './_input/PasswordInput';
 import PhoneAuth from './_phone/PhoneAuth';
 import Policy from './Policy';
 import axios from 'axios';
