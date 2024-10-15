@@ -8,14 +8,11 @@ import SocialSignup from '@/app/_components/_user/SocialSignup';
 
 export default function Signup() {
   return (
-    <section className="w-full flex flex-col items-center justify-center min-h-[880px]">
+    <section className="w-full flex flex-col items-center justify-center min-h-[880px] pt-[60px]">
       <Logo />
-      <h2 className="text-[20px] font-bold text-start w-[500px] mb-[16px]">
-        간편 회원가입
-      </h2>
+      <SocialSignup />
+      <hr className="w-[500px] my-[10px] border-t-[2px] border-gray--300" />
       <section className="w-[500px]">
-        <SocialSignup />
-        <hr className="w-[500px] my-[10px] border-t-[2px] border-gray--300" />
         <SignUpSubmit />
         <div className="flex flex-col">
           <Link

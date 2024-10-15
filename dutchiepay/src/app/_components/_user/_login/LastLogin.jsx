@@ -1,3 +1,5 @@
+'use client';
+
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
@@ -14,10 +16,7 @@ export default function LastLogin({ type }) {
   return (
     <>
       {loginType === type && (
-        <div
-          className="user-last__login user-last__login--naver"
-          onClick={() => console.log(loginType)}
-        >
+        <div className="user-last__login user-last__login--naver">
           <div
             className="absolute w-[50px] h-[50px] top-[0px] left-[30%] bg-white z-[-1]"
             aria-hidden={!loginType === type}

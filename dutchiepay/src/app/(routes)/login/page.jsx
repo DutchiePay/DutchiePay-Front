@@ -1,9 +1,9 @@
 import '@/styles/user.css';
 import '@/styles/globals.css';
 
-import LoginSubmit from '@/app/_components/_user/LoginSubmit';
+import LoginSubmit from '@/app/_components/_user/_login/LoginSubmit';
 import Logo from '@/app/_components/Logo';
-import SocialLogin from '@/app/_components/_user/SocialLogin';
+import SocialLogin from '@/app/_components/_user/_login/SocialLogin';
 
 export default function Login() {
   return (

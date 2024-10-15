@@ -4,8 +4,9 @@ import '@/styles/globals.css';
 import '@/styles/user.css';
 
 import Cookies from 'universal-cookie';
-import Link from 'next/link';
+import LoginButton from './LoginButton';
 import LoginInput from './LoginInput';
+import RememberMe from './RememberMe';
 import axios from 'axios';
 import { login } from '@/redux/slice/loginSlice';
 import { useDispatch } from 'react-redux';
@@ -83,31 +84,8 @@ export default function LoginSubmit() {
         isSubmitted={isSubmitted}
         isUnauthorized={isUnauthorized}
       />
-      <div className="flex flex-col gap-[8px] mt-[12px]">
-        <button type="submit" className="user__button-blue">
-          로그인
-        </button>
-        <Link href="/signup" className="user__button-white" role="button">
-          회원가입
-        </Link>
-      </div>
-
-      <div className="flex justify-between items-center mt-[8px] mb-[32px]">
-        <div className="flex items-center gap-[8px]">
-          <input
-            id="remeberMe"
-            type="checkbox"
-            className="login__checkbox"
-            onChange={(e) => setIsRememberMe(e.target.checked)}
-          />
-          <label className="text-gray--500 text-sm" htmlFor="remeberMe">
-            자동 로그인
-          </label>
-        </div>
-        <Link href="/find" className="text-sm text-gray--500 hover:text-black">
-          아이디/비밀번호 찾기
-        </Link>
-      </div>
+      <LoginButton />
+      <RememberMe setIsRememberMe={setIsRememberMe} />
     </form>
   );
 }
