@@ -83,23 +83,28 @@ export default function SocialSignup() {
   }, []);
 
   return (
-    <div className="flex gap-[20px] h-[70px]">
-      <button
-        className="user-signup__button bg-[#00c73c] text-white"
-        onClick={() => openPopup('naver')}
-        type="button"
-      >
-        <Image src={naver} width={40} height={40} alt="naver" />
-        <p>네이버로 시작하기</p>
-      </button>
-      <button
-        className="user-signup__button bg-[#FBDB44]"
-        onClick={() => openPopup('kakao')}
-        type="button"
-      >
-        <Image src={kakao} width={40} height={40} alt="kakao" />
-        <span>카카오로 시작하기</span>
-      </button>
-    </div>
+    <>
+      <h2 className="text-[20px] font-bold text-start w-[500px] mb-[16px]">
+        간편 회원가입
+      </h2>
+      <div className="flex gap-[20px] h-[70px]">
+        <button
+          className="user-signup__button bg-[#00c73c] text-white"
+          onClick={() => openPopup('naver')}
+          type="button"
+        >
+          <Image src={naver} width={40} height={40} alt="naver" />
+          <p>네이버로 시작하기</p>
+        </button>
+        <button
+          className="user-signup__button bg-[#FBDB44]"
+          onClick={() => openPopup('kakao')}
+          type="button"
+        >
+          <Image src={kakao} width={40} height={40} alt="kakao" />
+          <span>카카오로 시작하기</span>
+        </button>
+      </div>
+    </>
   );
 }

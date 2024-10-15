@@ -2,8 +2,8 @@ import '@/styles/user.css';
 import '@/styles/globals.css';
 
 import Image from 'next/image';
-import eyeClosed from '../../../../public/image/eyeClosed.svg';
-import eyeOpen from '../../../../public/image/eyeOpen.svg';
+import eyeClosed from '/public/image/eyeClosed.svg';
+import eyeOpen from '/public/image/eyeOpen.svg';
 import { useState } from 'react';
 
 export default function LoginInput({
