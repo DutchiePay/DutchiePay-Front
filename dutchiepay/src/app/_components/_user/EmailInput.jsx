@@ -15,7 +15,7 @@ export default function EmailInput({
   clearErrors,
   isSignup = false,
   isEmailAvailable,
-  setIsEmailAvailable,
+  setIsEmailAvailable = () => {},
 }) {
   const rEmail =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,}$/;
