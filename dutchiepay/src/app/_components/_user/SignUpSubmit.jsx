@@ -27,6 +27,7 @@ export default function SignUpSubmit() {
     watch,
     handleSubmit,
     trigger,
+    setValue,
     setError,
     clearErrors,
     formState: { errors, isValid, isSubmitting, touchedFields },
@@ -105,6 +106,7 @@ export default function SignUpSubmit() {
         errors={errors}
         touchedFields={touchedFields}
         isPhoneAuth={isPhoneAuth}
+        setValue={setValue}
         setIsPhoneAuth={setIsPhoneAuth}
         setHasPhone={setHasPhone}
         isCodeMatch={isCodeMatch}

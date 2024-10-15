@@ -27,6 +27,7 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
     watch,
     setError,
     clearErrors,
+    setValue,
   } = useForm({
     mode: 'onTouched',
     reValidateMode: 'onblur',
@@ -102,6 +103,7 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
               watch={watch}
               errors={errors}
               touchedFields={touchedFields}
+              setValue={setValue}
               setHasPhone={setHasPhone}
               isPhoneAuth={isPhoneAuth}
               setIsPhoneAuth={setIsPhoneAuth}
@@ -157,6 +159,7 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
               watch={watch}
               errors={errors}
               touchedFields={touchedFields}
+              setValue={setValue}
               setHasPhone={setHasPhone}
               isPhoneAuth={isPhoneAuth}
               setIsPhoneAuth={setIsPhoneAuth}
