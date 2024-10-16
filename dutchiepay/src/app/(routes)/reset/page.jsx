@@ -5,7 +5,7 @@ import '@/styles/user.css';
 
 import { useEffect, useState } from 'react';
 
-import Logo from '@/app/_components/Logo';
+import Logo from '@/app/_components/_user/Logo';
 import ResetSubmit from '@/app/_components/_user/ResetSubmit';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
