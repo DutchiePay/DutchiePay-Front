@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAccessToken } from '@/redux/slice/loginSlice';
-
-const useReissueToken = (refreshToken) => {
+import Cookies from 'universal-cookie';
+const useReissueToken = () => {
+  const cookies = new Cookies();
   const accessToken = useSelector((state) => state.login.access);
+  const refresh = cookies.get('refresh');
   const dispatch = useDispatch();
-  console.log(refreshToken);
 
   const refreshAccessToken = async () => {
     try {
@@ -14,19 +15,18 @@ const useReissueToken = (refreshToken) => {
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/reissue`,
         {
           access: accessToken,
-          refresh: refreshToken,
+          refresh: refresh,
         }
       );
-      dispatch(setAccessToken(response.data.access));
+
+      dispatch(setAccessToken({ access: response.data.access }));
     } catch (error) {
-      console.log(error);
+      alert('오류가 발생하여 로그아웃 처리 되었습니다');
     }
   };
   useEffect(() => {
-    if (refreshToken) {
-      refreshAccessToken();
-    }
-  }, [refreshToken]);
+    refreshAccessToken();
+  }, []);
 
   return null;
 };
