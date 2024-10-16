@@ -1,4 +1,4 @@
-import EmailInput from '@/app/_components/_user/EmailInput';
+import EmailInput from '@/app/_components/_user/_input/EmailInput';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 

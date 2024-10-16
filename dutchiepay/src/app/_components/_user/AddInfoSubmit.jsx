@@ -3,12 +3,8 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import AddressInput from './AddressInput';
-import EmailInput from './EmailInput';
-import NicknameInput from './NicknameInput';
-import PasswordInput from './PasswordInput';
+import AddressInput from './_input/AddressInput';
 import PhoneAuth from './_phone/PhoneAuth';
-import Policy from './Policy';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -18,7 +14,6 @@ import { useState } from 'react';
 export default function AddInfoSubmit() {
   const router = useRouter();
   const [address, setAddress] = useState('');
-  const [hasPhone, setHasPhone] = useState(false); // 휴대폰 입력 여부
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
   const accessToken = useSelector((state) => state.login.access);
@@ -26,7 +21,7 @@ export default function AddInfoSubmit() {
     register,
     watch,
     handleSubmit,
-    trigger,
+    setValue,
     formState: { errors, isValid, isSubmitting, touchedFields },
   } = useForm({
     mode: 'onTouched',
@@ -37,17 +32,10 @@ export default function AddInfoSubmit() {
   });
 
   const onSubmit = async (formData) => {
-    const { ...userData } = formData;
-
-    const payload = {
-      ...userData,
-      location: address,
-    };
-
     try {
       await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/profile/location`,
-        { location: payload.location },
+        { location: address },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -57,7 +45,7 @@ export default function AddInfoSubmit() {
 
       await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/profile/phone`,
-        { phone: payload.phone },
+        { phone: formData.phone },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -65,9 +53,10 @@ export default function AddInfoSubmit() {
         }
       );
 
-      alert('저장되었습니다.');
+      alert('정상적으로 처리되었습니다. 메인페이지로 이동합니다.');
+      router.push('/');
     } catch (error) {
-      console.error('추가정보 입력 실패:', error);
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -82,9 +71,9 @@ export default function AddInfoSubmit() {
         watch={watch}
         errors={errors}
         touchedFields={touchedFields}
+        setValue={setValue}
         isPhoneAuth={isPhoneAuth}
         setIsPhoneAuth={setIsPhoneAuth}
-        setHasPhone={setHasPhone}
         isCodeMatch={isCodeMatch}
         setIsCodeMatch={setIsCodeMatch}
       />

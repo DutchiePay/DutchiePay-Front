@@ -1,4 +1,4 @@
-import PasswordInput from '@/app/_components/_user/PasswordInput';
+import PasswordInput from '@/app/_components/_user/_input/PasswordInput';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 

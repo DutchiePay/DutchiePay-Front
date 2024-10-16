@@ -33,13 +33,15 @@ export default function Sidebar() {
   return (
     <aside className="w-[250px] h-[730px] bg-white border-r px-[16px] py-[40px] mb-[70px] flex flex-col items-center gap-[32px] fixed">
       <div className="flex flex-col items-center">
-        <Image
-          className="w-[120px] h-[120px] rounded-full border mb-[12px]"
-          src={userInfo?.profileImage || profile}
-          alt="profile"
-          width={120}
-          height={120}
-        />
+        <div className="relative w-[120px] h-[120px] mb-[12px]">
+          <Image
+            className="rounded-full border"
+            src={userInfo?.profileImage || profile}
+            alt="profile"
+            fill
+            style={{ objectFit: 'cover' }}
+          />
+        </div>
         <strong>{userInfo?.nickname}</strong>
       </div>
       <ul>
