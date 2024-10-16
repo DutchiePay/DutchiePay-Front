@@ -189,14 +189,16 @@ export default function Header() {
                 height={40}
                 src={chat}
               />
-              <Image
-                className="w-[55px] h-[55px] rounded-full border ml-[18px] cursor-pointer"
-                src={user?.profileImage || profile}
-                alt="profile"
-                width={55}
-                height={55}
-                onClick={() => router.push('/mypage')}
-              />
+              <div className="relative w-[55px] h-[55px] ml-[18px] cursor-pointer">
+                <Image
+                  className="rounded-full border"
+                  src={user?.profileImage || profile}
+                  alt="profile"
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  onClick={() => router.push('/mypage')}
+                />
+              </div>
             </div>
           )}
         </div>
