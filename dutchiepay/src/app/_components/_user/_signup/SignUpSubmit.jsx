@@ -55,6 +55,10 @@ export default function SignUpSubmit() {
     } catch (error) {
       if (error.response.data.message === '이미 사용중인 전화번호입니다.') {
         alert('입력하신 전화번호로 가입하신 계정이 존재합니다.');
+        setIsPhoneAuth(false);
+        setIsCodeMatch(null);
+        setValue('phone', ''); // 전화번호 입력 필드 초기화
+        setValue('authCode', ''); // 인증번호 입력 필드 초기화
       }
     }
   };
