@@ -5,7 +5,7 @@ import '@/styles/user.css';
 
 import { useEffect, useState } from 'react';
 
-import EmailInput from '../EmailInput';
+import EmailInput from '../_input/EmailInput';
 import FindDescription from './FindDescription';
 import Link from 'next/link';
 import PhoneAuth from '../_phone/PhoneAuth';

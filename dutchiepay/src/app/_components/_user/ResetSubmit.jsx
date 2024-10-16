@@ -4,7 +4,7 @@ import '@/styles/globals.css';
 import '@/styles/user.css';
 
 import Link from 'next/link';
-import PasswordInput from './PasswordInput';
+import PasswordInput from './_input/PasswordInput';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import useLogout from '@/app/hooks/useLogout';

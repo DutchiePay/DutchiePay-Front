@@ -3,7 +3,7 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import AddressInput from './AddressInput';
+import AddressInput from './_input/AddressInput';
 import PhoneAuth from './_phone/PhoneAuth';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';

@@ -18,7 +18,7 @@ export default function Reset() {
   useEffect(() => {
     if (!email && !isLoggedIn) {
       // 비회원도, 회원도 아닌 경우 (= URL로 해당 페이지 진입한 비회원)
-      alert('잘못된 접근 방식');
+      alert('잘못된 접근 방식 입니다.');
       router.push('/');
     }
   }, []);
