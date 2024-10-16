@@ -1,12 +1,7 @@
-'use client';
-
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import Image from 'next/image';
 import Link from 'next/link';
-import logo from '../../../../public/image/logo.jpg';
-import { useState } from 'react';
 
 export default function FindSuccess({ isFindEmail }) {
   return (
