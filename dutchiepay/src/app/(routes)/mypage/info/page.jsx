@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import DeliveryAddress from '@/app/_components/_mypage/DeliveryAddress';
 import Image from 'next/image';
 import Link from 'next/link';
+import ModifyNumber from '@/app/_components/_mypage/_modify/ModifyNumber';
 import Withdraw from '@/app/_components/_mypage/Withdraw';
 import axios from 'axios';
 import getImage from '@/app/_components/GetImage';
@@ -72,29 +73,6 @@ export default function Info() {
         phone: JSON.parse(sessionStorage.getItem('user'))?.phone,
       });
     }
-  }, []);
-
-  // 휴대폰 번호 변경 체크
-  useEffect(() => {
-    const handleMessage = (event) => {
-      if (event.origin !== window.location.origin) return;
-
-      if (event.data && event.data.type === 'UPDATE_PHONE') {
-        setUserInfo((prev) => ({
-          ...prev,
-          phone: event.data.phone,
-        }));
-
-        const user = JSON.parse(sessionStorage.getItem('user'));
-        user.phone = event.data.phone;
-        sessionStorage.setItem('user', JSON.stringify(user));
-      }
-    };
-
-    window.addEventListener('message', handleMessage);
-    return () => {
-      window.removeEventListener('message', handleMessage);
-    };
   }, []);
 
   const handleModifyType = (type) => {
@@ -339,26 +317,7 @@ export default function Info() {
             재설정
           </button>
         </article>
-        <article className="mypage-profile">
-          <div className="flex items-center">
-            <h2 className="mypage-profile__label">전화번호</h2>
-            <p className="mypage-profile__value">{userInfo.phone}</p>
-          </div>
-          <div className="flex gap-[12px]">
-            <button
-              className="mypage-profile__button"
-              onClick={() => {
-                window.open(
-                  '/change-number',
-                  '휴대폰 번호 변경',
-                  'width=620, height=670, location=1'
-                );
-              }}
-            >
-              변경
-            </button>
-          </div>
-        </article>
+        <ModifyNumber userInfo={userInfo} setUserInfo={setUserInfo} />
         <article className="mypage-profile">
           <div className="flex items-center">
             <h2 className="mypage-profile__label">계정정보</h2>
