@@ -21,7 +21,7 @@ const useReissueToken = () => {
 
       dispatch(setAccessToken({ access: response.data.access }));
     } catch (error) {
-      alert('새로운 accecc토큰 생성 중 에러가 발생했습니다.');
+      alert('오류가 발생하여 로그아웃 처리 되었습니다');
     }
   };
   useEffect(() => {
