@@ -9,18 +9,17 @@ import { useEffect, useRef, useState } from 'react';
 import DeliveryAddress from '@/app/_components/_mypage/DeliveryAddress';
 import Image from 'next/image';
 import Link from 'next/link';
+import ModifyLocation from '@/app/_components/_mypage/_modify/ModifyLocation';
 import ModifyNumber from '@/app/_components/_mypage/_modify/ModifyNumber';
 import Withdraw from '@/app/_components/_mypage/Withdraw';
 import axios from 'axios';
 import getImage from '@/app/_components/GetImage';
-import getLocation from '@/app/_components/_user/GetLocation';
 import kakao from '../../../../../public/image/kakao.png';
 import naver from '../../../../../public/image/naver.png';
 import profile from '../../../../../public/image/profile.jpg';
 import { setUserInfoChange } from '@/redux/slice/loginSlice';
 
 export default function Info() {
-  const location = useSelector((state) => state.login.user.location);
   const nickname = useSelector((state) => state.login.user.nickname);
   const profileImage = useSelector((state) => state.login.user.profileImage);
   const accessToken = useSelector((state) => state.login.access);
@@ -96,27 +95,6 @@ export default function Info() {
       }
     });
     setModifyType(''); // 수정 중인 상태 초기화
-  };
-
-  const handleGetCurrentLocation = async () => {
-    if (confirm('지역을 재설정 하시겠습니까?')) {
-      const location = await getLocation();
-
-      try {
-        await axios.patch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/profile/location`,
-          { location: location },
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-        dispatch(setUserInfoChange({ location: location }));
-      } catch (error) {
-        alert('오류가 발생했습니다. 다시 시도해주세요.');
-      }
-    }
   };
 
   const handleModifyComplete = async (e) => {
@@ -305,18 +283,7 @@ export default function Info() {
             </button>
           </div>
         </article>
-        <article className="mypage-profile">
-          <div className="flex items-center">
-            <h2 className="mypage-profile__label">지역</h2>
-            <p className="mypage-profile__value">{location}</p>
-          </div>
-          <button
-            className="mypage-profile__button"
-            onClick={handleGetCurrentLocation}
-          >
-            재설정
-          </button>
-        </article>
+        <ModifyLocation />
         <ModifyNumber userInfo={userInfo} setUserInfo={setUserInfo} />
         <article className="mypage-profile">
           <div className="flex items-center">
