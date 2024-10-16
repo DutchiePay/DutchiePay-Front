@@ -6,16 +6,14 @@ import '@/styles/mypage.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
 
+import AccountInfo from '@/app/_components/_mypage/AccountInfo';
 import DeliveryAddress from '@/app/_components/_mypage/DeliveryAddress';
 import Image from 'next/image';
-import Link from 'next/link';
 import ModifyLocation from '@/app/_components/_mypage/_modify/ModifyLocation';
 import ModifyNumber from '@/app/_components/_mypage/_modify/ModifyNumber';
 import Withdraw from '@/app/_components/_mypage/Withdraw';
 import axios from 'axios';
 import getImage from '@/app/_components/GetImage';
-import kakao from '../../../../../public/image/kakao.png';
-import naver from '../../../../../public/image/naver.png';
 import profile from '../../../../../public/image/profile.jpg';
 import { setUserInfoChange } from '@/redux/slice/loginSlice';
 
@@ -25,7 +23,6 @@ export default function Info() {
   const accessToken = useSelector((state) => state.login.access);
   const dispatch = useDispatch();
 
-  const [loginType, setLoginType] = useState(''); // email/kakao/naver
   const [userInfo, setUserInfo] = useState({
     email: null,
     phone: null,
@@ -38,11 +35,8 @@ export default function Info() {
   const imageRef = useRef(null);
   const rnickname = /^[a-zA-Z0-9가-힣]{2,8}$/;
 
-  // loginType과 email/phone API 호출 및 session 저장
+  // email/phone API 호출 및 session 저장
   useEffect(() => {
-    const storedLoginType = localStorage.getItem('loginType');
-    setLoginType(storedLoginType || '');
-
     const initMypage = async () => {
       try {
         const response = await axios.get(
@@ -285,45 +279,7 @@ export default function Info() {
         </article>
         <ModifyLocation />
         <ModifyNumber userInfo={userInfo} setUserInfo={setUserInfo} />
-        <article className="mypage-profile">
-          <div className="flex items-center">
-            <h2 className="mypage-profile__label">계정정보</h2>
-            {loginType === 'email' ? (
-              <p className="mypage-profile__value">{userInfo.email}</p>
-            ) : loginType === 'kakao' ? (
-              <div className="flex items-center gap-[12px]">
-                <Image
-                  className="w-[28px] h-[28px] rounded-full"
-                  src={kakao}
-                  alt="kakao"
-                  width={30}
-                  height={30}
-                />
-                <p>카카오 연동중</p>
-              </div>
-            ) : (
-              <div className="flex items-center gap-[12px]">
-                <Image
-                  className="w-[28px] h-[28px] rounded-full"
-                  src={naver}
-                  alt="naver"
-                  width={30}
-                  height={30}
-                />
-                <p>네이버 연동중</p>
-              </div>
-            )}
-          </div>
-          {loginType === 'email' && (
-            <Link
-              href="/reset"
-              className="mypage-profile__button-reset"
-              role="button"
-            >
-              비밀번호 변경
-            </Link>
-          )}
-        </article>
+        <AccountInfo userInfo={userInfo} />
         <DeliveryAddress />
         <Withdraw />
       </section>
