@@ -46,3 +46,19 @@ Requested.args = {
   phoneCode: '',
   authCode: '1234',
 };
+
+// 인증번호 일치
+export const isPhoneVerified = Template.bind({});
+isPhoneVerified.args = {
+  isSignup: false,
+  touchedFields: { phone: true },
+  errors: {},
+  phone: '01012345678',
+  isPhoneAuth: false,
+  setIsPhoneAuth: () => {},
+  isCodeMatch: true,
+  setIsCodeMatch: () => {},
+  remainingTime: 0,
+  phoneCode: '1234',
+  authCode: '1234',
+};

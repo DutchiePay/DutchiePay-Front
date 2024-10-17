@@ -2,6 +2,7 @@
 
 import '@/styles/globals.css';
 import '@/styles/user.css';
+
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -33,7 +34,7 @@ export default function NicknameInput({
       if (error.response.data.message === '이미 사용중인 닉네임입니다.') {
         setError('nickname', {
           type: 'manual',
-          message: '사용중인 닉네임입니다',
+          message: '이미 사용중인 닉네임입니다.',
         });
         setIsNicknameAvailable(false);
       } else {
