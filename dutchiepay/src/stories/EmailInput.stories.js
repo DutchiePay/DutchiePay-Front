@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 export default {
-  title: 'Components/EmailInput',
+  title: 'Input/EmailInput',
   component: EmailInput,
 };
 
