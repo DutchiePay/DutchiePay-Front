@@ -114,9 +114,9 @@ PasswordLengthError.args = {
   },
 };
 
-// 비밀번호 길이 오류
-export const EmptyEmail = Template.bind({});
-EmptyEmail.args = {
+// 비밀번호 미기재
+export const EmptyPassword = Template.bind({});
+EmptyPassword.args = {
   password: '',
   newPassword: '',
   confirmPassword: '',
