@@ -1,29 +1,79 @@
-import { fn } from '@storybook/test';
-import { Header } from './Header';
+import Header from '@/app/_components/_layout/Header';
+import { Provider } from 'react-redux';
+import addressReducer from '@/redux/slice/addressSlice';
+import { configureStore } from '@reduxjs/toolkit';
+import loginReducer from '@/redux/slice/loginSlice';
+import profile from '../../public/image/profile.jpg';
+
+// Mock 데이터
+const mockLoggedInState = {
+  isLoggedIn: true,
+  user: {
+    userId: '123',
+    nickname: 'testuser',
+    profileImage: profile,
+    location: null,
+    isCertified: null,
+  },
+  access: 'mock-access-token',
+  addresses: [
+    {
+      addressId: 1,
+      addressName: 'Home',
+    },
+  ],
+};
+
+const mockLoggedOutState = {
+  isLoggedIn: false,
+  user: {
+    userId: null,
+    nickname: null,
+    profileImage: null,
+    location: null,
+    isCertified: null,
+  },
+  access: '',
+  addresses: [],
+};
+
+// 스토어 생성 함수
+const createTestStore = (initialState) => {
+  return configureStore({
+    reducer: {
+      login: loginReducer,
+      address: addressReducer,
+    },
+    preloadedState: { login: initialState }, // 초기 상태 설정
+  });
+};
 
 export default {
-  title: 'Example/Header',
+  title: 'Components/Header',
   component: Header,
-  // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-  tags: ['autodocs'],
-  parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
-    layout: 'fullscreen',
-  },
-  args: {
-    onLogin: fn(),
-    onLogout: fn(),
-    onCreateAccount: fn(),
-  },
-};
-export const LoggedIn = {
-  args: {
-    user: {
-      name: 'Jane Doe',
-    },
-  },
+  decorators: [
+    (Story) => (
+      <Provider store={createTestStore(mockLoggedOutState)}>{Story()}</Provider>
+    ),
+  ],
 };
 
-export const LoggedOut = {
-  args: {},
+// LoggedIn 스토리
+export const LoggedIn = () => {
+  const store = createTestStore(mockLoggedInState);
+  return (
+    <Provider store={store}>
+      <Header />
+    </Provider>
+  );
+};
+
+// LoggedOut 스토리
+export const LoggedOut = () => {
+  const store = createTestStore(mockLoggedOutState);
+  return (
+    <Provider store={store}>
+      <Header />
+    </Provider>
+  );
 };
