@@ -5,17 +5,17 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import arrow from '../../../../public/image/arrow.svg';
-import delivery from '../../../../public/image/delivery.svg';
-import heart from '../../../../public/image/heart.svg';
-import post from '../../../../public/image/post.svg';
-import profile from '../../../../public/image/profile.jpg';
-import question from '../../../../public/image/question.svg';
-import review from '../../../../public/image/review.svg';
+import arrow from '/public/image/arrow.svg';
+import delivery from '/public/image/delivery.svg';
+import heart from '/public/image/heart.svg';
+import post from '/public/image/post.svg';
+import profile from '/public/image/profile.jpg';
+import question from '/public/image/question.svg';
+import review from '/public/image/review.svg';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import userIcon from '../../../../public/image/user.svg';
+import userIcon from '/public/image/user.svg';
 
 export default function Sidebar() {
   const userInfo = useSelector((state) => state.login.user);
@@ -31,7 +31,7 @@ export default function Sidebar() {
   }, []);
 
   return (
-    <aside className="w-[250px] h-[730px] bg-white border-r px-[16px] py-[40px] mb-[70px] flex flex-col items-center gap-[32px] fixed">
+    <aside className="fixed w-[250px] bg-white px-[16px] py-[40px] flex flex-col items-center gap-[32px] z-10">
       <div className="flex flex-col items-center">
         <div className="relative w-[120px] h-[120px] mb-[12px]">
           <Image
