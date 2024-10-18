@@ -91,7 +91,7 @@ export default function EmailInput({
           errors.email ? 'text-red--500' : 'text-blue--500'
         }`}
         role="alert"
-        aria-hidden={errors.email ? 'true' : 'false'}
+        aria-hidden={!touchedFields.email || !errors.email ? 'true' : 'false'}
       >
         {touchedFields.email && errors.email
           ? errors.email.message
