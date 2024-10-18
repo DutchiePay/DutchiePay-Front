@@ -31,17 +31,15 @@ export default function EmailInput({
       if (error.response.data.message === '이미 사용중인 이메일입니다.') {
         setError('email', {
           type: 'manual',
-          message: '이미 사용중인 이메일입니다',
+          message: '이미 사용중인 이메일입니다.',
         });
-      } else if (error.response.data.message === '탈퇴한 회원입니다.') {
+      } else if (
+        error.response.data.message === '탈퇴한 회원입니다.' ||
+        error.response.data.message === '정지된 회원입니다.'
+      ) {
         setError('email', {
           type: 'manual',
-          message: '탈퇴된 이메일입니다',
-        });
-      } else if (error.response.data.message === '정지된 회원입니다.') {
-        setError('email', {
-          type: 'manual',
-          message: '정지된 이메일입니다',
+          message: '탈퇴 또는 정지된 이메일입니다.',
         });
       }
       setIsEmailAvailable(false);
@@ -55,11 +53,11 @@ export default function EmailInput({
         className={`user__input mt-[4px] ${
           touchedFields.email && errors.email
             ? 'user__input__invalid'
-            : touchedFields.email && !errors.email && email
-              ? isSignup
+            : touchedFields.email && !errors.email && email && isEmailAvailable
+              ? 'user__input__valid'
+              : touchedFields.email && !errors.email && email && !isSignup
                 ? 'user__input__valid'
                 : ''
-              : ''
         }`}
         type="email"
         placeholder="이메일"
@@ -80,6 +78,12 @@ export default function EmailInput({
               }
             }
           },
+          onChange: (e) => {
+            if (isEmailAvailable && e.target.value !== email) {
+              setIsEmailAvailable(null);
+              clearErrors('email');
+            }
+          },
         })}
       />
       <p
@@ -87,19 +91,13 @@ export default function EmailInput({
           errors.email ? 'text-red--500' : 'text-blue--500'
         }`}
         role="alert"
-        aria-hidden={errors.email ? 'true' : 'false'}
+        aria-hidden={!touchedFields.email || !errors.email ? 'true' : 'false'}
       >
-        {isSignup
-          ? touchedFields.email && errors.email
-            ? errors.email.message
-            : touchedFields.email && !errors.email && email && isEmailAvailable
-              ? '사용가능한 이메일 입니다'
-              : touchedFields.email && !errors.email && email
-                ? '올바른 이메일 형식입니다.'
-                : ''
-          : errors.email
-            ? errors.email.message
-            : touchedFields.email && !errors.email && email
+        {touchedFields.email && errors.email
+          ? errors.email.message
+          : touchedFields.email && !errors.email && email && isEmailAvailable
+            ? '사용가능한 이메일 입니다.'
+            : touchedFields.email && !errors.email && email && !isSignup
               ? '올바른 이메일 형식입니다.'
               : ''}
       </p>
