@@ -48,28 +48,31 @@ export default function MyReviews() {
     <>
       {isModalOpen && <ImagesModal onClose={handleCloseModal} />}
       <div className="w-[730px] border rounded-lg p-[20px] flex gap-[12px] relative">
-        <Image
-          className="w-[120px] h-[120px] rounded-lg cursor-pointer"
-          src={product}
-          alt="애슐리 볶음밥"
-          width={120}
-          height={120}
-          onClick={handleImageClick}
-        />
-        {thumbnails.length > 1 && (
-          <div
-            className="absolute bottom-[25px] left-[105px] bg-white w-[30px] h-[30px] cursor-pointer rounded-lg flex justify-center items-center"
-            onClick={handleImageClick}
-          >
-            <Image
-              className="opacity-80"
-              src={images}
-              width={20}
-              height={20}
-              alt="이미지 더보기"
-            />
-          </div>
-        )}
+        <div className="relative w-[120px] h-[120px] ">
+          <Image
+            className="rounded-lg"
+            src={product}
+            alt="애슐리 볶음밥"
+            layout="fill" // 부모 div의 크기를 채움
+            objectFit="cover"
+          />
+
+          {/* 이미지 위에 표시되는 '더보기' 아이콘 */}
+          {thumbnails.length > 1 && (
+            <div
+              className="absolute bottom-[8px] right-[8px] bg-white w-[30px] h-[30px] rounded-full flex justify-center items-center cursor-pointer"
+              onClick={handleImageClick}
+            >
+              <Image
+                className="opacity-80"
+                src={images}
+                width={20}
+                height={20}
+                alt="이미지 더보기"
+              />
+            </div>
+          )}
+        </div>
 
         <div className="w-[558px]">
           <div className="flex justify-between items-center">
