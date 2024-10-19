@@ -43,7 +43,7 @@ export default function UpDownButtons() {
   }
 
   return (
-    <div className="fixed border shadow-lg right-[40px] bottom-[180px] flex flex-col gap-2">
+    <div className="fixed border shadow-lg right-[40px] bottom-[180px] flex flex-col gap-2 z-[-1]">
       <button
         onClick={scrollToTop}
         className="relative w-[50px] h-[50px] flex items-center justify-center cursor-pointer"

@@ -58,6 +58,7 @@
   border: 1px solid #d1d2d7;
   border-radius: 8px;
   cursor: pointer;
+  background-color: #fff;
 }
 
 .mypage-profile__button-finish {
@@ -72,6 +73,7 @@
   border: 1px solid #d1d2d7;
   border-radius: 8px;
   cursor: pointer;
+  background-color: #fff;
 }
 
 .mypage-profile__value {
