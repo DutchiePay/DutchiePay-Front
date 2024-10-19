@@ -17,7 +17,6 @@ export default function ConfirmPassword({
 }) {
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
-  const rPassword = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*_-]).{8,}$/;
 
   return (
     <>
@@ -35,12 +34,12 @@ export default function ConfirmPassword({
           className={`user__input-password mt-[4px] ${
             touchedFields.confirmPassword &&
             errors.confirmPassword &&
-            rPassword.test(newPassword)
+            !errors.newPassword
               ? 'user__input-password__invalid'
               : touchedFields.confirmPassword &&
                   !errors.confirmPassword &&
                   confirmPassword &&
-                  rPassword.test(newPassword)
+                  !errors.newPassword
                 ? 'user__input-password__valid'
                 : ''
           }`}
@@ -49,7 +48,7 @@ export default function ConfirmPassword({
           type={isConfirmPasswordVisible ? 'text' : 'password'}
           {...register('confirmPassword', {
             validate: (value) => {
-              if (newPassword && rPassword.test(newPassword)) {
+              if (newPassword && !errors.newPassword) {
                 return value === newPassword || '비밀번호가 일치하지 않습니다.';
               }
               return false; // newPassword가 유효하지 않으면 항상 false 반환
@@ -70,11 +69,14 @@ export default function ConfirmPassword({
         role="alert"
         aria-hidden={errors.confirmPassword ? 'true' : 'false'}
       >
-        {touchedFields.confirmPassword && errors.confirmPassword
+        {touchedFields.confirmPassword &&
+        errors.confirmPassword &&
+        !errors.newPassword
           ? errors.confirmPassword.message
           : touchedFields.confirmPassword &&
               !errors.confirmPassword &&
-              confirmPassword
+              confirmPassword &&
+              !errors.newPassword
             ? '두 비밀번호가 일치합니다'
             : ''}
       </p>

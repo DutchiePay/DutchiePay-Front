@@ -63,6 +63,7 @@ export default function SignUpSubmit() {
     }
   };
 
+  const password = watch('password');
   const newPassword = watch('newPassword');
   const confirmPassword = watch('confirmPassword');
   const nickname = watch('nickname');
@@ -89,6 +90,7 @@ export default function SignUpSubmit() {
         register={register}
         trigger={trigger}
         errors={errors}
+        password={password}
         newPassword={newPassword}
         confirmPassword={confirmPassword}
         touchedFields={touchedFields}
