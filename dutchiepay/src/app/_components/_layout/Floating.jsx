@@ -7,8 +7,8 @@ export default function Floating() {
   const [hasNotification, setHasNotification] = useState(true); // true일 경우 빨간 점이 나타남
 
   return (
-    <div className="fixed w-[50px] h-[50px] right-[50px] bottom-[100px] drop-shadow-md">
-      <div className="relative rounded-full w-[70px] h-[70px] bg-blue--500 flex items-center justify-center cursor-pointer">
+    <div className="fixed w-[50px] h-[50px] right-[50px] bottom-[100px] drop-shadow-md z-[-1]">
+      <div className="relative rounded-full w-[70px] h-[70px] bg-blue-500 flex items-center justify-center cursor-pointer">
         <Image
           className=""
           src={floating}
@@ -18,7 +18,7 @@ export default function Floating() {
         />
 
         {hasNotification && (
-          <div className="absolute top-[0px] right-[0px] w-[20px] h-[20px] bg-red--500 rounded-full border border-white"></div>
+          <div className="absolute top-[0px] right-[0px] w-[20px] h-[20px] bg-red-500 rounded-full border border-white"></div>
         )}
       </div>
     </div>
