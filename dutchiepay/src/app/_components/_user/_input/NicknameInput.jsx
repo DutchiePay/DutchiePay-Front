@@ -26,11 +26,8 @@ export default function NicknameInput({
         `${process.env.NEXT_PUBLIC_BASE_URL}/users?nickname=${value}`
       );
       setIsNicknameAvailable(true);
-      clearErrors('nickname'); // 사용 가능한 닉네임이므로 오류를 클리어
+      clearErrors('nickname');
     } catch (error) {
-      console.log(error.response.data);
-
-      // 400 오류가 발생하면 nickname에 대한 오류를 설정
       if (error.response.data.message === '이미 사용중인 닉네임입니다.') {
         setError('nickname', {
           type: 'manual',
@@ -57,7 +54,10 @@ export default function NicknameInput({
           className={`user__input mt-[4px] ${
             touchedFields.nickname && errors.nickname
               ? 'user__input__invalid'
-              : touchedFields.nickname && !errors.nickname && nickname
+              : touchedFields.nickname &&
+                  !errors.nickname &&
+                  nickname &&
+                  isNicknameAvailable
                 ? 'user__input__valid'
                 : ''
           }`}
@@ -80,6 +80,12 @@ export default function NicknameInput({
                 setIsNicknameAvailable(null); // 패턴이 유효하지 않을 경우 가용성 초기화
               }
             },
+            onChange: (e) => {
+              if (isNicknameAvailable && e.target.value !== nickname) {
+                setIsNicknameAvailable(null);
+                clearErrors('nickname');
+              }
+            },
           })}
         />
       </div>
@@ -88,7 +94,9 @@ export default function NicknameInput({
           nickname && !errors.nickname ? 'text-blue--500' : 'text-red--500'
         }`}
         role="alert"
-        aria-hidden={errors.nickname ? 'true' : 'false'}
+        aria-hidden={
+          !touchedFields.nickname || !errors.nickname ? 'true' : 'false'
+        }
       >
         {touchedFields.nickname && errors.nickname
           ? errors.nickname.message
@@ -97,9 +105,7 @@ export default function NicknameInput({
               nickname &&
               isNicknameAvailable
             ? '사용가능한 닉네임 입니다'
-            : touchedFields.nickname && !errors.nickname && nickname
-              ? '올바른 닉네임 형식입니다.'
-              : ''}
+            : ''}
       </p>
     </>
   );
