@@ -8,7 +8,7 @@ export default function Floating() {
 
   return (
     <div className="fixed w-[50px] h-[50px] right-[50px] bottom-[100px] drop-shadow-md z-[-1]">
-      <div className="relative rounded-full w-[70px] h-[70px] bg-blue-500 flex items-center justify-center cursor-pointer">
+      <div className="relative rounded-full w-[70px] h-[70px] bg-blue--500 flex items-center justify-center cursor-pointer">
         <Image
           className=""
           src={floating}
