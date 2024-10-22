@@ -4,7 +4,7 @@ import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
 import ImagesModal, { thumbnails } from '@/app/(modals)/images/page';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -43,7 +43,12 @@ export default function MyReviews() {
       document.body.style.overflow = 'auto';
     };
   }, [isModalOpen]);
-
+  const imageStyle = useMemo(
+    () => ({
+      objectFit: 'cover',
+    }),
+    []
+  );
   return (
     <>
       {isModalOpen && <ImagesModal onClose={handleCloseModal} />}
@@ -53,8 +58,8 @@ export default function MyReviews() {
             className="rounded-lg"
             src={product}
             alt="애슐리 볶음밥"
-            layout="fill" // 부모 div의 크기를 채움
-            objectFit="cover"
+            fill // 부모 div의 크기를 채움
+            style={imageStyle}
           />
 
           {/* 이미지 위에 표시되는 '더보기' 아이콘 */}

@@ -11,7 +11,7 @@ import Rating from '../_rating/Rating';
 import images from '../../../../public/image/images.svg';
 import more from '../../../../public/image/more.svg';
 import product from '../../../../public/image/product1.jpg';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 export default function ReviewItem({ className }) {
   const [hasImages, setHasImages] = useState(true); // 이미지 유무
@@ -42,7 +42,12 @@ export default function ReviewItem({ className }) {
       document.body.style.overflow = 'auto';
     };
   }, [isModalOpen]);
-
+  const imageStyle = useMemo(
+    () => ({
+      objectFit: 'cover',
+    }),
+    []
+  );
   return (
     <>
       {isModalOpen && <ImagesModal onClose={handleCloseModal} />}
@@ -55,8 +60,8 @@ export default function ReviewItem({ className }) {
               className="rounded-lg"
               src={product}
               alt="애슐리 볶음밥"
-              layout="fill" // 부모 div의 크기를 채움
-              objectFit="cover"
+              fill
+              style={imageStyle}
             />
 
             {/* 이미지 위에 표시되는 '더보기' 아이콘 */}
