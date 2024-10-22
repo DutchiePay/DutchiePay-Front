@@ -18,6 +18,9 @@ export default function ConfirmPassword({
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] =
     useState(false);
   const rPassword = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*_-]).{8,}$/;
+  console.log('errors.confirmPassword=====' + errors.confirmPassword);
+  console.log('!errors.confirmPassword===' + !errors.confirmPassword);
+  console.log('rPassword.test(newPassword)===' + rPassword.test(newPassword));
 
   return (
     <>
@@ -35,12 +38,12 @@ export default function ConfirmPassword({
           className={`user__input-password mt-[4px] ${
             touchedFields.confirmPassword &&
             errors.confirmPassword &&
-            rPassword.test(newPassword)
+            !errors.newPassword
               ? 'user__input-password__invalid'
               : touchedFields.confirmPassword &&
                   !errors.confirmPassword &&
                   confirmPassword &&
-                  rPassword.test(newPassword)
+                  !errors.newPassword
                 ? 'user__input-password__valid'
                 : ''
           }`}

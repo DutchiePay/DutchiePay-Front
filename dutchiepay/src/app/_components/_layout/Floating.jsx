@@ -18,7 +18,7 @@ export default function Floating() {
         />
 
         {hasNotification && (
-          <div className="absolute top-[0px] right-[0px] w-[20px] h-[20px] bg-red-500 rounded-full border border-white"></div>
+          <div className="absolute top-[0px] right-[0px] w-[20px] h-[20px] bg-red--500 rounded-full border border-white"></div>
         )}
       </div>
     </div>
