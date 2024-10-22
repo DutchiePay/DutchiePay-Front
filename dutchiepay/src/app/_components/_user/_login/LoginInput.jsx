@@ -24,7 +24,7 @@ export default function LoginInput({
           placeholder="이메일"
           type="email"
           {...register('email', {
-            required: true,
+            required: '이메일을 입력해주세요',
           })}
         />
       </div>
@@ -35,7 +35,7 @@ export default function LoginInput({
           placeholder="비밀번호"
           type={isVisible ? 'text' : 'password'}
           {...register('password', {
-            required: true,
+            required: '비밀번호를 입력해주세요',
           })}
         />
         {password && (

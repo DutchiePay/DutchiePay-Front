@@ -15,7 +15,7 @@ export default function NicknameInput({
   setError,
   clearErrors,
 }) {
-  const [isNicknameAvailable, setIsNicknameAvailable] = useState(null); // 이메일 가용성 상태 추가
+  const [isNicknameAvailable, setIsNicknameAvailable] = useState(null); // 닉네임 가용성 상태
   const rNickname = /^[a-zA-Z0-9가-힣]{2,8}$/;
 
   const checkNicknameAvailability = async (e) => {

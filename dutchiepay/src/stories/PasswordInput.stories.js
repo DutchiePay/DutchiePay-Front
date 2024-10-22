@@ -10,9 +10,10 @@ export default {
 const Template = (args) => {
   const {
     register,
+    trigger,
     formState: { errors, touchedFields },
   } = useForm();
-  return <PasswordInput {...args} register={register} />;
+  return <PasswordInput {...args} register={register} trigger={trigger} />;
 };
 
 // 기본 스토리
