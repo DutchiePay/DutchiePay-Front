@@ -34,7 +34,8 @@ export default function ConfirmPassword({
           className={`user__input-password mt-[4px] ${
             touchedFields.confirmPassword &&
             errors.confirmPassword &&
-            !errors.newPassword
+            !errors.newPassword &&
+            newPassword
               ? 'user__input-password__invalid'
               : touchedFields.confirmPassword &&
                   !errors.confirmPassword &&
