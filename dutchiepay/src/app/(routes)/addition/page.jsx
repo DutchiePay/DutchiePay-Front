@@ -163,6 +163,7 @@ export default function Addition() {
           name="productName"
           placeholder="상품 이름"
           onChange={handleChange}
+          value={formData.productName || ''}
         />
         <label className="flex flex-col gap-[12px] text-lg font-bold">
           상품 원가 (숫자만 입력 : 5000원 = 5000)
@@ -173,6 +174,7 @@ export default function Addition() {
           name="originalPrice"
           placeholder="상품 원가"
           onChange={handleChange}
+          value={formData.originalPrice}
         />
         <label className="flex flex-col gap-[12px] text-lg font-bold">
           상품 할인가(판매가) (숫자만 입력 : 5000원 = 5000)
@@ -183,6 +185,7 @@ export default function Addition() {
           name="salePrice"
           placeholder="상품 할인가"
           onChange={handleChange}
+          value={formData.salePrice}
         />
         <p>※ 할인가는 데이터 추가 시 자동으로 계산되어 전달됩니다!</p>
         <label className="flex flex-col gap-[12px] text-lg font-bold">
@@ -210,6 +213,7 @@ export default function Addition() {
           name="skeleton"
           placeholder="최소 인원"
           onChange={handleChange}
+          value={formData.skeleton}
         />
         <label className="flex flex-col gap-[12px] text-lg font-bold">
           마감 날짜
@@ -219,6 +223,7 @@ export default function Addition() {
           type="date"
           name="deadline"
           onChange={handleChange}
+          value={formData.deadline}
         />
         <label className="flex flex-col gap-[12px] text-lg font-bold">
           업체명
@@ -228,6 +233,7 @@ export default function Addition() {
           name="storeName"
           placeholder="업체명"
           onChange={handleChange}
+          value={formData.storeName || ''}
         />
         <label className="flex flex-col gap-[12px] text-lg font-bold">
           업체대표
@@ -237,6 +243,7 @@ export default function Addition() {
           name="representative"
           placeholder="업체대표"
           onChange={handleChange}
+          value={formData.representative || ''}
         />
         <label className="flex flex-col gap-[12px] text-lg font-bold">
           업체주소
@@ -246,6 +253,7 @@ export default function Addition() {
           name="storeAddress"
           placeholder="업체주소"
           onChange={handleChange}
+          value={formData.storeAddress || ''}
         />
         <label className="flex flex-col gap-[12px] text-lg font-bold">
           업체번호 (-(하이픈) 넣어서 보내주세요!)
@@ -255,6 +263,7 @@ export default function Addition() {
           name="contactNumber"
           placeholder="업체번호"
           onChange={handleChange}
+          value={formData.contactNumber || ''}
         />
 
         <button type="submit" className="bg-blue--500 text-white p-[12px]">
