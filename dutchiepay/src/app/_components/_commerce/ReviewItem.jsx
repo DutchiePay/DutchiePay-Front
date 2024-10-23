@@ -12,6 +12,7 @@ import images from '../../../../public/image/images.svg';
 import more from '../../../../public/image/more.svg';
 import product from '../../../../public/image/product1.jpg';
 import { useState, useEffect, useMemo } from 'react';
+import { imageStyle } from '@/styles/imageStyle';
 
 export default function ReviewItem({ className }) {
   const [hasImages, setHasImages] = useState(true); // 이미지 유무
@@ -42,12 +43,7 @@ export default function ReviewItem({ className }) {
       document.body.style.overflow = 'auto';
     };
   }, [isModalOpen]);
-  const imageStyle = useMemo(
-    () => ({
-      objectFit: 'cover',
-    }),
-    []
-  );
+
   return (
     <>
       {isModalOpen && <ImagesModal onClose={handleCloseModal} />}

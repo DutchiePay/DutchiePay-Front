@@ -12,6 +12,7 @@ import Rating from '@/app/_components/_rating/Rating';
 import images from '../../../../public/image/images.svg';
 import more from '../../../../public/image/more.svg';
 import product from '../../../../public/image/product1.jpg';
+import { imageStyle } from '@/styles/imageStyle';
 
 export default function MyReviews() {
   const [isPossible, setIsPossible] = useState(true); // 삭제 가능 여부
@@ -43,12 +44,7 @@ export default function MyReviews() {
       document.body.style.overflow = 'auto';
     };
   }, [isModalOpen]);
-  const imageStyle = useMemo(
-    () => ({
-      objectFit: 'cover',
-    }),
-    []
-  );
+
   return (
     <>
       {isModalOpen && <ImagesModal onClose={handleCloseModal} />}
