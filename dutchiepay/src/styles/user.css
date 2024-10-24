@@ -51,6 +51,7 @@
   color: white;
   font-size: 18px;
   border: 1px solid #4b70f5;
+  text-align: center;
 }
 
 .user__button-gray {
@@ -72,6 +73,7 @@
   background-color: white;
   color: #4b70f5;
   font-size: 18px;
+  text-align: center;
 }
 
 .user-login-sns__title {
