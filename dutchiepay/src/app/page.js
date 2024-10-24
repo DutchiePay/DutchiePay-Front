@@ -7,9 +7,9 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import Link from 'next/link';
 import MainCarousel from './_components/_landing/MainCarousel';
-import Product_Hot from './_components/_landing/Product_Hot';
+import HotCarousel from './_components/_landing/HotCarousel';
 import Product_Main from './_components/_landing/Product_Main';
-import Product_Recommend from './_components/_landing/Product_Recommend';
+import RecommendCarousel from './_components/_landing/RecommendCarousel';
 
 export default function Home() {
   return (
@@ -29,7 +29,7 @@ export default function Home() {
 
       {/* 더취페이 추천 Section */}
       <section>
-        <Product_Recommend />
+        <RecommendCarousel />
       </section>
       {/* 이벤트 및 소개 Section */}
       <section className="w-full h-[200px] flex justify-between">
@@ -51,7 +51,7 @@ export default function Home() {
       </section>
 
       <section>
-        <Product_Hot />
+        <HotCarousel />
       </section>
     </main>
   );
