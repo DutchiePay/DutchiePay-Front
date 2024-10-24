@@ -9,7 +9,7 @@ import Link from 'next/link';
 import MainCarousel from './_components/_landing/MainCarousel';
 import Product_Hot from './_components/_landing/Product_Hot';
 import Product_Main from './_components/_landing/Product_Main';
-import Prodect_Recommend from './_components/_landing/Prodect_Recommend';
+import Product_Recommend from './_components/_landing/Product_Recommend';
 
 export default function Home() {
   return (
@@ -29,7 +29,7 @@ export default function Home() {
 
       {/* 더취페이 추천 Section */}
       <section>
-        <Prodect_Recommend />
+        <Product_Recommend />
       </section>
       {/* 이벤트 및 소개 Section */}
       <section className="w-full h-[200px] flex justify-between">

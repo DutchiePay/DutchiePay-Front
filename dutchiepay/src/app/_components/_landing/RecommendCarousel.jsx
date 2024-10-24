@@ -18,7 +18,7 @@ const ArrowButton = ({ direction, onClick }) => (
 );
 
 // 메인 컴포넌트
-const Prodect_Recommend = () => {
+const RecommendCarousel = () => {
   const sliderRef = useRef(null);
   const [activeRecommendSlide, setActiveRecommendSlide] = useState(0);
 
@@ -94,4 +94,4 @@ const Prodect_Recommend = () => {
   );
 };
 
-export default Prodect_Recommend;
+export default RecommendCarousel;
