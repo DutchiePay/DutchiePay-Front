@@ -45,6 +45,7 @@
 .fillter__item {
   font-size: 13px;
   color: #8c8f9a;
+  cursor: pointer;
 }
 
 .fillter__item--selected {

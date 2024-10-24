@@ -3,13 +3,13 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import Rating from '../_rating/Rating';
-import fullheart from '../../../../public/image/fullheart.svg';
-import heart from '../../../../public/image/heart.svg';
-import product from '../../../../public/image/product1.jpg';
+import Rating from '@/app/_components/_rating/Rating';
+import fullheart from '/public/image/fullheart.svg';
+import heart from '/public/image/heart.svg';
+import product from '/public/image/product1.jpg';
 import { useState } from 'react';
 
-export default function Product_List() {
+export default function ProductItem({ item }) {
   const [isLiked, setIsLiked] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
   const [isTodayEnd, setIsTodayEnd] = useState(true); // 오늘 마감 (추후에는 제거될 데이터)
@@ -20,20 +20,22 @@ export default function Product_List() {
     setIsLiked(!isLiked);
   };
 
-  //추후 데이터 들어오면 Link title 글자수 제한 코드 추가 필요
   return (
     <Link
-      href="/commerce/detail?productId=123"
-      title="애슐리 볶음밥 10인분 혼합 구성 10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침 대용 직장인 도시락"
+      href={`/commerce/${item.buyPostId}`}
+      title={
+        item.productName.length <= 10
+          ? item.productName
+          : item.productName.slice(0, 10) + '...'
+      }
       className="w-[232px] flex flex-col justify-center"
     >
-      <div className="w-full h-[240px] relative overflow-hidden">
+      <div className="w-full h-[240px] relative overflow-hidden object-cover">
         <Image
           className={`w-full h-[240px] transform transition-transform duration-300 hover:scale-110`}
-          src={product}
-          alt="애슐리 볶음밥"
+          src={item.productImg}
+          alt={item.productName}
           fill
-          style={{ objectFit: 'cover' }}
         />
       </div>
       <div className="flex justify-between items-center py-[6px] border-b">
@@ -41,7 +43,7 @@ export default function Product_List() {
           <Rating rating={4.3} size={15} />
           <p className="text-xs text-gray--500">(999+)</p>
         </div>
-        {isLiked ? (
+        {item.liked ? (
           <Image
             className="cursor-pointer"
             onClick={handleIsLiked}
@@ -61,32 +63,37 @@ export default function Product_List() {
           />
         )}
       </div>
-      <p className="mt-[8px] title--multi-line font-medium">
-        애슐리 볶음밥 10인분 혼합 구성
-        10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침
-        대용 직장인 도시락
+      <p className="min-h-[48px] mt-[8px] title--multi-line font-medium">
+        {item.productName}
       </p>
       <div className="mt-[4px] flex gap-[8px] items-center">
-        <p className="text-red--500 font-semibold">30%</p>
-        <p className="text-xs text-gray--500 line-through">32,500원</p>
-        <strong>27,500원</strong>
+        <p className="text-red--500 font-semibold">{item.discountPercent}%</p>
+        <p className="text-xs text-gray--500 line-through">
+          {item.productPrice.toLocaleString('ko-KR')}원
+        </p>
+        <strong>{item.discountPrice.toLocaleString('ko-KR')}원</strong>
       </div>
       <div className="mt-[8px] flex justify-between items-baseline">
         <span
           className={`${isEnd ? '' : 'text-blue--500'} text-lg font-semibold flex gap-[4px] items-baseline`}
         >
-          43%<p className="text-sm font-medium">달성</p>
+          {Math.round(item.nowCount / item.skeleton)}%
+          <p className="text-sm font-medium">달성</p>
         </span>
         <p
           className={`${isTodayEnd ? 'text-red--500' : 'text-gray--500'} text-xs font-semibold`}
         >
-          {isEnd ? '공구마감' : isTodayEnd ? '오늘 마감' : '20일 남음'}
+          {item.expireDate < 1
+            ? '공구마감'
+            : item.expireDate === 1
+              ? '오늘 마감'
+              : `${item.expireDate}일 남음`}
         </p>
       </div>
       <progress
         id="product-list-progress"
         className={`product-list-progress w-full h-[3px] ${isEnd ? 'product-list-progress__end' : ''}`}
-        value={43}
+        value={Math.round(item.nowCount / item.skeleton)}
         min={0}
         max={100}
       />
