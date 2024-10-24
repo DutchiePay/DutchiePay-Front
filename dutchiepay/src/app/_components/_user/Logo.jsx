@@ -14,6 +14,7 @@ export default function Logo() {
           alt="logo"
           width={200}
           height={120}
+          priority
         />
       </Link>
     </h1>
