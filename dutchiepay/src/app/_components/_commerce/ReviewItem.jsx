@@ -12,7 +12,6 @@ import images from '../../../../public/image/images.svg';
 import more from '../../../../public/image/more.svg';
 import product from '../../../../public/image/product1.jpg';
 import { useState, useEffect, useMemo } from 'react';
-import { imageStyle } from '@/styles/imageStyle';
 
 export default function ReviewItem({ className }) {
   const [hasImages, setHasImages] = useState(true); // 이미지 유무
@@ -53,11 +52,10 @@ export default function ReviewItem({ className }) {
         {hasImages && (
           <div className="relative w-[120px] h-[120px] ">
             <Image
-              className="rounded-lg"
+              className="rounded-lg object-cover"
               src={product}
               alt="애슐리 볶음밥"
               fill
-              style={imageStyle}
             />
 
             {/* 이미지 위에 표시되는 '더보기' 아이콘 */}
