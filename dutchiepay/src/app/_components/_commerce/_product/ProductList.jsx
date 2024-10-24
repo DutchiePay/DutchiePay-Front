@@ -4,22 +4,32 @@ import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
 import { CATEGORIES, FILTERS } from '@/app/_util/constants';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import ProductItem from './ProductItem';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 export default function ProductList({ category, filter, isEndContain }) {
-  const [products, setProducts] = useState([]);
   const access = useSelector((state) => state.login.access);
-  const [cursor, setCursor] = useState('');
+  const [products, setProducts] = useState([]);
+  const [cursor, setCursor] = useState(null);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
-  const fetchProducts = async (filterType, categoryParam, endParam) => {
+  const observerRef = useRef();
+
+  const fetchProducts = async (
+    filterType,
+    categoryParam,
+    endParam,
+    cursorParam
+  ) => {
+    setIsLoading(true);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/list?filter=${filterType}&${categoryParam}&end=${endParam}&limit=16`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/list?filter=${filterType}&${categoryParam}end=${endParam}&${cursorParam}limit=16`,
         {
           headers: {
             Authorization: `Bearer ${access}`,
@@ -27,27 +37,74 @@ export default function ProductList({ category, filter, isEndContain }) {
         }
       );
 
+      if (response.data.cursor === null) setHasMore(false);
       setCursor(response.data.cursor);
-      setProducts(response.data.products);
       setIsInitialized(true);
+      return response.data.products;
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     // 초기 상품 목록 불러오기
-    fetchProducts('newest', '', '0');
+    const loadProducts = async () => {
+      const initialProducts = await fetchProducts('newest', '', '0', '');
+      setProducts(initialProducts);
+      setIsInitialized(true);
+    };
+    loadProducts();
   }, []);
 
   useEffect(() => {
     // 카테고리와 필터에 따른 상품 목록 불러오기
     if (isInitialized) {
-      const categoryParam = category ? `category=${CATEGORIES[category]}` : '';
+      setHasMore(true);
+      const categoryParam = category ? `category=${CATEGORIES[category]}&` : '';
       const endParam = isEndContain ? '1' : '0';
-      fetchProducts(FILTERS[filter], categoryParam, endParam);
+      const loadProducts = async () => {
+        const newProducts = await fetchProducts(
+          FILTERS[filter],
+          categoryParam,
+          endParam,
+          ''
+        );
+        setProducts(newProducts);
+      };
+      loadProducts();
     }
-  }, [category, filter, isEndContain, isInitialized]);
+  }, [category, filter, isEndContain]);
+
+  const lastProductRef = useCallback(
+    (node) => {
+      if (isLoading || !hasMore) return;
+      if (observerRef.current) observerRef.current.disconnect();
+      observerRef.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          const categoryParam = category
+            ? `category=${CATEGORIES[category]}&`
+            : '';
+          const endParam = isEndContain ? '1' : '0';
+          const cursorParam = cursor ? `cursor=${cursor}&` : '';
+          const loadProducts = async () => {
+            const newProducts = await fetchProducts(
+              FILTERS[filter],
+              categoryParam,
+              endParam,
+              cursorParam
+            );
+            setProducts((prevProducts) => [...prevProducts, ...newProducts]);
+          };
+          loadProducts();
+        }
+      });
+
+      if (node) observerRef.current.observe(node);
+    },
+    [category, cursor, filter, isLoading]
+  );
 
   return (
     <>
@@ -65,7 +122,7 @@ export default function ProductList({ category, filter, isEndContain }) {
           {products.map((item, key) => (
             <ProductItem key={key} item={item} />
           ))}
-          <div>{/* 상품의 마지막 */}</div>
+          <div ref={lastProductRef}>{/* 상품의 마지막 */}</div>
         </div>
       )}
     </>
