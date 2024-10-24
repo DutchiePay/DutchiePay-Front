@@ -108,7 +108,7 @@ export default function ProductList({ category, filter, isEndContain }) {
 
   return (
     <>
-      {products.length === 0 ? (
+      {!isInitialized || products.length === 0 ? (
         <div className="mx-auto my-auto flex flex-col justify-center items-center">
           <strong className="mt-[8px] text-2xl">
             상품이 존재하지 않습니다.

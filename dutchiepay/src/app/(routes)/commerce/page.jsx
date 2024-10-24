@@ -6,9 +6,11 @@ import '@/styles/globals.css';
 import ProductCategory from '@/app/_components/_commerce/_product/ProductCategory';
 import ProductFilter from '@/app/_components/_commerce/_product/ProductFilter';
 import ProductList from '@/app/_components/_commerce/_product/ProductList';
+import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
 export default function Commerce() {
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const [category, setCategory] = useState(null);
   const [filter, setFilter] = useState('최신순');
   const [isEndContain, setIsEndContain] = useState(false);
@@ -31,11 +33,13 @@ export default function Commerce() {
         <ProductFilter filter={filter} setFilter={setFilter} />
       </div>
       <section className="min-h-[400px] flex flex-wrap gap-[30px] mt-[16px] mb-[60px]">
-        <ProductList
-          category={category}
-          filter={filter}
-          isEndContain={isEndContain}
-        />
+        {isLoggedIn && (
+          <ProductList
+            category={category}
+            filter={filter}
+            isEndContain={isEndContain}
+          />
+        )}
       </section>
     </section>
   );

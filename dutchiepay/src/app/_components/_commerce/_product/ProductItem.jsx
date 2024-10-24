@@ -36,6 +36,7 @@ export default function ProductItem({ item }) {
           src={item.productImg}
           alt={item.productName}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
       <div className="flex justify-between items-center py-[6px] border-b">
@@ -67,10 +68,16 @@ export default function ProductItem({ item }) {
         {item.productName}
       </p>
       <div className="mt-[4px] flex gap-[8px] items-center">
-        <p className="text-red--500 font-semibold">{item.discountPercent}%</p>
-        <p className="text-xs text-gray--500 line-through">
-          {item.productPrice.toLocaleString('ko-KR')}원
-        </p>
+        {item.discountPercent > 0 && (
+          <>
+            <p className="text-red--500 font-semibold">
+              {item.discountPercent}%
+            </p>
+            <p className="text-xs text-gray--500 line-through">
+              {item.productPrice.toLocaleString('ko-KR')}원
+            </p>
+          </>
+        )}
         <strong>{item.discountPrice.toLocaleString('ko-KR')}원</strong>
       </div>
       <div className="mt-[8px] flex justify-between items-baseline">
@@ -81,7 +88,7 @@ export default function ProductItem({ item }) {
           <p className="text-sm font-medium">달성</p>
         </span>
         <p
-          className={`${isTodayEnd ? 'text-red--500' : 'text-gray--500'} text-xs font-semibold`}
+          className={`${isTodayEnd ? 'text-red--500' : 'text-gray--500'} text-xs font-medium`}
         >
           {item.expireDate < 1
             ? '공구마감'
