@@ -18,11 +18,7 @@ export default function ProductItem({ item }) {
   return (
     <Link
       href={`/commerce/${item.buyPostId}`}
-      title={
-        item.productName.length <= 10
-          ? item.productName
-          : item.productName.slice(0, 10) + '...'
-      }
+      title={item.productName.length}
       className="w-[232px] flex flex-col justify-center"
     >
       <div className="w-full h-[240px] relative overflow-hidden object-cover">
