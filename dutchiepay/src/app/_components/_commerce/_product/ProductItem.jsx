@@ -5,20 +5,14 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import ProductLike from './ProductLike';
 import Rating from '@/app/_components/_rating/Rating';
-import fullheart from '/public/image/fullheart.svg';
-import heart from '/public/image/heart.svg';
 
 export default function ProductItem({ item }) {
-  const handleIsLiked = (e) => {
-    e.preventDefault(); // Link 동작하지 않도록 함
-    e.stopPropagation(); // Link로 전파되지 않도록 함
-  };
-
   return (
     <Link
       href={`/commerce/${item.buyPostId}`}
-      title={item.productName.length}
+      title={item.productName}
       className="w-[232px] flex flex-col justify-center"
     >
       <div className="w-full h-[240px] relative overflow-hidden object-cover">
@@ -35,25 +29,7 @@ export default function ProductItem({ item }) {
           <Rating rating={4.3} size={15} />
           <p className="text-xs text-gray--500">(999+)</p>
         </div>
-        {item.liked ? (
-          <Image
-            className="cursor-pointer"
-            onClick={handleIsLiked}
-            src={fullheart}
-            alt="좋아요"
-            width={22}
-            height={22}
-          />
-        ) : (
-          <Image
-            className="cursor-pointer"
-            onClick={handleIsLiked}
-            src={heart}
-            alt="좋아요"
-            width={22}
-            height={22}
-          />
-        )}
+        <ProductLike isLiked={item.liked} productId={item.buyPostId} />
       </div>
       <p className="min-h-[48px] mt-[8px] title--multi-line font-medium">
         {item.productName}
