@@ -7,6 +7,11 @@ import Product_Hot from './Product_Hot';
 export default function HotCarousel() {
   const handleHotSlideChange = (index) => {
     setActiveSlide(index);
+    if (index == 1) {
+      sliderTopFive.current.slickGoTo(0);
+    } else {
+      sliderBottomFive.current.slickGoTo(0);
+    }
     sliderWrapper.current.slickGoTo(index); // 올바른 슬라이드로 이동
   };
   const sliderWrapper = useRef(null);
@@ -37,7 +42,20 @@ export default function HotCarousel() {
             sliderBottomFive.current.slickGoTo(0);
             sliderBottomFive.current.slickPlay();
           }
-        }, 3000);
+        }, 1000);
+      } else if (current === 9) {
+        // 10번째 슬라이드일 때
+        setTimeout(() => {
+          if (
+            sliderWrapper.current &&
+            sliderBottomFive.current &&
+            activeSlide === 0
+          ) {
+            sliderWrapper.current.slickGoTo(0); // 첫 번째 슬라이드로 돌아감
+            sliderBottomFive.current.slickGoTo(0);
+            sliderBottomFive.current.slickPlay();
+          }
+        }, 1000);
       }
     },
   };
@@ -79,7 +97,20 @@ export default function HotCarousel() {
             sliderTopFive.current.slickGoTo(0);
             sliderTopFive.current.slickPlay();
           }
-        }, 3000);
+        }, 1000);
+      } else if (current === 9) {
+        // 10번째 슬라이드일 때
+        setTimeout(() => {
+          if (
+            sliderWrapper.current &&
+            sliderTopFive.current &&
+            activeSlide === 1
+          ) {
+            sliderWrapper.current.slickGoTo(0); // 첫 번째 슬라이드로 돌아감
+            sliderTopFive.current.slickGoTo(0);
+            sliderTopFive.current.slickPlay();
+          }
+        }, 1000);
       }
     },
   };

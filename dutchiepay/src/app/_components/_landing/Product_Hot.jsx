@@ -6,6 +6,7 @@ import Link from 'next/link';
 import clock from '../../../../public/image/clock.svg';
 import product from '../../../../public/image/product1.jpg';
 import Slider from 'react-slick';
+import Product_Ranking from './Product_Ranking';
 
 export default function Product_Hot({
   sliderTopFive,
@@ -84,35 +85,7 @@ export default function Product_Hot({
               </Slider>
             </div>
             <div>
-              <div className="w-[488px]">
-                <ul className="w-[488px] h-[200px] flex flex-col items-center">
-                  {Array.from({ length: 5 }, (_, index) => (
-                    <li
-                      className={`w-[488px] h-[40px] flex flex-row items-center gap-2 px-[20px] ${
-                        activeSlideTop === index
-                          ? 'border border-[#000] rounded-md'
-                          : ''
-                      }`}
-                      key={index}
-                    >
-                      <p
-                        className={`text-lg ${activeSlideTop === index ? 'text-[#333]' : 'text-[#999]'}`}
-                      >
-                        {index + 1}
-                      </p>
-                      <p
-                        className={`text-sm w-[100%] overflow-hidden text-ellipsis text-nowrap ${
-                          activeSlideTop === index
-                            ? 'text-[#333]'
-                            : 'text-[#999]'
-                        }`}
-                      >
-                        [{index + 1}] [한정기획] 에센허브 티트리 100 오일
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <Product_Ranking activeSlide={activeSlideTop} isTopFive={true} />
             </div>
           </div>
         </div>
@@ -180,35 +153,10 @@ export default function Product_Hot({
               </Slider>
             </div>
             <div>
-              <div className="w-[488px]">
-                <ul className="w-[488px] h-[200px] flex flex-col items-center">
-                  {Array.from({ length: 5 }, (_, index) => (
-                    <li
-                      className={`w-[488px] h-[40px] flex flex-row items-center gap-2 px-[20px] ${
-                        activeSlideBottom === index
-                          ? 'border border-[#000] rounded-md'
-                          : ''
-                      }`}
-                      key={index}
-                    >
-                      <p
-                        className={`text-lg ${activeSlideBottom === index ? 'text-[#333]' : 'text-[#999]'}`}
-                      >
-                        {index + 6}
-                      </p>
-                      <p
-                        className={`text-sm w-[100%] overflow-hidden text-ellipsis text-nowrap ${
-                          activeSlideBottom === index
-                            ? 'text-[#333]'
-                            : 'text-[#999]'
-                        }`}
-                      >
-                        [{index + 6}] [한정기획] 에센허브 티트리 100 오일
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <Product_Ranking
+                activeSlide={activeSlideBottom}
+                isTopFive={false}
+              />
             </div>
           </div>
         </div>
