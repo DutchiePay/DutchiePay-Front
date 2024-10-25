@@ -15,7 +15,7 @@ export default function NicknameInput({
   setError,
   clearErrors,
 }) {
-  const [isNicknameAvailable, setIsNicknameAvailable] = useState(null); // 이메일 가용성 상태 추가
+  const [isNicknameAvailable, setIsNicknameAvailable] = useState(null); // 닉네임 가용성 상태
   const rNickname = /^[a-zA-Z0-9가-힣]{2,8}$/;
 
   const checkNicknameAvailability = async (e) => {
@@ -31,7 +31,7 @@ export default function NicknameInput({
       if (error.response.data.message === '이미 사용중인 닉네임입니다.') {
         setError('nickname', {
           type: 'manual',
-          message: '사용중인 닉네임입니다',
+          message: '이미 사용중인 닉네임입니다.',
         });
         setIsNicknameAvailable(false);
       } else {
