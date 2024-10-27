@@ -3,7 +3,7 @@
 import '@/styles/globals.css';
 import '@/styles/mypage.css';
 
-import getImage from '@/app/_components/GetImage';
+import getImage from '@/app/_util/GetImage';
 import { useRef } from 'react';
 
 export default function ProfileImgButton({ setModifyInfo }) {
