@@ -11,7 +11,7 @@ export default function Review() {
   const buyId = 7; // 게시글 정보 저장 시 변경 예정
   const [items, setItems] = useState([]);
   const [activePage, setActivePage] = useState(1);
-  const itemsPerPage = 6;
+  const size = 6;
   const [totalItems, setTotalItems] = useState(0);
 
   return (
@@ -35,7 +35,7 @@ export default function Review() {
         <Pagination
           activePage={activePage}
           totalItems={totalItems}
-          itemsPerPage={itemsPerPage}
+          size={size}
           onPageChange={handlePageChange}
         />
       )}

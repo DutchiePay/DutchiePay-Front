@@ -13,16 +13,16 @@ export default function Ask() {
     window.open('/ask', '_blank', 'width=620, height=670');
   };
 
-  const buyId = 4; // 게시글 정보 저장 시 변경 예정
+  const buyId = 7; // 게시글 정보 저장 시 변경 예정
   const [items, setItems] = useState([]);
   const [activePage, setActivePage] = useState(1);
-  const itemsPerPage = 6;
+  const size = 6;
   const [totalItems, setTotalItems] = useState(0);
 
   const fetchItems = async (page) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/asks?buyId=${buyId}&page=${page}&size=${itemsPerPage}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/asks?buyId=${buyId}&page=${page}&size=${size}`
       );
       console.log(response.data);
 
@@ -49,7 +49,7 @@ export default function Ask() {
       >
         상품 문의 작성하기
       </button>
-      <table className="w-full mt-[8px] text-[14px] mb-[100px]">
+      <table className="w-full mt-[8px] text-[14px] mb-[60px]">
         <tbody>
           <tr className="border-t border-t-blue--500 border-t-2 border-b-2 border-gray-300 text-center">
             <th className="w-[100px] px-[12px] py-[10px] border-gray-300">
@@ -86,7 +86,7 @@ export default function Ask() {
         <Pagination
           activePage={activePage}
           totalItems={totalItems}
-          itemsPerPage={itemsPerPage}
+          size={size}
           onPageChange={handlePageChange}
         />
       )}
