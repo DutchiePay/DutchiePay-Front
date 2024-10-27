@@ -76,32 +76,32 @@ describe('LoginSubmit 컴포넌트', () => {
     expect(mockPush).toHaveBeenCalledWith('/');
   });
 
-  // it('로그인 실패 시 메시지 출력', async () => {
-  //   // Axios에서 로그인 실패를 mockRejectedValue로 설정
-  //   axios.post.mockRejectedValue({
-  //     response: {
-  //       data: {
-  //         message: '일치하는 회원정보가 없습니다.',
-  //       },
-  //     },
-  //   });
+  it('로그인 실패 시 메시지 출력', async () => {
+    // Axios에서 로그인 실패를 mockRejectedValue로 설정
+    axios.post.mockRejectedValue({
+      response: {
+        data: {
+          message: '일치하는 회원정보가 없습니다.',
+        },
+      },
+    });
 
-  //   renderLoginSubmit();
+    renderLoginSubmit();
 
-  //   // 잘못된 이메일과 비밀번호 입력
-  //   fireEvent.change(screen.getByPlaceholderText('이메일'), {
-  //     target: { value: 'wrongemail@naver.com' },
-  //   });
-  //   fireEvent.change(screen.getByPlaceholderText('비밀번호'), {
-  //     target: { value: 'wrongpassword!' },
-  //   });
+    // 잘못된 이메일과 비밀번호 입력
+    fireEvent.change(screen.getByPlaceholderText('이메일'), {
+      target: { value: 'wrongemail@naver.com' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('비밀번호'), {
+      target: { value: 'wrongpassword!' },
+    });
 
-  //   // 로그인 버튼 클릭
-  //   fireEvent.click(screen.getByText('로그인'));
+    // 로그인 버튼 클릭
+    fireEvent.click(screen.getByText('로그인'));
 
-  //   // 로그인 실패 메시지가 나타날 때까지 기다림
-  //   const errorMessage =
-  //     await screen.findByText('일치하는 회원정보가 없습니다.');
-  //   expect(errorMessage).toBeInTheDocument();
-  // });
+    // 로그인 실패 메시지가 나타날 때까지 기다림
+    const errorMessage =
+      await screen.findByText('일치하는 회원정보가 없습니다.');
+    expect(errorMessage).toBeInTheDocument();
+  });
 });
