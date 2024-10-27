@@ -9,6 +9,7 @@
   align-items: center;
   font-size: 14px;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .product-summary__item {
