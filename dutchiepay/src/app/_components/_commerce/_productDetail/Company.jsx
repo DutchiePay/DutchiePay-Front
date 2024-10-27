@@ -1,6 +1,11 @@
 import '@/styles/globals.css';
 
-export default function Company() {
+export default function Company({
+  company,
+  representative,
+  storeAddress,
+  contactNumber,
+}) {
   return (
     <>
       <strong>판매자 정보</strong>
@@ -11,13 +16,13 @@ export default function Company() {
               상호명
             </th>
             <td className="w-72 px-[12px] py-1 text-gray--300 text-semibold">
-              카페이노스(주)
+              {company}
             </td>
             <th className="bg-gray-100 w-44 px-[12px] py-1 border-gray-300 font-bold text-left">
               대표자
             </th>
             <td className="w-72 px-[12px] py-1 text-gray--300 text-semibold">
-              정시예
+              {representative}
             </td>
           </tr>
           <tr className="border-t border-b border-gray-300 mb-4 flex">
@@ -25,13 +30,13 @@ export default function Company() {
               업체주소
             </th>
             <td className="w-72 px-[12px] py-1 text-gray--300 text-semibold">
-              경기도 광명시
+              {storeAddress}
             </td>
             <th className="bg-gray-100 w-44 px-[12px] py-1 border-gray-300 font-bold text-left">
               전화번호
             </th>
             <td className="w-72 px-[12px] py-1 text-gray--300 text-semibold">
-              02-1234-1234
+              {contactNumber}
             </td>
           </tr>
         </tbody>
