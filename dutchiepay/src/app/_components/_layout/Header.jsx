@@ -108,7 +108,7 @@ export default function Header() {
 
   return (
     <header className="fixed h-[154px] top-0 left-0 right-0 z-10 w-full bg-white shadow">
-      <div className="container mx-auto w-[1020px]">
+      <div className=" mx-auto w-[1020px]">
         <nav className="flex justify-end w-full mt-[4px]">
           <ul className="flex items-center gap-[6px]">
             {isLoggedIn ? (
