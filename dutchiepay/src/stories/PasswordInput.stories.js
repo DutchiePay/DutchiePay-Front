@@ -3,16 +3,17 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 export default {
-  title: 'Components/PasswordInput',
+  title: 'Input/PasswordInput',
   component: PasswordInput,
 };
 
 const Template = (args) => {
   const {
     register,
+    trigger,
     formState: { errors, touchedFields },
   } = useForm();
-  return <PasswordInput {...args} register={register} />;
+  return <PasswordInput {...args} register={register} trigger={trigger} />;
 };
 
 // 기본 스토리
@@ -114,9 +115,9 @@ PasswordLengthError.args = {
   },
 };
 
-// 비밀번호 길이 오류
-export const EmptyEmail = Template.bind({});
-EmptyEmail.args = {
+// 비밀번호 미기재
+export const EmptyPassword = Template.bind({});
+EmptyPassword.args = {
   password: '',
   newPassword: '',
   confirmPassword: '',

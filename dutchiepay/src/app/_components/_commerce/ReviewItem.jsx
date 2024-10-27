@@ -11,7 +11,7 @@ import Rating from '../_rating/Rating';
 import images from '../../../../public/image/images.svg';
 import more from '../../../../public/image/more.svg';
 import product from '../../../../public/image/product1.jpg';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 export default function ReviewItem({ className }) {
   const [hasImages, setHasImages] = useState(true); // 이미지 유무
@@ -50,29 +50,32 @@ export default function ReviewItem({ className }) {
         className={`w-[1020px] p-[20px] flex gap-[12px] relative ${className}`}
       >
         {hasImages && (
-          <Image
-            className="w-[120px] h-[120px] rounded-lg cursor-pointer"
-            src={product}
-            alt="애슐리 볶음밥"
-            width={120}
-            height={120}
-            onClick={handleImageClick}
-          />
-        )}
-        {thumbnails.length > 1 && (
-          <div
-            className="absolute bottom-[25px] left-[105px] bg-white w-[30px] h-[30px] cursor-pointer rounded-lg flex justify-center items-center"
-            onClick={handleImageClick}
-          >
+          <div className="relative w-[120px] h-[120px] ">
             <Image
-              className="opacity-80"
-              src={images}
-              width={20}
-              height={20}
-              alt="이미지 더보기"
+              className="rounded-lg object-cover"
+              src={product}
+              alt="애슐리 볶음밥"
+              fill
             />
+
+            {/* 이미지 위에 표시되는 '더보기' 아이콘 */}
+            {thumbnails.length > 1 && (
+              <div
+                className="absolute bottom-[8px] right-[8px] bg-white w-[30px] h-[30px] rounded-full flex justify-center items-center cursor-pointer"
+                onClick={handleImageClick}
+              >
+                <Image
+                  className="opacity-80"
+                  src={images}
+                  width={20}
+                  height={20}
+                  alt="이미지 더보기"
+                />
+              </div>
+            )}
           </div>
         )}
+
         <div className={hasImages ? 'w-[848px]' : 'w-[1000px]'}>
           <div className="flex justify-between">
             <strong className="text-lg">단단무지</strong>
