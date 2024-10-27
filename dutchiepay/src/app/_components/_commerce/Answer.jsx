@@ -1,12 +1,13 @@
+import React, { useState } from 'react';
 import Image from 'next/image';
 import reply from '../../../../public/image/reply.svg';
-import { useState } from 'react';
 
-export default function Answer({ answer }) {
+const Answer = React.memo(({ answer }) => {
   const [isMore, setIsMore] = useState(false);
   const handleIsMore = () => {
-    setIsMore(!isMore);
+    setIsMore((prev) => !prev);
   };
+
   return (
     <tr className="border-b-2 border-gray-300 text-center">
       <td className="w-[100px] pl-[45px] py-[20px] border-gray-300">
@@ -27,4 +28,6 @@ export default function Answer({ answer }) {
       <td className="w-[100px] px-2 py-[20px] border-gray-300"></td>
     </tr>
   );
-}
+});
+
+export default Answer;

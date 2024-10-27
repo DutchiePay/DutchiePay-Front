@@ -4,9 +4,16 @@ import '@/styles/globals.css';
 import ReviewInfo from './ReviewInfo';
 import ReviewItem from './ReviewItem';
 import { useState } from 'react';
+import Pagination from '../Pagination';
 
 export default function Review() {
   const [isAll, setIsAll] = useState(true); // 모든 리뷰 -> false일 경우 포토리뷰
+  const buyId = 7; // 게시글 정보 저장 시 변경 예정
+  const [items, setItems] = useState([]);
+  const [activePage, setActivePage] = useState(1);
+  const itemsPerPage = 6;
+  const [totalItems, setTotalItems] = useState(0);
+
   return (
     <>
       <ReviewInfo dist={[100, 309, 10, 8, 12]} />
@@ -24,6 +31,14 @@ export default function Review() {
       <ReviewItem className="product-review-item--not-first" />
       <ReviewItem className="product-review-item--not-first" />
       <ReviewItem className="product-review-item--not-first" />
+      {totalItems > 0 && (
+        <Pagination
+          activePage={activePage}
+          totalItems={totalItems}
+          itemsPerPage={itemsPerPage}
+          onPageChange={handlePageChange}
+        />
+      )}
     </>
   );
 }
