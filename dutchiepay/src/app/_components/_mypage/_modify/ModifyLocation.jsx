@@ -6,7 +6,7 @@ import '@/styles/mypage.css';
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
-import getLocation from '@/app/_components/_user/GetLocation';
+import getLocation from '@/app/_util/GetLocation';
 import { setUserInfoChange } from '@/redux/slice/loginSlice';
 
 export default function ModifyLocation() {
