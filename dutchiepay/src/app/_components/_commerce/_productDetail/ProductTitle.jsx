@@ -1,9 +1,14 @@
 import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
+import getCategoryNames from '@/app/_util/getCategoryNames';
+
 export default function ProductTitle({ product }) {
   return (
     <>
+      <p className="text-xs text-blue--500 font-semibold">
+        {getCategoryNames(product?.category)}
+      </p>
       <h1 className="font-bold text-xl">{product?.productName}</h1>
       <div className="flex my-[4px] items-center gap-[8px]">
         {product?.discountPercent !== 0 && (

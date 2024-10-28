@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import getRemainingTime from '@/app/_util/GetRemainingTime';
+import getRemainingTime from '@/app/_util/getRemainingTime';
 
 export default function RemainingTime({ endTime, isEnd, setIsEnd }) {
   const [remainingTime, setRemainingTime] = useState(''); // 남은 시간
