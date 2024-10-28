@@ -5,13 +5,12 @@ import '@/styles/commerce.css';
 
 import Image from 'next/image';
 import ProductInfo from '@/app/_components/_commerce/_productDetail/ProductInfo';
-import RemainingTime from '@/app/_components/_commerce/RemainingTime';
+import RemainingTime from '@/app/_components/_commerce/_productDetail/RemainingTime';
 import time from '/public/image/time.svg';
 import { useState } from 'react';
 
 export default function ProductHeader({ product, productId }) {
-  const [isEnd, setIsEnd] = useState(true); // 마감 여부
-  const endDateString = '2024-12-25T22:00:00Z';
+  const [isEnd, setIsEnd] = useState(false); // 마감 여부
 
   return (
     <article className="mt-[40px] flex justify-between">
@@ -22,6 +21,7 @@ export default function ProductHeader({ product, productId }) {
             src={product?.productImg}
             alt={product?.productName}
             fill
+            priority
           />
         </div>
 
@@ -34,7 +34,7 @@ export default function ProductHeader({ product, productId }) {
             height={15}
           />
           <RemainingTime
-            endTime={endDateString}
+            endTime={product?.deadline}
             isEnd={isEnd}
             setIsEnd={setIsEnd}
           />

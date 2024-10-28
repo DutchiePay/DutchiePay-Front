@@ -5,7 +5,7 @@ import '@/styles/user.css';
 
 import { useEffect, useState } from 'react';
 
-import getLocation from '@/app/_util/GetLocation';
+import getLocation from '@/app/_util/getLocation';
 
 export default function AddressInput({ address, setAddress }) {
   useEffect(() => {
