@@ -49,6 +49,9 @@ const loginSlice = createSlice({
     setAccessToken(state, action) {
       state.access = action.payload.access;
     },
+    setIsCertified(state, action) {
+      state.user.isCertified = action.payload.isCertified;
+    },
   },
 });
 
