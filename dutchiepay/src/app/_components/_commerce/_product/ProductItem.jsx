@@ -11,7 +11,7 @@ import Rating from '@/app/_components/_rating/Rating';
 export default function ProductItem({ item }) {
   return (
     <Link
-      href={`/commerce/${item.buyPostId}`}
+      href={`/commerce/${item.buyId}`}
       title={item.productName}
       className="w-[232px] flex flex-col justify-center"
     >
@@ -29,7 +29,7 @@ export default function ProductItem({ item }) {
           <Rating rating={4.3} size={15} />
           <p className="text-xs text-gray--500">(999+)</p>
         </div>
-        <ProductLike isLiked={item.liked} productId={item.buyPostId} />
+        <ProductLike isLiked={item.liked} productId={item.buyId} />
       </div>
       <p className="min-h-[48px] mt-[8px] title--multi-line font-medium">
         {item.productName}
