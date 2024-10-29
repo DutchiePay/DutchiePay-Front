@@ -78,7 +78,7 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
   useEffect(() => {
     reset();
     setIsPhoneAuth(false);
-  }, [tab]);
+  }, [tab, reset]);
 
   return (
     <div className="mt-[40px] min-h-[450px]">

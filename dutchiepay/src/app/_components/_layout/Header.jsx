@@ -1,6 +1,6 @@
 'use client';
 
-import '../../../styles/header.css';
+import '@/styles/header.css';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,11 +10,11 @@ import Cookies from 'universal-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
 import axios from 'axios';
-import chat from '../../../../public/image/chat.svg';
+import chat from '/public/image/chat.svg';
 import { login } from '@/redux/slice/loginSlice';
-import logo from '../../../../public/image/logo.jpg';
-import profile from '../../../../public/image/profile.jpg';
-import search from '../../../../public/image/search.svg';
+import logo from '/public/image/logo.jpg';
+import profile from '/public/image/profile.jpg';
+import search from '/public/image/search.svg';
 import { setAddresses } from '@/redux/slice/addressSlice';
 import useLogout from '@/app/hooks/useLogout';
 
@@ -25,13 +25,13 @@ export default function Header() {
   const addresses = useSelector((state) => state.address.addresses);
   const dispatch = useDispatch();
   const router = useRouter();
-  const cookies = new Cookies();
   const pathname = usePathname();
   const handleLogout = useLogout(accessToken);
 
   const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
+    const cookies = new Cookies();
     const refresh = cookies.get('refresh');
     const handleRelogin = async () => {
       try {
@@ -59,7 +59,6 @@ export default function Header() {
             access: userInfo.access,
           })
         );
-        accessToken = userInfo.access;
       } catch (error) {
         if (
           error.response.data.message === '리프레시 토큰이 유효하지 않습니다.'
@@ -73,7 +72,7 @@ export default function Header() {
     if (refresh && !isLoggedIn) {
       handleRelogin();
     }
-  }, []);
+  }, [isLoggedIn, dispatch]);
 
   // 필터를 useMemo로 메모이제이션하여 렌더링 최적화
   const filter = useMemo(() => {

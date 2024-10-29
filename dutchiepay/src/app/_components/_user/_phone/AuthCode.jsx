@@ -30,7 +30,7 @@ export default function AuthCode({
       }, 1000);
     }
     return () => clearInterval(timer);
-  }, [isPhoneAuth]);
+  }, [isPhoneAuth, setRemainingTime]);
 
   const handleAuthCheck = () => {
     if (authCode !== phoneCode) {

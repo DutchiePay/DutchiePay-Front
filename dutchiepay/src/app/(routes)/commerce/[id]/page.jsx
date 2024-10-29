@@ -34,7 +34,7 @@ export default function CommerceDetail({ params }) {
     };
 
     fetchProduct();
-  }, []);
+  }, [id, access]);
 
   return (
     <section className="min-h-[750px] w-[1020px]">

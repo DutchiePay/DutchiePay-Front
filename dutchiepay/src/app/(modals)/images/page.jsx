@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import arrow from '../../../../public/image/arrowWhite.svg';
@@ -17,18 +17,18 @@ export const thumbnails = [review1, review2, review3, review4, review6];
 export default function ImagesModal({ onClose }) {
   const [currentImage, setCurrentImage] = useState(review1);
 
-  const handleNextImage = () => {
+  const handleNextImage = useCallback(() => {
     const currentIndex = thumbnails.indexOf(currentImage);
     const nextIndex = (currentIndex + 1) % thumbnails.length;
     setCurrentImage(thumbnails[nextIndex]);
-  };
+  }, [currentImage]);
 
-  const handlePreviousImage = () => {
+  const handlePreviousImage = useCallback(() => {
     const currentIndex = thumbnails.indexOf(currentImage);
     const prevIndex =
       (currentIndex - 1 + thumbnails.length) % thumbnails.length;
     setCurrentImage(thumbnails[prevIndex]);
-  };
+  }, [currentImage]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {

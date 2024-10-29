@@ -20,33 +20,31 @@ export default function ProductList({ category, filter, isEndContain }) {
 
   const observerRef = useRef();
 
-  const fetchProducts = async (
-    filterType,
-    categoryParam,
-    endParam,
-    cursorParam
-  ) => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/list?filter=${filterType}&${categoryParam}end=${endParam}&${cursorParam}limit=16`,
-        {
-          headers: {
-            Authorization: `Bearer ${access}`,
-          },
-        }
-      );
+  const fetchProducts = useCallback(
+    async (filterType, categoryParam, endParam, cursorParam) => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/list?filter=${filterType}&${categoryParam}end=${endParam}&${cursorParam}limit=16`,
+          {
+            headers: {
+              Authorization: `Bearer ${access}`,
+            },
+          }
+        );
 
-      if (response.data.cursor === null) setHasMore(false);
-      setCursor(response.data.cursor);
-      setIsInitialized(true);
-      return response.data.products;
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        if (response.data.cursor === null) setHasMore(false);
+        setCursor(response.data.cursor);
+        setIsInitialized(true);
+        return response.data.products;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [access]
+  );
 
   useEffect(() => {
     // 초기 상품 목록 불러오기
@@ -56,7 +54,7 @@ export default function ProductList({ category, filter, isEndContain }) {
       setIsInitialized(true);
     };
     loadProducts();
-  }, []);
+  }, [fetchProducts]);
 
   useEffect(() => {
     // 카테고리와 필터에 따른 상품 목록 불러오기
@@ -75,7 +73,7 @@ export default function ProductList({ category, filter, isEndContain }) {
       };
       loadProducts();
     }
-  }, [category, filter, isEndContain]);
+  }, [category, filter, isEndContain, fetchProducts, isInitialized]);
 
   const lastProductRef = useCallback(
     (node) => {
@@ -103,7 +101,7 @@ export default function ProductList({ category, filter, isEndContain }) {
 
       if (node) observerRef.current.observe(node);
     },
-    [category, cursor, filter, isLoading]
+    [category, cursor, filter, isLoading, fetchProducts, isEndContain, hasMore]
   );
 
   return (

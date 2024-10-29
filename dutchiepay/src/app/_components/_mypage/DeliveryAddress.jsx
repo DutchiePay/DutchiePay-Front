@@ -55,7 +55,7 @@ export default function DeliveryAddress() {
         )
       );
     }
-  }, [isChanged]);
+  }, [isChanged, access, dispatch, encryptedAddresses]);
 
   useEffect(() => {
     const handleMessage = (event) => {

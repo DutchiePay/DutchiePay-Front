@@ -1,14 +1,14 @@
+import Cookies from 'universal-cookie';
+import axios from 'axios';
+import { logout } from '@/redux/slice/loginSlice';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { logout } from '@/redux/slice/loginSlice';
-import Cookies from 'universal-cookie';
 
 const useLogout = (accessToken) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const cookies = new Cookies();
+
   const handleLogout = useCallback(async () => {
     try {
       await axios.post(
@@ -21,6 +21,7 @@ const useLogout = (accessToken) => {
         }
       );
 
+      const cookies = new Cookies();
       dispatch(logout());
       cookies.remove('refresh', { path: '/' });
       sessionStorage.removeItem('user');

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import CryptoJS from 'crypto-js';
 import Script from 'next/script';
@@ -27,7 +27,7 @@ export default function Location_Modal({ onLocationUpdate }) {
     }
   };
 
-  const getCurrentLocationFromIP = async () => {
+  const getCurrentLocationFromIP = useCallback(async () => {
     const method = 'GET';
     const url = `/geolocation/v2/geoLocation?ip=${clientIp}&ext=t&enc=utf8&responseFormatType=json`;
     const timestamp = String(Date.now());
@@ -70,9 +70,9 @@ export default function Location_Modal({ onLocationUpdate }) {
     } catch (error) {
       console.error('API 호출 중 오류 발생:', error);
     }
-  };
+  }, [clientIp]);
 
-  const initializeMap = () => {
+  const initializeMap = useCallback(() => {
     if (window.naver && window.naver.maps) {
       const mapLocation = new window.naver.maps.LatLng(
         location.lat,
@@ -105,7 +105,7 @@ export default function Location_Modal({ onLocationUpdate }) {
         });
       });
     }
-  };
+  }, [location]);
 
   useEffect(() => {
     fetchClientIp();
@@ -115,11 +115,11 @@ export default function Location_Modal({ onLocationUpdate }) {
     if (clientIp) {
       getCurrentLocationFromIP();
     }
-  }, [clientIp]);
+  }, [clientIp, getCurrentLocationFromIP]);
 
   useEffect(() => {
     initializeMap();
-  }, [location]);
+  }, [location, initializeMap]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -10,7 +10,8 @@ export default function ReviewInfo({ dist }) {
 
   useEffect(() => {
     setDistribution(dist);
-  }, []);
+  }, [dist]);
+
   return (
     <div className="flex justify-center gap-[24px]">
       <div className="w-[175px] flex flex-col gap-[12px] justify-center item-center text-center">
