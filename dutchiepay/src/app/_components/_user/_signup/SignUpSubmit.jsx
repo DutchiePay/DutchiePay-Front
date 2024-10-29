@@ -101,8 +101,8 @@ export default function SignUpSubmit() {
         nickname={nickname}
         trigger={trigger}
         touchedFields={touchedFields}
-        setError={setError} // setError 함수 전달
-        clearErrors={clearErrors} // clearErrors 함수 전달
+        setError={setError}
+        clearErrors={clearErrors}
       />
       <AddressInput address={address} setAddress={setAddress} />
       <PhoneAuth

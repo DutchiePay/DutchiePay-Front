@@ -5,10 +5,10 @@ import '@/styles/user.css';
 
 import { useEffect, useState } from 'react';
 
-import EmailInput from '../_input/EmailInput';
-import FindDescription from './FindDescription';
-import Link from 'next/link';
-import PhoneAuth from '../_phone/PhoneAuth';
+import EmailInput from '@/app/_components/_user/_input/EmailInput';
+import FindDescription from '@/app/_components/_user/_find/FindDescription';
+import GoToMain from '@/app/_components/_user/GoToMain';
+import PhoneAuth from '@/app/_components/_user/_phone/PhoneAuth';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -115,13 +115,7 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
         >
           {tab}
         </button>
-        <Link
-          href="/"
-          className="text-gray--500 text-sm text-center underline"
-          role="button"
-        >
-          메인으로 돌아가기
-        </Link>
+        <GoToMain />
       </form>
     </div>
   );

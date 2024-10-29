@@ -1,7 +1,7 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import Link from 'next/link';
+import GoToMain from '@/app/_components/_user/GoToMain';
 import Logo from '@/app/_components/_user/Logo';
 import SignUpSubmit from '@/app/_components/_user/_signup/SignUpSubmit';
 import SocialSignup from '@/app/_components/_user/_signup/SocialSignup';
@@ -15,13 +15,7 @@ export default function Signup() {
       <section className="w-[500px]">
         <SignUpSubmit />
         <div className="flex flex-col">
-          <Link
-            href="/"
-            className="text-gray--500 text-sm text-center mt-[8px] underline"
-            role="button"
-          >
-            메인으로 돌아가기
-          </Link>
+          <GoToMain />
           <small className="text-red--400 text-center mb-[80px]">
             메인으로 돌아갈 경우, 지금까지 작성한 내용은 복구할 수 없습니다
           </small>

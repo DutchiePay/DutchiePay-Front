@@ -6,7 +6,7 @@ import '@/styles/mypage.css';
 import { useEffect, useState } from 'react';
 
 import AccountInfo from '@/app/_components/_mypage/AccountInfo';
-import DeliveryAddress from '@/app/_components/_mypage/DeliveryAddress';
+import DeliveryAddress from '@/app/_components/_mypage/_delivery/DeliveryAddress';
 import ModifyLocation from '@/app/_components/_mypage/_modify/ModifyLocation';
 import ModifyNickname from '@/app/_components/_mypage/_modify/ModifyNickname';
 import ModifyNumber from '@/app/_components/_mypage/_modify/ModifyNumber';
