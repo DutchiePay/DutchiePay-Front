@@ -1,7 +1,7 @@
 'use client';
 
 import axios from 'axios';
-import getImage from '@/app/_util/GetImage';
+import getImage from '@/app/_util/getImage';
 import { useState } from 'react';
 
 export default function Addition() {
