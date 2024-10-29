@@ -26,7 +26,6 @@ export default function CommerceDetail({ params }) {
             },
           }
         );
-        console.log(response);
         setProduct(response.data);
       } catch (error) {
         console.log(error);
@@ -34,7 +33,7 @@ export default function CommerceDetail({ params }) {
     };
 
     fetchProduct();
-  }, []);
+  }, [access, id]);
 
   return (
     <section className="min-h-[750px] w-[1020px]">

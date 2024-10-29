@@ -28,7 +28,7 @@ export default function Sidebar() {
       router.push('/');
       return;
     }
-  }, []);
+  }, [isLoggedIn, router]);
 
   return (
     <aside className="fixed w-[250px] bg-white px-[16px] py-[40px] flex flex-col items-center gap-[32px] z-10">

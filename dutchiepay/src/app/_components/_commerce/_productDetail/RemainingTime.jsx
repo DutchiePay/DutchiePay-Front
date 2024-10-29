@@ -21,7 +21,7 @@ export default function RemainingTime({ endTime, isEnd, setIsEnd }) {
     const intervalId = setInterval(updateRemainingTime, 1000);
 
     return () => clearInterval(intervalId); // 언마운트 시 타이머 정리
-  }, [endTime]);
+  }, [endTime, isEnd, setIsEnd]);
 
   return <p>{remainingTime}</p>;
 }

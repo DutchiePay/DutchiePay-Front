@@ -63,7 +63,6 @@ export default function LoginSubmit() {
       cookies.set('refresh', response.data.refresh, { path: '/', expires });
       router.push('/');
     } catch (error) {
-      console.log(error);
       if (error.response.data.message === '해당하는 유저가 없습니다.')
         setIsUnauthorized(true);
     }

@@ -21,7 +21,7 @@ export default function Reset() {
       alert('잘못된 접근 방식 입니다.');
       router.push('/');
     }
-  }, []);
+  }, [router, email, isLoggedIn]);
 
   return (
     <section className="w-full flex flex-col items-center justify-center min-h-[890px]">

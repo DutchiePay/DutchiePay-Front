@@ -19,7 +19,7 @@ export default function ProfileImgButton({ setModifyInfo }) {
   };
 
   // 버튼 클릭 시 input 호출
-  const handleUploadClick = (e) => {
+  const handleUploadClick = () => {
     if (!imageRef.current) {
       return;
     }
