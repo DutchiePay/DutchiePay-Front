@@ -56,6 +56,11 @@ const loginSlice = createSlice({
 });
 
 // 액션 및 리듀서 내보내기
-export const { login, logout, setUserInfoChange, setAccessToken } =
-  loginSlice.actions;
+export const {
+  login,
+  logout,
+  setUserInfoChange,
+  setAccessToken,
+  setIsCertified,
+} = loginSlice.actions;
 export default loginSlice.reducer;
