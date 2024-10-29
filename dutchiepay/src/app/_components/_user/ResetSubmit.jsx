@@ -3,6 +3,7 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
+import GoToMain from './GoToMain';
 import Link from 'next/link';
 import PasswordInput from './_input/PasswordInput';
 import axios from 'axios';
@@ -103,14 +104,7 @@ export default function ResetSubmit({ email }) {
       >
         비밀번호 재설정
       </button>
-
-      <Link
-        href="/"
-        className="text-gray--500 text-sm text-center underline"
-        role="button"
-      >
-        메인으로 돌아가기
-      </Link>
+      <GoToMain />
     </form>
   );
 }

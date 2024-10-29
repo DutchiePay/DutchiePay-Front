@@ -3,12 +3,14 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
+import { useDispatch, useSelector } from 'react-redux';
+
 import AddressInput from './_input/AddressInput';
 import PhoneAuth from './_phone/PhoneAuth';
 import axios from 'axios';
+import { setIsCertified } from '@/redux/slice/loginSlice';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
 export default function AddInfoSubmit() {
@@ -16,7 +18,8 @@ export default function AddInfoSubmit() {
   const [address, setAddress] = useState('');
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
-  const accessToken = useSelector((state) => state.login.access);
+  const access = useSelector((state) => state.login.access);
+  const dispatch = useDispatch();
   const {
     register,
     watch,
@@ -38,7 +41,7 @@ export default function AddInfoSubmit() {
         { location: address },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${access}`,
           },
         }
       );
@@ -48,14 +51,16 @@ export default function AddInfoSubmit() {
         { phone: formData.phone },
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${access}`,
           },
         }
       );
 
+      dispatch(setIsCertified({ isCertified: true }));
       alert('정상적으로 처리되었습니다. 메인페이지로 이동합니다.');
       router.push('/');
     } catch (error) {
+      console.log(error);
       alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
