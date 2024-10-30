@@ -1,35 +1,31 @@
 'use client';
 
-import '../../../styles/header.css';
+import '@/styles/header.css';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useRouter } from 'next/navigation';
 
 import Cookies from 'universal-cookie';
+import HeaderTop from './HeaderTop';
 import Image from 'next/image';
 import Link from 'next/link';
 import Nav from './Nav';
+import SearchInput from './SearchInput';
 import axios from 'axios';
 import chat from '/public/image/chat.svg';
 import { login } from '@/redux/slice/loginSlice';
 import logo from '/public/image/logo.jpg';
 import profile from '/public/image/profile.jpg';
-import search from '/public/image/search.svg';
 import { setAddresses } from '@/redux/slice/addressSlice';
-import useLogout from '@/app/hooks/useLogout';
+import { useEffect } from 'react';
 
 export default function Header() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const user = useSelector((state) => state.login.user);
-  let accessToken = useSelector((state) => state.login.access);
   const addresses = useSelector((state) => state.address.addresses);
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
-  const handleLogout = useLogout(accessToken);
-
-  const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
     const cookies = new Cookies();
@@ -81,69 +77,10 @@ export default function Header() {
     }
   }, [isLoggedIn, pathname, addresses, dispatch]);
 
-  const handleKeyDown = useCallback(
-    (e) => {
-      if (e.key === 'Enter') {
-        router.push(`/search?keyword=${encodeURIComponent(e.target.value)}`);
-      }
-    },
-    [router]
-  );
-
-  // pathname이 변경될 때만 실행되는 useEffect
-  useEffect(() => {
-    if (!pathname.startsWith('/search')) {
-      setKeyword('');
-    }
-  }, [pathname]);
-
   return (
     <header className="fixed h-[154px] top-0 left-0 right-0 z-10 w-full bg-white shadow">
       <div className=" mx-auto w-[1020px]">
-        <nav className="flex justify-end w-full mt-[4px]">
-          <ul className="flex items-center gap-[6px]">
-            {isLoggedIn ? (
-              <>
-                <li className="nav-item">
-                  <span className="font-bold text-xs">{user?.nickname}님</span>
-                </li>
-                <li className="nav-item">
-                  <button onClick={handleLogout} className="text-xs">
-                    로그아웃
-                  </button>
-                </li>
-                <li className="nav-item">
-                  <Link href="/mypage/myorder" className="text-xs">
-                    주문/배송
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link href="/help" className="text-xs">
-                    고객센터
-                  </Link>
-                </li>
-              </>
-            ) : (
-              <>
-                <li className="nav-item">
-                  <Link href="/signup" className="text-xs">
-                    회원가입
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link href="/login" className="text-xs">
-                    로그인
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link href="/help" className="text-xs">
-                    고객센터
-                  </Link>
-                </li>
-              </>
-            )}
-          </ul>
-        </nav>
+        <HeaderTop />
         <div className="flex items-center relative w-full">
           <Link href="/" className="contents w-[160px]">
             <Image
@@ -152,24 +89,10 @@ export default function Header() {
               alt="logo"
               width={160}
               height={96}
+              priority
             />
           </Link>
-          <div className="relative">
-            <Image
-              className="absolute pt-[13px] pb-[13px] ml-[20px]"
-              src={search}
-              width={16}
-              height={16}
-              alt="search"
-            />
-            <input
-              className="w-[600px] h-[42px] bg-gray--100 pt-[13px] pb-[13px] pl-[52px] border rounded-md outline-none placeholder:text-[14px]"
-              placeholder="검색어를 입력해주세요"
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-          </div>
+          <SearchInput />
 
           {isLoggedIn && (
             <div className="flex justify-end w-full">

@@ -16,10 +16,10 @@ import security from '/public/image/category/security.jpg';
 import user from '/public/image/user.svg';
 
 export const MENUS = {
-  최신순: 'newest',
-  좋아요순: 'like',
-  마감임박순: 'endDate',
-  할인율순: 'discount',
+  공동구매: 'commerce',
+  '마트/배달': 'mart',
+  '거래/나눔': 'used',
+  커뮤니티: 'community',
 };
 
 export const FILTERS = {
@@ -30,6 +30,7 @@ export const FILTERS = {
 };
 
 export const CATEGORIES = {
+  전체: '전체',
   '신선/가공식품': '신선',
   냉동식품: '냉동',
   '인테리어/가구': '가구',
