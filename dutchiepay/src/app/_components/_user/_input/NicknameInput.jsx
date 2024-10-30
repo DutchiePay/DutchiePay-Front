@@ -35,7 +35,6 @@ export default function NicknameInput({
         });
         setIsNicknameAvailable(false);
       } else {
-        console.error('닉네임 체크 중 오류 발생:', error);
         setIsNicknameAvailable(null); // 오류 발생 시 초기화
       }
     }

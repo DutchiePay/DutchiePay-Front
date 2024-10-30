@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import CryptoJS from 'crypto-js';
 import Script from 'next/script';
@@ -22,12 +22,12 @@ export default function Location_Modal({ onLocationUpdate }) {
     try {
       const response = await axios.get('https://api.ipify.org?format=json');
       setClientIp(response.data.ip);
-    } catch (error) {
-      console.error('IP 정보를 가져오는 중 오류 발생:', error);
+    } catch {
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
 
-  const getCurrentLocationFromIP = async () => {
+  const getCurrentLocationFromIP = useCallback(async () => {
     const method = 'GET';
     const url = `/geolocation/v2/geoLocation?ip=${clientIp}&ext=t&enc=utf8&responseFormatType=json`;
     const timestamp = String(Date.now());
@@ -43,7 +43,7 @@ export default function Location_Modal({ onLocationUpdate }) {
     );
 
     if (!signature) {
-      console.error('시그니처 생성에 실패했습니다.');
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
       return;
     }
 
@@ -65,14 +65,14 @@ export default function Location_Modal({ onLocationUpdate }) {
         const { lat, long } = data.geoLocation;
         setLocation({ lat, lng: long });
       } else {
-        console.error('위치 정보를 가져오지 못했습니다:', data.returnCode);
+        alert('위치 정보를 불러올 수 없습니다.');
       }
-    } catch (error) {
-      console.error('API 호출 중 오류 발생:', error);
+    } catch {
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
-  };
+  }, [clientIp]);
 
-  const initializeMap = () => {
+  const initializeMap = useCallback(() => {
     if (window.naver && window.naver.maps) {
       const mapLocation = new window.naver.maps.LatLng(
         location.lat,
@@ -105,7 +105,7 @@ export default function Location_Modal({ onLocationUpdate }) {
         });
       });
     }
-  };
+  }, [location]);
 
   useEffect(() => {
     fetchClientIp();
@@ -115,11 +115,11 @@ export default function Location_Modal({ onLocationUpdate }) {
     if (clientIp) {
       getCurrentLocationFromIP();
     }
-  }, [clientIp]);
+  }, [clientIp, getCurrentLocationFromIP]);
 
   useEffect(() => {
     initializeMap();
-  }, [location]);
+  }, [location, initializeMap]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

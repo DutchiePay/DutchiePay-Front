@@ -22,7 +22,7 @@ export default function AddressAddition({ deliveryAddress, setIsChanged }) {
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, []);
+  }, [setIsChanged]);
 
   return (
     <button

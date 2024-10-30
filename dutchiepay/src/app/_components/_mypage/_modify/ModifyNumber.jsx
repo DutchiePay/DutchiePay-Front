@@ -27,7 +27,7 @@ export default function ModifyNumber({ userInfo, setUserInfo }) {
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, []);
+  }, [setUserInfo]);
 
   return (
     <article className="mypage-profile">

@@ -34,7 +34,8 @@ export default function AuthPhone() {
       alert('비정상적인 접속');
       closeWindow();
     }
-  }, []);
+  }, [access, isLoggedIn]);
+
   const handleWithdraw = async () => {
     if (confirm('정말 탈퇴하실겁니까?')) {
       try {

@@ -19,5 +19,9 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
   },
-  "ignorePatterns": ["out/"]
+  "ignorePatterns": ["out/"],
+  "env": {
+    "browser": true,
+    "es6": true
+  }
 }

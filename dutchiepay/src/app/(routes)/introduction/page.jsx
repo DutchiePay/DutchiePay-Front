@@ -1,9 +1,7 @@
-import Image from 'next/image';
-
 /*
   https://help.pxplus.io/group_kor 추후 참고할 예정
 */
-export default function CommerceDetail() {
+export default function Introduction() {
   return (
     <section className="mt-[40px] min-h-[750px] w-[1020px]">
       <h1 className="text-blue--500 text-3xl font-bold">더취페이 이용가이드</h1>

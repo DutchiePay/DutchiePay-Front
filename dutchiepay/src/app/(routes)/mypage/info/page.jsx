@@ -18,7 +18,7 @@ import { useSelector } from 'react-redux';
 export default function Info() {
   const nickname = useSelector((state) => state.login.user.nickname);
   const profileImage = useSelector((state) => state.login.user.profileImage);
-  const accessToken = useSelector((state) => state.login.access);
+  const access = useSelector((state) => state.login.access);
 
   const [userInfo, setUserInfo] = useState({
     email: null,
@@ -37,7 +37,7 @@ export default function Info() {
           `${process.env.NEXT_PUBLIC_BASE_URL}/profile`,
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${access}`,
             },
           }
         );
@@ -60,7 +60,7 @@ export default function Info() {
         phone: JSON.parse(sessionStorage.getItem('user'))?.phone,
       });
     }
-  }, []);
+  }, [access]);
 
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[680px]">

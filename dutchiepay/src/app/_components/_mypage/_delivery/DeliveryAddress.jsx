@@ -56,7 +56,7 @@ export default function DeliveryAddress() {
         )
       );
     }
-  }, [isChanged]);
+  }, [isChanged, access, encryptedAddresses, dispatch]);
 
   return (
     <article>
