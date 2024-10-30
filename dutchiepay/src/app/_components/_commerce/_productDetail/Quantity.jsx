@@ -52,10 +52,7 @@ export default function Quantity({ salePrice, quantity, setQuantity }) {
       </p>
       <div className="flex justify-between items-center my-[8px]">
         <strong className="text-sm font-bold">총 상품 금액</strong>
-        <p
-          className="text-blue--500 text-lg font-semibold"
-          onClick={() => console.log(salePrice)}
-        >
+        <p className="text-blue--500 text-lg font-semibold">
           {(salePrice * quantity).toLocaleString('ko-KR')}원
         </p>
       </div>

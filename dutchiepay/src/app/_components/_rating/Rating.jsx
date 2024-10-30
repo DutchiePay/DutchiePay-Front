@@ -1,28 +1,13 @@
 import { useEffect, useState } from 'react';
 
+import getStarRates from '@/app/_util/getStarRates';
+
 export default function Rating({ rating, size }) {
   const STAR_IDX_ARR = ['first', 'second', 'third', 'fourth', 'last'];
   const [ratesResArr, setRatesResArr] = useState([0, 0, 0, 0, 0]);
 
-  const calcStarRates = () => {
-    let tempStarRatesArr = [0, 0, 0, 0, 0];
-    let starVerScore = rating;
-
-    for (let i = 0; i < 5; i++) {
-      if (starVerScore >= 1) {
-        tempStarRatesArr[i] = 14; // 별 하나당 14
-        starVerScore -= 1;
-      } else {
-        tempStarRatesArr[i] = starVerScore * 14; // 부분 채우기
-        break;
-      }
-    }
-
-    return tempStarRatesArr;
-  };
-
   useEffect(() => {
-    setRatesResArr(calcStarRates());
+    setRatesResArr(getStarRates(rating));
   }, [rating]);
 
   return (

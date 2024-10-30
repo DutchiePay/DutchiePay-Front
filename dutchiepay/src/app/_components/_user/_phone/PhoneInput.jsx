@@ -26,7 +26,7 @@ export default function PhoneInput({
     } else {
       setIsCodeMatch(null);
     }
-  }, [phone]);
+  }, [phone, setIsCodeMatch]);
 
   const handleAuthClick = async () => {
     if (!errors.phone && phone) {

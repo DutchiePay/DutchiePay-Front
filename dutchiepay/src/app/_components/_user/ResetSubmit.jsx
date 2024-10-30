@@ -4,7 +4,6 @@ import '@/styles/globals.css';
 import '@/styles/user.css';
 
 import GoToMain from './GoToMain';
-import Link from 'next/link';
 import PasswordInput from './_input/PasswordInput';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';

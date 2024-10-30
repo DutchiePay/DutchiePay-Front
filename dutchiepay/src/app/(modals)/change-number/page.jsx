@@ -34,7 +34,7 @@ export default function ChangeNumber() {
       alert('비정상적인 접속');
       closeWindow();
     }
-  }, []);
+  }, [isLoggedIn, access]);
 
   const onSubmit = async (formData) => {
     try {
@@ -59,8 +59,8 @@ export default function ChangeNumber() {
       );
 
       window.close();
-    } catch (error) {
-      console.log(error);
+    } catch {
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
 

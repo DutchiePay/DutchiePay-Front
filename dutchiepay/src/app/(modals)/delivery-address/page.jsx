@@ -20,12 +20,7 @@ export default function Address() {
   const encryptedAddresses = useSelector((state) => state.address.addresses);
   const [isDefaultAddress, setIsDefaultAddress] = useState(false); // 수정 요청 주소지가 기본 배송지였을 경우 true
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors, isValid },
-  } = useForm({
+  const { register, handleSubmit, setValue } = useForm({
     mode: 'onSubmit',
     reValidateMode: 'onblur',
     shouldFocusError: true,
@@ -58,7 +53,7 @@ export default function Address() {
     };
 
     if (addressId) fetchAddress();
-  }, [addressId]);
+  }, [addressId, encryptedAddresses, setValue]);
 
   const onError = () => {
     alert('상세주소 외에 모든 내용은 필수 값입니다.');

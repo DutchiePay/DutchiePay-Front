@@ -18,7 +18,7 @@ export default function ExtraInfo() {
       alert('잘못된 접근 방식');
       router.push('/');
     }
-  }, []);
+  }, [router, isCertified, isLoggedIn]);
 
   return (
     <section className="w-full flex flex-col items-center justify-center min-h-[735px]">
