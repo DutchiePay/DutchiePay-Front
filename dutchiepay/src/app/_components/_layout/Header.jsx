@@ -9,12 +9,13 @@ import { usePathname, useRouter } from 'next/navigation';
 import Cookies from 'universal-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
+import Nav from './Nav';
 import axios from 'axios';
-import chat from '../../../../public/image/chat.svg';
+import chat from '/public/image/chat.svg';
 import { login } from '@/redux/slice/loginSlice';
-import logo from '../../../../public/image/logo.jpg';
-import profile from '../../../../public/image/profile.jpg';
-import search from '../../../../public/image/search.svg';
+import logo from '/public/image/logo.jpg';
+import profile from '/public/image/profile.jpg';
+import search from '/public/image/search.svg';
 import { setAddresses } from '@/redux/slice/addressSlice';
 import useLogout from '@/app/hooks/useLogout';
 
@@ -25,13 +26,13 @@ export default function Header() {
   const addresses = useSelector((state) => state.address.addresses);
   const dispatch = useDispatch();
   const router = useRouter();
-  const cookies = new Cookies();
   const pathname = usePathname();
   const handleLogout = useLogout(accessToken);
 
   const [keyword, setKeyword] = useState('');
 
   useEffect(() => {
+    const cookies = new Cookies();
     const refresh = cookies.get('refresh');
     const handleRelogin = async () => {
       try {
@@ -59,7 +60,6 @@ export default function Header() {
             access: userInfo.access,
           })
         );
-        accessToken = userInfo.access;
       } catch (error) {
         if (
           error.response.data.message === '리프레시 토큰이 유효하지 않습니다.'
@@ -73,16 +73,7 @@ export default function Header() {
     if (refresh && !isLoggedIn) {
       handleRelogin();
     }
-  }, []);
-
-  // 필터를 useMemo로 메모이제이션하여 렌더링 최적화
-  const filter = useMemo(() => {
-    if (pathname.startsWith('/commerce')) return '공동구매';
-    if (pathname.startsWith('/mart')) return '마트/배달';
-    if (pathname.startsWith('/used')) return '거래/나눔';
-    if (pathname.startsWith('/community')) return '커뮤니티';
-    return '';
-  }, [pathname]);
+  }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
     if (pathname === '/' && !isLoggedIn && addresses) {
@@ -202,45 +193,7 @@ export default function Header() {
             </div>
           )}
         </div>
-
-        <ul className="flex justify-center text-center w-[1020px] gap-[60px] mb-[4px]">
-          <li
-            className={`cursor-pointer hover:text-blue--500 ${
-              filter === '공동구매' ? ' text-blue-500' : ''
-            }`}
-          >
-            <Link href="/commerce" className="font-bold">
-              공동구매
-            </Link>
-          </li>
-          <li
-            className={`cursor-pointer hover:text-blue--500  ${
-              filter === '마트/배달' ? ' text-blue-500' : ''
-            }`}
-          >
-            <Link href="/mart" className="font-bold">
-              마트/배달
-            </Link>
-          </li>
-          <li
-            className={`cursor-pointer hover:text-blue--500 ${
-              filter === '거래/나눔' ? ' text-blue-500' : ''
-            }`}
-          >
-            <Link href="/used" className="font-bold">
-              거래/나눔
-            </Link>
-          </li>
-          <li
-            className={`cursor-pointer hover:text-blue--500 ${
-              filter === '커뮤니티' ? ' text-blue-500' : ''
-            }`}
-          >
-            <Link href="/community" className="font-bold">
-              커뮤니티
-            </Link>
-          </li>
-        </ul>
+        <Nav />
       </div>
     </header>
   );
