@@ -59,6 +59,7 @@ export default function SignUpSubmit() {
         setIsCodeMatch(null);
         setValue('phone', ''); // 전화번호 입력 필드 초기화
         setValue('authCode', ''); // 인증번호 입력 필드 초기화
+        clearErrors('phone');
       }
     }
   };
@@ -116,6 +117,7 @@ export default function SignUpSubmit() {
         isCodeMatch={isCodeMatch}
         setIsCodeMatch={setIsCodeMatch}
         isSignup={true}
+        trigger={trigger}
       />
 
       <Policy register={register} />

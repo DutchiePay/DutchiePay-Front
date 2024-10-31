@@ -5,7 +5,7 @@ import '@/styles/user.css';
 
 import AuthCode from './AuthCode';
 import PhoneInput from './PhoneInput';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function PhoneAuth({
   register,
@@ -18,6 +18,7 @@ export default function PhoneAuth({
   isCodeMatch,
   setIsCodeMatch,
   isSignup = false,
+  trigger,
 }) {
   const [phoneCode, setPhoneCode] = useState(null);
   const [remainingTime, setRemainingTime] = useState(180);
@@ -39,6 +40,7 @@ export default function PhoneAuth({
         setIsCodeMatch={setIsCodeMatch}
         setRemainingTime={setRemainingTime}
         setPhoneCode={setPhoneCode}
+        trigger={trigger}
       />
       {isPhoneAuth && (
         <AuthCode

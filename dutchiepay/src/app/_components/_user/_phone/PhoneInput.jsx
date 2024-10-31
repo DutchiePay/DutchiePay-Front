@@ -17,17 +17,18 @@ export default function PhoneInput({
   setIsCodeMatch,
   setRemainingTime,
   setPhoneCode,
+  trigger,
 }) {
   const rPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 
   useEffect(() => {
     if (phone) {
       setIsCodeMatch(false);
+      trigger('phone'); // 핸드폰 번호가 변경될 때 유효성 검사를 트리거
     } else {
       setIsCodeMatch(null);
     }
-  }, [phone, setIsCodeMatch]);
-
+  }, [phone, setIsCodeMatch, trigger]);
   const handleAuthClick = async () => {
     if (!errors.phone && phone) {
       setIsPhoneAuth(true);
@@ -72,6 +73,7 @@ export default function PhoneInput({
             onChange: (e) => {
               const newValue = e.target.value.replace(/[^0-9]/g, '');
               setValue('phone', newValue);
+              trigger('phone'); // 유효성 검사 트리거
             },
             pattern: {
               value: rPhone,
