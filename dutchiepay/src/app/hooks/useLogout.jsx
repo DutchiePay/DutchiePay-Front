@@ -1,14 +1,14 @@
+import Cookies from 'universal-cookie';
+import axios from 'axios';
+import { logout } from '@/redux/slice/loginSlice';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { logout } from '@/redux/slice/loginSlice';
-import Cookies from 'universal-cookie';
 
 const useLogout = (accessToken) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const cookies = new Cookies();
+
   const handleLogout = useCallback(async () => {
     try {
       await axios.post(
@@ -22,11 +22,15 @@ const useLogout = (accessToken) => {
       );
 
       dispatch(logout());
+      const cookies = new Cookies();
       cookies.remove('refresh', { path: '/' });
       sessionStorage.removeItem('user');
+      localStorage.setItem('logout-event', '1');
+      localStorage.removeItem('logout-event');
+      localStorage.removeItem('dutchie-rememberMe');
       router.push('/');
     } catch (error) {
-      console.error('로그아웃 중 오류 발생:', error);
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
   }, [dispatch, accessToken, router]);
 
