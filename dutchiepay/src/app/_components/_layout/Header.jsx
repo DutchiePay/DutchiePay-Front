@@ -2,7 +2,7 @@
 
 import '@/styles/header.css';
 
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -74,43 +74,39 @@ export default function Header() {
     }
   }, [access, handleRelogin]);
 
+  // tab 간 데이터 동기화
   useEffect(() => {
+    const channel = new BroadcastChannel('auth-channel');
+
     if (!access && !localStorage.getItem('dutchie-rememberMe')) {
-      localStorage.setItem('storage-change', '1');
-      localStorage.removeItem('storage-change');
+      channel.postMessage({ type: 'sync-request' });
     }
-  }, [access]);
 
-  useEffect(() => {
-    const handleStorageEvent = (e) => {
-      if (!e.newValue) return;
+    channel.onmessage = (e) => {
+      const { type, data } = e.data;
 
-      if (e.key === 'storage-change' && access) {
+      if (type === 'sync-request' && access) {
         const sharedData = {
           user,
           access: access,
         };
-        localStorage.setItem('sharedUserInfo', JSON.stringify(sharedData));
-        localStorage.removeItem('sharedUserInfo');
-      } else if (e.key === 'sharedUserInfo' && !access) {
-        if (e.oldValue) return;
-        const data = JSON.parse(e.newValue);
+        channel.postMessage({ type: 'sync-data', data: sharedData });
+      } else if (type === 'sync-data' && !access) {
         dispatch(
           login({
             user: data.user,
             access: data.access,
           })
         );
-      } else if (e.key === 'logout-event' && access) {
+      } else if (type === 'logout-event' && access) {
         dispatch(logout());
       }
     };
 
-    window.addEventListener('storage', handleStorageEvent);
     return () => {
-      window.removeEventListener('storage', handleStorageEvent);
+      channel.close();
     };
-  }, [dispatch, access, user, isLoggedIn]);
+  }, [dispatch, access, user]);
 
   useEffect(() => {
     if (pathname === '/' && !isLoggedIn && addresses) {

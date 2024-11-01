@@ -24,10 +24,13 @@ const useLogout = (accessToken) => {
       dispatch(logout());
       const cookies = new Cookies();
       cookies.remove('refresh', { path: '/' });
-      sessionStorage.removeItem('user');
-      localStorage.setItem('logout-event', '1');
-      localStorage.removeItem('logout-event');
       localStorage.removeItem('dutchie-rememberMe');
+      sessionStorage.removeItem('user');
+
+      const channel = new BroadcastChannel('auth-channel');
+      channel.postMessage({ type: 'logout-event' });
+      channel.close();
+
       router.push('/');
     } catch (error) {
       alert('오류가 발생했습니다. 다시 시도해주세요.');
