@@ -59,7 +59,6 @@ export default function Header() {
         })
       );
     } catch (error) {
-      console.log(error);
       if (
         error.response.data.message === '리프레시 토큰이 유효하지 않습니다.'
       ) {
