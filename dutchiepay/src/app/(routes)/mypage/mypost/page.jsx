@@ -4,6 +4,7 @@ import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
 import Image from 'next/image';
+import MypageFilter from '@/app/_components/_mypage/MypageFilter';
 import Post from '@/app/_components/Post';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
@@ -20,22 +21,16 @@ export default function MyPost() {
         {nickname}님이 작성하고 댓글을 남긴 게시글을 확인할 수 있습니다.
       </small>
       <ul className="flex gap-[8px] my-[16px]">
-        <li>
-          <button
-            className={`mypage__filter ${filter === '작성한 게시글' ? `mypage__filter--selected` : ''}`}
-            onClick={() => setFilter('작성한 게시글')}
-          >
-            작성한 게시글
-          </button>
-        </li>
-        <li>
-          <button
-            className={`mypage__filter ${filter === '댓글 남긴 게시글' ? `mypage__filter--selected` : ''}`}
-            onClick={() => setFilter('댓글 남긴 게시글')}
-          >
-            댓글 남긴 게시글
-          </button>
-        </li>
+        <MypageFilter
+          filter={filter}
+          setFilter={setFilter}
+          filterkey={'작성한 게시글'}
+        />
+        <MypageFilter
+          filter={filter}
+          setFilter={setFilter}
+          filterkey={'댓글 남긴 게시글'}
+        />
       </ul>
       <section className="flex flex-wrap gap-[12px] mb-[40px]">
         <Post />
