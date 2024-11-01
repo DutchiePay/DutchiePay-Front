@@ -9,6 +9,7 @@ import { useParams, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import Post from '@/app/_components/Post';
+import ProductFilter from './_commerce/_product/ProductFilter';
 import Product_Like from '@/app/_components/Product';
 import { useState } from 'react';
 
@@ -41,32 +42,7 @@ export default function SectionSearch() {
               </label>
             </div>
 
-            <ul className="flex">
-              <li
-                className={`fillter__item ${filter === '최신순' && 'fillter__item--selected'}`}
-                onClick={() => setFilter('최신순')}
-              >
-                최신순
-              </li>
-              <li
-                className={`fillter__item ${filter === '좋아요순' && 'fillter__item--selected'}`}
-                onClick={() => setFilter('좋아요순')}
-              >
-                좋아요순
-              </li>
-              <li
-                className={`fillter__item ${filter === '할인율순' && 'fillter__item--selected'}`}
-                onClick={() => setFilter('할인율순')}
-              >
-                할인율순
-              </li>
-              <li
-                className={`fillter__item ${filter === '마감임박순' && 'fillter__item--selected'}`}
-                onClick={() => setFilter('마감임박순')}
-              >
-                마감임박순
-              </li>
-            </ul>
+            <ProductFilter filter={filter} setFilter={setFilter} />
           </div>
           <div className="flex justify-between mt-[12px] px-[12px]">
             <Product_Like />

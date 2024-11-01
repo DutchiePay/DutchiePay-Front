@@ -5,7 +5,7 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import selectArrow from '../../../../public/image/selectArrow.svg';
-import { useDaumPostcodePopup } from 'react-daum-postcode';
+import useGetPostCode from '@/app/hooks/useGetPostCode';
 import { useState } from 'react';
 
 export default function Orderer() {
@@ -15,22 +15,19 @@ export default function Orderer() {
     address: '',
     detail: '',
   });
-  const open = useDaumPostcodePopup();
+  const getPostCode = useGetPostCode();
 
-  const handlePostCode = (e) => {
-    open({
-      onComplete: (data) => {
-        setAddressInfo((prevState) => ({
-          ...prevState,
-          zipCode: data.zonecode,
-          address: data.roadAddress,
-        }));
-      },
-      width: 500,
-      height: 600,
-      left: window.innerWidth / 2 - 500 / 2,
-      top: window.innerHeight / 2 - 600 / 2,
-    });
+  const handlePostCode = async () => {
+    try {
+      const addressData = await getPostCode();
+      setAddressInfo((prevState) => ({
+        ...prevState,
+        zipCode: addressData.zipCode,
+        address: addressData.address,
+      }));
+    } catch (error) {
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
+    }
   };
 
   return (
@@ -63,7 +60,7 @@ export default function Orderer() {
                 <div className="flex items-center gap-[8px]">
                   <input
                     className="w-[70px] border rounded-lg px-[8px] py-[6px] text-sm outline-none"
-                    value={addressInfo.zipCode}
+                    value={addressInfo.zipCode || ''}
                     placeholder="우편번호"
                   />
                   <button
@@ -76,7 +73,7 @@ export default function Orderer() {
                 </div>
                 <input
                   className="border rounded-lg px-[8px] py-[6px] text-sm outline-none"
-                  value={addressInfo.address}
+                  value={addressInfo.address || ''}
                   placeholder="주소"
                 />
                 <input
