@@ -7,18 +7,18 @@ import { useEffect, useState } from 'react';
 
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
-import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { useForm } from 'react-hook-form';
+import useGetPostCode from '@/app/hooks/useGetPostCode';
 import { useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
 export default function Address() {
   const searchParams = useSearchParams();
-  const open = useDaumPostcodePopup();
   const addressId = searchParams.get('addressid'); // 해당 값이 존재하면 수정, 존재하지 않으면 추가
   const access = useSelector((state) => state.login.access);
   const encryptedAddresses = useSelector((state) => state.address.addresses);
   const [isDefaultAddress, setIsDefaultAddress] = useState(false); // 수정 요청 주소지가 기본 배송지였을 경우 true
+  const getPostCode = useGetPostCode();
 
   const { register, handleSubmit, setValue } = useForm({
     mode: 'onSubmit',
@@ -117,17 +117,14 @@ export default function Address() {
     }
   };
 
-  const handlePostCode = () => {
-    open({
-      onComplete: (data) => {
-        setValue('zipCode', data.zonecode);
-        setValue('address', data.roadAddress);
-      },
-      width: 500,
-      height: 600,
-      left: window.innerWidth / 2 - 500 / 2,
-      top: window.innerHeight / 2 - 600 / 2,
-    });
+  const handlePostCode = async () => {
+    try {
+      const addressData = await getPostCode();
+      setValue('zipCode', addressData.zipCode);
+      setValue('address', addressData.address);
+    } catch (error) {
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
+    }
   };
 
   const closeWindow = () => {
