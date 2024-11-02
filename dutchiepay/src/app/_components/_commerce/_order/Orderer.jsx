@@ -8,11 +8,9 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import selectArrow from '/public/image/selectArrow.svg';
 import useFetchDelivery from '@/app/hooks/useFetchDelivery';
-import { useForm } from 'react-hook-form';
 import useGetPostCode from '@/app/hooks/useGetPostCode';
 
-export default function Orderer() {
-  const { register, setValue } = useForm();
+export default function Orderer({ register, setValue }) {
   const [isSelfMessage, setIsSelfMessage] = useState(false); // 배송 메시지 직접 입력 여부
   const [selectedAddress, setSelectedAddress] = useState(null); // 선택한 배송지
   const getPostCode = useGetPostCode(setValue);
@@ -54,7 +52,7 @@ export default function Orderer() {
   };
 
   return (
-    <form className="flex flex-col gap-[8px]">
+    <>
       <div className="flex items-end justify-between">
         <h2 className="text-2xl font-bold">주문자 정보</h2>
         {deliveryAddress && deliveryAddress.length !== 0 && (
@@ -78,7 +76,7 @@ export default function Orderer() {
         )}
       </div>
 
-      <table className="border border-collapse">
+      <table className="w-full border border-collapse">
         <tbody>
           <tr className="border h-[60px]">
             <th className="w-[120px] bg-gray--100">받는분</th>
@@ -171,6 +169,6 @@ export default function Orderer() {
           </tr>
         </tbody>
       </table>
-    </form>
+    </>
   );
 }
