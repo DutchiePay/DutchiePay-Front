@@ -3,22 +3,22 @@ import '@/styles/globals.css';
 
 import PaymentChoice from './PaymentChoice';
 
-export default function Payment() {
+export default function Payment({ orderInfo, quantity }) {
   return (
     <article className="w-[380px] flex flex-col gap-[8px]">
       <h2 className="text-2xl font-bold">결제 정보</h2>
       <div className="pt-[12px] flex flex-col gap-[12px] border rounded">
         <div className="flex justify-between px-[16px]">
           <p className="text-gray--500 text-sm">판매가</p>
-          <p>30,000원</p>
+          <p>{orderInfo?.originalPrice}</p>
         </div>
         <div className="flex justify-between px-[16px]">
           <p className="text-gray--500 text-sm">구매가</p>
-          <p className="text-blue--500 font-semibold">24,500원</p>
+          <p className="text-blue--500 font-semibold">{orderInfo?.salePrice}</p>
         </div>
         <div className="flex justify-between px-[16px]">
           <p className="text-gray--500 text-sm">수량</p>
-          <p>1개</p>
+          <p>{quantity}개</p>
         </div>
         <div className="flex justify-between px-[16px]">
           <p className="text-gray--500 text-sm">배송비</p>
@@ -27,7 +27,9 @@ export default function Payment() {
         <hr />
         <div className="px-[16px] mb-[12px] flex justify-between items-center">
           <strong className="text-lg">최종 결제 금액</strong>
-          <p className="text-xl text-blue--500 font-bold">17,150원</p>
+          <p className="text-xl text-blue--500 font-bold">
+            {orderInfo?.salePrice * quantity}
+          </p>
         </div>
       </div>
 
@@ -37,7 +39,7 @@ export default function Payment() {
         className="w-full mt-[16px] py-[8px] bg-blue--500 text-white text-lg font-semibold rounded-lg"
         type="submit"
       >
-        17,150원 ㆍ 결제하기
+        {orderInfo?.salePrice * quantity}원 ㆍ 결제하기
       </button>
     </article>
   );
