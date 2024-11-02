@@ -3,12 +3,12 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import AddressInput from '../_input/AddressInput';
 import EmailInput from '../_input/EmailInput';
 import NicknameInput from '../_input/NicknameInput';
 import PasswordInput from '../_input/PasswordInput';
 import PhoneAuth from '../_phone/PhoneAuth';
 import Policy from './Policy';
+import RegionInput from '../_input/RegionInput';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -105,7 +105,7 @@ export default function SignUpSubmit() {
         setError={setError}
         clearErrors={clearErrors}
       />
-      <AddressInput address={address} setAddress={setAddress} />
+      <RegionInput address={address} setAddress={setAddress} />
       <PhoneAuth
         register={register}
         watch={watch}
