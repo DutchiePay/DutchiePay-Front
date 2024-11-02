@@ -18,7 +18,6 @@ export default function Address() {
   const access = useSelector((state) => state.login.access);
   const encryptedAddresses = useSelector((state) => state.address.addresses);
   const [isDefaultAddress, setIsDefaultAddress] = useState(false); // 수정 요청 주소지가 기본 배송지였을 경우 true
-  const getPostCode = useGetPostCode();
 
   const { register, handleSubmit, setValue } = useForm({
     mode: 'onSubmit',
@@ -26,6 +25,7 @@ export default function Address() {
     shouldFocusError: true,
     shouldUseNativeValidation: false,
   });
+  const getPostCode = useGetPostCode(setValue);
 
   const rPhone = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
 
@@ -119,9 +119,7 @@ export default function Address() {
 
   const handlePostCode = async () => {
     try {
-      const addressData = await getPostCode();
-      setValue('zipCode', addressData.zipCode);
-      setValue('address', addressData.address);
+      await getPostCode();
     } catch (error) {
       alert('오류가 발생했습니다. 다시 시도해주세요.');
     }

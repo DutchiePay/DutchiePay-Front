@@ -2,8 +2,8 @@ import '@/styles/commerce.css';
 import '@/styles/globals.css';
 
 import Image from 'next/image';
-import delivery from '../../../../public/image/delivery.svg';
-import product from '../../../../public/image/product1.jpg';
+import delivery from '/public/image/delivery.svg';
+import product from '/public/image/product1.jpg';
 
 export default function OrderInfo() {
   return (

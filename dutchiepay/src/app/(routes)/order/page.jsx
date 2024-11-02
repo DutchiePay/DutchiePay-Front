@@ -1,9 +1,9 @@
 import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
-import OrderInfo from '@/app/_components/_commerce/OrderInfo';
-import Orderer from '@/app/_components/_commerce/Orderer';
-import Payment from '@/app/_components/_commerce/Payment';
+import OrderInfo from '@/app/_components/_commerce/_order/OrderInfo';
+import Orderer from '@/app/_components/_commerce/_order/Orderer';
+import Payment from '@/app/_components/_commerce/_order/Payment';
 
 export default function Order() {
   return (
