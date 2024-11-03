@@ -12,6 +12,7 @@ import { useState } from 'react';
 
 export default function ProductInfo({ isEnd, product, productId }) {
   const [quantity, setQuantity] = useState(1);
+  console.log(product);
 
   return (
     <article className="w-[500px] px-[16px] py-[40px]">
@@ -28,7 +29,12 @@ export default function ProductInfo({ isEnd, product, productId }) {
         deadline={product?.deadline}
         isLiked={product?.isLiked}
       />
-      <OrderButton isEnd={isEnd} productId={productId} quantity={quantity} />
+      <OrderButton
+        isEnd={isEnd}
+        productId={productId}
+        quantity={quantity}
+        storeName={product?.storeName}
+      />
     </article>
   );
 }

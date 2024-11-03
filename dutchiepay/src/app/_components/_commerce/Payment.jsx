@@ -2,7 +2,6 @@ import '@/styles/commerce.css';
 import '@/styles/globals.css';
 
 import PaymentChoice from './PaymentChoice';
-import { formatPrice } from '@/app/_util/getFormatPrice';
 
 export default function Payment({ orderInfo, quantity }) {
   return (
@@ -11,12 +10,12 @@ export default function Payment({ orderInfo, quantity }) {
       <div className="pt-[12px] flex flex-col gap-[12px] border rounded">
         <div className="flex justify-between px-[16px]">
           <p className="text-gray--500 text-sm">판매가</p>
-          <p>{formatPrice(orderInfo?.originalPrice)}원</p>
+          <p>{orderInfo?.originalPrice.toLocaleString('ko-KR')}원</p>
         </div>
         <div className="flex justify-between px-[16px]">
           <p className="text-gray--500 text-sm">구매가</p>
           <p className="text-blue--500 font-semibold">
-            {formatPrice(orderInfo?.salePrice)}원
+            {orderInfo?.salePrice.toLocaleString('ko-KR')}원
           </p>
         </div>
         <div className="flex justify-between px-[16px]">
@@ -31,7 +30,7 @@ export default function Payment({ orderInfo, quantity }) {
         <div className="px-[16px] mb-[12px] flex justify-between items-center">
           <strong className="text-lg">최종 결제 금액</strong>
           <p className="text-xl text-blue--500 font-bold">
-            {formatPrice(orderInfo?.salePrice * quantity)}원
+            {(orderInfo?.salePrice * quantity).toLocaleString('ko-KR')}원
           </p>
         </div>
       </div>
@@ -42,7 +41,8 @@ export default function Payment({ orderInfo, quantity }) {
         className="w-full mt-[16px] py-[8px] bg-blue--500 text-white text-lg font-semibold rounded-lg"
         type="submit"
       >
-        {formatPrice(orderInfo?.salePrice * quantity)}원 ㆍ 결제하기
+        {(orderInfo?.salePrice * quantity).toLocaleString('ko-KR')}원 ㆍ
+        결제하기
       </button>
     </article>
   );

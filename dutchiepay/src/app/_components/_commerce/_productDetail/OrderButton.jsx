@@ -5,12 +5,12 @@ import '@/styles/commerce.css';
 
 import Link from 'next/link';
 
-export default function OrderButton({ isEnd, productId, quantity }) {
+export default function OrderButton({ isEnd, productId, quantity, storeName }) {
   return (
     <>
       <Link
         className={`${isEnd ? 'bg-gray--200 cursor-not-allowed' : 'bg-blue--500'} inline-block text-center text-white font-bold py-[12px] w-full rounded`}
-        href={`/order?productId=${productId}&quantity=${quantity}`}
+        href={`/order?productId=${productId}&quantity=${quantity}&storeName=${storeName}`}
         onClick={(e) => {
           if (isEnd) {
             e.preventDefault(); // 마감됐을 경우, Link 동작되지 않도록 기본 동작 제거

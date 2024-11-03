@@ -15,6 +15,7 @@ export default function Order() {
   const searchParams = useSearchParams();
   const buyId = searchParams.get('productId');
   const quantity = searchParams.get('quantity');
+  const storeName = searchParams.get('storeName');
   const [orderInfo, setOrderInfo] = useState(null);
   useEffect(() => {
     const fetchProduct = async () => {
@@ -44,7 +45,11 @@ export default function Order() {
         ※ 공동구매 마감 시간 이전까지 결제가 완료 되어야 성공적으로 구매가
         가능합니다.
       </p>
-      <OrderInfo orderInfo={orderInfo} quantity={quantity} />
+      <OrderInfo
+        orderInfo={orderInfo}
+        quantity={quantity}
+        storeName={storeName}
+      />
       <section className="mt-[40px] flex justify-between">
         <div className="w-[600px] flex flex-col gap-[32px]">
           <Orderer />

@@ -4,9 +4,8 @@ import '@/styles/globals.css';
 import Image from 'next/image';
 import delivery from '../../../../public/image/delivery.svg';
 import product from '../../../../public/image/product1.jpg';
-import { formatPrice } from '@/app/_util/getFormatPrice';
 
-export default function OrderInfo({ orderInfo, quantity }) {
+export default function OrderInfo({ orderInfo, quantity, storeName }) {
   return (
     <table className="w-full mt-[40px] border border-collapse">
       <thead className="bg-gray--100 border-t border-b border-gray--200">
@@ -29,9 +28,7 @@ export default function OrderInfo({ orderInfo, quantity }) {
                 height={110}
               />
               <div>
-                <p className="text-xs text-gray--500">
-                  (주)이랜드팜앤푸드(서울)
-                </p>
+                <p className="text-xs text-gray--500">{storeName}</p>
                 <strong className="title--multi-line">
                   {orderInfo?.productName}
                 </strong>
@@ -43,21 +40,21 @@ export default function OrderInfo({ orderInfo, quantity }) {
             </div>
           </td>
           <td className="h-[150px] text-center font-bold border">
-            {formatPrice(orderInfo?.originalPrice)}원
+            {orderInfo?.originalPrice.toLocaleString('ko-KR')}원
           </td>
           <td className="h-[150px] text-center font-bold border">
             <div>
               <p className="text-xs text-gray--500 line-through">
-                {formatPrice(orderInfo?.originalPrice)}원
+                {orderInfo?.originalPrice.toLocaleString('ko-KR')}원
               </p>
               <strong className="text-red--500 font-bold">
-                {formatPrice(orderInfo?.salePrice)}원
+                {orderInfo?.salePrice.toLocaleString('ko-KR')}원
               </strong>
             </div>
           </td>
           <td className="h-[150px] text-center border">{quantity}개</td>
           <td className="h-[150px] text-center font-bold border">
-            {formatPrice(orderInfo?.salePrice * quantity)}원
+            {(orderInfo?.salePrice * quantity).toLocaleString('ko-KR')}원
           </td>
         </tr>
       </tbody>
