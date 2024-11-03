@@ -62,6 +62,8 @@ export default function Header() {
             access: data.access,
           })
         );
+      } else if (type === 'change-address') {
+        dispatch(setAddresses(data));
       }
     };
 

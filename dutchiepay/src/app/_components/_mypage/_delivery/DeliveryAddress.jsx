@@ -33,6 +33,7 @@ export default function DeliveryAddress() {
           }
         );
         setDeliveryAddress(response.data);
+
         const encryptData = CryptoJS.AES.encrypt(
           JSON.stringify(response.data),
           process.env.NEXT_PUBLIC_SECRET_KEY
