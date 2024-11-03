@@ -16,17 +16,17 @@ export default function Ask({ askCount, productId, company }) {
   const buyId = productId; // 게시글 정보 저장 시 변경 예정
   const [items, setItems] = useState([]);
   const [activePage, setActivePage] = useState(1);
-  const size = 6;
+  const limit = 6;
   const [totalItems, setTotalItems] = useState(0);
 
   const fetchItems = async (page) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/asks?buyId=${buyId}&page=${page}&size=${size}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/asks?buyId=${buyId}&page=${page}&limit=${limit}`
       );
 
       setItems(response.data);
-      setTotalItems(askCount);
+      setTotalItems(askCount || 0);
     } catch (error) {
       alert('데이터를 가져오는 데 오류가 발생했습니다:');
     }
@@ -87,7 +87,7 @@ export default function Ask({ askCount, productId, company }) {
         <Pagination
           activePage={activePage}
           totalItems={totalItems}
-          size={size}
+          limit={limit}
           onPageChange={handlePageChange}
         />
       )}

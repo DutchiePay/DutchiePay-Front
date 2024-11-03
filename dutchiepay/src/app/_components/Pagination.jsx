@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Pagination = ({ activePage, totalItems, size, onPageChange }) => {
-  const totalPageCount = Math.ceil(totalItems / size); // 총 페이지 수 계산
+const Pagination = ({ activePage, totalItems, limit, onPageChange }) => {
+  const totalPageCount = Math.ceil(totalItems / limit); // 총 페이지 수 계산
   const pageRangeDisplayed = 5; // 보여줄 페이지 수
 
   // 페이지 그룹 계산

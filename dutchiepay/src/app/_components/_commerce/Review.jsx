@@ -19,7 +19,7 @@ export default function Review({
   const buyId = productId;
   const [items, setItems] = useState([]);
   const [activePage, setActivePage] = useState(1);
-  const size = 6;
+  const limit = 6;
   const [totalItems, setTotalItems] = useState(0);
   const [avg, setAvg] = useState(0);
   useEffect(() => {
@@ -34,7 +34,7 @@ export default function Review({
     try {
       const photo = isAll ? 0 : 1; // isAll에 따라 photo 값 설정
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/review?buyId=${buyId}&photo=${photo}&page=${page}&limit=${size}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/review?buyId=${buyId}&photo=${photo}&page=${page}&limit=${limit}`
       );
       // 리뷰 데이터를 설정
       setItems(response.data.reviews);
@@ -92,7 +92,7 @@ export default function Review({
         <Pagination
           activePage={activePage}
           totalItems={totalItems}
-          size={size}
+          limit={limit}
           onPageChange={handlePageChange}
         />
       )}
