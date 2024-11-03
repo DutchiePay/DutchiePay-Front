@@ -24,12 +24,15 @@ export default function ProductList({ category, filter, isEndContain }) {
     async (filterType, categoryParam, endParam, cursorParam) => {
       setIsLoading(true);
       try {
+        const headers = {};
+        if (access) {
+          headers.Authorization = `Bearer ${access}`;
+        }
+
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/list?filter=${filterType}&${categoryParam}end=${endParam}&${cursorParam}limit=16`,
           {
-            headers: {
-              Authorization: `Bearer ${access}`,
-            },
+            headers,
           }
         );
 

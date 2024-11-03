@@ -1,4 +1,4 @@
-export default function getStarRates({ rating }) {
+export default function getStarRates(rating) {
   let starRatesArr = [0, 0, 0, 0, 0];
   let starVerScore = rating;
 
