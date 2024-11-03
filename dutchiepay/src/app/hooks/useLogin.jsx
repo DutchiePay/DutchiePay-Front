@@ -28,6 +28,16 @@ export default function useLogin() {
         access: access,
       })
     );
+
+    const channel = new BroadcastChannel('auth-channel');
+    channel.postMessage({
+      type: 'login-event',
+      data: {
+        user: userInfo,
+        access: access,
+      },
+    });
+    channel.close();
   };
 
   return handleLogin;

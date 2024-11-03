@@ -55,6 +55,13 @@ export default function Header() {
         );
       } else if (type === 'logout-event' && access) {
         dispatch(logout());
+      } else if (type === 'login-event') {
+        dispatch(
+          login({
+            user: data.user,
+            access: data.access,
+          })
+        );
       }
     };
 

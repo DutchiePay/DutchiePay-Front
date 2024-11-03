@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
 export default function ExtraInfo() {
-  /*const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const isCertified = useSelector((state) => state.login.user.isCertified);
   const router = useRouter();
 
@@ -18,7 +18,7 @@ export default function ExtraInfo() {
       alert('잘못된 접근 방식');
       router.push('/');
     }
-  }, [router, isCertified, isLoggedIn]);*/
+  }, [router, isCertified, isLoggedIn]);
 
   return (
     <section className="w-full flex flex-col items-center justify-center min-h-[735px]">
