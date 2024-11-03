@@ -20,10 +20,11 @@ export default function ReviewItem({ className, item, isAll }) {
   const [isMore, setIsMore] = useState(false);
   const isReview = 'review';
   const thumbnails = item.reviewImg;
+  console.log(isMore);
 
   useEffect(() => {
     // 리뷰 이미지가 있는 경우에만 hasImages를 true로 설정
-    setHasImages(item.reviewImg && item.reviewImg.length > 0);
+    setHasImages(item.reviewImg.length > 0);
   }, [item.reviewImg]);
 
   const handleImageClick = () => {
@@ -51,11 +52,6 @@ export default function ReviewItem({ className, item, isAll }) {
       document.body.style.overflow = 'auto';
     };
   }, [isModalOpen]);
-
-  useEffect(() => {
-    // 내용의 길이에 따라 isMore 설정
-    setIsMore(item.content.length > 200); // 200자보다 길 경우에만 true
-  }, [item.content]);
 
   return (
     <>
