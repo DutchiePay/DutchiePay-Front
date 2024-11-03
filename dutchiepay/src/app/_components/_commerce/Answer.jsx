@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import reply from '../../../../public/image/reply.svg';
+import getFormatDate from '@/app/_util/getFormatDate';
 
-const Answer = React.memo(({ answer }) => {
+const Answer = React.memo(({ answer, company }) => {
   const [isMore, setIsMore] = useState(false);
   const handleIsMore = () => {
     setIsMore((prev) => !prev);
   };
-
+  isAsk = 'ask';
   return (
     <tr className="border-b-2 border-gray-300 text-center">
       <td className="w-[100px] pl-[45px] py-[20px] border-gray-300">
@@ -21,10 +22,11 @@ const Answer = React.memo(({ answer }) => {
           {answer}
         </p>
       </td>
-      <td className="w-[150px] px-2 py-[20px] border-gray-300">
-        이랜드팜앤푸드
+      <td className="w-[150px] px-2 py-[20px] border-gray-300">{company}</td>
+      <td className="w-[150px] px-2 py-[20px]">
+        {' '}
+        {getFormatDate(isAsk, item.answerAt)}
       </td>
-      <td className="w-[150px] px-2 py-[20px]">2024.05.31</td>
       <td className="w-[100px] px-2 py-[20px] border-gray-300"></td>
     </tr>
   );

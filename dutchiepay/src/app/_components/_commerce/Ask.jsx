@@ -8,12 +8,12 @@ import axios from 'axios';
 import Image from 'next/image';
 import ask from '../../../../public/image/nonItem/ask.svg'; // SVG 파일을 import
 
-export default function Ask() {
+export default function Ask({ askCount, productId, company }) {
   const askPopup = () => {
     window.open('/ask', '_blank', 'width=620, height=670');
   };
 
-  const buyId = 7; // 게시글 정보 저장 시 변경 예정
+  const buyId = productId; // 게시글 정보 저장 시 변경 예정
   const [items, setItems] = useState([]);
   const [activePage, setActivePage] = useState(1);
   const size = 6;
@@ -24,12 +24,11 @@ export default function Ask() {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/asks?buyId=${buyId}&page=${page}&size=${size}`
       );
-      console.log(response.data);
 
       setItems(response.data);
-      setTotalItems(response.data.length);
+      setTotalItems(askCount);
     } catch (error) {
-      console.error('데이터를 가져오는 데 오류가 발생했습니다:', error);
+      alert('데이터를 가져오는 데 오류가 발생했습니다:');
     }
   };
 
@@ -78,7 +77,9 @@ export default function Ask() {
               </td>
             </tr>
           ) : (
-            items.map((item, index) => <AskItem key={index} item={item} />)
+            items.map((item, index) => (
+              <AskItem key={index} item={item} company={company} />
+            ))
           )}
         </tbody>
       </table>
