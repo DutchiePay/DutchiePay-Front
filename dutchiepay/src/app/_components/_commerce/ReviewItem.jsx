@@ -8,8 +8,8 @@ import ImagesModal from '../../(modals)/images/page';
 import Link from 'next/link';
 
 import Rating from '../_rating/Rating';
-import images from '../../../../public/image/images.svg';
-import more from '../../../../public/image/more.svg';
+import images from '/public/image/images.svg';
+import more from '/public/image/more.svg';
 
 import { useState, useEffect } from 'react';
 import getFormatDate from '@/app/_util/getFormatDate';

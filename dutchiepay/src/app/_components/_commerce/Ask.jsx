@@ -6,7 +6,7 @@ import Pagination from '../Pagination';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
-import ask from '../../../../public/image/nonItem/ask.svg'; // SVG 파일을 import
+import ask from '/public/image/nonItem/ask.svg'; // SVG 파일을 import
 
 export default function Ask({ askCount, productId, company }) {
   const askPopup = () => {

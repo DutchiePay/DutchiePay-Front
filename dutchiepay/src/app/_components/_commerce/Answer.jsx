@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import reply from '../../../../public/image/reply.svg';
+import reply from '/public/image/reply.svg';
 import getFormatDate from '@/app/_util/getFormatDate';
 
 const Answer = React.memo(({ answer, company, item }) => {
