@@ -1,6 +1,6 @@
 export default function getRemainingTime(endTime) {
   const now = new Date();
-  const endDate = new Date(`${endTime}T00:00:00Z`);
+  const endDate = new Date(`${endTime}T23:59:59Z`);
   const distance = endDate - now;
 
   if (distance <= 0) {
