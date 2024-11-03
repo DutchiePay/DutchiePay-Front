@@ -25,8 +25,8 @@ export default function RootLayoutClient({ children }) {
 
 function LayoutWrapper({ children }) {
   const pathname = usePathname();
-  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
-  const isCertified = useSelector((state) => state.login.user.isCertified);
+  //const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  //const isCertified = useSelector((state) => state.login.user.isCertified);
 
   const rhideHeader = pathname.match(
     /\/(login|reset|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address|auth-phone)/
@@ -38,14 +38,14 @@ function LayoutWrapper({ children }) {
     /\/(login|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address|extra-info|auth-phone)/
   );
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (isLoggedIn && !isCertified) {
       // 사용자가 extra-info 페이지로 리다이렉션
       if (!pathname.startsWith('/extra-info')) {
         redirect('/extra-info');
       }
     }
-  }, [isLoggedIn, isCertified, pathname]);
+  }, [isLoggedIn, isCertified, pathname]);*/
 
   return (
     <>

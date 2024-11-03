@@ -37,8 +37,10 @@ export default function ProductList({ category, filter, isEndContain }) {
         setCursor(response.data.cursor);
         setIsInitialized(true);
         return response.data.products;
-      } catch {
+      } catch (error) {
+        console.log(error);
         alert('오류가 발생했습니다. 다시 시도해주세요.');
+        return [];
       } finally {
         setIsLoading(false);
       }

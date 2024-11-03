@@ -1,10 +1,9 @@
 import Cookies from 'universal-cookie';
 import axios from 'axios';
-import { login } from '@/redux/slice/loginSlice';
-import { useDispatch } from 'react-redux';
+import useLogin from './useLogin';
 
 export default function useRelogin() {
-  const dispatch = useDispatch();
+  const handleLogin = useLogin();
 
   const handleRelogin = async () => {
     const cookies = new Cookies();
@@ -19,24 +18,20 @@ export default function useRelogin() {
       );
 
       const userInfo = {
-        isLoggedIn: true,
-        loginType: response.data.type || 'email',
-        user: {
-          userId: response.data.userId,
-          nickname: response.data.nickname,
-          profileImage: response.data.profileImg,
-          location: response.data.location,
-          isCertified: response.data.isCertified,
-        },
-        access: response.data.access,
+        userId: response.data.userId,
+        nickname: response.data.nickname,
+        profileImage: response.data.profileImg,
+        location: response.data.location,
+        isCertified: response.data.isCertified,
       };
-      localStorage.setItem('loginType', userInfo.loginType);
-      dispatch(
-        login({
-          user: userInfo.user,
-          access: userInfo.access,
-        })
-      );
+
+      handleLogin({
+        userInfo,
+        access: response.data.access,
+        loginType: response.data.type,
+        isRelogin: true,
+        isRemeberMe: true,
+      });
     } catch (error) {
       if (
         error.response.data.message === '리프레시 토큰이 유효하지 않습니다.'

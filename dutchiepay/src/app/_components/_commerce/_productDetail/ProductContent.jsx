@@ -61,7 +61,11 @@ export default function ProductContent({ product }) {
           />
         </div>
         <hr className="my-[40px]" ref={reviewRef} />
-        <Review />
+        <Review
+          reviewCount={product?.reviewCount}
+          rating={product?.rating}
+          ratingCount={product?.ratingCount}
+        />
         <hr className="my-[40px]" ref={askRef} />
         <Company
           company={product?.storeName}
