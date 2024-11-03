@@ -4,6 +4,7 @@ import '@/styles/globals.css';
 import Image from 'next/image';
 import delivery from '../../../../public/image/delivery.svg';
 import product from '../../../../public/image/product1.jpg';
+import { formatPrice } from '@/app/_util/getFormatPrice';
 
 export default function OrderInfo({ orderInfo, quantity }) {
   return (
@@ -42,21 +43,21 @@ export default function OrderInfo({ orderInfo, quantity }) {
             </div>
           </td>
           <td className="h-[150px] text-center font-bold border">
-            {orderInfo?.originalPrice}
+            {formatPrice(orderInfo?.originalPrice)}원
           </td>
           <td className="h-[150px] text-center font-bold border">
             <div>
               <p className="text-xs text-gray--500 line-through">
-                {orderInfo?.originalPrice}
+                {formatPrice(orderInfo?.originalPrice)}원
               </p>
               <strong className="text-red--500 font-bold">
-                {orderInfo?.salePrice}
+                {formatPrice(orderInfo?.salePrice)}원
               </strong>
             </div>
           </td>
-          <td className="h-[150px] text-center border">{quantity}</td>
+          <td className="h-[150px] text-center border">{quantity}개</td>
           <td className="h-[150px] text-center font-bold border">
-            {orderInfo?.salePrice * quantity}
+            {formatPrice(orderInfo?.salePrice * quantity)}원
           </td>
         </tr>
       </tbody>
