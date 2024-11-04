@@ -1,8 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import success from '../../../../../public/image/success.svg';
+import success from '/public/image/success.svg';
+import { useSearchParams } from 'next/navigation';
 
 export default function Success() {
+  const searchParams = useSearchParams();
+  const orderId = searchParams.get('orderid');
+
   return (
     <section className="h-[750px] w-[1020px] flex justify-center items-center">
       <section className="flex flex-col gap-[16px] justify-center items-center">
@@ -22,7 +26,7 @@ export default function Success() {
         <p className="text-center text-lg">
           고객님이 주문하신 주문번호는
           <br />
-          <strong className="text-red--500">24081612345</strong> 입니다.
+          <strong className="text-red--500">{orderId}</strong> 입니다.
         </p>
         <p className="text-xs text-gray--500">
           주문 내역은 마이페이지의 “구매내역”에서 확인하실 수 있습니다.
