@@ -38,7 +38,7 @@ export default function CommerceDetail({ params }) {
   return (
     <section className="min-h-[750px] w-[1020px]">
       <ProductHeader product={product} productId={id} />
-      <ProductContent product={product} />
+      <ProductContent product={product} productId={id} />
     </section>
   );
 }
