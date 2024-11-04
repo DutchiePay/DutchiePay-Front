@@ -2,10 +2,10 @@ import '@/styles/commerce.css';
 import '@/styles/globals.css';
 
 import Image from 'next/image';
-import delivery from '../../../../public/image/delivery.svg';
-import product from '../../../../public/image/product1.jpg';
+import delivery from '/public/image/delivery.svg';
+import product from '/public/image/product1.jpg';
 
-export default function OrderInfo({ orderInfo, quantity, storeName }) {
+export default function OrderInfo({ orderInfo, quantity }) {
   return (
     <table className="w-full mt-[40px] border border-collapse">
       <thead className="bg-gray--100 border-t border-b border-gray--200">
@@ -22,13 +22,13 @@ export default function OrderInfo({ orderInfo, quantity, storeName }) {
           <td className="p-[12px] w-[550px] border">
             <div className="flex items-center gap-[12px]">
               <Image
-                src={orderInfo?.productImg}
+                src={orderInfo?.productImg || product}
                 alt="결제 상품 이미지"
                 width={110}
                 height={110}
               />
               <div>
-                <p className="text-xs text-gray--500">{storeName}</p>
+                <p className="text-xs text-gray--500">{orderInfo?.storeName}</p>
                 <strong className="title--multi-line">
                   {orderInfo?.productName}
                 </strong>
