@@ -33,13 +33,11 @@ export default function Commerce() {
         <ProductFilter filter={filter} setFilter={setFilter} />
       </div>
       <section className="min-h-[400px] flex flex-wrap gap-[30px] mt-[16px] mb-[60px]">
-        {isLoggedIn && (
-          <ProductList
-            category={category}
-            filter={filter}
-            isEndContain={isEndContain}
-          />
-        )}
+        <ProductList
+          category={category}
+          filter={filter}
+          isEndContain={isEndContain}
+        />
       </section>
     </section>
   );

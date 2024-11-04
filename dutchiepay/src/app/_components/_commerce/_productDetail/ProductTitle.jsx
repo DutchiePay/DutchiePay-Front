@@ -6,7 +6,7 @@ import getCategoryNames from '@/app/_util/getCategoryNames';
 export default function ProductTitle({ product }) {
   return (
     <>
-      <p className="text-xs text-blue--500 font-semibold">
+      <p className="text-sm text-blue--500 font-semibold">
         {getCategoryNames(product?.category)}
       </p>
       <h1 className="font-bold text-xl">{product?.productName}</h1>
