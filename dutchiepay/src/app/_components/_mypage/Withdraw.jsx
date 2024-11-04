@@ -1,32 +1,53 @@
 import '@/styles/mypage.css';
 
-import { useSelector } from 'react-redux';
+import { useCallback, useEffect } from 'react';
 
-import useLogout from '@/app/hooks/useLogout';
+import Cookies from 'universal-cookie';
+import { logout } from '@/redux/slice/loginSlice';
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
 
 export default function Withdraw() {
-  const access = useSelector((state) => state.login.access);
-  const handleLogout = useLogout(access);
+  const dispatch = useDispatch();
+  const router = useRouter();
+
   const handleOpenAuthPhone = () => {
-    const authWindow = window.open(
-      '/auth-phone',
+    window.open(
+      '/withdraw-auth',
       '회원탈퇴',
       'width=620, height=400, location=1'
     );
+  };
 
-    // 부모 창에서 메시지를 수신하여 로그아웃 처리
-    const handleMessage = (event) => {
+  const handleMessage = useCallback(
+    (event) => {
       if (
         event.origin === window.location.origin &&
-        event.data.type === 'LOGOUT'
+        event.data.type === 'WITHDRAW'
       ) {
-        handleLogout();
-        authWindow.close(); // 인증 창을 닫습니다.
-      }
-    };
+        dispatch(logout());
+        const cookies = new Cookies();
+        cookies.remove('refresh', { path: '/' });
+        localStorage.removeItem('dutchie-rememberMe');
+        sessionStorage.removeItem('user');
 
+        const channel = new BroadcastChannel('auth-channel');
+        channel.postMessage({ type: 'logout-event' });
+        channel.close();
+
+        router.push('/');
+      }
+    },
+    [router, dispatch]
+  );
+
+  useEffect(() => {
     window.addEventListener('message', handleMessage);
-  };
+
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, [handleMessage]);
 
   return (
     <button
