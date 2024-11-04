@@ -11,6 +11,7 @@ import axios from 'axios';
 import { login } from '@/redux/slice/loginSlice';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
+import useLogin from '@/app/hooks/useLogin';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -18,6 +19,7 @@ export default function LoginSubmit() {
   const router = useRouter();
   const dispatch = useDispatch();
   const cookies = new Cookies();
+  const handleLogin = useLogin();
 
   const [isRemeberMe, setIsRememberMe] = useState(false); // 자동로그인 체크 여부
   const [isUnauthorized, setIsUnauthorized] = useState(false);
@@ -49,19 +51,14 @@ export default function LoginSubmit() {
         isCertified: response.data.isCertified,
       };
 
-      localStorage.setItem('loginType', response.data.loginType || 'email');
-      if (isRemeberMe) localStorage.setItem('dutchie-rememberMe', '1');
-      dispatch(
-        login({
-          user: userInfo,
-          access: response.data.access,
-        })
-      );
-
-      const expires = isRemeberMe
-        ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
-        : undefined;
-      cookies.set('refresh', response.data.refresh, { path: '/', expires });
+      handleLogin({
+        userInfo,
+        access: response.data.access,
+        loginType: 'email',
+        isRelogin: false,
+        isRemeberMe,
+        refresh: response.data.refresh,
+      });
       router.push('/');
     } catch (error) {
       if (error.response.data.message === '해당하는 유저가 없습니다.')

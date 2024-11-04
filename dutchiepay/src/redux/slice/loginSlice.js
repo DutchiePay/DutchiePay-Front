@@ -8,7 +8,7 @@ const initialState = {
     nickname: null,
     profileImage: null,
     location: null,
-    isCertified: null,
+    isCertified: false,
   },
   access: '',
 };

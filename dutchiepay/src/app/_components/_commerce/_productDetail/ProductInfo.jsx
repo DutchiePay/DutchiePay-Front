@@ -5,7 +5,7 @@ import '@/styles/globals.css';
 
 import DeliveryAndLikeInfo from '@/app/_components/_commerce/_productDetail/DeliveryAndLikeInfo';
 import OrderButton from '@/app/_components/_commerce/_productDetail/OrderButton';
-import ProductStatus from '@/app/_components/_commerce/_productDetail/ProductStats';
+import ProductStatus from '@/app/_components/_commerce/_productDetail/ProductStatus';
 import ProductTitle from '@/app/_components/_commerce/_productDetail/ProductTitle';
 import Quantity from '@/app/_components/_commerce/_productDetail/Quantity';
 import { useState } from 'react';
