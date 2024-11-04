@@ -5,7 +5,7 @@ import '@/styles/user.css';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import AddressInput from './_input/AddressInput';
+import AddressInput from './_input/RegionInput';
 import PhoneAuth from './_phone/PhoneAuth';
 import axios from 'axios';
 import { setIsCertified } from '@/redux/slice/loginSlice';

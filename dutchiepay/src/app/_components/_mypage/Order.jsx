@@ -97,7 +97,7 @@ export default function Order() {
       </div>
       {isMore && (
         <div>
-          <table class="mx-auto my-[16px] border border-collapse">
+          <table className="mx-auto my-[16px] border border-collapse">
             <tr className="border-b">
               <th className="mypage-order-details__table-header">배송지</th>
               <td className="flex flex-col mypage-order-details__table-data">
@@ -118,7 +118,7 @@ export default function Order() {
             <tr className="border-b">
               <th className="mypage-order-details__table-header">송장번호</th>
               <td className="mypage-order-details__table-data flex justify-between">
-                <span class="tracking-number">1234567890</span>
+                <span className="tracking-number">1234567890</span>
                 <button className="bg-blue--500 text-white text-xs px-[8px] py-[4px] rounded-md">
                   배송조회
                 </button>
@@ -155,7 +155,7 @@ export default function Order() {
                       40,250원
                     </p>
                   </div>
-                  <p class="ml-[28px] text-gray--500 text-sm">
+                  <p className="ml-[28px] text-gray--500 text-sm">
                     신한 1111 **** **** 일시불
                   </p>
                 </div>

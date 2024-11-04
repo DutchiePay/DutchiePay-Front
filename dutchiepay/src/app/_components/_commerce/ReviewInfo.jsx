@@ -11,7 +11,7 @@ export default function ReviewInfo({ reviewCount, rating, ratingCount }) {
         <p>
           평균 <strong className="ml-[8px] text-4xl">{rating}점</strong>
         </p>
-        <Rating rating={4.8} size={28} />
+        <Rating rating={rating} size={28} />
       </div>
       <div className="w-[400px] flex flex-col justify-between">
         {ratingCount &&
@@ -19,7 +19,7 @@ export default function ReviewInfo({ reviewCount, rating, ratingCount }) {
             <RatingDitsribution
               key={index}
               rating={5 - index}
-              total={439}
+              total={reviewCount}
               count={value}
             />
           ))}

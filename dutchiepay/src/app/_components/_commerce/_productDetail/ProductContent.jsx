@@ -11,7 +11,7 @@ import Image from 'next/image';
 import ProductDetailTab from '@/app/_components/_commerce/_productDetail/ProductDetailTab';
 import Review from '@/app/_components/_commerce/Review';
 
-export default function ProductContent({ product }) {
+export default function ProductContent({ product, productId }) {
   const [tab, setTab] = useState('상품정보');
   const infoRef = useRef(null);
   const reviewRef = useRef(null);
@@ -62,9 +62,11 @@ export default function ProductContent({ product }) {
         </div>
         <hr className="my-[40px]" ref={reviewRef} />
         <Review
-          reviewCount={product?.reviewCount}
           rating={product?.rating}
+          reviewCount={product?.reviewCount}
+          productId={productId}
           ratingCount={product?.ratingCount}
+          photoReviewCount={product?.photoReviewCount}
         />
         <hr className="my-[40px]" ref={askRef} />
         <Company
@@ -73,7 +75,11 @@ export default function ProductContent({ product }) {
           storeAddress={product?.storeAddress}
           contactNumber={product?.contactNumber}
         />
-        <Ask />
+        <Ask
+          askCount={product?.askCount}
+          productId={productId}
+          company={product?.storeName}
+        />
       </article>
     </>
   );

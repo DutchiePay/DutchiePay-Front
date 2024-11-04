@@ -6,7 +6,7 @@ import '@/styles/user.css';
 import getLocation from '@/app/_util/getLocation';
 import { useEffect } from 'react';
 
-export default function AddressInput({ address, setAddress }) {
+export default function RegionInput({ address, setAddress }) {
   useEffect(() => {
     const fetchLocation = async () => {
       const location = await getLocation();

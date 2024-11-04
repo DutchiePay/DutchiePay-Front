@@ -1,21 +1,10 @@
-'use client';
-
 import { useEffect, useState } from 'react';
-
 import Image from 'next/image';
-import arrow from '../../../../public/image/arrowWhite.svg';
-import close from '../../../../public/image/close.svg';
-import review1 from '../../../../public/image/reviewImg/reviewImg1.jpg';
-import review2 from '../../../../public/image/reviewImg/reviewImg2.jpg';
-import review3 from '../../../../public/image/reviewImg/reviewImg3.jpg';
-import review4 from '../../../../public/image/reviewImg/reviewImg4.jpg';
-import review5 from '../../../../public/image/reviewImg/reviewImg5.jpg';
-import review6 from '../../../../public/image/product_detail.jpg';
+import arrow from '/public/image/arrowWhite.svg';
+import close from '/public/image/close.svg';
 
-export const thumbnails = [review1, review2, review3, review4, review6];
-
-export default function ImagesModal({ onClose }) {
-  const [currentImage, setCurrentImage] = useState(review1);
+export default function ImagesModal({ onClose, thumbnails }) {
+  const [currentImage, setCurrentImage] = useState(thumbnails[0]); // 초기 이미지를 썸네일의 첫 번째로 설정
 
   const handleNextImage = () => {
     const currentIndex = thumbnails.indexOf(currentImage);
@@ -40,11 +29,10 @@ export default function ImagesModal({ onClose }) {
     };
 
     window.addEventListener('keydown', handleKeyDown);
-
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [currentImage, handleNextImage, handlePreviousImage]);
+  }, [currentImage]);
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-80 z-50">
@@ -81,9 +69,10 @@ export default function ImagesModal({ onClose }) {
         {thumbnails.map((thumbnail, index) => (
           <Image
             key={index}
-            className="relative w-[60px] h-[60px] cursor-pointer"
+            className="relative w-[60px] h-[60px] cursor-pointer object-cover"
             src={thumbnail}
-            objectFit="cover"
+            width={60} // 고정된 width
+            height={60} // 고정된 height
             alt={`Thumbnail ${index + 1}`}
             onClick={() => setCurrentImage(thumbnail)}
           />
