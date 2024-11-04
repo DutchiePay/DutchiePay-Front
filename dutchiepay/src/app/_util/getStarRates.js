@@ -1,6 +1,4 @@
 export default function getStarRates({ rating }) {
-  console.log(rating);
-
   let starRatesArr = [0, 0, 0, 0, 0];
   let starVerScore = rating;
 

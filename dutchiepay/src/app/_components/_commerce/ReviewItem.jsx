@@ -11,16 +11,16 @@ import Rating from '../_rating/Rating';
 import images from '/public/image/images.svg';
 import more from '/public/image/more.svg';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import getFormatDate from '@/app/_util/getFormatDate';
-
 export default function ReviewItem({ className, item, isAll }) {
   const [hasImages, setHasImages] = useState(false); // 이미지 유무 초기값을 false로 설정
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMore, setIsMore] = useState(false);
+  const [hasOverflow, setHasOverflow] = useState(false);
   const isReview = 'review';
   const thumbnails = item.reviewImg;
-  console.log(isMore);
+  const contentRef = useRef();
 
   useEffect(() => {
     // 리뷰 이미지가 있는 경우에만 hasImages를 true로 설정
@@ -53,6 +53,13 @@ export default function ReviewItem({ className, item, isAll }) {
     };
   }, [isModalOpen]);
 
+  useEffect(() => {
+    if (contentRef.current) {
+      setHasOverflow(
+        contentRef.current.scrollHeight > contentRef.current.clientHeight
+      );
+    }
+  }, [isMore]);
   return (
     <>
       {isModalOpen && (
@@ -66,7 +73,7 @@ export default function ReviewItem({ className, item, isAll }) {
             <Image
               className="rounded-lg object-cover"
               src={item.reviewImg[0]}
-              alt="애슐리 볶음밥"
+              alt="포토 리뷰 이미지"
               fill
             />
             {item.reviewImg.length > 1 && (
@@ -85,8 +92,7 @@ export default function ReviewItem({ className, item, isAll }) {
             )}
           </div>
         )}
-
-        <div className="w-[1000px]">
+        <div className={`${hasImages ? 'w-[848px]' : 'w-[1000px]'}`}>
           <div className="flex justify-between">
             <strong className="text-lg">{item.nickname}</strong>
             <Rating rating={item.rating} size={20} />
@@ -95,15 +101,17 @@ export default function ReviewItem({ className, item, isAll }) {
             {getFormatDate(isReview, item.createdAt)}
           </p>
           <p
-            className={`text-sm max-w-[920px] mt-[4px] ${isMore ? 'cursor-pointer' : 'mypage-reviews__review'}`}
+            ref={contentRef}
+            className={`text-sm ${hasImages ? 'max-w-[800px]' : 'max-w-[920px]'} mt-[4px] ${
+              isMore ? '' : 'mypage-reviews__review'
+            }`}
             onClick={handleToggle}
           >
             {item.content}
           </p>
         </div>
-
-        {/* 내용이 길 때만 "더보기" 아이콘 표시 */}
-        {isMore && item.content.length > 200 && (
+        {/* 내용이 넘칠 때만 "더보기" 아이콘 표시*/}
+        {(hasOverflow || isMore) && (
           <Image
             className={`w-[20px] h-[20px] absolute bottom-[8px] right-[20px] cursor-pointer ${isMore ? 'rotate-180' : ''}`}
             src={more}

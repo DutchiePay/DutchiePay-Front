@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import arrow from '../../../../public/image/arrowWhite.svg';
-import close from '../../../../public/image/close.svg';
+import arrow from '/public/image/arrowWhite.svg';
+import close from '/public/image/close.svg';
 
 export default function ImagesModal({ onClose, thumbnails }) {
   const [currentImage, setCurrentImage] = useState(thumbnails[0]); // 초기 이미지를 썸네일의 첫 번째로 설정
@@ -69,11 +69,10 @@ export default function ImagesModal({ onClose, thumbnails }) {
         {thumbnails.map((thumbnail, index) => (
           <Image
             key={index}
-            className="relative w-[60px] h-[60px] cursor-pointer"
+            className="relative w-[60px] h-[60px] cursor-pointer object-cover"
             src={thumbnail}
             width={60} // 고정된 width
             height={60} // 고정된 height
-            objectFit="cover"
             alt={`Thumbnail ${index + 1}`}
             onClick={() => setCurrentImage(thumbnail)}
           />
