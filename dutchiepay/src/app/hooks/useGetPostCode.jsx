@@ -1,16 +1,15 @@
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 
-export default function useGetPostCode() {
+export default function useGetPostCode(setValue) {
   const open = useDaumPostcodePopup();
 
   const getPostCode = () => {
     return new Promise((resolve) => {
       open({
         onComplete: (data) => {
-          resolve({
-            zipCode: data.zonecode,
-            address: data.roadAddress,
-          });
+          setValue('zipCode', data.zonecode);
+          setValue('address', data.roadAddress);
+          resolve();
         },
         width: 500,
         height: 600,
