@@ -1,34 +1,48 @@
-import '@/styles/community.css';
-import '@/styles/globals.css';
-
-import Answer from './Answer';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Image from 'next/image';
 import secret from '../../../../public/image/secret.svg';
-import trash from '../../../../public/image/trash.svg';
-import { useState } from 'react';
+import trash from '/public/image/trash.svg';
+import Answer from './Answer';
+import getFormatDate from '@/app/_util/getFormatDate';
 
-export default function AskItem() {
-  const [isSecret, setIsSecret] = useState(true);
+const AskItem = ({ item, company }) => {
   const [isMore, setIsMore] = useState(false);
-  const [isMine, setIsMine] = useState(true);
-  const [isAnswered, setIsAnswered] = useState(true);
+  const [isMine, setIsMine] = useState(false);
+  const [isAnswer, setIsAnswer] = useState(false); // Answer 표시 여부 상태
+  const userId = useSelector((state) => state.login.user.userId);
+  const isAsk = 'ask';
+  useEffect(() => {
+    setIsMine(userId === item.userId);
+  }, [userId, item.userId]);
 
-  const handleIsMore = () => {
-    setIsMore(!isMore);
+  const handleToggle = () => {
+    if (!item.isSecret) {
+      setIsMore((prev) => !prev);
+    }
+    setIsAnswer((prev) => !prev); // 클릭 시 Answer 표시 여부 변경
   };
+
+  const answerContent =
+    (() => {
+      return isMine || !item.isSecret
+        ? item.answer
+        : '비밀글로 작성된 답변입니다.';
+    },
+    [isMine, item.isSecret, item.answer]);
 
   return (
     <>
       <tr
-        className={`border-b-2 border-gray-300 text-center
-            ${isMore ? 'bg-blue--100' : ''}`}
+        className={`border-b-2 border-gray-300 text-center ${isAnswer ? 'bg-blue--100' : ''}`}
+        onClick={() => handleToggle()} // 하나의 함수로 클릭 핸들러 변경
       >
         <td className="w-[100px] px-2 py-[20px] border-gray-300">
-          {isAnswered ? '답변완료' : '답변대기'}
+          {item.answer ? '답변완료' : '답변대기'}
         </td>
 
         <td className="w-[500px] px-2 py-[20px] text-start flex items-center gap-[4px]">
-          {isSecret && !isMine && (
+          {item.isSecret && !isMine && (
             <Image
               className="mr-[4px] flex-shrink-0"
               src={secret}
@@ -39,22 +53,25 @@ export default function AskItem() {
           )}
 
           <p
-            className={`product-ask__text flex-1 cursor-pointer ${
-              isMore ? 'line-clamp-none' : 'line-clamp-1'
-            }`}
-            onClick={handleIsMore}
+            className={`flex-1 cursor-pointer ${isMore ? 'line-clamp-none' : 'line-clamp-1'}`}
+            onClick={(e) => {
+              e.stopPropagation(); // 클릭 이벤트 전파 방지
+              handleToggle(); // 클릭 시 상태 변경
+            }}
           >
-            {isMine || !isSecret
-              ? '배송이 빠르고 제품 포장도 꼼꼼했습니다. 제품 자체도 튼튼하고 오래 쓸 것 같아요. 배송이 빠르고 제품 포장도 꼼꼼했습니다. 제품 자체도 튼튼하고 오래 쓸 것 같아요.'
+            {isMine || !item.isSecret
+              ? item.content
               : '비밀글로 작성된 문의입니다.'}
           </p>
         </td>
 
         <td className="w-[150px] px-2 py-[20px] border-gray-300">
-          최대8글자닉네임
+          {item.nickname}
         </td>
 
-        <td className="w-[150px] px-2 py-[20px]">2024.05.31</td>
+        <td className="w-[150px] px-2 py-[20px]">
+          {getFormatDate(isAsk, item.createdAt)}
+        </td>
 
         <td className="w-[100px] px-2 py-[20px] border-gray-300">
           {isMine && (
@@ -69,15 +86,11 @@ export default function AskItem() {
         </td>
       </tr>
 
-      {isAnswered && (
-        <Answer
-          answer={
-            isMine || !isSecret
-              ? '문의 내용 답변입니다.'
-              : '비밀글로 작성된 답변입니다.'
-          }
-        />
+      {isAnswer && ( // isAnswer가 true일 때 Answer 표시
+        <Answer answer={answerContent} company={company} item={item} />
       )}
     </>
   );
-}
+};
+
+export default AskItem;

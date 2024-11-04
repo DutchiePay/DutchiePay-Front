@@ -1,7 +1,6 @@
 'use client';
 
 import '@/styles/globals.css';
-import '@/styles/commerce.css';
 
 import Link from 'next/link';
 import { MENUS } from '@/app/_util/constants';
