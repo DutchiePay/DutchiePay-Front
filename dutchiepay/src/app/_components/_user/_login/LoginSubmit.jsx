@@ -50,6 +50,7 @@ export default function LoginSubmit() {
       };
 
       localStorage.setItem('loginType', response.data.loginType || 'email');
+      if (isRemeberMe) localStorage.setItem('dutchie-rememberMe', '1');
       dispatch(
         login({
           user: userInfo,
