@@ -13,6 +13,8 @@ export default function useFetchDelivery() {
   const [isChanged, setIsChanged] = useState(false);
 
   useEffect(() => {
+    const channel = new BroadcastChannel('auth-channel');
+
     const fetchDelivery = async () => {
       try {
         const response = await axios.get(
@@ -28,6 +30,9 @@ export default function useFetchDelivery() {
           JSON.stringify(response.data),
           process.env.NEXT_PUBLIC_SECRET_KEY
         ).toString();
+        if (isChanged) {
+          channel.postMessage({ type: 'change-address', data: encryptData });
+        }
         dispatch(setAddresses(encryptData));
         setIsChanged(false);
       } catch (error) {
@@ -47,6 +52,10 @@ export default function useFetchDelivery() {
         )
       );
     }
+
+    return () => {
+      channel.close();
+    };
   }, [isChanged, access, encryptedAddresses, dispatch]);
 
   return { deliveryAddress, setIsChanged };

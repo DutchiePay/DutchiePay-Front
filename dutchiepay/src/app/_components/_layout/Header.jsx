@@ -72,11 +72,11 @@ export default function Header() {
     };
   }, [dispatch, access, user]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (pathname === '/' && !isLoggedIn && addresses) {
       dispatch(setAddresses(null));
     }
-  }, [isLoggedIn, pathname, addresses, dispatch]);
+  }, [isLoggedIn, pathname, addresses, dispatch]);*/
 
   return (
     <header className="fixed h-[154px] top-0 left-0 right-0 z-10 w-full bg-white shadow">
