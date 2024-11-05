@@ -3,7 +3,7 @@ import '@/styles/globals.css';
 
 import PaymentChoice from './PaymentChoice';
 
-export default function Payment({ orderInfo, quantity }) {
+export default function Payment({ setValue, orderInfo, quantity }) {
   return (
     <article className="w-[380px] flex flex-col gap-[8px]">
       <h2 className="text-2xl font-bold">결제 정보</h2>
@@ -35,7 +35,7 @@ export default function Payment({ orderInfo, quantity }) {
         </div>
       </div>
 
-      <PaymentChoice />
+      <PaymentChoice setValue={setValue} />
 
       <button
         className="w-full mt-[16px] py-[8px] bg-blue--500 text-white text-lg font-semibold rounded-lg"

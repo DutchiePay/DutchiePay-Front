@@ -80,3 +80,10 @@ export const MYPAGE_ICON = {
   문의내역: question,
   후기내역: review,
 };
+
+export const DELIVERY_MESSAGE = {
+  option1: '문 앞에 놓아 주시면 돼요.',
+  option2: '직접 받을게요. (부재시 문 앞)',
+  option3: '벨 누르지 말아주세요.',
+  option4: '배송 전에 미리 연락주세요.',
+};
