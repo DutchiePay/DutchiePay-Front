@@ -90,7 +90,7 @@ export default function Order() {
 
       if (allowedOrigins.includes(event.origin)) {
         if (event.data.type === 'PAYMENT_APPROVED') {
-          router.push(`/success?orderid=${event.data.orderId}`);
+          router.push(`/order/success?orderid=${event.data.orderNum}`);
         } else if (
           event.data.type === 'PAYMENT_APPROVED' ||
           event.data.type === 'PAYMENT_FAIL'
