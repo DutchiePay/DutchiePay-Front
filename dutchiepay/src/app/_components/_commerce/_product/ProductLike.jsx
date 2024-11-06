@@ -19,15 +19,15 @@ export default function ProductLike({ isLiked, productId }) {
     e.preventDefault(); // Link 동작하지 않도록 함
     e.stopPropagation(); // Link로 전파되지 않도록 함
 
-    /*await axios.patch(
+    await axios.patch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/commerce`,
-      { buyPostId: productId },
+      { buyId: productId },
       {
         headers: {
           Authorization: `Bearer ${access}`,
         },
       }
-    );*/
+    );
 
     setIsProductLiked(!isProductLiked);
   };

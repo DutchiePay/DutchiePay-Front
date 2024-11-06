@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
-export default function AuthPhone() {
+export default function WithdrawAuth() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const access = useSelector((state) => state.login.access);
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
@@ -37,7 +37,11 @@ export default function AuthPhone() {
   }, [access, isLoggedIn]);
 
   const handleWithdraw = async () => {
-    if (confirm('정말 탈퇴하실겁니까?')) {
+    if (
+      confirm(
+        '정말 탈퇴하시겠습니까?\n탈퇴한 계정은 복구가 불가능합니다. 신중하게 결정해주세요.'
+      )
+    ) {
       try {
         if (loginType === 'email') {
           await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/users`, {
@@ -55,9 +59,9 @@ export default function AuthPhone() {
             }
           );
         }
-        // 부모 창에 로그아웃 메시지 전송
-        window.opener.postMessage({ type: 'LOGOUT' }, window.location.origin);
+        window.opener.postMessage({ type: 'WITHDRAW' }, window.location.origin);
         alert('정상적으로 탈퇴처리 되었습니다.');
+        closeWindow();
       } catch (error) {
         // 에러 처리
         alert('탈퇴 처리 중 오류가 발생했습니다.');
