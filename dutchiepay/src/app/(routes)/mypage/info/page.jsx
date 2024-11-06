@@ -55,7 +55,7 @@ export default function Info() {
       const reissueResponse = await refreshAccessToken();
       if (reissueResponse.success) {
         try {
-          const user = await fetchUserInfo(reissueResponse.access); // 갱신된 토큰으로 다시 요청
+          const user = await fetchUserInfo(access); // 갱신된 토큰으로 다시 요청
           setUserInfo(user);
           sessionStorage.setItem('user', JSON.stringify(user));
         } catch (error) {
