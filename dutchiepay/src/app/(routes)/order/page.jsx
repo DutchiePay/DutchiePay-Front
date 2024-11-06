@@ -3,6 +3,8 @@
 import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
+import * as PortOne from '@portone/browser-sdk/v2';
+
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -13,6 +15,7 @@ import Payment from '@/app/_components/_commerce/_order/Payment';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Order() {
   const access = useSelector((state) => state.login.access);
@@ -78,6 +81,52 @@ export default function Order() {
         );
 
         openPopup(response.data.redirectUrl);
+      } catch (error) {
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
+      }
+    } else if (formData.paymentMethod === '신용카드') {
+      const paymentId = `payment-${uuidv4()}`;
+      try {
+        const response = await PortOne.requestPayment({
+          storeId: process.env.NEXT_PUBLIC_STORE_ID,
+          channelKey: process.env.NEXT_PUBLIC_CHANNEL_KEY,
+          paymentId: paymentId,
+          orderName: orderInfo.productName,
+          totalAmount: orderInfo.salePrice * quantity,
+          currency: 'CURRENCY_KRW',
+          payMethod: 'CARD',
+        });
+
+        if (response.code != null) {
+          return alert(response.message);
+        }
+
+        try {
+          const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/pay?type=card`,
+            {
+              productId: paymentId,
+              productName: orderInfo.productName,
+              quantity: Number(quantity),
+              totalAmount: orderInfo.salePrice * quantity,
+              receiver: formData.recipient,
+              phone: formData.phone,
+              zipCode: formData.zipCode,
+              address: formData.address,
+              detail: formData.detail,
+              message: formData.deliveryMessage,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${access}`,
+              },
+            }
+          );
+
+          router.push(`/order/success?orderid=${response.data.orderNum}`);
+        } catch (error) {
+          alert('결제 실패');
+        }
       } catch (error) {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
