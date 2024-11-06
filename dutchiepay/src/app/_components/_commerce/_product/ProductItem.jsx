@@ -27,7 +27,9 @@ export default function ProductItem({ item }) {
       <div className="flex justify-between items-center py-[6px] border-b">
         <div className="flex gap-[8px] items-center">
           <Rating rating={4.3} size={15} />
-          <p className="text-xs text-gray--500">(999+)</p>
+          <p className="text-xs text-gray--500">
+            ({item.reviewCount > 999 ? '999+' : item.reviewCount})
+          </p>
         </div>
         <ProductLike isLiked={item.liked} productId={item.buyId} />
       </div>

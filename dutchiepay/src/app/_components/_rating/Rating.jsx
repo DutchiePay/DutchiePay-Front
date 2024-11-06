@@ -7,14 +7,17 @@ export default function Rating({ rating, size }) {
   const [ratesResArr, setRatesResArr] = useState([0, 0, 0, 0, 0]);
 
   useEffect(() => {
-    setRatesResArr(getStarRates({ rating }));
+    setRatesResArr(getStarRates(rating));
   }, [rating]);
+
+  if (!ratesResArr) return null;
 
   return (
     <div className="flex justify-center items-center gap-[2px]">
       {STAR_IDX_ARR.map((item, idx) => {
-        const clipId = `clip-${idx}-${rating}`; // SVG의 고유 ID가 충돌되지 않도록 함
-        const pathId = `path-${idx}-${rating}`; // SVG의 고유 ID가 충돌되지 않도록 함
+        const clipId = `clip-${idx}-${rating}`;
+        const pathId = `path-${idx}-${rating}`;
+        const width = ratesResArr[idx] || 0;
 
         return (
           <span key={`${item}_${idx}`}>
@@ -26,7 +29,7 @@ export default function Rating({ rating, size }) {
               fill="#cacaca"
             >
               <clipPath id={clipId}>
-                <rect width={ratesResArr[idx]} height={size} />
+                <rect width={width} height={size} />
               </clipPath>
               <path
                 id={pathId}
