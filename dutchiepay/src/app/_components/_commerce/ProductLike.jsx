@@ -9,12 +9,14 @@ import Image from 'next/image';
 import axios from 'axios';
 import fullheart from '/public/image/fullheart.svg';
 import heart from '/public/image/heart.svg';
+import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
-export default function ProductLike({ isLiked, productId }) {
+export default function ProductLike({ isLiked, productId, size }) {
   const access = useSelector((state) => state.login.access);
   const [isProductLiked, setIsProductLiked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     console.log('isLiked 변경됨:', isLiked);
@@ -25,31 +27,39 @@ export default function ProductLike({ isLiked, productId }) {
     e.preventDefault(); // Link 동작하지 않도록 함
     e.stopPropagation(); // Link로 전파되지 않도록 함
 
-    await axios.patch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/commerce`,
-      { buyId: productId },
-      {
-        headers: {
-          Authorization: `Bearer ${access}`,
-        },
-      }
-    );
+    if (!access) {
+      router.push('/login');
+      return;
+    }
 
-    setIsProductLiked(!isProductLiked);
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/commerce`,
+        { buyId: productId },
+        {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        }
+      );
+
+      setIsProductLiked(!isProductLiked);
+    } catch (error) {
+      alert('오류가 발생했습니다. 다시 시도해주세요.');
+    }
   };
 
   return (
     <>
       <Image
-        className={`cursor-pointer transition-transform duration-500 ease-in-out 
-            ${isHovered || isProductLiked ? 'scale-110' : 'scale-100'}`}
+        className="cursor-pointer"
         onClick={handleIsLiked}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         src={isHovered || isProductLiked ? fullheart : heart}
         alt="좋아요"
-        width={22}
-        height={22}
+        width={size}
+        height={size}
       />
     </>
   );
