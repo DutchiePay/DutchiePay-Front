@@ -3,7 +3,7 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import ProductLike from './_commerce/_product/ProductLike';
+import ProductLike from './_commerce/ProductLike';
 import Rating from './_rating/Rating';
 import { useState } from 'react';
 
@@ -31,14 +31,9 @@ export default function Product({ product }) {
                 ({product.reviewCount > 999 ? '999+' : product.reviewCount})
               </p>
             </div>
-            {
-              <ProductLike
-                isLiked={product.isLiked}
-                productId={product.buyId}
-              />
-            }
+            {<ProductLike isLiked={true} productId={product.buyId} size={22} />}
           </div>
-          <p className="mt-[4px] title--multi-line font-medium">
+          <p className="mt-[4px] title--multi-line font-medium min-h-[48px]">
             {product.productName}
           </p>
           <div className="flex gap-[8px] items-center">

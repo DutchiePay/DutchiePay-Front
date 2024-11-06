@@ -31,7 +31,7 @@ export default function ProductItem({ item }) {
             ({item.reviewCount > 999 ? '999+' : item.reviewCount})
           </p>
         </div>
-        <ProductLike isLiked={item.liked} productId={item.buyId} size={22} />
+        <ProductLike isLiked={item.isLiked} productId={item.buyId} size={22} />
       </div>
       <p className="min-h-[48px] mt-[8px] title--multi-line font-medium">
         {item.productName}

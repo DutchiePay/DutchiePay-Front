@@ -14,14 +14,13 @@ import { useSelector } from 'react-redux';
 
 export default function ProductLike({ isLiked, productId, size }) {
   const access = useSelector((state) => state.login.access);
-  const [isProductLiked, setIsProductLiked] = useState(false);
+  const [isProductLiked, setIsProductLiked] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    console.log('isLiked 변경됨:', isLiked);
     setIsProductLiked(isLiked);
-  }, []);
+  }, [isLiked]);
 
   const handleIsLiked = async (e) => {
     e.preventDefault(); // Link 동작하지 않도록 함

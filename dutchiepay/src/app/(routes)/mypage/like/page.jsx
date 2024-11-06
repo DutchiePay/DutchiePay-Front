@@ -5,15 +5,16 @@ import '@/styles/mypage.css';
 import { useEffect, useState } from 'react';
 
 import { CATEGORIES } from '@/app/_util/constants';
+import Link from 'next/link';
 import MypageFilter from '@/app/_components/_mypage/MypageFilter';
 import Product from '@/app/_components/Product';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-// 좋아요 상품 없을 때 UI도 구현해야 함
 export default function Like() {
   const [filter, setFilter] = useState('전체');
-  const [product, setProduct] = useState(null);
+  const [allProducts, setAllProducts] = useState([]); // 전체 상품
+  const [filteredProducts, setFilteredProducts] = useState([]); // 필터링된 상품
   const access = useSelector((state) => state.login.access);
   const nickname = useSelector((state) => state.login.user.nickname);
 
@@ -28,8 +29,8 @@ export default function Like() {
             },
           }
         );
-        console.log(response.data);
-        setProduct(response.data);
+        setAllProducts(response.data);
+        setFilteredProducts(response.data);
       } catch (error) {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
@@ -37,6 +38,17 @@ export default function Like() {
 
     fetchProduct();
   }, [access]);
+
+  useEffect(() => {
+    if (filter === '전체') {
+      setFilteredProducts(allProducts);
+    } else {
+      const filtered = allProducts.filter((item) =>
+        item.category.includes(filter)
+      );
+      setFilteredProducts(filtered);
+    }
+  }, [filter, allProducts]);
 
   return (
     <section className="ml-[250px] p-[30px] min-h-[750px]">
@@ -54,14 +66,22 @@ export default function Like() {
           />
         ))}
       </ul>
-      {product && product.length > 0 ? (
-        <section className="flex flex-wrap gap-[16px]">
-          {product.map((item, key) => (
+      {filteredProducts.length > 0 ? (
+        <article className="flex flex-wrap gap-[16px] mb-[40px]">
+          {filteredProducts.map((item, key) => (
             <Product key={key} product={item} />
           ))}
-        </section>
+        </article>
       ) : (
-        <div>좋아요한 상품이 없음</div>
+        <article className="mt-[100px] flex flex-col justify-center items-center">
+          <strong className="text-2xl">좋아요한 상품이 없습니다.</strong>
+          <Link
+            className="mt-[12px] bg-blue--500 rounded text-white text-sm py-[8px] px-[12px] "
+            href="/commerce"
+          >
+            공동구매 바로가기
+          </Link>
+        </article>
       )}
     </section>
   );
