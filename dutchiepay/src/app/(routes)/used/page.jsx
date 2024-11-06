@@ -23,7 +23,7 @@ export default function Used() {
           <ul className="flex gap-[12px]">
             <li
               role="button"
-              tabindex="0"
+              tabIndex="0"
               className={`community__filter ${filter === '전체' ? `community__filter--selected` : ''}`}
               onClick={() => setFilter('전체')}
             >
@@ -31,7 +31,7 @@ export default function Used() {
             </li>
             <li
               role="button"
-              tabindex="0"
+              tabIndex="0"
               className={`community__filter ${filter === '나눔' ? `community__filter--selected` : ''}`}
               onClick={() => setFilter('나눔')}
             >
@@ -39,7 +39,7 @@ export default function Used() {
             </li>
             <li
               role="button"
-              tabindex="0"
+              tabIndex="0"
               className={`community__filter ${filter === '거래' ? `community__filter--selected` : ''}`}
               onClick={() => setFilter('거래')}
             >
