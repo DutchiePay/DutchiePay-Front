@@ -29,13 +29,13 @@ function LayoutWrapper({ children }) {
   const isCertified = useSelector((state) => state.login.user.isCertified);
 
   const rhideHeader = pathname.match(
-    /\/(login|reset|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address|auth-phone)/
+    /\/(login|reset|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address|withdraw-auth)/
   );
   const rhideFooter = pathname.match(
-    /\/(ask|report|cancel|refund|review|coupon|change-number|delivery-address|auth-phone)/
+    /\/(ask|report|cancel|refund|review|coupon|change-number|delivery-address|withdraw-auth)/
   );
   const rhideFloating = pathname.match(
-    /\/(login|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address|extra-info|auth-phone)/
+    /\/(login|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address|extra-info|withdraw-auth)/
   );
 
   useEffect(() => {

@@ -9,18 +9,20 @@ import PhoneAuth from '@/app/_components/_user/_phone/PhoneAuth';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function WithdrawAuth() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const access = useSelector((state) => state.login.access);
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
-
+  const { refreshAccessToken } = useReissueToken();
   const loginType = localStorage.getItem('loginType');
   const {
     register,
     watch,
     setValue,
+    trigger,
     formState: { errors, touchedFields },
   } = useForm({
     mode: 'onTouched',
@@ -35,6 +37,19 @@ export default function WithdrawAuth() {
       closeWindow();
     }
   }, [access, isLoggedIn]);
+  const deleteUser = async (accessToken) => {
+    const response = await axios.delete(
+      loginType === 'email'
+        ? `${process.env.NEXT_PUBLIC_BASE_URL}/users`
+        : `${process.env.NEXT_PUBLIC_BASE_URL}/oauth?type=${loginType}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response; // 성공적으로 삭제된 경우 응답 반환
+  };
 
   const handleWithdraw = async () => {
     if (
@@ -43,28 +58,29 @@ export default function WithdrawAuth() {
       )
     ) {
       try {
-        if (loginType === 'email') {
-          await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/users`, {
-            headers: {
-              Authorization: `Bearer ${access}`,
-            },
-          });
-        } else {
-          await axios.delete(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/oauth?type=${loginType}`,
-            {
-              headers: {
-                Authorization: `Bearer ${access}`,
-              },
-            }
-          );
-        }
+        deleteUser(access);
         window.opener.postMessage({ type: 'WITHDRAW' }, window.location.origin);
         alert('정상적으로 탈퇴처리 되었습니다.');
         closeWindow();
       } catch (error) {
-        // 에러 처리
-        alert('탈퇴 처리 중 오류가 발생했습니다.');
+        const reissueResponse = await refreshAccessToken();
+        if (reissueResponse.success) {
+          try {
+            await deleteUser(access); // 갱신된 토큰으로 삭제 요청
+            window.opener.postMessage(
+              { type: 'WITHDRAW' },
+              window.location.origin
+            );
+            alert('정상적으로 탈퇴처리 되었습니다.');
+            closeWindow();
+          } catch (error) {
+            alert('탈퇴 처리 중 오류가 발생했습니다.'); // 두 번째 요청 실패 처리
+          }
+        } else {
+          alert(
+            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
+          );
+        }
       }
     }
   };
@@ -92,6 +108,7 @@ export default function WithdrawAuth() {
         setIsPhoneAuth={setIsPhoneAuth}
         isCodeMatch={isCodeMatch}
         setIsCodeMatch={setIsCodeMatch}
+        trigger={trigger}
       />
       {isCodeMatch && (
         <p className="text-sm mt-4">

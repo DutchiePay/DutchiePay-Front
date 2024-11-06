@@ -3,8 +3,7 @@
 import '@/styles/globals.css';
 import '@/styles/mypage.css';
 
-import { useEffect, useState } from 'react';
-
+import { useEffect, useState, useCallback } from 'react';
 import AccountInfo from '@/app/_components/_mypage/AccountInfo';
 import DeliveryAddress from '@/app/_components/_mypage/_delivery/DeliveryAddress';
 import ModifyLocation from '@/app/_components/_mypage/_modify/ModifyLocation';
@@ -14,12 +13,13 @@ import ModifyProfileImg from '@/app/_components/_mypage/_modify/ModifyProfileImg
 import Withdraw from '@/app/_components/_mypage/Withdraw';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function Info() {
   const nickname = useSelector((state) => state.login.user.nickname);
   const profileImage = useSelector((state) => state.login.user.profileImage);
   const access = useSelector((state) => state.login.access);
-
+  const { refreshAccessToken } = useReissueToken();
   const [userInfo, setUserInfo] = useState({
     email: null,
     phone: null,
@@ -29,30 +29,46 @@ export default function Info() {
     profileImage: profileImage,
   });
 
-  // email/phone API 호출 및 session 저장
-  useEffect(() => {
-    const initMypage = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/profile`,
-          {
-            headers: {
-              Authorization: `Bearer ${access}`,
-            },
-          }
-        );
-
-        const user = {
-          email: response.data.email,
-          phone: response.data.phone,
-        };
-        setUserInfo(user);
-        sessionStorage.setItem('user', JSON.stringify(user));
-      } catch (error) {
-        alert('오류가 발생했습니다. 다시 시도해주세요.');
+  // 사용자 정보를 가져오는 API 호출 함수
+  const fetchUserInfo = async (access) => {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/profile`,
+      {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
       }
+    );
+    return {
+      email: response.data.email,
+      phone: response.data.phone,
     };
+  };
 
+  // 초기화 함수
+  const initMypage = useCallback(async () => {
+    try {
+      const user = await fetchUserInfo(access);
+      setUserInfo(user);
+      sessionStorage.setItem('user', JSON.stringify(user));
+    } catch (error) {
+      const reissueResponse = await refreshAccessToken();
+      if (reissueResponse.success) {
+        try {
+          const user = await fetchUserInfo(reissueResponse.access); // 갱신된 토큰으로 다시 요청
+          setUserInfo(user);
+          sessionStorage.setItem('user', JSON.stringify(user));
+        } catch (error) {
+          alert('정보를 불러오는 중 오류가 발생했습니다.');
+        }
+      } else {
+        alert(
+          reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
+        );
+      }
+    }
+  }, [access, refreshAccessToken]);
+  useEffect(() => {
     if (!sessionStorage.getItem('user')) initMypage();
     else {
       setUserInfo({
@@ -60,8 +76,8 @@ export default function Info() {
         phone: JSON.parse(sessionStorage.getItem('user'))?.phone,
       });
     }
-  }, [access]);
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[680px]">
       <h1 className="text-[32px] font-bold">회원 정보</h1>
