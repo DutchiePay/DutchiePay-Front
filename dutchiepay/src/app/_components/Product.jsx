@@ -3,92 +3,82 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import ProductLike from './_commerce/_product/ProductLike';
 import Rating from './_rating/Rating';
-import fullheart from '../../../public/image/fullheart.svg';
-import heart from '../../../public/image/heart.svg';
-import product from '../../../public/image/product1.jpg';
 import { useState } from 'react';
 
-export default function Product() {
-  const [isLiked, setIsLiked] = useState(false);
-  const [isEnd, setIsEnd] = useState(true);
-  const [isTodayEnd, setIsTodayEnd] = useState(false); 
-
-  const handleIsLiked = (e) => {
-    e.preventDefault(); // Link 동작하지 않도록 함
-    e.stopPropagation(); // Link로 전파되지 않도록 함
-    setIsLiked(!isLiked);
-  };
-
+export default function Product({ product }) {
   return (
-    <Link
-      href="/commerce/detail?productId=123"
-      className="w-[220px] flex flex-col gap-[4px]"
-    >
-      <div className="w-full h-[148px] relative overflow-hidden">
-        <Image
-          className="w-full h-[148px] transform transition-transform duration-300 hover:scale-110"
-          src={product}
-          alt="애슐리 볶음밥"
-          fill
-          style={{ objectFit: 'cover' }}
-        />
-      </div>
-      <div className="flex justify-between items-center py-[6px] border-b">
-        <div className="flex gap-[8px] items-center">
-          <Rating rating={3.9} size={15} />
-          <p className="text-[12px] text-gray--500">(999+)</p>
-        </div>
-        {isLiked ? (
-          <Image
-            className="cursor-pointer"
-            onClick={handleIsLiked}
-            src={fullheart}
-            alt="좋아요"
-            width={22}
-            height={22}
-          />
-        ) : (
-          <Image
-            className="cursor-pointer"
-            onClick={handleIsLiked}
-            src={heart}
-            alt="좋아요"
-            width={22}
-            height={22}
-          />
-        )}
-      </div>
-      <p className="mt-[4px] title--multi-line font-medium">
-        애슐리 볶음밥 10인분 혼합 구성
-        10종(통새우+갈릭스테이크+버터와규+깍두기베이컨+케이준+랍스터+해물+묵은지삼겹+잡채+스크램블게살)아침
-        대용 직장인 도시락
-      </p>
-      <div className="flex gap-[8px] items-center">
-        <p className="text-red--500 font-semibold">30%</p>
-        <p className="text-[12px] text-gray--500 line-through">32,500원</p>
-        <strong className="text-[16px]">27,500원</strong>
-      </div>
+    <>
+      {product && (
+        <Link
+          href={`/commerce/${product.buyId}`}
+          className="w-[220px] flex flex-col gap-[4px]"
+        >
+          <div className="w-full h-[148px] relative overflow-hidden">
+            <Image
+              className="w-full h-[148px] transform transition-transform duration-300 hover:scale-110 object-cover"
+              src={product.productImg}
+              alt={product.productName}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
+          <div className="flex justify-between items-center py-[6px] border-b">
+            <div className="flex gap-[8px] items-center">
+              <Rating rating={product.rating} size={15} />
+              <p className="text-[12px] text-gray--500">
+                ({product.reviewCount > 999 ? '999+' : product.reviewCount})
+              </p>
+            </div>
+            {
+              <ProductLike
+                isLiked={product.isLiked}
+                productId={product.buyId}
+              />
+            }
+          </div>
+          <p className="mt-[4px] title--multi-line font-medium">
+            {product.productName}
+          </p>
+          <div className="flex gap-[8px] items-center">
+            <p className="text-red--500 font-semibold">
+              {product.discountPercent}%
+            </p>
+            <p className="text-[12px] text-gray--500 line-through">
+              {product.originalPrice.toLocaleString('ko-KR')}원
+            </p>
+            <strong className="text-[16px]">
+              {product.salePrice.toLocaleString('ko-KR')}원
+            </strong>
+          </div>
 
-      <div className="mt-[4px] flex justify-between items-baseline">
-        <span
-          className={`${isEnd ? '' : 'text-blue--500'} text-lg font-semibold flex items-baseline gap-[4px]`}
-        >
-          43%<p className="text-sm font-medium">달성</p>
-        </span>
-        <p
-          className={`${isTodayEnd ? 'text-red--500' : 'text-gray--500'} text-xs font-semibold`}
-        >
-          {isEnd ? '공구마감' : isTodayEnd ? '오늘 마감' : '20일 남음'}
-        </p>
-      </div>
-      <progress
-        id="product-list-progress"
-        className={`product-list-progress w-full h-[3px] ${isEnd ? 'product-list-progress__end' : ''}`}
-        value={43}
-        min={0}
-        max={100}
-      />
-    </Link>
+          <div className="mt-[4px] flex justify-between items-baseline">
+            <span
+              className={`${product.expireDate < 0 ? '' : 'text-blue--500'} text-lg font-semibold flex items-baseline gap-[4px]`}
+            >
+              {Math.round(product.nowCount / product.skeleton)}%
+              <p className="text-sm font-medium">달성</p>
+            </span>
+            <p
+              className={`${product.expireDate === 0 ? 'text-red--500' : 'text-gray--500'} text-xs font-semibold`}
+            >
+              {product.expireDate < 0
+                ? '공구마감'
+                : product.expireDate === 0
+                  ? '오늘 마감'
+                  : `${product.expireDate}일 남음`}
+            </p>
+          </div>
+          <progress
+            id="product-list-progress"
+            className={`product-list-progress w-full h-[3px] ${product.expireDate < 0 ? 'product-list-progress__end' : ''}`}
+            value={Math.round(product.nowCount / product.skeleton)}
+            min={0}
+            max={100}
+          />
+        </Link>
+      )}
+    </>
   );
 }

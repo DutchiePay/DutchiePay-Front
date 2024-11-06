@@ -7,7 +7,7 @@ export default function Rating({ rating, size }) {
   const [ratesResArr, setRatesResArr] = useState([0, 0, 0, 0, 0]);
 
   useEffect(() => {
-    setRatesResArr(getStarRates({ rating }));
+    setRatesResArr(getStarRates(rating));
   }, [rating]);
 
   return (
