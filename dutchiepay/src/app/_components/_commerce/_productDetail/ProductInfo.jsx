@@ -25,6 +25,7 @@ export default function ProductInfo({ isEnd, product, productId }) {
       />
       <hr />
       <DeliveryAndLikeInfo
+        productId={product?.productId}
         deadline={product?.deadline}
         isLiked={product?.isLiked}
       />

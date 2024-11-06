@@ -3,11 +3,9 @@
 import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
-import Image from 'next/image';
-import fullHeart from '/public/image/fullheart.svg';
-import heart from '/public/image/emptyHeart.svg';
+import ProductLike from '../ProductLike';
 
-export default function DeliveryAndLikeInfo({ deadline, isLiked }) {
+export default function DeliveryAndLikeInfo({ deadline, isLiked, productId }) {
   const deliveryDate = new Date(deadline);
   deliveryDate.setDate(deliveryDate.getDate() + 2);
 
@@ -24,11 +22,7 @@ export default function DeliveryAndLikeInfo({ deadline, isLiked }) {
         </p>
       </div>
       <button className="w-[45px] h-[45px] border flex justify-center items-center">
-        {isLiked ? (
-          <Image src={fullHeart} alt="좋아요" width={30} height={30} />
-        ) : (
-          <Image src={heart} alt="좋아요" width={30} height={30} />
-        )}
+        <ProductLike productId={productId} isLiked={isLiked} size={33} />
       </button>
     </div>
   );
