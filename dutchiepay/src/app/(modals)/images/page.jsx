@@ -1,4 +1,7 @@
+'use client';
+
 import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
 import arrow from '/public/image/arrowWhite.svg';
 import close from '/public/image/close.svg';
