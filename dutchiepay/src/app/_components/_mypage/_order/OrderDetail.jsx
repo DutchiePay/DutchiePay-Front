@@ -10,7 +10,7 @@ export default function OrderDetail({ product, isMore }) {
             <tr className="border-b">
               <th className="mypage-order-details__table-header">배송지</th>
               <td className="flex flex-col mypage-order-details__table-data">
-                <p className="font-bold">박용호</p>
+                <p className="font-bold">{product.receiver}</p>
                 <p className="text-sm">{product.phone}</p>
                 <div className="flex gap-[8px]">
                   <p className="text-sm">{product.address}</p>
@@ -54,7 +54,9 @@ export default function OrderDetail({ product, isMore }) {
                     </div>
                     <div className="flex justify-between">
                       <p className="text-sm">할인가격</p>
-                      <p className="text-sm">17,250원</p>
+                      <p className="text-sm">
+                        {product.discountPrice.toLocaleString('ko-KR')}원
+                      </p>
                     </div>
                   </div>
                 </div>

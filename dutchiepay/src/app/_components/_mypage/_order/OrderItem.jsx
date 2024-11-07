@@ -3,20 +3,25 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
+import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import OrderActionButton from './OrderActionButton';
 import OrderDetail from './OrderDetail';
 import more from '/public/image/more.svg';
-import { useState } from 'react';
 
 export default function OrderItem({ product }) {
   const [isMore, setIsMore] = useState(false);
-  const [status, setStatus] = useState('배송완료'); // status 값 변경 필요
+  const [status, setStatus] = useState(null);
 
   const handleIsMore = () => {
     setIsMore(!isMore);
   };
+
+  useEffect(() => {
+    if (product.deliveryState) setStatus(product.deliveryState);
+  }, [product]);
 
   return (
     <div className="w-[730px] relative flex flex-col gap-[8px]">
