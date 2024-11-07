@@ -9,9 +9,9 @@ import ProductContent from '@/app/_components/_commerce/_productDetail/ProductCo
 import ProductHeader from '@/app/_components/_commerce/_productDetail/ProductHeader';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-
+import { use } from 'react';
 export default function CommerceDetail({ params }) {
-  const { id } = params;
+  const { id } = use(params);
   const access = useSelector((state) => state.login.access);
   const [product, setProduct] = useState(null);
 
