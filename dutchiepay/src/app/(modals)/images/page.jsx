@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react';
+'use client';
+
+import { useEffect, useState, useCallback } from 'react';
+
 import Image from 'next/image';
 import arrow from '/public/image/arrowWhite.svg';
 import close from '/public/image/close.svg';
@@ -6,18 +9,18 @@ import close from '/public/image/close.svg';
 export default function ImagesModal({ onClose, thumbnails }) {
   const [currentImage, setCurrentImage] = useState(thumbnails[0]); // 초기 이미지를 썸네일의 첫 번째로 설정
 
-  const handleNextImage = () => {
+  const handleNextImage = useCallback(() => {
     const currentIndex = thumbnails.indexOf(currentImage);
     const nextIndex = (currentIndex + 1) % thumbnails.length;
     setCurrentImage(thumbnails[nextIndex]);
-  };
+  }, [currentImage, thumbnails]);
 
-  const handlePreviousImage = () => {
+  const handlePreviousImage = useCallback(() => {
     const currentIndex = thumbnails.indexOf(currentImage);
     const prevIndex =
       (currentIndex - 1 + thumbnails.length) % thumbnails.length;
     setCurrentImage(thumbnails[prevIndex]);
-  };
+  }, [currentImage, thumbnails]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -32,7 +35,7 @@ export default function ImagesModal({ onClose, thumbnails }) {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [currentImage]);
+  }, [handleNextImage, handlePreviousImage]); // 의존성 배열에서 currentImage 제거
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-80 z-50">

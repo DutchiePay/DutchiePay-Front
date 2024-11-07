@@ -13,7 +13,7 @@ import more from '/public/image/more.svg';
 
 import { useState, useEffect, useRef } from 'react';
 import getFormatDate from '@/app/_util/getFormatDate';
-export default function ReviewItem({ className, item, isAll }) {
+export default function ReviewItem({ className, item }) {
   const [hasImages, setHasImages] = useState(false); // 이미지 유무 초기값을 false로 설정
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMore, setIsMore] = useState(false);

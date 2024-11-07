@@ -5,7 +5,7 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import ProductLike from './ProductLike';
+import ProductLike from '../ProductLike';
 import Rating from '@/app/_components/_rating/Rating';
 
 export default function ProductItem({ item }) {
@@ -27,9 +27,11 @@ export default function ProductItem({ item }) {
       <div className="flex justify-between items-center py-[6px] border-b">
         <div className="flex gap-[8px] items-center">
           <Rating rating={4.3} size={15} />
-          <p className="text-xs text-gray--500">(999+)</p>
+          <p className="text-xs text-gray--500">
+            ({item.reviewCount > 999 ? '999+' : item.reviewCount})
+          </p>
         </div>
-        <ProductLike isLiked={item.liked} productId={item.buyId} />
+        <ProductLike isLiked={item.liked} productId={item.buyId} size={22} />
       </div>
       <p className="min-h-[48px] mt-[8px] title--multi-line font-medium">
         {item.productName}
