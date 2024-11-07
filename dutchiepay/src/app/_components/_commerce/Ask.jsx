@@ -3,7 +3,7 @@ import '@/styles/globals.css';
 
 import AskItem from './AskItem';
 import Pagination from '../Pagination';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import ask from '/public/image/nonItem/ask.svg'; // SVG 파일을 import
@@ -16,25 +16,26 @@ export default function Ask({ askCount, productId, company }) {
   const buyId = productId; // 게시글 정보 저장 시 변경 예정
   const [items, setItems] = useState([]);
   const [activePage, setActivePage] = useState(1);
-  const limit = 6;
   const [totalItems, setTotalItems] = useState(0);
+  const fetchItems = useCallback(
+    async (page) => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/asks?buyId=${buyId}&page=${page}&limit=6`
+        );
 
-  const fetchItems = async (page) => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/asks?buyId=${buyId}&page=${page}&limit=${limit}`
-      );
-
-      setItems(response.data);
-      setTotalItems(askCount || 0);
-    } catch (error) {
-      alert('데이터를 가져오는 데 오류가 발생했습니다:');
-    }
-  };
+        setItems(response.data);
+        setTotalItems(askCount || 0);
+      } catch (error) {
+        alert('데이터를 가져오는 데 오류가 발생했습니다:');
+      }
+    },
+    [buyId, askCount]
+  );
 
   useEffect(() => {
     fetchItems(activePage);
-  }, [activePage]); // activePage가 변경될 때마다 데이터 요청
+  }, [activePage, fetchItems]);
 
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
@@ -87,7 +88,7 @@ export default function Ask({ askCount, productId, company }) {
         <Pagination
           activePage={activePage}
           totalItems={totalItems}
-          limit={limit}
+          limit={6}
           onPageChange={handlePageChange}
         />
       )}

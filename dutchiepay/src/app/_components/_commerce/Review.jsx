@@ -36,7 +36,7 @@ export default function Review({
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/review?buyId=${productId}&photo=${isAll ? 0 : 1}&page=${page}&limit=6`
         );
-        setReviews(response.data.reviews);
+        setReviews(response.data);
       } catch (error) {
         console.error('데이터를 가져오는 데 오류가 발생했습니다:', error);
       }
