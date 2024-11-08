@@ -153,7 +153,7 @@ export default function Order() {
         if (event.data.type === 'PAYMENT_APPROVED') {
           router.push(`/order/success?orderid=${event.data.orderNum}`);
         } else if (
-          event.data.type === 'PAYMENT_APPROVED' ||
+          event.data.type === 'PAYMENT_CANCEL' ||
           event.data.type === 'PAYMENT_FAIL'
         ) {
           alert('결제가 실패 또는 취소되었습니다. 다시 결제해주세요.');
