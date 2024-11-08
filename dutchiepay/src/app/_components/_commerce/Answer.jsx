@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import reply from '/public/image/reply.svg';
 import getFormatDate from '@/app/_util/getFormatDate';
-
-const Answer = React.memo(({ answer, company, item }) => {
+const Answer = React.memo(function Answer({ answer, company, item }) {
   const [isMore, setIsMore] = useState(false);
   const handleIsMore = () => {
     setIsMore((prev) => !prev);
   };
-  console.log(item);
 
   const isAsk = 'ask';
   return (
