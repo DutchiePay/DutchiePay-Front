@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 import { ORDER_FILTER } from '@/app/_util/constants';
+import OrderFilter from '@/app/_components/_mypage/_order/OrderFilter';
 import OrderItem from '@/app/_components/_mypage/_order/OrderItem';
 import arrow from '/public/image/arrow.svg';
 import axios from 'axios';
@@ -54,26 +55,7 @@ export default function MyOrder() {
       <small>
         {nickname}님께서 구매하신 공동구매 상품을 확인할 수 있습니다.
       </small>
-      <ul className="flex gap-[8px] my-[16px]">
-        <li>
-          <button
-            className={`mypage__filter ${filter === '전체' ? `mypage__filter--selected` : ''}`}
-            onClick={() => setFilter('전체')}
-          >
-            전체
-          </button>
-        </li>
-        {Object.keys(ORDER_FILTER).map((value, key) => (
-          <li key={key}>
-            <button
-              className={`mypage__filter ${filter === value ? `mypage__filter--selected` : ''}`}
-              onClick={() => setFilter(value)}
-            >
-              {value}
-            </button>
-          </li>
-        ))}
-      </ul>
+      <OrderFilter filter={filter} setFilter={setFilter} />
       {product.length === 0 ? (
         <></>
       ) : (

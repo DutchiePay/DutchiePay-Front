@@ -20,7 +20,7 @@ export default function OrderItem({ product }) {
   };
 
   useEffect(() => {
-    if (product.deliveryState) setStatus(product.deliveryState);
+    if (product.deliveryState) setStatus(product.deliveryState.trim());
   }, [product]);
 
   return (

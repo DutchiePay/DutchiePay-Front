@@ -1,3 +1,5 @@
+'use client';
+
 import '@/styles/globals.css';
 import '@/styles/mypage.css';
 
@@ -13,8 +15,8 @@ export default function OrderActionButton({ product, setStatus, status }) {
   const handleButtonClick = async () => {
     if (status === '공구진행중')
       openPopup(`/cancel?orderNum=${product.orderNum}`);
-    else if (status === '배송준비중' || status === '배송중')
-      openPopup(`/ask?orderNum=${product.orderNum}`);
+    else if (status === '구매확정')
+      openPopup(`/review?orderNum=${product.orderNum}`);
     else if (status === '배송완료') {
       if (
         confirm(
@@ -24,6 +26,7 @@ export default function OrderActionButton({ product, setStatus, status }) {
         try {
           await axios.patch(
             `${process.env.NEXT_PUBLIC_BASE_URL}/orders/purchase`,
+            { orderId: product.orderId },
             {
               headers: {
                 Authorization: `Bearer ${access}`,
@@ -32,42 +35,43 @@ export default function OrderActionButton({ product, setStatus, status }) {
           );
           setStatus('구매확정');
         } catch (error) {
+          console.log(error);
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
       }
-    } else openPopup(`/review?orderNum=${product.orderNum}`);
+    } else openPopup(`/ask?orderNum=${product.orderNum}`);
   };
 
   return (
     <div className="flex gap-[8px]">
-      {status === '공구실패' || status === '취소/환불' ? (
-        <button
-          className="text-white text-sm rounded px-[56px] py-[8px]"
-          aria-hidden="true"
-        >
-          {/*버튼없음*/}
-        </button>
-      ) : (
-        <button
-          className="text-white text-sm bg-blue-500 rounded px-[56px] py-[8px]"
-          onClick={handleButtonClick}
-        >
-          {status === '공구진행중'
-            ? '구매취소'
-            : status === '배송준비중' || status === '배송중'
-              ? '문의하기'
-              : status === '배송완료'
-                ? '구매확정'
-                : '리뷰작성'}
-        </button>
-      )}
-      {status === '배송완료' && (
+      <button
+        className="text-white text-sm bg-blue-500 rounded px-[56px] py-[8px]"
+        onClick={handleButtonClick}
+      >
+        {status === '공구진행중'
+          ? '구매취소'
+          : status === '구매확정'
+            ? '후기작성'
+            : status === '배송완료'
+              ? '구매확정'
+              : '문의하기'}
+      </button>
+      {status === '배송완료' ? (
         <button
           className="text-blue-500 text-sm border border-blue--500 rounded px-[56px] py-[8px]"
           onClick={() => openPopup(`/refund?orderNum=${product.orderNum}`)}
         >
           환불/교환
         </button>
+      ) : status === '구매확정' || status === '공구진행중' ? (
+        <button
+          className="text-blue-500 text-sm border border-blue--500 rounded px-[56px] py-[8px]"
+          onClick={() => openPopup(`/ask?orderNum=${product.orderNum}`)}
+        >
+          문의하기
+        </button>
+      ) : (
+        <></>
       )}
     </div>
   );
