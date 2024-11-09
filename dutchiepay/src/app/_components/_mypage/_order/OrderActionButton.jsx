@@ -80,7 +80,11 @@ export default function OrderActionButton({ product, setStatus, status }) {
       {status === '배송완료' ? (
         <button
           className="text-blue-500 text-sm border border-blue--500 rounded px-[56px] py-[8px]"
-          onClick={() => openPopup(`/refund?orderNum=${product.orderNum}`)}
+          onClick={() =>
+            openPopup(
+              `/refund?orderId=${product.orderId}&orderNum=${product.orderNum}&buyId=${product.buyId}`
+            )
+          }
         >
           환불/교환
         </button>
