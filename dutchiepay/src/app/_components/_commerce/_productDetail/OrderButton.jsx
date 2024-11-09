@@ -4,18 +4,30 @@ import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 export default function OrderButton({ isEnd, productId, quantity }) {
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const router = useRouter();
+
+  const handleOrder = (e) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      router.push('/login');
+      return;
+    }
+    if (isEnd) {
+      e.preventDefault(); // 마감됐을 경우, Link 동작되지 않도록 기본 동작 제거
+    }
+  };
+
   return (
     <>
       <Link
         className={`${isEnd ? 'bg-gray--200 cursor-not-allowed' : 'bg-blue--500'} inline-block text-center text-white font-bold py-[12px] w-full rounded`}
         href={`/order?productId=${productId}&quantity=${quantity}`}
-        onClick={(e) => {
-          if (isEnd) {
-            e.preventDefault(); // 마감됐을 경우, Link 동작되지 않도록 기본 동작 제거
-          }
-        }}
+        onClick={handleOrder}
       >
         결제하기
       </Link>

@@ -8,10 +8,11 @@ import { useEffect, useState } from 'react';
 import ProductContent from '@/app/_components/_commerce/_productDetail/ProductContent';
 import ProductHeader from '@/app/_components/_commerce/_productDetail/ProductHeader';
 import axios from 'axios';
+import { useParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { use } from 'react';
-export default function CommerceDetail({ params }) {
-  const { id } = use(params);
+
+export default function CommerceDetail() {
+  const { id } = useParams();
   const access = useSelector((state) => state.login.access);
   const [product, setProduct] = useState(null);
 
