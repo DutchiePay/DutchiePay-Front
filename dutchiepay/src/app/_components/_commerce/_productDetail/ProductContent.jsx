@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import Ask from '@/app/_components/_commerce/Ask';
 import Company from '@/app/_components/_commerce/_productDetail/Company';
 import Image from 'next/image';
+import ProductDetailImage from './ProductDetailImage';
 import ProductDetailTab from '@/app/_components/_commerce/_productDetail/ProductDetailTab';
 import Review from '@/app/_components/_commerce/Review';
 
@@ -51,16 +52,9 @@ export default function ProductContent({ product, productId }) {
           ref={infoRef}
           className="relative mx-auto my-0 relative w-4/5 min-h-[300px] pt-[16px]"
         >
-          <Image
-            src={product?.productDetail}
-            alt="상세정보"
-            width={0}
-            height={0}
-            sizes="100vw"
-            className="object-contain w-full h-full"
-          />
+          <ProductDetailImage productDetail={product?.productDetail} />
         </div>
-        <hr className="my-[40px]" ref={reviewRef} />
+        <hr className="my-[24px]" ref={reviewRef} />
         <Review
           rating={product?.rating}
           reviewCount={product?.reviewCount}
