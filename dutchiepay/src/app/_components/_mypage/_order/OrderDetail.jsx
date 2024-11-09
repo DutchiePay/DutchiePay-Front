@@ -13,7 +13,10 @@ export default function OrderDetail({ product, isMore }) {
                 <p className="font-bold">{product.receiver}</p>
                 <p className="text-sm">{product.phone}</p>
                 <div className="flex gap-[8px]">
-                  <p className="text-sm">{product.address}</p>
+                  <div className="flex gap-[8px]">
+                    <p className="text-sm">({product.zipCode})</p>
+                    <p className="text-sm">{product.address}</p>
+                  </div>
                   <p className="text-sm">{product.detail}</p>
                 </div>
               </td>
@@ -26,15 +29,22 @@ export default function OrderDetail({ product, isMore }) {
                   : '설정하신 배송메시지가 없습니다.'}
               </td>
             </tr>
-            <tr className="border-b">
-              <th className="mypage-order-details__table-header">송장번호</th>
-              <td className="mypage-order-details__table-data flex justify-between">
-                <span className="tracking-number">1234567890</span>
-                <button className="bg-blue--500 text-white text-xs px-[8px] py-[4px] rounded-md">
-                  배송조회
-                </button>
-              </td>
-            </tr>
+            {product.deliveryState !== '공구진행중' &&
+              product.deliveryState !== '배송준비중' &&
+              product.deliveryState !== '취소완료' &&
+              product.deliveryState !== '공구실패' && (
+                <tr className="border-b">
+                  <th className="mypage-order-details__table-header">
+                    송장번호
+                  </th>
+                  <td className="mypage-order-details__table-data flex justify-between">
+                    <span className="tracking-number">1234567890</span>
+                    <button className="bg-blue--500 text-white text-xs px-[8px] py-[4px] rounded-md">
+                      배송조회
+                    </button>
+                  </td>
+                </tr>
+              )}
             <tr className="border-b">
               <th className="mypage-order-details__table-header">결제정보</th>
               <td className="mypage-order-details__table-data flex flex-col gap-[16px]">
@@ -62,14 +72,18 @@ export default function OrderDetail({ product, isMore }) {
                 </div>
                 <div>
                   <div className="flex justify-between">
-                    <strong>카드 결제</strong>
+                    <strong>
+                      {product.payment === 'kakao'
+                        ? '카카오페이'
+                        : product.payment === 'toss'
+                          ? '토스페이'
+                          : '카드'}{' '}
+                      결제
+                    </strong>
                     <p className="text-blue--500 text-lg font-semibold">
                       {product.totalPrice.toLocaleString('ko-KR')}원
                     </p>
                   </div>
-                  <p className="ml-[28px] text-gray--500 text-sm">
-                    신한 1111 **** **** 일시불
-                  </p>
                 </div>
               </td>
             </tr>
