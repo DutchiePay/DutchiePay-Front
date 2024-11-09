@@ -74,6 +74,7 @@ export default function Order() {
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_BASE_URL}/pay/ready?type=kakao`,
           {
+            buyId: Number(buyId),
             productName: orderInfo.productName,
             quantity: Number(quantity),
             totalAmount: orderInfo.salePrice * quantity,
@@ -117,7 +118,8 @@ export default function Order() {
           const response = await axios.post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/pay?type=card`,
             {
-              productId: paymentId,
+              buyId: Number(buyId),
+              paymentId: paymentId,
               productName: orderInfo.productName,
               quantity: Number(quantity),
               totalAmount: orderInfo.salePrice * quantity,
@@ -141,6 +143,36 @@ export default function Order() {
         }
       } catch (error) {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
+      }
+    } else if (formData.paymentMethod === '토스페이') {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/pay?type=card`,
+          {
+            buyId: Number(buyId),
+            productName: orderInfo.productName,
+            quantity: Number(quantity),
+            amount: orderInfo.salePrice * quantity,
+            amountTaxFree: 0,
+            receiver: formData.recipient,
+            phone: formData.phone,
+            zipCode: formData.zipCode,
+            address: formData.address,
+            detail: formData.detail,
+            message: formData.deliveryMessage,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${access}`,
+            },
+          }
+        );
+
+        openPopup(response.data.checkoutPage);
+
+        // 결제 성공 실패에 따른 처리 구현 필요
+      } catch (error) {
+        alert('결제 실패');
       }
     }
   };
