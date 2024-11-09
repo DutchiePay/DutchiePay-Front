@@ -3,19 +3,24 @@
 import '@/styles/commerce.css';
 import '@/styles/globals.css';
 
+import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
 import axios from 'axios';
 import fullheart from '/public/image/fullheart.svg';
 import heart from '/public/image/heart.svg';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
 
 export default function ProductLike({ isLiked, productId, size }) {
   const access = useSelector((state) => state.login.access);
-  const [isProductLiked, setIsProductLiked] = useState(isLiked);
+  const [isProductLiked, setIsProductLiked] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    setIsProductLiked(isLiked);
+  }, [isLiked]);
 
   const handleIsLiked = async (e) => {
     e.preventDefault(); // Link 동작하지 않도록 함

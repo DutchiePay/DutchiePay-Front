@@ -31,17 +31,17 @@ export default function PaymentChoice({ setValue }) {
           신용카드
         </label>
         <label
-          className={`product-order__button ${paymentMethod === '무통장 입금' ? 'product-order__button__active' : ''}`}
-          onClick={() => handlePaymentChange('무통장 입금')}
+          className={`product-order__button ${paymentMethod === '토스페이' ? 'product-order__button__active' : ''}`}
+          onClick={() => handlePaymentChange('토스페이')}
         >
           <input
             className="hidden"
             type="radio"
-            value="무통장 입금"
-            checked={paymentMethod === '무통장 입금'}
-            onChange={() => handlePaymentChange('무통장 입금')}
+            value="토스페이"
+            checked={paymentMethod === '토스페이'}
+            onChange={() => handlePaymentChange('토스페이')}
           />
-          무통장 입금
+          토스페이
         </label>
         <label
           className={`product-order__button ${paymentMethod === '카카오페이' ? 'product-order__button__active' : ''}`}

@@ -17,7 +17,14 @@ export default function Orderer({ register, setValue }) {
 
   useEffect(() => {
     if (deliveryAddress && deliveryAddress.length > 0) {
-      setSelectedAddress(deliveryAddress[0].addressName);
+      const defaultAddress = deliveryAddress.find(
+        (address) => address.isDefault === true
+      );
+      setSelectedAddress(
+        defaultAddress
+          ? defaultAddress.addressName
+          : deliveryAddress[0].addressName
+      );
     }
   }, [deliveryAddress]);
 

@@ -13,6 +13,7 @@ import OrderInfo from '@/app/_components/_commerce/_order/OrderInfo';
 import Orderer from '@/app/_components/_commerce/_order/Orderer';
 import Payment from '@/app/_components/_commerce/_order/Payment';
 import axios from 'axios';
+import getRemainingTime from '@/app/_util/getRemainingTime';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -51,6 +52,17 @@ export default function Order() {
   };
 
   const onSubmit = async (formData) => {
+    if (getRemainingTime(orderInfo.expireDate) === '마감된 공구 입니다.') {
+      if (
+        confirm(
+          '공동구매가 마감되어 주문하실 수 없습니다.\n확인을 누르실 경우, 메인으로 이동합니다.'
+        )
+      ) {
+        router.push('/');
+      }
+      return;
+    }
+
     if (DELIVERY_MESSAGE[formData.deliveryMessage]) {
       formData.deliveryMessage = DELIVERY_MESSAGE[formData.deliveryMessage];
     } else if (formData.deliveryMessage === 'option5') {
@@ -141,7 +153,7 @@ export default function Order() {
         if (event.data.type === 'PAYMENT_APPROVED') {
           router.push(`/order/success?orderid=${event.data.orderNum}`);
         } else if (
-          event.data.type === 'PAYMENT_APPROVED' ||
+          event.data.type === 'PAYMENT_CANCEL' ||
           event.data.type === 'PAYMENT_FAIL'
         ) {
           alert('결제가 실패 또는 취소되었습니다. 다시 결제해주세요.');
