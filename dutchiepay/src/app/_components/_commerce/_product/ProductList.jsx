@@ -8,8 +8,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import ProductItem from './ProductItem';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import useRetryFunction from '@/app/hooks/useRetryFunction';
+import { useSelector } from 'react-redux';
 
 export default function ProductList({ category, filter, isEndContain }) {
   const access = useSelector((state) => state.login.access);
@@ -57,7 +57,7 @@ export default function ProductList({ category, filter, isEndContain }) {
         setIsLoading(false);
       }
     },
-    [access, reissueTokenAndRetry]
+    [access]
   );
 
   useEffect(() => {
