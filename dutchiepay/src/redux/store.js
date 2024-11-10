@@ -35,7 +35,6 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage: storage,
-  timeout: 1000,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
