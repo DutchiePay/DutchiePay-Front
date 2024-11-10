@@ -43,9 +43,7 @@ export default function OrderItem({ product }) {
         </Link>
 
         <div className="h-[140px] flex flex-col gap-[4px] justify-center">
-          <strong className="text-2xl text-blue--500">
-            {product.deliveryState}
-          </strong>
+          <strong className="text-2xl text-blue--500">{status}</strong>
           <Link
             href={`/commerce/${product.buyId}`}
             className="max-w-[520px] title--single-line font-medium"
