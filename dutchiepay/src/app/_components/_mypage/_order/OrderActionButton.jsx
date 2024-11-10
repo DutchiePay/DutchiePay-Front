@@ -34,7 +34,15 @@ export default function OrderActionButton({ product, setStatus, status }) {
           );
           setStatus('주문취소');
         } catch (error) {
-          alert('오류가 발생했습니다. 다시 시도해주세요.');
+          if (error.response.data.message === '주문정보를 찾을 수 없습니다.') {
+            alert('존재하지 않는 주문입니다. 주문번호를 다시 체크해주세요.');
+          } else if (
+            error.response.data.message === '주문자 정보가 일치하지 않습니다.'
+          ) {
+            alert(
+              '사용자의 주문이 아닙니다. 해당 계정으로 결제하신 주문만 처리 가능합니다.'
+            );
+          } else alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
       }
     } else if (status === '구매확정') {
@@ -57,7 +65,15 @@ export default function OrderActionButton({ product, setStatus, status }) {
           );
           setStatus('구매확정');
         } catch (error) {
-          alert('오류가 발생했습니다. 다시 시도해주세요.');
+          if (error.response.data.message === '주문정보를 찾을 수 없습니다.') {
+            alert('존재하지 않는 주문입니다. 주문번호를 다시 체크해주세요.');
+          } else if (
+            error.response.data.message === '주문자 정보가 일치하지 않습니다.'
+          ) {
+            alert(
+              '사용자의 주문이 아닙니다. 해당 계정으로 결제하신 주문만 처리 가능합니다.'
+            );
+          } else alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
       }
     } else openPopup(`/ask?orderNum=${product.orderNum}`);
