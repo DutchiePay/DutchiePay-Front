@@ -9,18 +9,22 @@ import PhoneAuth from '@/app/_components/_user/_phone/PhoneAuth';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import useRetryFunction from '@/app/hooks/useRetryFunction';
 
 export default function WithdrawAuth() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const access = useSelector((state) => state.login.access);
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
-
+  const { reissueTokenAndRetry } = useRetryFunction({
+    onError: (message) => alert(message),
+  });
   const loginType = localStorage.getItem('loginType');
   const {
     register,
     watch,
     setValue,
+    trigger,
     formState: { errors, touchedFields },
   } = useForm({
     mode: 'onTouched',
@@ -35,6 +39,19 @@ export default function WithdrawAuth() {
       closeWindow();
     }
   }, [access, isLoggedIn]);
+  const fetchDeleteUser = async (accessToken) => {
+    const response = await axios.delete(
+      loginType === 'email'
+        ? `${process.env.NEXT_PUBLIC_BASE_URL}/users`
+        : `${process.env.NEXT_PUBLIC_BASE_URL}/oauth?type=${loginType}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response; // 성공적으로 삭제된 경우 응답 반환
+  };
 
   const handleWithdraw = async () => {
     if (
@@ -43,28 +60,16 @@ export default function WithdrawAuth() {
       )
     ) {
       try {
-        if (loginType === 'email') {
-          await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/users`, {
-            headers: {
-              Authorization: `Bearer ${access}`,
-            },
-          });
-        } else {
-          await axios.delete(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/oauth?type=${loginType}`,
-            {
-              headers: {
-                Authorization: `Bearer ${access}`,
-              },
-            }
-          );
-        }
+        fetchDeleteUser(access);
         window.opener.postMessage({ type: 'WITHDRAW' }, window.location.origin);
         alert('정상적으로 탈퇴처리 되었습니다.');
         closeWindow();
       } catch (error) {
-        // 에러 처리
-        alert('탈퇴 처리 중 오류가 발생했습니다.');
+        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+          reissueTokenAndRetry(() => handleWithdraw());
+        } else {
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
+        }
       }
     }
   };
@@ -92,6 +97,7 @@ export default function WithdrawAuth() {
         setIsPhoneAuth={setIsPhoneAuth}
         isCodeMatch={isCodeMatch}
         setIsCodeMatch={setIsCodeMatch}
+        trigger={trigger}
       />
       {isCodeMatch && (
         <p className="text-sm mt-4">

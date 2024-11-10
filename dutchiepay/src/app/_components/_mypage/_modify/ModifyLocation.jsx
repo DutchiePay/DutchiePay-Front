@@ -8,12 +8,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import getLocation from '@/app/_util/getLocation';
 import { setUserInfoChange } from '@/redux/slice/loginSlice';
+import useRetryFunction from '@/app/hooks/useRetryFunction';
 
 export default function ModifyLocation() {
   const location = useSelector((state) => state.login.user.location);
-  const accessToken = useSelector((state) => state.login.access);
+  const access = useSelector((state) => state.login.access);
   const dispatch = useDispatch();
-
+  const { reissueTokenAndRetry } = useRetryFunction({
+    onError: (message) => alert(message),
+  });
   const handleGetCurrentLocation = async () => {
     if (confirm('지역을 재설정 하시겠습니까?')) {
       const newLocation = await getLocation();
@@ -30,13 +33,18 @@ export default function ModifyLocation() {
           { location: newLocation },
           {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${access}`,
             },
           }
         );
         dispatch(setUserInfoChange({ location: newLocation }));
       } catch (error) {
-        alert('오류가 발생했습니다. 다시 시도해주세요.');
+        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+          // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
+          reissueTokenAndRetry(() => handleGetCurrentLocation());
+        } else {
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
+        }
       }
     }
   };

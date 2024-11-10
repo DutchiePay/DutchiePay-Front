@@ -2,15 +2,10 @@ import '@/styles/mypage.css';
 
 import { useCallback, useEffect } from 'react';
 
-import Cookies from 'universal-cookie';
-import { logout } from '@/redux/slice/loginSlice';
-import { useDispatch } from 'react-redux';
-import { useRouter } from 'next/navigation';
+import useClearUserData from '@/app/hooks/useClearUserData';
 
 export default function Withdraw() {
-  const dispatch = useDispatch();
-  const router = useRouter();
-
+  const clearUserData = useClearUserData();
   const handleOpenAuthPhone = () => {
     window.open(
       '/withdraw-auth',
@@ -25,20 +20,10 @@ export default function Withdraw() {
         event.origin === window.location.origin &&
         event.data.type === 'WITHDRAW'
       ) {
-        dispatch(logout());
-        const cookies = new Cookies();
-        cookies.remove('refresh', { path: '/' });
-        localStorage.removeItem('dutchie-rememberMe');
-        sessionStorage.removeItem('user');
-
-        const channel = new BroadcastChannel('auth-channel');
-        channel.postMessage({ type: 'logout-event' });
-        channel.close();
-
-        router.push('/');
+        clearUserData();
       }
     },
-    [router, dispatch]
+    [clearUserData]
   );
 
   useEffect(() => {
