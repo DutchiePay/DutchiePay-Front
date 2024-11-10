@@ -1,11 +1,13 @@
 import Cookies from 'universal-cookie';
-import { useRouter } from 'next/navigation';
 import { logout } from '@/redux/slice/loginSlice';
 import { setAddresses } from '@/redux/slice/addressSlice';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation';
+
 const useClearUserData = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+
   const clearUserData = () => {
     router.push('/');
     const cookies = new Cookies();
