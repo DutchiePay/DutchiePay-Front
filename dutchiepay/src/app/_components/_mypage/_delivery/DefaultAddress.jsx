@@ -5,10 +5,13 @@ import '@/styles/globals.css';
 
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import useRetryFunction from '@/app/hooks/useRetryFunction';
 
 export default function DefaultAddress({ deliveryAddress, setIsChanged }) {
   const access = useSelector((state) => state.login.access);
-
+  const { reissueTokenAndRetry } = useRetryFunction({
+    onError: (message) => alert(message),
+  });
   const handleDefaultUpdate = async () => {
     if (
       confirm(
@@ -29,7 +32,11 @@ export default function DefaultAddress({ deliveryAddress, setIsChanged }) {
         setIsChanged(true);
         alert('기본 배송지로 변경되었습니다.');
       } catch (error) {
-        alert('오류가 발생했습니다. 다시 시도해주세요.');
+        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+          reissueTokenAndRetry(() => handleDefaultUpdate());
+        } else {
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
+        }
       }
     }
   };

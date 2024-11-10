@@ -7,6 +7,7 @@ import OrderFilter from '@/app/_components/_mypage/_order/OrderFilter';
 import OrderItem from '@/app/_components/_mypage/_order/OrderItem';
 import arrow from '/public/image/arrow.svg';
 import axios from 'axios';
+import useRetryFunction from '@/app/hooks/useRetryFunction';
 import { useSelector } from 'react-redux';
 
 export default function MyOrder() {
@@ -16,6 +17,10 @@ export default function MyOrder() {
   const [product, setProduct] = useState([]);
   const [page, setPage] = useState(1);
   const isInitialMount = useRef(true);
+
+  const { reissueTokenAndRetry } = useRetryFunction({
+    onError: (message) => alert(message),
+  });
 
   const fetchProduct = useCallback(async () => {
     try {
@@ -29,9 +34,14 @@ export default function MyOrder() {
       );
       setProduct((prevProducts) => [...prevProducts, ...response.data]);
     } catch (error) {
-      alert('오류가 발생했습니다. 다시 시도해주세요.');
+      if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+        // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
+        reissueTokenAndRetry(() => fetchProduct());
+      } else {
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
+      }
     }
-  }, [access, page]);
+  }, [access, page, reissueTokenAndRetry]);
 
   useEffect(() => {
     // useEffect가 2번 호출되지 않도록 초기 렌더링 제한

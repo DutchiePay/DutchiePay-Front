@@ -9,6 +9,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import ProductItem from './ProductItem';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import useRetryFunction from '@/app/hooks/useRetryFunction';
 
 export default function ProductList({ category, filter, isEndContain }) {
   const access = useSelector((state) => state.login.access);
@@ -17,7 +18,9 @@ export default function ProductList({ category, filter, isEndContain }) {
   const [isInitialized, setIsInitialized] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-
+  const { reissueTokenAndRetry } = useRetryFunction({
+    onError: (message) => alert(message),
+  });
   const observerRef = useRef();
 
   const fetchProducts = useCallback(
@@ -41,13 +44,20 @@ export default function ProductList({ category, filter, isEndContain }) {
         setIsInitialized(true);
         return response.data.products;
       } catch (error) {
-        alert('오류가 발생했습니다. 다시 시도해주세요.');
+        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+          // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
+          reissueTokenAndRetry(() =>
+            fetchProducts(filterType, categoryParam, endParam, cursorParam)
+          );
+        } else {
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
+        }
         return [];
       } finally {
         setIsLoading(false);
       }
     },
-    [access]
+    [access, reissueTokenAndRetry]
   );
 
   useEffect(() => {
