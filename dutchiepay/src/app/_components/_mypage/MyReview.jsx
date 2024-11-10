@@ -100,18 +100,7 @@ export default function MyReviews({ item }) {
             </Link>
             <div className="flex gap-[12px]">
               {item.isPossible && (
-                <button
-                  className="text-sm font-semibold"
-                  onClick={() => {
-                    window.open(
-                      '/review',
-                      '리뷰 수정',
-                      'width=620, height=670, location=1'
-                    );
-                  }}
-                >
-                  수정
-                </button>
+                <button className="text-sm font-semibold">수정</button>
               )}
               <button className="text-sm font-semibold">삭제</button>
             </div>
