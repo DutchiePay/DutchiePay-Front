@@ -3,13 +3,15 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
+import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
 import MyReviews from '@/app/_components/_mypage/MyReview';
-import { useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
 import axios from 'axios';
 import review from '/public/image/nonItem/review.svg';
 import useRetryFunction from '@/app/hooks/useRetryFunction';
+import { useSelector } from 'react-redux';
+
 export default function MyReview() {
   const [reviews, setReviews] = useState([]);
   const nickname = useSelector((state) => state.login.user.nickname);
@@ -17,6 +19,7 @@ export default function MyReview() {
   const { reissueTokenAndRetry } = useRetryFunction({
     onError: (message) => alert(message),
   });
+
   useEffect(() => {
     const handleFetchReviews = async () => {
       try {
@@ -31,15 +34,16 @@ export default function MyReview() {
         setReviews(response.data);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-          reissueTokenAndRetry(() => handleFetchReviews());
+          /* 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
+          reissueTokenAndRetry(() => handleFetchReviews());*/
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
       }
     };
     handleFetchReviews();
-  }, [access, reissueTokenAndRetry]);
+  }, [access]);
+
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">작성한 후기</h1>
