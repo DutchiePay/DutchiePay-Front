@@ -9,8 +9,8 @@ import Link from 'next/link';
 import MypageFilter from '@/app/_components/_mypage/MypageFilter';
 import Product from '@/app/_components/Product';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import useRetryFunction from '@/app/hooks/useRetryFunction';
+import { useSelector } from 'react-redux';
 
 export default function Like() {
   const [filter, setFilter] = useState('전체');
@@ -36,8 +36,8 @@ export default function Like() {
         setFilteredProducts(response.data);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-          reissueTokenAndRetry(() => fetchProduct());
+          /* 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
+          reissueTokenAndRetry(() => fetchProduct());*/
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
@@ -45,7 +45,7 @@ export default function Like() {
     };
 
     fetchProduct();
-  }, [access, reissueTokenAndRetry]);
+  }, [access]);
 
   useEffect(() => {
     if (filter === '전체') {

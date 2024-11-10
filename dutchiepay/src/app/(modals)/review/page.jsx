@@ -4,6 +4,7 @@ import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
 import Image from 'next/image';
+import PopUpButton from '@/app/_components/PopUpButton';
 import RatingDragger from '@/app/_components/_rating/RatingDragger';
 import camera from '../../../../public/image/camera.svg';
 import product from '../../../../public/image/product1.jpg';
@@ -123,17 +124,7 @@ export default function ReviewModal() {
             (등록 가능 기간이 30일 미만일 경우 제외)
             <br />
           </p>
-          <div className="flex justify-center gap-[24px] mt-[24px]">
-            <button className="text-white text-sm bg-blue--500 rounded-lg px-[24px] py-[8px]">
-              후기 등록
-            </button>
-            <button
-              className="text-blue--500 text-sm border border-blue--500 rounded-lg px-[24px] py-[8px]"
-              onClick={closeWindow}
-            >
-              취소
-            </button>
-          </div>
+          <PopUpButton submitText={'후기 등록'} />
         </div>
       </section>
     </main>

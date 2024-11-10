@@ -29,7 +29,7 @@ export default function Addition() {
     '미용',
     '패브릭',
     '생활',
-    '주방/청소',
+    '주방청소',
     '잡화',
     '보안',
   ];

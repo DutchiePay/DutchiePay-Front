@@ -4,6 +4,7 @@ import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
 import Image from 'next/image';
+import PopUpButton from '@/app/_components/PopUpButton';
 import clock from '../../../../public/image/clock.svg';
 import product from '../../../../public/image/product1.jpg';
 import { useSearchParams } from 'next/navigation';
@@ -77,17 +78,7 @@ export default function AskModal() {
             />
             <label className="text-sm text-gray--500">비공개</label>
           </div>
-          <div className="flex justify-center gap-[24px] mt-[24px]">
-            <button className="text-white text-sm bg-blue--500 rounded-lg px-[24px] py-[8px]">
-              문의하기
-            </button>
-            <button
-              className="text-blue--500 text-sm border border-blue--500 rounded-lg px-[24px] py-[8px]"
-              onClick={closeWindow}
-            >
-              취소
-            </button>
-          </div>
+          <PopUpButton submitText={'문의하기'} />
         </div>
       </section>
     </main>

@@ -36,12 +36,13 @@ export default function MyOrder() {
       setProduct((prevProducts) => [...prevProducts, ...response.data]);
     } catch (error) {
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-        reissueTokenAndRetry(() => fetchProduct());
+        /* 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
+        reissueTokenAndRetry(() => fetchProduct());*/
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     }
-  }, [access, page, reissueTokenAndRetry]);
+  }, [access, page]);
 
   useEffect(() => {
     // useEffect가 2번 호출되지 않도록 초기 렌더링 제한

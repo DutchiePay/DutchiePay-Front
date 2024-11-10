@@ -6,12 +6,13 @@ import '@/styles/globals.css';
 import { useEffect, useState } from 'react';
 
 import CryptoJS from 'crypto-js';
+import PopUpButton from '@/app/_components/PopUpButton';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import useGetPostCode from '@/app/hooks/useGetPostCode';
+import useRetryFunction from '@/app/hooks/useRetryFunction';
 import { useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import useRetryFunction from '@/app/hooks/useRetryFunction';
 
 export default function Address() {
   const searchParams = useSearchParams();
@@ -222,21 +223,7 @@ export default function Address() {
             기본배송지로 설정
           </label>
         </div>
-        <div className="mt-[40px] flex gap-[12px] justify-center">
-          <button
-            className="bg-red-100 text-red-500 text-sm rounded-lg px-[24px] py-[8px]"
-            type="submit"
-          >
-            {addressId ? '수정' : '추가'}
-          </button>
-          <button
-            className="text-blue--500 text-sm border border-blue--200 rounded-lg px-[24px] py-[8px]"
-            type="button"
-            onClick={closeWindow}
-          >
-            취소
-          </button>
-        </div>
+        <PopUpButton submitText={addressId ? '수정' : '추가'} />
       </form>
     </section>
   );
