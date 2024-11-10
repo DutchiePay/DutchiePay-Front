@@ -9,8 +9,8 @@ import Image from 'next/image';
 import ask from '/public/image/nonItem/ask.svg'; // SVG 파일을 import
 
 export default function Ask({ askCount, productId, company }) {
-  const askPopup = () => {
-    window.open('/ask', '_blank', 'width=620, height=670');
+  const openPopup = (url) => {
+    window.open(url, '_blank', 'width=620, height=670');
   };
 
   const buyId = productId; // 게시글 정보 저장 시 변경 예정
@@ -45,7 +45,7 @@ export default function Ask({ askCount, productId, company }) {
     <>
       <button
         className="w-[140px] mt-[12px] text-white rounded bg-blue-500 px-[16px] py-[8px] text-sm"
-        onClick={askPopup}
+        onClick={() => openPopup(`/ask?buyId=${buyId}`)}
       >
         상품 문의 작성하기
       </button>
