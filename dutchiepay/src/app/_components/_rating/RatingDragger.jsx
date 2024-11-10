@@ -1,11 +1,14 @@
-import { useRef, useState } from 'react';
-
+import { useRef, useState, useEffect } from 'react';
 import Rating from '@/app/_components/_rating/Rating';
 
-const RatingDragger = ({ onRatingChange }) => {
-  const [rating, setRating] = useState(0);
+const RatingDragger = ({ onRatingChange, initialRating = 0 }) => {
+  const [rating, setRating] = useState(initialRating);
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef(null);
+
+  useEffect(() => {
+    setRating(initialRating); // props가 변경될 때마다 rating 업데이트
+  }, [initialRating]);
 
   const handleMouseMove = (e) => {
     if (!isDragging) return;

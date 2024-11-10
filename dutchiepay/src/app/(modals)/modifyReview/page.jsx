@@ -7,30 +7,37 @@ import Image from 'next/image';
 import RatingDragger from '@/app/_components/_rating/RatingDragger';
 import camera from '../../../../public/image/camera.svg';
 import productDefault from '../../../../public/image/product1.jpg';
-import review1 from '../../../../public/image/reviewImg/reviewImg1.jpg';
-import review2 from '../../../../public/image/reviewImg/reviewImg2.jpg';
-import review3 from '../../../../public/image/reviewImg/reviewImg3.jpg';
-import review4 from '../../../../public/image/reviewImg/reviewImg4.jpg';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import getImage from '@/app/_util/getImage';
+import useFetchReview from '@/app/hooks/useFetchReview';
 import useFetchOrderProduct from '@/app/hooks/useFetchOrderProduct';
 
-export default function ReviewModal() {
+export default function ModifyReviewModal() {
   const access = useSelector((state) => state.login.access);
   const searchParams = useSearchParams();
-  const orderNum = searchParams.get('orderNum');
+  const reviewId = searchParams.get('reviewId');
   const buyId = searchParams.get('buyId');
-  const orderId = searchParams.get('orderId');
+  const [reviewInfo, setReviewInfo] = useState(null);
   const [productInfo, setProductInfo] = useState(null);
 
+  useFetchReview({ reviewId, setReviewInfo });
   useFetchOrderProduct({ buyId, setOrderInfo: setProductInfo });
 
   const [content, setContent] = useState('');
   const [images, setImages] = useState([]);
   const [rating, setRating] = useState(0);
+
+  // reviewInfo가 업데이트될 때 초기 데이터 바인딩
+  useEffect(() => {
+    if (reviewInfo) {
+      setContent(reviewInfo.content);
+      setImages(reviewInfo.reviewImg || []);
+      setRating(reviewInfo.rating);
+    }
+  }, [reviewInfo]);
 
   const handleRatingChange = (newRating) => {
     setRating(newRating);
@@ -55,17 +62,19 @@ export default function ReviewModal() {
       return;
     }
 
-    const imageUrl = await getImage(imageFile); // getImage 함수 호출
+    const imageUrl = await getImage(imageFile);
     if (imageUrl) {
       setImages((prevImages) => [...prevImages, imageUrl]);
     }
   };
+  console.log(reviewInfo);
+
   const handleSubmit = async () => {
     try {
-      await axios.post(
+      await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/profile/reviews`,
         {
-          orderId: orderId,
+          reviewId: reviewInfo.reviewId,
           content: content,
           rating: rating,
           reviewImg: images,
@@ -76,11 +85,17 @@ export default function ReviewModal() {
           },
         }
       );
-      alert('후기가 성공적으로 제출되었습니다.');
+      alert('후기가 성공적으로 변경되었습니다.');
       closeWindow();
     } catch (error) {
+      console.log(error);
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
         alert('토큰이 만료되었습니다. 다시 로그인해주세요.');
+      } else if (
+        error.response.data.message === '리뷰 수정은 2회까지만 가능합니다.'
+      ) {
+        alert('수정이 불가능한 상태입니다.');
+        closeWindow();
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
@@ -89,11 +104,10 @@ export default function ReviewModal() {
 
   return (
     <main className="max-w-[600px] p-[32px] overflow-x-hidden">
-      <h1 className="text-3xl font-bold">후기 작성</h1>
+      <h1 className="text-3xl font-bold">후기 수정</h1>
       <p className="text-xs text-gray--500">
         제품을 이용하시면서 좋았던 점, 불편하셨던 점 등을 공유해주시면 다른
         고객들에게 도움이 됩니다.
-        <br />
       </p>
       <section className="mt-[40px]">
         <div className="flex gap-[12px] mb-[12px]">
@@ -105,11 +119,10 @@ export default function ReviewModal() {
             height={100}
           />
           <div className="flex flex-col w-[400px] gap-[4px]">
-            <p className="text-xs text-gray--500">{productInfo?.storeName}</p>
+            <p className="text-xs text-gray--500">{reviewInfo?.storeName}</p>
             <strong className="title--multi-line">
-              {productInfo?.productName}
+              {reviewInfo?.productName}
             </strong>
-            <p className="text-gray--500">{orderNum}</p>
           </div>
         </div>
         <hr />
@@ -123,7 +136,10 @@ export default function ReviewModal() {
                 </p>
               </div>
               <div className="mt-[4px] flex items-center gap-[16px]">
-                <RatingDragger onRatingChange={handleRatingChange} />
+                <RatingDragger
+                  onRatingChange={handleRatingChange}
+                  initialRating={rating} // 여기서 초기값 전달
+                />
                 <p className="text-sm text-gray--500">{rating}/5점</p>
               </div>
             </div>
@@ -186,7 +202,7 @@ export default function ReviewModal() {
               className="text-white text-sm bg-blue--500 rounded-lg px-[24px] py-[8px]"
               onClick={handleSubmit}
             >
-              후기 등록
+              후기 수정
             </button>
             <button
               className="text-blue--500 text-sm border border-blue--500 rounded-lg px-[24px] py-[8px]"

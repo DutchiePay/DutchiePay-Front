@@ -10,6 +10,8 @@ import Link from 'next/link';
 import Rating from '@/app/_components/_rating/Rating';
 import images from '../../../../public/image/images.svg';
 import more from '../../../../public/image/more.svg';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 export default function MyReviews({ item }) {
   const [hasImages, setHasImages] = useState(false);
@@ -17,8 +19,35 @@ export default function MyReviews({ item }) {
   const [isMore, setIsMore] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const thumbnails = item.reviewImg;
+  const access = useSelector((state) => state.login.access);
   const contentRef = useRef();
+  const openPopup = (url) => {
+    window.open(url, '_blank', 'width=620, height=670');
+  };
+  const handleDelete = async () => {
+    if (confirm('작성한 리뷰를 삭제하시겠습니까?')) {
+      try {
+        await axios.delete(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/profile/reviews?reviewId=${item.reviewId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${access}`,
+            },
+          }
+        );
+        alert('정상적으로 삭제되었습니다.');
+      } catch (error) {
+        console.log(error);
 
+        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+          // // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
+          // reissueTokenAndRetry(() => handleDelete());
+        } else {
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
+        }
+      }
+    }
+  };
   useEffect(() => {
     // 리뷰 이미지가 있는 경우에만 hasImages를 true로 설정
     setHasImages(thumbnails.length > 0);
@@ -100,9 +129,20 @@ export default function MyReviews({ item }) {
             </Link>
             <div className="flex gap-[12px]">
               {item.isPossible && (
-                <button className="text-sm font-semibold">수정</button>
+                <button
+                  className="text-sm font-semibold"
+                  onClick={() =>
+                    openPopup(
+                      `/modifyReview?reviewId=${item.reviewId}&buyId=${item.buyId}`
+                    )
+                  }
+                >
+                  수정
+                </button>
               )}
-              <button className="text-sm font-semibold">삭제</button>
+              <button className="text-sm font-semibold" onClick={handleDelete}>
+                삭제
+              </button>
             </div>
           </div>
           <div className="flex justify-between mt-[4px]">
