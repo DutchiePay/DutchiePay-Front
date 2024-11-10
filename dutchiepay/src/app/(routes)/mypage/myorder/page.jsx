@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import OrderFilter from '@/app/_components/_mypage/_order/OrderFilter';
 import OrderItem from '@/app/_components/_mypage/_order/OrderItem';
+import OrderListDefault from '@/app/_components/_mypage/_order/OrderListDefault';
 import arrow from '/public/image/arrow.svg';
 import axios from 'axios';
 import useRetryFunction from '@/app/hooks/useRetryFunction';
@@ -35,7 +36,6 @@ export default function MyOrder() {
       setProduct((prevProducts) => [...prevProducts, ...response.data]);
     } catch (error) {
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-        // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
         reissueTokenAndRetry(() => fetchProduct());
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
@@ -69,7 +69,6 @@ export default function MyOrder() {
     setPage(page + 1);
   };
 
-  // 구매내역 없을 때 UI도 구현해야 함
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">구매내역</h1>
@@ -78,9 +77,9 @@ export default function MyOrder() {
       </small>
       <OrderFilter filter={filter} setFilter={setFilter} />
       {product.length === 0 ? (
-        <></>
+        <OrderListDefault />
       ) : (
-        <section className="flex flex-col gap-[24px]">
+        <article className="flex flex-col gap-[24px]">
           {product.map((item, key) => (
             <OrderItem key={key} product={item} />
           ))}
@@ -97,7 +96,7 @@ export default function MyOrder() {
               height={20}
             />
           </button>
-        </section>
+        </article>
       )}
     </section>
   );
