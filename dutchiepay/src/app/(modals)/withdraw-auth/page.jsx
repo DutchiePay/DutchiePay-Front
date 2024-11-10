@@ -9,14 +9,16 @@ import PhoneAuth from '@/app/_components/_user/_phone/PhoneAuth';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import useReissueToken from '@/app/hooks/useReissueToken';
+import useRetryFunction from '@/app/hooks/useRetryFunction';
 
 export default function WithdrawAuth() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const access = useSelector((state) => state.login.access);
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
-  const { refreshAccessToken } = useReissueToken();
+  const { reissueTokenAndRetry } = useRetryFunction({
+    onError: (message) => alert(message),
+  });
   const loginType = localStorage.getItem('loginType');
   const {
     register,
@@ -37,7 +39,7 @@ export default function WithdrawAuth() {
       closeWindow();
     }
   }, [access, isLoggedIn]);
-  const deleteUser = async (accessToken) => {
+  const fetchDeleteUser = async (accessToken) => {
     const response = await axios.delete(
       loginType === 'email'
         ? `${process.env.NEXT_PUBLIC_BASE_URL}/users`
@@ -58,28 +60,15 @@ export default function WithdrawAuth() {
       )
     ) {
       try {
-        deleteUser(access);
+        fetchDeleteUser(access);
         window.opener.postMessage({ type: 'WITHDRAW' }, window.location.origin);
         alert('정상적으로 탈퇴처리 되었습니다.');
         closeWindow();
       } catch (error) {
-        const reissueResponse = await refreshAccessToken();
-        if (reissueResponse.success) {
-          try {
-            await deleteUser(access); // 갱신된 토큰으로 삭제 요청
-            window.opener.postMessage(
-              { type: 'WITHDRAW' },
-              window.location.origin
-            );
-            alert('정상적으로 탈퇴처리 되었습니다.');
-            closeWindow();
-          } catch (error) {
-            alert('탈퇴 처리 중 오류가 발생했습니다.'); // 두 번째 요청 실패 처리
-          }
+        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+          reissueTokenAndRetry(() => handleWithdraw());
         } else {
-          alert(
-            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
-          );
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
       }
     }

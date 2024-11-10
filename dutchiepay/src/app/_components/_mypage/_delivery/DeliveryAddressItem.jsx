@@ -6,6 +6,7 @@ import '@/styles/globals.css';
 import DefaultAddress from './DefaultAddress';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import useRetryFunction from '@/app/hooks/useRetryFunction';
 
 export default function DeliveryAddressItem({
   deliveryAddress,
@@ -13,7 +14,9 @@ export default function DeliveryAddressItem({
   isFirst,
 }) {
   const access = useSelector((state) => state.login.access);
-
+  const { reissueTokenAndRetry } = useRetryFunction({
+    onError: (message) => alert(message),
+  });
   const handleDelete = async () => {
     if (confirm('주소지를 삭제하시겠습니까?')) {
       try {
@@ -31,7 +34,12 @@ export default function DeliveryAddressItem({
 
         alert('정상적으로 삭제되었습니다.');
       } catch (error) {
-        alert('오류가 발생했습니다. 다시 시도해주세요.');
+        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+          // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
+          reissueTokenAndRetry(() => handleDelete());
+        } else {
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
+        }
       }
     }
   };
@@ -70,7 +78,7 @@ export default function DeliveryAddressItem({
         <p className="text-gray--500">{deliveryAddress.phone}</p>
       </div>
       <p className="flex gap-[8px] items-center">
-        {deliveryAddress.address} <p>({deliveryAddress.zipCode})</p>
+        {deliveryAddress.address} <span>({deliveryAddress.zipCode})</span>
       </p>
       <p>{deliveryAddress.detail}</p>
     </div>

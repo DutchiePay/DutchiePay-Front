@@ -17,6 +17,7 @@ import getRemainingTime from '@/app/_util/getRemainingTime';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import useRetryFunction from '@/app/hooks/useRetryFunction';
 
 export default function Order() {
   const access = useSelector((state) => state.login.access);
@@ -26,7 +27,9 @@ export default function Order() {
   const [orderInfo, setOrderInfo] = useState(null);
   const { handleSubmit, register, setValue } = useForm();
   const router = useRouter();
-
+  const { reissueTokenAndRetry } = useRetryFunction({
+    onError: (message) => alert(message),
+  });
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -40,12 +43,17 @@ export default function Order() {
         );
         setOrderInfo(response.data);
       } catch (error) {
-        alert('주문 데이터를 불러오는 도중 문제가 발생했습니다.');
+        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+          // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
+          reissueTokenAndRetry(() => fetchProduct());
+        } else {
+          alert('주문 데이터를 불러오는 도중 문제가 발생했습니다.');
+        }
       }
     };
 
     fetchProduct();
-  }, [buyId, quantity, access]);
+  }, [buyId, quantity, access, reissueTokenAndRetry]);
 
   const openPopup = (redirectUrl) => {
     window.open(redirectUrl, `더취페이 결제`, 'width=600,height=400');
