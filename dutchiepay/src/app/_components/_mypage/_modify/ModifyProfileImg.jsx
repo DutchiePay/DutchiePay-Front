@@ -11,13 +11,16 @@ import axios from 'axios';
 import profile from '/public/image/profile.jpg';
 import { setUserInfoChange } from '@/redux/slice/loginSlice';
 import { useState } from 'react';
+import useRetryFunction from '@/app/hooks/useRetryFunction';
 
 export default function ModifyProfileImg({ modifyInfo, setModifyInfo }) {
   const profileImage = useSelector((state) => state.login.user.profileImage);
   const access = useSelector((state) => state.login.access);
   const [isModify, setIsModify] = useState(false);
   const dispatch = useDispatch();
-
+  const { reissueTokenAndRetry } = useRetryFunction({
+    onError: (message) => alert(message),
+  });
   const handleModifyCancel = () => {
     setModifyInfo((prevModifyInfo) => ({
       ...prevModifyInfo,
@@ -40,7 +43,12 @@ export default function ModifyProfileImg({ modifyInfo, setModifyInfo }) {
       dispatch(setUserInfoChange({ profileImage: modifyInfo.profileImage }));
       setIsModify(false);
     } catch (error) {
-      alert('오류가 발생했습니다. 다시 시도해주세요.');
+      if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+        // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
+        reissueTokenAndRetry(() => handleModifyComplete());
+      } else {
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
+      }
     }
   };
 

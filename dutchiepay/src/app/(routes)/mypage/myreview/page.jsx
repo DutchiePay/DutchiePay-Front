@@ -9,12 +9,14 @@ import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import review from '/public/image/nonItem/review.svg';
-// 리뷰내역 없을 때 UI도 구현해야 함
+import useRetryFunction from '@/app/hooks/useRetryFunction';
 export default function MyReview() {
   const [reviews, setReviews] = useState([]);
   const nickname = useSelector((state) => state.login.user.nickname);
   const access = useSelector((state) => state.login.access);
-
+  const { reissueTokenAndRetry } = useRetryFunction({
+    onError: (message) => alert(message),
+  });
   useEffect(() => {
     const handleFetchReviews = async () => {
       try {
@@ -26,15 +28,18 @@ export default function MyReview() {
             },
           }
         );
-        console.log(response);
         setReviews(response.data);
       } catch (error) {
-        console.error('데이터를 가져오는 데 오류가 발생했습니다:', error);
+        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+          // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
+          reissueTokenAndRetry(() => handleFetchReviews());
+        } else {
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
+        }
       }
     };
     handleFetchReviews();
-  }, [access]);
-  console.log(reviews);
+  }, [access, reissueTokenAndRetry]);
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">작성한 후기</h1>
