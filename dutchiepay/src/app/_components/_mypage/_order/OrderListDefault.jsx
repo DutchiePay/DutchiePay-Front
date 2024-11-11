@@ -1,20 +1,11 @@
 import '@/styles/globals.css';
 import '@/styles/mypage.css';
 
-import Image from 'next/image';
 import Link from 'next/link';
-import productIcon from '/public/image/nonitem/product.svg';
 
 export default function OrderListDefault() {
   return (
     <article className="min-h-[360px] flex flex-col justify-center items-center">
-      <Image
-        className="mb-[12px]"
-        src={productIcon}
-        alt="product"
-        width={60}
-        height={60}
-      />
       <strong className="text-2xl">주문하신 상품이 없습니다.</strong>
       <p className="text-gray--500 text-sm">
         공동구매에서 다양한 상품들을 구매해보세요.
