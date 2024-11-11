@@ -11,7 +11,6 @@ const AskItem = ({ item, company }) => {
   const [isMine, setIsMine] = useState(false);
   const [isAnswer, setIsAnswer] = useState(false); // Answer 표시 여부 상태
   const userId = useSelector((state) => state.login.user.userId);
-  const isAsk = 'ask';
   useEffect(() => {
     setIsMine(userId === item.userId);
   }, [userId, item.userId]);
@@ -70,7 +69,7 @@ const AskItem = ({ item, company }) => {
         </td>
 
         <td className="w-[150px] px-2 py-[20px]">
-          {getFormatDate(isAsk, item.createdAt)}
+          {getFormatDate('ask', item.createdAt)}
         </td>
 
         <td className="w-[100px] px-2 py-[20px] border-gray-300">
