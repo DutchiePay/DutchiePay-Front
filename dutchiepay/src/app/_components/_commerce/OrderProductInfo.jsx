@@ -7,7 +7,7 @@ import Image from 'next/image';
 import useFetchOrderProduct from '@/app/hooks/useFetchOrderProduct';
 import { useState } from 'react';
 
-export default function RefundProduct({ buyId, orderNum }) {
+export default function OrderProductInfo({ buyId, orderNum }) {
   const [orderInfo, setOrderInfo] = useState(null);
   useFetchOrderProduct({ buyId, setOrderInfo });
 

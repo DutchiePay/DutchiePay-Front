@@ -7,8 +7,8 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ReviewForm from '@/app/_components/_commerce/_review/ReviewForm';
-import ReviewProduct from '@/app/_components/_commerce/_review/ReviewProduct';
 import useFetchReview from '@/app/hooks/useFetchReview';
+import OrderProductInfo from '@/app/_components/_commerce/OrderProductInfo';
 
 export default function ReviewModal() {
   const searchParams = useSearchParams();
@@ -28,7 +28,7 @@ export default function ReviewModal() {
         <br />
       </p>
       <section className="mt-[40px]">
-        <ReviewProduct buyId={buyId} orderNum={orderNum} />
+        <OrderProductInfo buyId={buyId} orderNum={orderNum} />
         <hr />
         <ReviewForm
           reviewId={reviewId}

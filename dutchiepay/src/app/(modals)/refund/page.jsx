@@ -4,7 +4,7 @@ import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
 import RefundForm from '@/app/_components/_commerce/_refund/RefundForm';
-import RefundProduct from '@/app/_components/_commerce/_refund/RefundProduct';
+import OrderProductInfo from '@/app/_components/_commerce/OrderProductInfo';
 import { useSearchParams } from 'next/navigation';
 
 export default function RefundModal() {
@@ -21,7 +21,7 @@ export default function RefundModal() {
         구매자의 단순 변심에 의한 교환/환불은 절대 불가능합니다.
       </p>
       <article className="mt-[40px]">
-        <RefundProduct buyId={buyId} orderNum={orderNum} />
+        <OrderProductInfo buyId={buyId} orderNum={orderNum} />
         <hr />
         <RefundForm orderId={orderId} />
       </article>
