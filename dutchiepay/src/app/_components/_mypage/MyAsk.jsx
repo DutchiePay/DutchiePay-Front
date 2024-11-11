@@ -16,7 +16,6 @@ export default function MyAsks({ item }) {
   const [isSecret, setIsSecret] = useState(false);
   const [isAnswered, setIsAnswered] = useState(false);
   const access = useSelector((state) => state.login.access);
-  const myAsk = 'myask';
   useEffect(() => {
     setIsAnswered(!!item.answer);
   }, [item.answer]);
@@ -64,8 +63,7 @@ export default function MyAsks({ item }) {
               {item.productName}
             </Link>
             <p className="text-xs text-gray-700">
-              {' '}
-              {getFormatDate(myAsk, item.createdAt)}
+              {getFormatDate('myask', item.createdAt)}
             </p>
             <p className="text-xs text-blue--500 font-semibold">
               {isAnswered ? '답변완료' : '답변대기'}
@@ -90,7 +88,7 @@ export default function MyAsks({ item }) {
               />
               <strong className="text-blue--500">{item.storeName}</strong>
               <p className="text-xs text-gray-700">
-                {getFormatDate(myAsk, item.answeredAt)}
+                {getFormatDate('myask', item.answeredAt)}
               </p>
             </div>
             <p className="text-sm pl-[16px]">{item.answer}</p>
