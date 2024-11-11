@@ -34,6 +34,7 @@ export default function MyOrder() {
         }
       );
       setProduct((prevProducts) => [...prevProducts, ...response.data]);
+      console.log(response.data);
     } catch (error) {
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
         /* 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
