@@ -4,15 +4,14 @@ import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
 import Image from 'next/image';
-import clock from '../../../../public/image/clock.svg';
-import productDefault from '../../../../public/image/product1.jpg';
+import clock from '/public/image/clock.svg';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
-import useFetchProduct from '@/app/hooks/useFetchProduct';
 import useRetryFunction from '@/app/hooks/useRetryFunction';
 import { useSelector } from 'react-redux';
 import RemainingTime from '@/app/_components/_commerce/_productDetail/RemainingTime';
+import useFetchOrderProduct from '@/app/hooks/useFetchOrderProduct';
 
 export default function AskModal() {
   const access = useSelector((state) => state.login.access);
@@ -21,12 +20,12 @@ export default function AskModal() {
   const buyId = searchParams.get('buyId');
   const [content, setContent] = useState('');
   const [isEnd, setIsEnd] = useState(false);
+  const [productInfo, setProductInfo] = useState(null);
   const { reissueTokenAndRetry } = useRetryFunction({
     onError: (message) => alert(message),
   });
   const [isSecret, setIsSecret] = useState(false); // 비밀글 설정 여부
-  const { product } = useFetchProduct({ buyId }); // buyId를 직접 전달
-
+  useFetchOrderProduct({ buyId, setOrderInfo: setProductInfo });
   const closeWindow = () => {
     window.close();
   };
@@ -67,29 +66,32 @@ export default function AskModal() {
         <br /> 불편한 문의 사항을 작성해주시면 빠르게 답변해드리겠습니다.
       </p>
       <section className="mt-[40px]">
-        <div className="flex gap-[12px] mb-[12px]">
-          <Image
-            className="rounded-lg"
-            src={product?.productImg || productDefault}
-            alt={product?.productName || '제품이미지'}
-            width={100}
-            height={100}
-          />
-          <div className="flex flex-col w-[400px] gap-[4px]">
-            <p className="text-xs text-gray--500">{product?.storeName}</p>
-            <strong className="title--multi-line">
-              {product.productName || '제품 이름'}
-            </strong>
-            <div className="flex gap-[4px] text-sm text-blue--700 font-semibold">
-              <Image src={clock} alt="남은 시간" width={16} height={16} />
-              <RemainingTime
-                endTime={product?.deadline}
-                isEnd={isEnd}
-                setIsEnd={setIsEnd}
-              />
+        {productInfo && (
+          <div className="flex gap-[12px] mb-[12px]">
+            <Image
+              className="rounded-lg"
+              src={productInfo?.productImg}
+              alt={productInfo?.productName}
+              width={100}
+              height={100}
+            />
+            <div className="flex flex-col w-[400px] gap-[4px]">
+              <p className="text-xs text-gray--500">{productInfo?.storeName}</p>
+              <strong className="title--multi-line">
+                {productInfo?.productName}
+              </strong>
+              <div className="flex gap-[4px] text-sm text-blue--700 font-semibold">
+                <Image src={clock} alt="남은 시간" width={16} height={16} />
+                <RemainingTime
+                  endTime={productInfo?.expireDate}
+                  isEnd={isEnd}
+                  setIsEnd={setIsEnd}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
+
         <hr />
         <div className="mt-[12px]">
           <p className="text-blue--500 font-semibold">문의 내용</p>

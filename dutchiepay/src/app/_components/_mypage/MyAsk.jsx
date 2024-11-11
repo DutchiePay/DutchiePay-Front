@@ -5,18 +5,21 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import reply from '../../../../public/image/reply.svg';
-import secret from '../../../../public/image/secret.svg';
-import { useState } from 'react';
+import reply from '/public/image/reply.svg';
+import secret from '/public/image/secret.svg';
+import { useState, useEffect } from 'react';
 import getFormatDate from '@/app/_util/getFormatDate';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
 export default function MyAsks({ item }) {
   const [isSecret, setIsSecret] = useState(false);
-  const [isAnswered, setIsAnswered] = useState(item.answer);
+  const [isAnswered, setIsAnswered] = useState(false);
   const access = useSelector((state) => state.login.access);
   const myAsk = 'myask';
+  useEffect(() => {
+    setIsAnswered(!!item.answer);
+  }, [item.answer]);
 
   const handleDelete = async () => {
     if (confirm('작성한 문의를 삭제하시겠습니까?')) {
