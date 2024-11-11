@@ -16,7 +16,7 @@ export default function Product({ product }) {
         >
           <div className="w-full h-[148px] relative overflow-hidden">
             <Image
-              className="w-full h-[148px] transform transition-transform duration-300 hover:scale-110 object-cover"
+              className={`w-full h-[148px] transform transition-transform duration-300 hover:scale-110 object-cover ${product.expireDate < 0 ? 'grayscale-[65%]' : ''}`}
               src={product.productImg}
               alt={product.productName}
               fill
