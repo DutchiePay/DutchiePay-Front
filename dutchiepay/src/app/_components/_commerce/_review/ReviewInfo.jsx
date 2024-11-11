@@ -1,7 +1,7 @@
 import '@/styles/globals.css';
 
-import Rating from '../_rating/Rating';
-import RatingDitsribution from '../_rating/RatingDistribution';
+import Rating from '@/app/_components/_rating/Rating';
+import RatingDitsribution from '@/app/_components/_rating/RatingDistribution';
 
 export default function ReviewInfo({ reviewCount, rating, ratingCount }) {
   return (

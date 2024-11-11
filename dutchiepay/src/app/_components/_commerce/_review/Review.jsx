@@ -4,9 +4,9 @@ import '@/styles/globals.css';
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
-import Pagination from '../Pagination';
-import ReviewInfo from './ReviewInfo';
-import ReviewItem from './ReviewItem';
+import Pagination from '@/app/_components/Pagination';
+import ReviewInfo from '@/app/_components/_commerce/_review/ReviewInfo';
+import ReviewItem from '@/app/_components/_commerce/_review/ReviewItem';
 import axios from 'axios';
 import review from '/public/image/nonItem/review.svg';
 

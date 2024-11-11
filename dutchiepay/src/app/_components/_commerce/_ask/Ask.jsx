@@ -1,12 +1,13 @@
 import '@/styles/commerce.css';
 import '@/styles/globals.css';
 
-import AskItem from './AskItem';
-import Pagination from '../Pagination';
-import { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
+import { useCallback, useEffect, useState } from 'react';
+
+import AskItem from '@/app/_components/_commerce/_ask/AskItem';
 import Image from 'next/image';
-import ask from '/public/image/nonItem/ask.svg'; // SVG 파일을 import
+import Pagination from '@/app/_components/Pagination';
+import ask from '/public/image/nonItem/ask.svg';
+import axios from 'axios';
 
 export default function Ask({ askCount, productId, company }) {
   const openPopup = (url) => {
