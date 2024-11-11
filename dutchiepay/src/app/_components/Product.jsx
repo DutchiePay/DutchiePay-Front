@@ -5,7 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ProductLike from './_commerce/ProductLike';
 import Rating from './_rating/Rating';
-import { useState } from 'react';
 
 export default function Product({ product }) {
   return (
@@ -52,7 +51,7 @@ export default function Product({ product }) {
             <span
               className={`${product.expireDate < 0 ? '' : 'text-blue--500'} text-lg font-semibold flex items-baseline gap-[4px]`}
             >
-              {Math.round(product.nowCount / product.skeleton)}%
+              {Math.round((product.nowCount / product.skeleton) * 100)}%
               <p className="text-sm font-medium">달성</p>
             </span>
             <p
@@ -68,7 +67,7 @@ export default function Product({ product }) {
           <progress
             id="product-list-progress"
             className={`product-list-progress w-full h-[3px] ${product.expireDate < 0 ? 'product-list-progress__end' : ''}`}
-            value={Math.round(product.nowCount / product.skeleton)}
+            value={Math.round((product.nowCount / product.skeleton) * 100)}
             min={0}
             max={100}
           />
