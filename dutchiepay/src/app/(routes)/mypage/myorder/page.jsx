@@ -17,7 +17,6 @@ export default function MyOrder() {
   const nickname = useSelector((state) => state.login.user.nickname);
   const [product, setProduct] = useState([]);
   const [page, setPage] = useState(1);
-  const isInitialMount = useRef(true);
 
   const { reissueTokenAndRetry } = useRetryFunction({
     onError: (message) => alert(message),
@@ -46,12 +45,6 @@ export default function MyOrder() {
   }, [access, page]);
 
   useEffect(() => {
-    // useEffect가 2번 호출되지 않도록 초기 렌더링 제한
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
-    }
-
     fetchProduct();
 
     const handleMessage = (event) => {
