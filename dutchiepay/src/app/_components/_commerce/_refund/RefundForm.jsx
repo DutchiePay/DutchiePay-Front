@@ -3,6 +3,7 @@
 import '@/styles/commerce.css';
 import '@/styles/globals.css';
 
+import PopUpButton from '../../PopUpButton';
 import RefundReason from './RefundReason';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
@@ -91,21 +92,7 @@ export default function RefundForm({ orderId }) {
         <p className="mt-[4px] text-xs text-gray--500 text-end">
           교환/환불 신청 시 영업일 기준 1~2일 내로 처리됩니다.
         </p>
-        <div className="flex justify-center gap-[24px] mt-[24px]">
-          <button
-            className="text-red-500 text-sm bg-red--100 rounded-lg px-[24px] py-[8px]"
-            type="submit"
-          >
-            교환/환불 신청
-          </button>
-          <button
-            className="text-blue--500 text-sm border border-blue--200 rounded-lg px-[24px] py-[8px]"
-            type="button"
-            onClick={closeWindow}
-          >
-            취소
-          </button>
-        </div>
+        <PopUpButton submitText={'교환/환불 신청'} />
       </form>
     </>
   );
