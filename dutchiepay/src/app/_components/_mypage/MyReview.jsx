@@ -8,8 +8,10 @@ import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Rating from '@/app/_components/_rating/Rating';
-import images from '../../../../public/image/images.svg';
-import more from '../../../../public/image/more.svg';
+import images from '/public/image/images.svg';
+import more from '/public/image/more.svg';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 export default function MyReviews({ item }) {
   const [hasImages, setHasImages] = useState(false);
@@ -17,7 +19,38 @@ export default function MyReviews({ item }) {
   const [isMore, setIsMore] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const thumbnails = item.reviewImg;
+  const access = useSelector((state) => state.login.access);
   const contentRef = useRef();
+
+  const openPopup = (url) => {
+    window.open(url, '_blank', 'width=620, height=670');
+  };
+
+  const handleDelete = async () => {
+    if (confirm('작성한 리뷰를 삭제하시겠습니까?')) {
+      try {
+        await axios.delete(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/profile/reviews?reviewId=${item.reviewId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${access}`,
+            },
+          }
+        );
+        alert('정상적으로 삭제되었습니다.');
+        if (window.opener) {
+          window.opener.postMessage('refreshReviews', '*');
+        }
+      } catch (error) {
+        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+          /* 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
+          reissueTokenAndRetry(() => initMypage());*/
+        } else {
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
+        }
+      }
+    }
+  };
 
   useEffect(() => {
     // 리뷰 이미지가 있는 경우에만 hasImages를 true로 설정
@@ -47,6 +80,7 @@ export default function MyReviews({ item }) {
       document.body.style.overflow = 'auto';
     };
   }, [isModalOpen]);
+
   useEffect(() => {
     if (contentRef.current) {
       setHasOverflow(
@@ -73,8 +107,7 @@ export default function MyReviews({ item }) {
               alt="리뷰 이미지"
               fill
             />
-
-            {thumbnails?.length > 1 && (
+            {thumbnails.length > 1 && (
               <div
                 className="absolute bottom-[8px] right-[8px] bg-white w-[30px] h-[30px] rounded-full flex justify-center items-center cursor-pointer"
                 onClick={handleImageClick}
@@ -93,16 +126,27 @@ export default function MyReviews({ item }) {
         <div className={`${hasImages ? 'w-[558px]' : 'w-[730px]'}`}>
           <div className="flex justify-between items-center">
             <Link
-              href={`/commerce/detail?productId=${item.buyId}`}
+              href={`/commerce/${item.buyId}`}
               className="inline-block max-w-[470px] title--single-line font-bold"
             >
               {item.productName}
             </Link>
             <div className="flex gap-[12px]">
               {item.isPossible && (
-                <button className="text-sm font-semibold">수정</button>
+                <button
+                  className="text-sm font-semibold"
+                  onClick={() =>
+                    openPopup(
+                      `/review?reviewId=${item.reviewId}&buyId=${item.buyId}`
+                    )
+                  }
+                >
+                  수정
+                </button>
               )}
-              <button className="text-sm font-semibold">삭제</button>
+              <button className="text-sm font-semibold" onClick={handleDelete}>
+                삭제
+              </button>
             </div>
           </div>
           <div className="flex justify-between mt-[4px]">
@@ -116,7 +160,7 @@ export default function MyReviews({ item }) {
           >
             {item.content}
           </p>
-          {/* 내용이 넘칠 때만 "더보기" 아이콘 표시*/}
+          {/* 내용이 넘칠 때만 "더보기" 아이콘 표시 */}
           {(hasOverflow || isMore) && (
             <Image
               className={`w-[20px] h-[20px] absolute bottom-[8px] right-[20px] cursor-pointer ${isMore ? 'rotate-180' : ''}`}

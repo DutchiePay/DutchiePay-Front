@@ -3,14 +3,13 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
-import { useEffect, useState } from 'react';
-
 import Image from 'next/image';
 import MyReviews from '@/app/_components/_mypage/MyReview';
+import { useSelector } from 'react-redux';
+import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import review from '/public/image/nonItem/review.svg';
 import useRetryFunction from '@/app/hooks/useRetryFunction';
-import { useSelector } from 'react-redux';
 
 export default function MyReview() {
   const [reviews, setReviews] = useState([]);
@@ -20,29 +19,38 @@ export default function MyReview() {
     onError: (message) => alert(message),
   });
 
-  useEffect(() => {
-    const handleFetchReviews = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/profile/reviews`,
-          {
-            headers: {
-              Authorization: `Bearer ${access}`,
-            },
-          }
-        );
-        setReviews(response.data);
-      } catch (error) {
-        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          /* 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-          reissueTokenAndRetry(() => handleFetchReviews());*/
-        } else {
-          alert('오류가 발생했습니다. 다시 시도해주세요.');
+  const handleFetchReviews = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/profile/reviews`,
+        {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
         }
+      );
+      setReviews(response.data);
+    } catch (error) {
+      if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+        // reissueTokenAndRetry(() => handleFetchReviews());
+      } else {
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
+      }
+    }
+  }, [access]);
+
+  useEffect(() => {
+    handleFetchReviews();
+    const handleMessage = (event) => {
+      if (event.data === 'refreshReviews') {
+        handleFetchReviews();
       }
     };
-    handleFetchReviews();
-  }, [access]);
+    window.addEventListener('message', handleMessage);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, [handleFetchReviews]);
 
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
@@ -61,9 +69,7 @@ export default function MyReview() {
             <p className="my-[40px]">등록된 리뷰가 없습니다.</p>
           </div>
         ) : (
-          reviews.map((item) => {
-            return <MyReviews key={item.reviewId} item={item} />;
-          })
+          reviews.map((item) => <MyReviews key={item.reviewId} item={item} />)
         )}
       </section>
     </section>

@@ -46,7 +46,9 @@ export default function OrderActionButton({ product, setStatus, status }) {
         }
       }
     } else if (status === '구매확정') {
-      openPopup(`/review?orderNum=${product.orderNum}`);
+      openPopup(
+        `/review?orderId=${product.orderId}&orderNum=${product.orderNum}&buyId=${product.buyId}`
+      );
     } else if (status === '배송완료') {
       if (
         confirm(
