@@ -78,7 +78,8 @@ export default function OrderActionButton({ product, setStatus, status }) {
           } else alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
       }
-    } else openPopup(`/ask?orderNum=${product.orderNum}`);
+    } else
+      openPopup(`/ask?orderNum=${product.orderNum}&buyId=${product.buyId}`);
   };
 
   return (
@@ -109,7 +110,11 @@ export default function OrderActionButton({ product, setStatus, status }) {
       ) : status === '구매확정' || status === '공구진행중' ? (
         <button
           className="text-blue-500 text-sm border border-blue--500 rounded px-[56px] py-[8px]"
-          onClick={() => openPopup(`/ask?orderNum=${product.orderNum}`)}
+          onClick={() =>
+            openPopup(
+              `/ask?orderNum=${product.orderNum}&buyId=${product.buyId}`
+            )
+          }
         >
           문의하기
         </button>

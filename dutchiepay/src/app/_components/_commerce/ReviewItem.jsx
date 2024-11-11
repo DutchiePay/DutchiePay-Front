@@ -18,7 +18,6 @@ export default function ReviewItem({ className, item }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMore, setIsMore] = useState(false);
   const [hasOverflow, setHasOverflow] = useState(false);
-  const isReview = 'review';
   const thumbnails = item.reviewImg;
   const contentRef = useRef();
 
@@ -98,7 +97,7 @@ export default function ReviewItem({ className, item }) {
             <Rating rating={item.rating} size={20} />
           </div>
           <p className="text-xs text-gray--600">
-            {getFormatDate(isReview, item.createdAt)}
+            {getFormatDate('review', item.createdAt)}
           </p>
           <p
             ref={contentRef}
