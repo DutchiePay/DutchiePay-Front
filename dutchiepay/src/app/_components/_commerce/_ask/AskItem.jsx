@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+
+import Answer from '@/app/_components/_commerce/_ask/Answer';
 import Image from 'next/image';
-import secret from '../../../../public/image/secret.svg';
-import trash from '/public/image/trash.svg';
-import Answer from './Answer';
 import getFormatDate from '@/app/_util/getFormatDate';
+import secret from '/public/image/secret.svg';
+import trash from '/public/image/trash.svg';
+import { useSelector } from 'react-redux';
 
 const AskItem = ({ item, company }) => {
   const [isMore, setIsMore] = useState(false);

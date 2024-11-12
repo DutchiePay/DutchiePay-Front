@@ -3,16 +3,15 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
-import Image from 'next/image';
-import ImagesModal from '../../(modals)/images/page';
-import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 
-import Rating from '../_rating/Rating';
+import Image from 'next/image';
+import ImagesModal from '@/app/(modals)/images/page';
+import Rating from '@/app/_components/_rating/Rating';
+import getFormatDate from '@/app/_util/getFormatDate';
 import images from '/public/image/images.svg';
 import more from '/public/image/more.svg';
 
-import { useState, useEffect, useRef } from 'react';
-import getFormatDate from '@/app/_util/getFormatDate';
 export default function ReviewItem({ className, item }) {
   const [hasImages, setHasImages] = useState(false); // 이미지 유무 초기값을 false로 설정
   const [isModalOpen, setIsModalOpen] = useState(false);

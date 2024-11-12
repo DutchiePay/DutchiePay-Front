@@ -5,12 +5,11 @@ import '@/styles/commerce.css';
 
 import { useEffect, useRef, useState } from 'react';
 
-import Ask from '@/app/_components/_commerce/Ask';
+import Ask from '@/app/_components/_commerce/_ask/Ask';
 import Company from '@/app/_components/_commerce/_productDetail/Company';
-import Image from 'next/image';
 import ProductDetailImage from './ProductDetailImage';
 import ProductDetailTab from '@/app/_components/_commerce/_productDetail/ProductDetailTab';
-import Review from '@/app/_components/_commerce/Review';
+import Review from '@/app/_components/_commerce/_review/Review';
 
 export default function ProductContent({ product, productId }) {
   const [tab, setTab] = useState('상품정보');
