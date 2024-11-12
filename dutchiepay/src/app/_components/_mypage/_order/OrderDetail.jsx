@@ -59,13 +59,19 @@ export default function OrderDetail({ product, isMore }) {
                     <div className="flex justify-between">
                       <p className="text-sm">판매가격</p>
                       <p className="text-sm">
-                        {product.productPrice.toLocaleString('ko-KR')}원
+                        {(
+                          product.productPrice * product.quantity
+                        ).toLocaleString('ko-KR')}
+                        원
                       </p>
                     </div>
                     <div className="flex justify-between">
                       <p className="text-sm">할인가격</p>
                       <p className="text-sm">
-                        {product.discountPrice.toLocaleString('ko-KR')}원
+                        {(
+                          product.discountPrice * product.quantity
+                        ).toLocaleString('ko-KR')}
+                        원
                       </p>
                     </div>
                   </div>

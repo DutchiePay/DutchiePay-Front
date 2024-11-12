@@ -12,7 +12,7 @@ export default function ProductItemHeader({ item }) {
     <>
       <div className="w-full h-[240px] relative overflow-hidden object-cover">
         <Image
-          className={`w-full h-[240px] transform transition-transform duration-300 hover:scale-110`}
+          className={`w-full h-[240px] transform transition-transform duration-300 hover:scale-110 ${item.expireDate < 0 ? 'grayscale-[65%]' : ''}`}
           src={item.productImg}
           alt={item.productName}
           fill
@@ -21,7 +21,7 @@ export default function ProductItemHeader({ item }) {
       </div>
       <div className="flex justify-between items-center py-[6px] border-b">
         <div className="flex gap-[8px] items-center">
-          <Rating rating={4.3} size={15} />
+          <Rating rating={item.rating} size={15} />
           <p className="text-xs text-gray--500">
             ({item.reviewCount > 999 ? '999+' : item.reviewCount})
           </p>

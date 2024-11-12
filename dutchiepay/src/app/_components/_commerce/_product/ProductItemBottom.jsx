@@ -8,7 +8,7 @@ export default function ProductItemBottom({ item }) {
         <span
           className={`${item.expireDate < 0 ? '' : 'text-blue--500'} text-lg font-semibold flex gap-[4px] items-baseline`}
         >
-          {Math.round(item.nowCount / item.skeleton)}%
+          {Math.round((item.nowCount / item.skeleton) * 100)}%
           <p className="text-sm font-medium">달성</p>
         </span>
         <p
@@ -24,7 +24,7 @@ export default function ProductItemBottom({ item }) {
       <progress
         id="product-list-progress"
         className={`product-list-progress w-full h-[3px] ${item.expireDate < 0 ? 'product-list-progress__end' : ''}`}
-        value={Math.round(item.nowCount / item.skeleton)}
+        value={Math.round((item.nowCount / item.skeleton) * 100)}
         min={0}
         max={100}
       />
