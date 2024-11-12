@@ -29,11 +29,17 @@ export default function Quantity({ salePrice, quantity, setQuantity }) {
           type="number"
           value={quantity}
           onChange={(e) => {
-            const newValue = parseInt(e.target.value, 10);
-            if (newValue >= 99) {
-              setQuantity(99);
-            } else if (newValue >= 1) {
-              setQuantity(newValue);
+            const inputValue = e.target.value;
+            if (inputValue === '') {
+              setQuantity('');
+            } else {
+              const newValue = parseInt(inputValue, 10);
+              if (newValue >= 99) {
+                if (newValue > 99) alert('최대 99개까지 구매 가능합니다.');
+                setQuantity(99);
+              } else if (newValue >= 1) {
+                setQuantity(newValue);
+              }
             }
           }}
           min={1}
