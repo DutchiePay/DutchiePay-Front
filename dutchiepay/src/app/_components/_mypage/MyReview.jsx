@@ -10,89 +10,35 @@ import Link from 'next/link';
 import Rating from '@/app/_components/_rating/Rating';
 import images from '/public/image/images.svg';
 import more from '/public/image/more.svg';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
+import useDeleteReview from '@/app/hooks/useDeleteReview';
+import useReviewDisplay from '@/app/hooks/useReviewDisplay';
 
-export default function MyReviews({ item }) {
-  const [hasImages, setHasImages] = useState(false);
-  const [hasOverflow, setHasOverflow] = useState(false);
-  const [isMore, setIsMore] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const thumbnails = item.reviewImg;
-  const access = useSelector((state) => state.login.access);
-  const contentRef = useRef();
-
+export default function MyReviews({ item, onDelete }) {
+  const { deleteReview } = useDeleteReview();
   const openPopup = (url) => {
     window.open(url, '_blank', 'width=620, height=670');
   };
 
   const handleDelete = async () => {
-    if (confirm('작성한 리뷰를 삭제하시겠습니까?')) {
-      try {
-        await axios.delete(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/profile/reviews?reviewId=${item.reviewId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${access}`,
-            },
-          }
-        );
-        alert('정상적으로 삭제되었습니다.');
-        if (window.opener) {
-          window.opener.postMessage('refreshReviews', '*');
-        }
-      } catch (error) {
-        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          /* 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-          reissueTokenAndRetry(() => initMypage());*/
-        } else {
-          alert('오류가 발생했습니다. 다시 시도해주세요.');
-        }
-      }
-    }
+    await deleteReview(item.reviewId);
+    onDelete(item.reviewId);
   };
 
-  useEffect(() => {
-    // 리뷰 이미지가 있는 경우에만 hasImages를 true로 설정
-    setHasImages(thumbnails.length > 0);
-  }, [thumbnails]);
-
-  const handleToggle = () => {
-    setIsMore((prev) => !prev);
-  };
-
-  const handleImageClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  useEffect(() => {
-    if (isModalOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isModalOpen]);
-
-  useEffect(() => {
-    if (contentRef.current) {
-      setHasOverflow(
-        contentRef.current.scrollHeight > contentRef.current.clientHeight
-      );
-    }
-  }, [isMore]);
+  const {
+    hasImages,
+    isModalOpen,
+    isMore,
+    hasOverflow,
+    contentRef,
+    handleToggle,
+    handleImageClick,
+    handleCloseModal,
+  } = useReviewDisplay(item.reviewImg);
 
   return (
     <>
       {isModalOpen && (
-        <ImagesModal onClose={handleCloseModal} thumbnails={thumbnails} />
+        <ImagesModal onClose={handleCloseModal} thumbnails={item.reviewImg} />
       )}
 
       <div
@@ -107,7 +53,7 @@ export default function MyReviews({ item }) {
               alt="리뷰 이미지"
               fill
             />
-            {thumbnails.length > 1 && (
+            {item.reviewImg.length > 1 && (
               <div
                 className="absolute bottom-[8px] right-[8px] bg-white w-[30px] h-[30px] rounded-full flex justify-center items-center cursor-pointer"
                 onClick={handleImageClick}

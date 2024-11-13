@@ -3,65 +3,30 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
-import { useEffect, useRef, useState } from 'react';
-
 import Image from 'next/image';
 import ImagesModal from '@/app/(modals)/images/page';
 import Rating from '@/app/_components/_rating/Rating';
 import getFormatDate from '@/app/_util/getFormatDate';
 import images from '/public/image/images.svg';
 import more from '/public/image/more.svg';
+import useReviewDisplay from '@/app/hooks/useReviewDisplay';
 
 export default function ReviewItem({ className, item }) {
-  const [hasImages, setHasImages] = useState(false); // 이미지 유무 초기값을 false로 설정
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isMore, setIsMore] = useState(false);
-  const [hasOverflow, setHasOverflow] = useState(false);
-  const thumbnails = item.reviewImg;
-  const contentRef = useRef();
+  const {
+    hasImages,
+    isModalOpen,
+    isMore,
+    hasOverflow,
+    contentRef,
+    handleToggle,
+    handleImageClick,
+    handleCloseModal,
+  } = useReviewDisplay(item.reviewImg);
 
-  useEffect(() => {
-    // 리뷰 이미지가 있는 경우에만 hasImages를 true로 설정
-    setHasImages(item.reviewImg.length > 0);
-  }, [item.reviewImg]);
-
-  const handleImageClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleToggle = () => {
-    setIsMore((prev) => !prev);
-  };
-
-  useEffect(() => {
-    // 모달이 열릴 때 스크롤을 막음
-    if (isModalOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      // 모달이 닫힐 때 스크롤을 복원
-      document.body.style.overflow = 'auto';
-    }
-    // 컴포넌트 언마운트 시에도 스크롤 복원
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [isModalOpen]);
-
-  useEffect(() => {
-    if (contentRef.current) {
-      setHasOverflow(
-        contentRef.current.scrollHeight > contentRef.current.clientHeight
-      );
-    }
-  }, [isMore]);
   return (
     <>
       {isModalOpen && (
-        <ImagesModal onClose={handleCloseModal} thumbnails={thumbnails} />
+        <ImagesModal onClose={handleCloseModal} thumbnails={item.reviewImg} />
       )}
       <div
         className={`w-[1020px] p-[20px] flex gap-[12px] relative ${className}`}

@@ -8,7 +8,7 @@ import notion from '../../../../public/image/notion.svg';
 
 export default function Footer() {
   return (
-    <footer className="relative border-t z-50 bg-white">
+    <footer className="relative border-t z-10 bg-white">
       <div className="w-[1020px] m-0 m-auto ">
         <div className="flex items-center w-full justify-between">
           <div className="flex gap-[30px] items-center">
