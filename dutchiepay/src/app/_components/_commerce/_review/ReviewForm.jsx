@@ -36,12 +36,10 @@ const ReviewForm = ({
 
   const handleImageUpload = async (event) => {
     const imageFile = event.target.files[0];
-    if (!imageFile || images.length >= 5) {
-      alert(
-        !imageFile
-          ? '이미지를 선택하세요.'
-          : '이미지는 최대 5장까지 등록할 수 있습니다.'
-      );
+    if (!imageFile) return;
+
+    if (images.length >= 5) {
+      alert('이미지는 최대 5장까지 등록할 수 있습니다.');
       return;
     }
 
