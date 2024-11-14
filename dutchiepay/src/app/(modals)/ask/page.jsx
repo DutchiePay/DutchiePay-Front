@@ -5,19 +5,34 @@ import '@/styles/commerce.css';
 
 import AskForm from '@/app/_components/_commerce/_ask/AskForm';
 import Image from 'next/image';
-import RemainingTime from '@/app/_components/_commerce/_productDetail/RemainingTime';
 import clock from '/public/image/clock.svg';
 import useFetchOrderProduct from '@/app/hooks/useFetchOrderProduct';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import getRemainingTime from '@/app/_util/getRemainingTime';
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
 export default function AskModal() {
   const searchParams = useSearchParams();
   const buyId = searchParams.get('buyId');
-  const [isEnd, setIsEnd] = useState(false);
   const [productInfo, setProductInfo] = useState(null);
-
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const access = useSelector((state) => state.login.access);
+  const router = useRouter();
+  useEffect(() => {
+    if (!isLoggedIn || !access) {
+      alert('비정상적인 접속입니다.');
+      router.push('/');
+      window.close();
+    }
+  }, [isLoggedIn, access, router]);
   useFetchOrderProduct({ buyId, setOrderInfo: setProductInfo });
+  const formatRemainingTime = (endTime) => {
+    const remainingTime = getRemainingTime(endTime);
+    const parts = remainingTime.split(' ');
+
+    return `${parts[0]} ${parts[1]} ${parts[2]} 남음`;
+  };
 
   return (
     <main className="max-w-[600px] p-[32px] overflow-x-hidden">
@@ -44,11 +59,7 @@ export default function AskModal() {
               </strong>
               <div className="flex gap-[4px] text-sm text-blue--700 font-semibold">
                 <Image src={clock} alt="남은 시간" width={16} height={16} />
-                <RemainingTime
-                  endTime={productInfo?.expireDate}
-                  isEnd={isEnd}
-                  setIsEnd={setIsEnd}
-                />
+                <p>{formatRemainingTime(productInfo?.expireDate)}</p>
               </div>
             </div>
           </div>

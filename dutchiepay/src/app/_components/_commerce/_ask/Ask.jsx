@@ -41,6 +41,7 @@ export default function Ask({ askCount, productId, company }) {
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
   };
+  console.log(totalItems);
 
   return (
     <>
@@ -80,7 +81,11 @@ export default function Ask({ askCount, productId, company }) {
             </tr>
           ) : (
             items.map((item, index) => (
-              <AskItem key={index} item={item} company={company} />
+              <AskItem
+                key={`${activePage}-${index}`}
+                item={item}
+                company={company}
+              />
             ))
           )}
         </tbody>

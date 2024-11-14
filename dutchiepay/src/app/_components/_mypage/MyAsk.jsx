@@ -9,38 +9,20 @@ import reply from '/public/image/reply.svg';
 import secret from '/public/image/secret.svg';
 import { useState, useEffect } from 'react';
 import getFormatDate from '@/app/_util/getFormatDate';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
 
-export default function MyAsks({ item }) {
+import useDeleteAsk from '@/app/hooks/useDeleteAsk';
+
+export default function MyAsks({ item, onDelete }) {
   const [isSecret, setIsSecret] = useState(false);
   const [isAnswered, setIsAnswered] = useState(false);
-  const access = useSelector((state) => state.login.access);
+  const { deleteAsk } = useDeleteAsk();
   useEffect(() => {
     setIsAnswered(!!item.answer);
   }, [item.answer]);
 
   const handleDelete = async () => {
-    if (confirm('작성한 문의를 삭제하시겠습니까?')) {
-      try {
-        await axios.delete(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/profile/asks?askId=${item.askId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${access}`,
-            },
-          }
-        );
-        alert('정상적으로 삭제되었습니다.');
-      } catch (error) {
-        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          // // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-          // reissueTokenAndRetry(() => handleDelete());
-        } else {
-          alert('오류가 발생했습니다. 다시 시도해주세요.');
-        }
-      }
-    }
+    await deleteAsk(item.askId);
+    onDelete(item.askId);
   };
   return (
     <div className="w-[730px]">
