@@ -21,10 +21,6 @@ export default function AskForm({ buyId }) {
     onError: (message) => alert(message),
   });
 
-  const closeWindow = () => {
-    window.close();
-  };
-
   const onSubmit = async (formData) => {
     if (formData.content.trim() === '') {
       alert('내용을 작성하지 않을 경우, 문의를 등록할 수 없습니다.');
@@ -45,8 +41,10 @@ export default function AskForm({ buyId }) {
           },
         }
       );
+
       alert('문의가 성공적으로 제출되었습니다.');
-      closeWindow();
+      window.opener.postMessage('refreshAsks', '*');
+      window.close();
     } catch (error) {
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
         //액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도

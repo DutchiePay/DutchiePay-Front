@@ -41,8 +41,22 @@ export default function Ask({ askCount, productId, company }) {
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
   };
-  console.log(totalItems);
+  useEffect(() => {
+    fetchItems(activePage);
+    const handleMessage = (event) => {
+      if (event.data === 'refreshAsks') {
+        fetchItems(activePage);
+      }
+    };
 
+    window.addEventListener('message', handleMessage);
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, [activePage, fetchItems]);
+  const handleDeleteAsk = (askId) => {
+    setItems((prevAsks) => prevAsks.filter((ask) => ask.askId !== askId));
+  };
   return (
     <>
       <button
@@ -85,6 +99,7 @@ export default function Ask({ askCount, productId, company }) {
                 key={`${activePage}-${index}`}
                 item={item}
                 company={company}
+                onDelete={handleDeleteAsk}
               />
             ))
           )}

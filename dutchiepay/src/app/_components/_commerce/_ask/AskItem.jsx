@@ -8,7 +8,7 @@ import trash from '/public/image/trash.svg';
 import { useSelector } from 'react-redux';
 import useDeleteAsk from '@/app/hooks/useDeleteAsk';
 
-const AskItem = ({ item, company }) => {
+const AskItem = ({ item, company, onDelete }) => {
   const [isMore, setIsMore] = useState(false);
   const [isMine, setIsMine] = useState(false);
   const [isAnswer, setIsAnswer] = useState(false);
@@ -16,6 +16,7 @@ const AskItem = ({ item, company }) => {
   const { deleteAsk } = useDeleteAsk();
   const handleDelete = async () => {
     await deleteAsk(item.askId);
+    onDelete(item.askId);
   };
 
   useEffect(() => {
