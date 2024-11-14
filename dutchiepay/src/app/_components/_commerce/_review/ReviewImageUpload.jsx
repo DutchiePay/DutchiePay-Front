@@ -2,7 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import camera from '/public/image/camera.svg';
 
-const ReviewImageUploadSection = ({ images, onImageUpload, onImageDelete }) => {
+const ReviewImageUpload = ({ images, onImageUpload, onImageDelete }) => {
   return (
     <div>
       <strong className="text-blue--500 font-semibold">
@@ -45,4 +45,4 @@ const ReviewImageUploadSection = ({ images, onImageUpload, onImageDelete }) => {
   );
 };
 
-export default ReviewImageUploadSection;
+export default ReviewImageUpload;

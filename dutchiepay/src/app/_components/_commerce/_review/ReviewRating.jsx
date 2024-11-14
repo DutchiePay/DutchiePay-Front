@@ -1,7 +1,7 @@
 import React from 'react';
 import RatingDragger from '@/app/_components/_rating/RatingDragger';
 
-const ReviewRatingSection = ({ initialRating, onRatingChange, rating }) => {
+const ReviewRating = ({ initialRating, onRatingChange, rating }) => {
   return (
     <div>
       <div className="flex items-baseline gap-[8px]">
@@ -21,4 +21,4 @@ const ReviewRatingSection = ({ initialRating, onRatingChange, rating }) => {
   );
 };
 
-export default ReviewRatingSection;
+export default ReviewRating;

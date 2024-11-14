@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ReviewTextareaSection = ({ register }) => {
+const ReviewTextarea = ({ register }) => {
   return (
     <div className="flex flex-col">
       <strong className="text-blue--500 font-semibold">후기</strong>
@@ -14,4 +14,4 @@ const ReviewTextareaSection = ({ register }) => {
   );
 };
 
-export default ReviewTextareaSection;
+export default ReviewTextarea;
