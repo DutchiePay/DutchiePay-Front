@@ -38,11 +38,16 @@ export default function MyReview() {
       }
     }
   }, [access]);
-
+  const handleDeleteReview = (reviewId) => {
+    setReviews((prevReviews) =>
+      prevReviews.filter((review) => review.reviewId !== reviewId)
+    );
+  };
   useEffect(() => {
     handleFetchReviews();
     const handleMessage = (event) => {
-      if (event.data === 'refreshReviews') {
+      if (event.origin !== window.location.origin) return;
+      if (event.data && event.data.type === 'REFRESH_REVIEW') {
         handleFetchReviews();
       }
     };
@@ -69,7 +74,13 @@ export default function MyReview() {
             <p className="my-[40px]">등록된 리뷰가 없습니다.</p>
           </div>
         ) : (
-          reviews.map((item) => <MyReviews key={item.reviewId} item={item} />)
+          reviews.map((item) => (
+            <MyReviews
+              key={item.reviewId}
+              item={item}
+              onDelete={handleDeleteReview}
+            />
+          ))
         )}
       </section>
     </section>

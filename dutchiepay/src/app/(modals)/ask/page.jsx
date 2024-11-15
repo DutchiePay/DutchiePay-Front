@@ -54,7 +54,7 @@ export default function AskModal() {
           </div>
         )}
         <hr />
-        <AskForm />
+        <AskForm buyId={buyId} />
       </section>
     </main>
   );
