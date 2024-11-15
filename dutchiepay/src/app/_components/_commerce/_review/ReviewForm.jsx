@@ -67,7 +67,10 @@ const ReviewForm = ({
       );
 
       alert(`후기가 성공적으로 ${reviewId ? '변경' : '제출'}되었습니다.`);
-      window.opener.postMessage('refreshReviews', '*');
+      window.opener.postMessage(
+        { type: 'REFRESH_REVIEW' },
+        window.location.origin
+      );
       window.close();
     } catch (error) {
       const errorMessage =

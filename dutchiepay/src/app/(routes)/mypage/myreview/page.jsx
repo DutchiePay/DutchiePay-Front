@@ -46,7 +46,8 @@ export default function MyReview() {
   useEffect(() => {
     handleFetchReviews();
     const handleMessage = (event) => {
-      if (event.data === 'refreshReviews') {
+      if (event.origin !== window.location.origin) return;
+      if (event.data && event.data.type === 'REFRESH_REVIEW') {
         handleFetchReviews();
       }
     };
