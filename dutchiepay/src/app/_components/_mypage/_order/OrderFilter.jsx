@@ -1,24 +1,28 @@
 import '@/styles/globals.css';
 import '@/styles/mypage.css';
 
-import { ORDER_FILTER } from '@/app/_util/constants';
+export default function OrderFilter({ filter, setFilter, setPage, setIsEnd }) {
+  const handleFilter = (e) => {
+    setFilter(e.target.innerText);
+    setPage(1);
+    setIsEnd(false);
+  };
 
-export default function OrderFilter({ filter, setFilter }) {
   return (
     <ul className="flex gap-[8px] my-[16px]">
       <li>
         <button
           className={`mypage__filter ${filter === '전체' ? `mypage__filter--selected` : ''}`}
-          onClick={() => setFilter('전체')}
+          onClick={(e) => handleFilter(e)}
         >
           전체
         </button>
       </li>
-      {Object.keys(ORDER_FILTER).map((value, key) => (
+      {['배송전', '배송중', '배송완료'].map((value, key) => (
         <li key={key}>
           <button
             className={`mypage__filter ${filter === value ? `mypage__filter--selected` : ''}`}
-            onClick={() => setFilter(value)}
+            onClick={(e) => handleFilter(e)}
           >
             {value}
           </button>
