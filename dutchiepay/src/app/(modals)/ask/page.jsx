@@ -9,9 +9,10 @@ import clock from '/public/image/clock.svg';
 import useFetchOrderProduct from '@/app/hooks/useFetchOrderProduct';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import getRemainingTime from '@/app/_util/getRemainingTime';
+
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { getRemainingTime } from '@/app/_util/getFormatDate';
 export default function AskModal() {
   const searchParams = useSearchParams();
   const buyId = searchParams.get('buyId');

@@ -44,7 +44,9 @@ export default function Ask({ askCount, productId, company }) {
   useEffect(() => {
     fetchItems(activePage);
     const handleMessage = (event) => {
-      if (event.data === 'refreshAsks') {
+      if (event.origin !== window.location.origin) return;
+
+      if (event.data && event.data.type === 'REFRESH_ASK') {
         fetchItems(activePage);
       }
     };

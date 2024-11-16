@@ -43,7 +43,10 @@ export default function AskForm({ buyId }) {
       );
 
       alert('문의가 성공적으로 제출되었습니다.');
-      window.opener.postMessage('refreshAsks', '*');
+      window.opener.postMessage(
+        { type: 'REFRESH_ASK' },
+        window.location.origin
+      );
       window.close();
     } catch (error) {
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {

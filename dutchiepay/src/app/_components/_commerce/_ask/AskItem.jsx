@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import Answer from '@/app/_components/_commerce/_ask/Answer';
 import Image from 'next/image';
-import getFormatDate from '@/app/_util/getFormatDate';
+import { getFormatDate } from '@/app/_util/getFormatDate';
 import secret from '/public/image/secret.svg';
 import trash from '/public/image/trash.svg';
 import { useSelector } from 'react-redux';
