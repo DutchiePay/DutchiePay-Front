@@ -67,7 +67,7 @@ export default function MainCarousel() {
   };
 
   return (
-    <div className="w-[1020px] h-[400px] relative">
+    <article className="w-[1020px] h-[400px] relative">
       <Slider className="w-[1020px]" ref={sliderRef} {...settings}>
         <Link href="/mart" className="h-[400px] relative">
           <Image
@@ -127,6 +127,6 @@ export default function MainCarousel() {
           <ArrowButton direction="next" onClick={handleNextClick} />
         </div>
       </div>
-    </div>
+    </article>
   );
 }
