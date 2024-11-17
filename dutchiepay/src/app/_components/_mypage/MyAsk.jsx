@@ -8,7 +8,7 @@ import Link from 'next/link';
 import reply from '/public/image/reply.svg';
 import secret from '/public/image/secret.svg';
 import { useState, useEffect } from 'react';
-import getFormatDate from '@/app/_util/getFormatDate';
+import { getFormatDate } from '@/app/_util/getFormatDate';
 
 import useDeleteAsk from '@/app/hooks/useDeleteAsk';
 

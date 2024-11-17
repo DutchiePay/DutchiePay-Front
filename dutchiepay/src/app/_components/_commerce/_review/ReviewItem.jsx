@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import ImagesModal from '@/app/(modals)/images/page';
 import Rating from '@/app/_components/_rating/Rating';
-import getFormatDate from '@/app/_util/getFormatDate';
+import { getFormatDate } from '@/app/_util/getFormatDate';
 import images from '/public/image/images.svg';
 import more from '/public/image/more.svg';
 
