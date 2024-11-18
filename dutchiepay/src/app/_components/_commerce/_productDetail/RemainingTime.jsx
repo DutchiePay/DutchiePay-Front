@@ -1,5 +1,6 @@
-import { getRemainingTime } from '@/app/_util/getFormatDate';
 import { useEffect, useRef, useState } from 'react';
+
+import { getRemainingTime } from '@/app/_util/getFormatDate';
 
 export default function RemainingTime({ endTime, isEnd, setIsEnd }) {
   const [remainingTime, setRemainingTime] = useState('');
@@ -7,7 +8,7 @@ export default function RemainingTime({ endTime, isEnd, setIsEnd }) {
 
   useEffect(() => {
     const updateRemainingTime = () => {
-      const remaining = getRemainingTime(endTime);
+      const remaining = getRemainingTime(true, endTime);
       setRemainingTime(remaining);
 
       // 마감 시간이 지났다면 타이머를 멈춘다.
