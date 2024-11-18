@@ -1,6 +1,5 @@
+import { getRemainingTime } from '@/app/_util/getFormatDate';
 import { useEffect, useRef, useState } from 'react';
-
-import getRemainingTime from '@/app/_util/getRemainingTime';
 
 export default function RemainingTime({ endTime, isEnd, setIsEnd }) {
   const [remainingTime, setRemainingTime] = useState('');

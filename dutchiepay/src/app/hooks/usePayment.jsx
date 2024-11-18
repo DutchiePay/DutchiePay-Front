@@ -2,7 +2,7 @@ import * as PortOne from '@portone/browser-sdk/v2';
 
 import { DELIVERY_MESSAGE } from '@/app/_util/constants';
 import axios from 'axios';
-import getRemainingTime from '../_util/getRemainingTime';
+import { getRemainingTime } from '@/app/_util/getFormatDate';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';

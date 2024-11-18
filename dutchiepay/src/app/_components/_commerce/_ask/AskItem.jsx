@@ -2,16 +2,23 @@ import { useEffect, useState } from 'react';
 
 import Answer from '@/app/_components/_commerce/_ask/Answer';
 import Image from 'next/image';
-import getFormatDate from '@/app/_util/getFormatDate';
+import { getFormatDate } from '@/app/_util/getFormatDate';
 import secret from '/public/image/secret.svg';
 import trash from '/public/image/trash.svg';
 import { useSelector } from 'react-redux';
+import useDeleteAsk from '@/app/hooks/useDeleteAsk';
 
-const AskItem = ({ item, company }) => {
+const AskItem = ({ item, company, onDelete }) => {
   const [isMore, setIsMore] = useState(false);
   const [isMine, setIsMine] = useState(false);
-  const [isAnswer, setIsAnswer] = useState(false); // Answer 표시 여부 상태
+  const [isAnswer, setIsAnswer] = useState(false);
   const userId = useSelector((state) => state.login.user.userId);
+  const { deleteAsk } = useDeleteAsk();
+  const handleDelete = async () => {
+    await deleteAsk(item.askId);
+    onDelete(item.askId);
+  };
+
   useEffect(() => {
     setIsMine(userId === item.userId);
   }, [userId, item.userId]);
@@ -20,7 +27,7 @@ const AskItem = ({ item, company }) => {
     if (!item.isSecret) {
       setIsMore((prev) => !prev);
     }
-    setIsAnswer((prev) => !prev); // 클릭 시 Answer 표시 여부 변경
+    setIsAnswer((prev) => !prev);
   };
 
   const answerContent =
@@ -35,7 +42,7 @@ const AskItem = ({ item, company }) => {
     <>
       <tr
         className={`border-b-2 border-gray-300 text-center ${isAnswer ? 'bg-blue--100' : ''}`}
-        onClick={() => handleToggle()} // 하나의 함수로 클릭 핸들러 변경
+        onClick={() => handleToggle()}
       >
         <td className="w-[100px] px-2 py-[20px] border-gray-300">
           {item.answer ? '답변완료' : '답변대기'}
@@ -55,8 +62,8 @@ const AskItem = ({ item, company }) => {
           <p
             className={`flex-1 cursor-pointer ${isMore ? 'line-clamp-none' : 'line-clamp-1'}`}
             onClick={(e) => {
-              e.stopPropagation(); // 클릭 이벤트 전파 방지
-              handleToggle(); // 클릭 시 상태 변경
+              e.stopPropagation();
+              handleToggle();
             }}
           >
             {isMine || !item.isSecret
@@ -81,12 +88,13 @@ const AskItem = ({ item, company }) => {
               alt="삭제 아이콘"
               width={15}
               height={16}
+              onClick={handleDelete}
             />
           )}
         </td>
       </tr>
 
-      {isAnswer && ( // isAnswer가 true일 때 Answer 표시
+      {isAnswer && (
         <Answer answer={answerContent} company={company} item={item} />
       )}
     </>
