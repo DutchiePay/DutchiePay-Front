@@ -4,6 +4,7 @@ import '@/styles/globals.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import clock from '/public/image/clock.svg';
+import { getRemainingTime } from '@/app/_util/getFormatDate';
 
 export default function MainProduct({ product }) {
   return (
@@ -47,7 +48,7 @@ export default function MainProduct({ product }) {
           height={18}
         />
         <p className="text-blue--700 text-[12px] font-semibold">
-          12일 08시간 36분 남음
+          {getRemainingTime(false, product?.expireDate)}
         </p>
       </div>
     </Link>

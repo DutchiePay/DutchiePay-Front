@@ -3,16 +3,17 @@
 import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
+import { useEffect, useState } from 'react';
+
 import AskForm from '@/app/_components/_commerce/_ask/AskForm';
 import Image from 'next/image';
 import clock from '/public/image/clock.svg';
-import useFetchOrderProduct from '@/app/hooks/useFetchOrderProduct';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next/navigation';
 import { getRemainingTime } from '@/app/_util/getFormatDate';
+import useFetchOrderProduct from '@/app/hooks/useFetchOrderProduct';
+import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useSelector } from 'react-redux';
+
 export default function AskModal() {
   const searchParams = useSearchParams();
   const buyId = searchParams.get('buyId');
@@ -20,20 +21,15 @@ export default function AskModal() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const access = useSelector((state) => state.login.access);
   const router = useRouter();
+
   useEffect(() => {
     if (!isLoggedIn || !access) {
       alert('비정상적인 접속입니다.');
-      router.push('/');
       window.close();
     }
   }, [isLoggedIn, access, router]);
-  useFetchOrderProduct({ buyId, setOrderInfo: setProductInfo });
-  const formatRemainingTime = (endTime) => {
-    const remainingTime = getRemainingTime(endTime);
-    const parts = remainingTime.split(' ');
 
-    return `${parts[0]} ${parts[1]} ${parts[2]} 남음`;
-  };
+  useFetchOrderProduct({ buyId, setOrderInfo: setProductInfo });
 
   return (
     <main className="max-w-[600px] p-[32px] overflow-x-hidden">
@@ -60,7 +56,7 @@ export default function AskModal() {
               </strong>
               <div className="flex gap-[4px] text-sm text-blue--700 font-semibold">
                 <Image src={clock} alt="남은 시간" width={16} height={16} />
-                <p>{formatRemainingTime(productInfo?.expireDate)}</p>
+                <p>{getRemainingTime(false, productInfo?.expireDate)}</p>
               </div>
             </div>
           </div>

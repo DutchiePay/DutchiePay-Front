@@ -25,7 +25,7 @@ const convertToKST = (date) => {
   return new Date(date.getTime() + utcOffset);
 };
 
-const getRemainingTime = (endTime) => {
+const getRemainingTime = (hasSecond, endTime) => {
   const now = new Date();
   const endDate = new Date(`${endTime}T23:59:59Z`);
   const distance = endDate - now;
@@ -35,7 +35,7 @@ const getRemainingTime = (endTime) => {
   }
 
   const timeUnits = calculateTimeUnits(distance);
-  return `${timeUnits.days}일 ${timeUnits.hours}시간 ${timeUnits.minutes}분 ${timeUnits.seconds}초 남음`;
+  return `${timeUnits.days}일 ${timeUnits.hours}시간 ${timeUnits.minutes}분${hasSecond ? ` ${timeUnits.seconds}초` : ''} 남음`;
 };
 
 const calculateTimeUnits = (distance) => {
