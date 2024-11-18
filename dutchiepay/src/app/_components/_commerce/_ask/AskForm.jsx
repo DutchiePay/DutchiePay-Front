@@ -6,20 +6,22 @@ import '@/styles/globals.css';
 import PopUpButton from '../../PopUpButton';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import useRetryFunction from '@/app/hooks/useRetryFunction';
+
 import { useSelector } from 'react-redux';
+import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function AskForm({ buyId }) {
   const access = useSelector((state) => state.login.access);
+  const { refreshAccessToken } = useReissueToken();
   const { register, handleSubmit, setValue } = useForm({
     defaultValues: {
       isSecret: false, // 기본값을 false로 설정
     },
   });
 
-  const { reissueTokenAndRetry } = useRetryFunction({
-    onError: (message) => alert(message),
-  });
+  const closeWindow = () => {
+    window.close();
+  };
 
   const onSubmit = async (formData) => {
     if (formData.content.trim() === '') {
@@ -50,8 +52,14 @@ export default function AskForm({ buyId }) {
       window.close();
     } catch (error) {
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-        //액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-        //reissueTokenAndRetry(() => handleSubmit());
+        const reissueResponse = await refreshAccessToken();
+        if (reissueResponse.success) {
+          await onSubmit(formData);
+        } else {
+          alert(
+            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
+          );
+        }
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
       }

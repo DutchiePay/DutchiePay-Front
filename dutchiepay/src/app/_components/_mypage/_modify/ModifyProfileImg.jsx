@@ -11,16 +11,14 @@ import axios from 'axios';
 import profile from '/public/image/profile.jpg';
 import { setUserInfoChange } from '@/redux/slice/loginSlice';
 import { useState } from 'react';
-import useRetryFunction from '@/app/hooks/useRetryFunction';
+import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function ModifyProfileImg({ modifyInfo, setModifyInfo }) {
   const profileImage = useSelector((state) => state.login.user.profileImage);
   const access = useSelector((state) => state.login.access);
   const [isModify, setIsModify] = useState(false);
   const dispatch = useDispatch();
-  const { reissueTokenAndRetry } = useRetryFunction({
-    onError: (message) => alert(message),
-  });
+  const { refreshAccessToken } = useReissueToken();
   const handleModifyCancel = () => {
     setModifyInfo((prevModifyInfo) => ({
       ...prevModifyInfo,
@@ -44,8 +42,14 @@ export default function ModifyProfileImg({ modifyInfo, setModifyInfo }) {
       setIsModify(false);
     } catch (error) {
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-        // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-        reissueTokenAndRetry(() => handleModifyComplete());
+        const reissueResponse = await refreshAccessToken();
+        if (reissueResponse.success) {
+          await handleModifyComplete();
+        } else {
+          alert(
+            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
+          );
+        }
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
       }

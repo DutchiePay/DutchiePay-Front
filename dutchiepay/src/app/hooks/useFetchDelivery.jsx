@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import CryptoJS from 'crypto-js';
 import axios from 'axios';
 import { setAddresses } from '@/redux/slice/addressSlice';
-import useRetryFunction from './useRetryFunction';
+import useReissueToken from './useReissueToken';
 
 export default function useFetchDelivery() {
   const encryptedAddresses = useSelector((state) => state.address.addresses);
@@ -12,9 +12,7 @@ export default function useFetchDelivery() {
   const dispatch = useDispatch();
   const [deliveryAddress, setDeliveryAddress] = useState(null);
   const [isChanged, setIsChanged] = useState(false);
-  const { reissueTokenAndRetry } = useRetryFunction({
-    onError: (message) => alert(message),
-  });
+  const { refreshAccessToken } = useReissueToken();
   useEffect(() => {
     const channel = new BroadcastChannel('auth-channel');
 
@@ -39,11 +37,13 @@ export default function useFetchDelivery() {
         dispatch(setAddresses(encryptData));
         setIsChanged(false);
       } catch (error) {
-        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          /* 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-          reissueTokenAndRetry(() => fetchDelivery());*/
+        const reissueResponse = await refreshAccessToken();
+        if (reissueResponse.success) {
+          await fetchDelivery();
         } else {
-          alert('오류가 발생했습니다. 다시 시도해주세요.');
+          alert(
+            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
+          );
         }
       }
     };

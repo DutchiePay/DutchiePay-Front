@@ -6,11 +6,12 @@ import { getRemainingTime } from '@/app/_util/getFormatDate';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import useReissueToken from './useReissueToken';
 
 const usePayment = (quantity, orderInfo, buyId) => {
   const access = useSelector((state) => state.login.access);
   const router = useRouter();
-
+  const { refreshAccessToken } = useReissueToken();
   const handlePayment = async (formData) => {
     if (getRemainingTime(orderInfo.expireDate) === '마감된 공구 입니다.') {
       if (
@@ -58,7 +59,19 @@ const usePayment = (quantity, orderInfo, buyId) => {
           'width=600,height=400'
         );
       } catch (error) {
-        alert('오류가 발생했습니다. 다시 시도해주세요.');
+        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+          const reissueResponse = await refreshAccessToken();
+          if (reissueResponse.success) {
+            await handlePayment(formData); // 재발급된 액세스 토큰 사용
+          } else {
+            alert(
+              reissueResponse.message ||
+                '오류가 발생했습니다. 다시 시도해주세요.'
+            );
+          }
+        } else {
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
+        }
       }
     } else if (formData.paymentMethod === '신용카드') {
       const paymentId = `payment-${uuidv4()}`;
@@ -102,7 +115,19 @@ const usePayment = (quantity, orderInfo, buyId) => {
 
           router.push(`/order/success?orderid=${res.data.orderNum}`);
         } catch (error) {
-          alert('결제 실패');
+          if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+            const reissueResponse = await refreshAccessToken();
+            if (reissueResponse.success) {
+              await handlePayment(formData); // 재발급된 액세스 토큰 사용
+            } else {
+              alert(
+                reissueResponse.message ||
+                  '오류가 발생했습니다. 다시 시도해주세요.'
+              );
+            }
+          } else {
+            alert('오류가 발생해 결제에 실패했습니다. 다시 시도해주세요.');
+          }
         }
       } catch (error) {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
@@ -137,7 +162,19 @@ const usePayment = (quantity, orderInfo, buyId) => {
           'width=600,height=400'
         );
       } catch (error) {
-        alert('결제 실패');
+        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+          const reissueResponse = await refreshAccessToken();
+          if (reissueResponse.success) {
+            await handlePayment(formData); // 재발급된 액세스 토큰 사용
+          } else {
+            alert(
+              reissueResponse.message ||
+                '오류가 발생했습니다. 다시 시도해주세요.'
+            );
+          }
+        } else {
+          alert('오류가 발생해 결제에 실패했습니다. 다시 시도해주세요.');
+        }
       }
     }
   };

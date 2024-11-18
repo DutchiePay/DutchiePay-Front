@@ -8,9 +8,11 @@ import RefundReason from './RefundReason';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function RefundForm({ orderId }) {
   const access = useSelector((state) => state.login.access);
+  const { refreshAccessToken } = useReissueToken();
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       type: '환불',
@@ -60,7 +62,21 @@ export default function RefundForm({ orderId }) {
           alert(
             '사용자의 주문이 아닙니다. 해당 계정으로 결제하신 주문만 처리 가능합니다.'
           );
-        } else alert('오류가 발생했습니다. 다시 시도해주세요.');
+        } else if (
+          error.response.data.message === '액세스 토큰이 만료되었습니다.'
+        ) {
+          const reissueResponse = await refreshAccessToken();
+          if (reissueResponse.success) {
+            await onSubmit(formData);
+          } else {
+            alert(
+              reissueResponse.message ||
+                '오류가 발생했습니다. 다시 시도해주세요.'
+            );
+          }
+        } else {
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
+        }
       }
     }
   };

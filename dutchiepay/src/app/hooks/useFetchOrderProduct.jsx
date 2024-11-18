@@ -2,11 +2,12 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
+import useReissueToken from './useReissueToken';
 
 export default function useFetchOrderProduct({ buyId, setOrderInfo }) {
   const access = useSelector((state) => state.login.access);
   const router = useRouter();
-
+  const { refreshAccessToken } = useReissueToken();
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -30,10 +31,22 @@ export default function useFetchOrderProduct({ buyId, setOrderInfo }) {
         ) {
           alert('잘못된 접근입니다. 메인으로 이동합니다.');
           router.push('/');
+        } else if (
+          error.response.data.message === '액세스 토큰이 만료되었습니다.'
+        ) {
+          const reissueResponse = await refreshAccessToken();
+          if (reissueResponse.success) {
+            await fetchProduct(); // 재발급된 액세스 토큰 사용
+          } else {
+            alert(
+              reissueResponse.message ||
+                '오류가 발생했습니다. 다시 시도해주세요.'
+            );
+          }
         } else alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     };
 
     if (buyId) fetchProduct();
-  }, [buyId, access, setOrderInfo, router]);
+  }, [buyId, access, setOrderInfo, router, refreshAccessToken]);
 }

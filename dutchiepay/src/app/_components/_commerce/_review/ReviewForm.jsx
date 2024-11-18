@@ -9,6 +9,7 @@ import ReviewImageUpload from '@/app/_components/_commerce/_review/ReviewImageUp
 import ReviewTextarea from '@/app/_components/_commerce/_review/ReviewTextarea';
 import { ERROR_MESSAGES } from '@/app/_util/constants';
 import PopUpButton from '@/app/_components/PopUpButton';
+import useReissueToken from '@/app/hooks/useReissueToken';
 
 const ReviewForm = ({
   onImageDelete,
@@ -25,7 +26,7 @@ const ReviewForm = ({
       images: initialImages || [],
     },
   });
-
+  const { refreshAccessToken } = useReissueToken();
   const images = watch('images');
   const rating = watch('rating') || 0;
   const access = useSelector((state) => state.login.access);
@@ -62,7 +63,9 @@ const ReviewForm = ({
           reviewImg: data.images,
         },
         {
-          headers: { Authorization: `Bearer ${access}` },
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
         }
       );
 
@@ -73,10 +76,21 @@ const ReviewForm = ({
       );
       window.close();
     } catch (error) {
-      const errorMessage =
-        ERROR_MESSAGES[error.response.data.message] ||
-        '오류가 발생했습니다. 다시 시도해주세요.';
-      alert(errorMessage);
+      if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+        const reissueResponse = await refreshAccessToken();
+        if (reissueResponse.success) {
+          await handleReviewSubmission(data);
+        } else {
+          alert(
+            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
+          );
+        }
+      } else {
+        const errorMessage =
+          ERROR_MESSAGES[error.response.data.message] ||
+          '오류가 발생했습니다. 다시 시도해주세요.';
+        alert(errorMessage);
+      }
     }
   };
   const onFormSubmit = (data) => {

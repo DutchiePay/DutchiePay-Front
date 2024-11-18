@@ -10,9 +10,9 @@ import PopUpButton from '@/app/_components/PopUpButton';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import useGetPostCode from '@/app/hooks/useGetPostCode';
-import useRetryFunction from '@/app/hooks/useRetryFunction';
 import { useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
+import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function Address() {
   const searchParams = useSearchParams();
@@ -20,9 +20,7 @@ export default function Address() {
   const access = useSelector((state) => state.login.access);
   const encryptedAddresses = useSelector((state) => state.address.addresses);
   const [isDefaultAddress, setIsDefaultAddress] = useState(false); // 수정 요청 주소지가 기본 배송지였을 경우 true
-  const { reissueTokenAndRetry } = useRetryFunction({
-    onError: (message) => alert(message),
-  });
+  const { refreshAccessToken } = useReissueToken();
   const { register, handleSubmit, setValue } = useForm({
     mode: 'onSubmit',
     reValidateMode: 'onblur',
@@ -95,8 +93,15 @@ export default function Address() {
         closeWindow();
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-          reissueTokenAndRetry(() => onSubmit(formData));
+          const reissueResponse = await refreshAccessToken();
+          if (reissueResponse.success) {
+            onSubmit(formData);
+          } else {
+            alert(
+              reissueResponse.message ||
+                '오류가 발생했습니다. 다시 시도해주세요.'
+            );
+          }
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
@@ -122,8 +127,15 @@ export default function Address() {
         closeWindow();
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-          reissueTokenAndRetry(() => onSubmit(formData));
+          const reissueResponse = await refreshAccessToken();
+          if (reissueResponse.success) {
+            await onSubmit(formData);
+          } else {
+            alert(
+              reissueResponse.message ||
+                '오류가 발생했습니다. 다시 시도해주세요.'
+            );
+          }
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }

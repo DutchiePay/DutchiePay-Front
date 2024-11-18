@@ -9,16 +9,14 @@ import PhoneAuth from '@/app/_components/_user/_phone/PhoneAuth';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import useRetryFunction from '@/app/hooks/useRetryFunction';
+import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function ChangeNumber() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const access = useSelector((state) => state.login.access);
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
-  const { reissueTokenAndRetry } = useRetryFunction({
-    onError: (message) => alert(message),
-  });
+  const { refreshAccessToken } = useReissueToken();
   const {
     register,
     watch,
@@ -64,8 +62,14 @@ export default function ChangeNumber() {
       window.close();
     } catch (error) {
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-        // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-        reissueTokenAndRetry(() => onSubmit(formData));
+        const reissueResponse = await refreshAccessToken();
+        if (reissueResponse.success) {
+          await onSubmit(formData);
+        } else {
+          alert(
+            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
+          );
+        }
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
       }

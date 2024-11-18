@@ -1,5 +1,6 @@
 'use client';
 
+import useReissueToken from '@/app/hooks/useReissueToken';
 import '@/styles/globals.css';
 import '@/styles/mypage.css';
 
@@ -8,6 +9,7 @@ import { useSelector } from 'react-redux';
 
 export default function OrderActionButton({ product, setStatus, status }) {
   const access = useSelector((state) => state.login.access);
+  const { refreshAccessToken } = useReissueToken();
   const openPopup = (url) => {
     window.open(url, '_blank', 'width=620, height=670');
   };
@@ -42,7 +44,21 @@ export default function OrderActionButton({ product, setStatus, status }) {
             alert(
               '사용자의 주문이 아닙니다. 해당 계정으로 결제하신 주문만 처리 가능합니다.'
             );
-          } else alert('오류가 발생했습니다. 다시 시도해주세요.');
+          } else if (
+            error.response.data.message === '액세스 토큰이 만료되었습니다.'
+          ) {
+            const reissueResponse = await refreshAccessToken();
+            if (reissueResponse.success) {
+              await handleButtonClick();
+            } else {
+              alert(
+                reissueResponse.message ||
+                  '오류가 발생했습니다. 다시 시도해주세요.'
+              );
+            }
+          } else {
+            alert('오류가 발생했습니다. 다시 시도해주세요.');
+          }
         }
       }
     } else if (status === '구매확정') {
@@ -75,7 +91,21 @@ export default function OrderActionButton({ product, setStatus, status }) {
             alert(
               '사용자의 주문이 아닙니다. 해당 계정으로 결제하신 주문만 처리 가능합니다.'
             );
-          } else alert('오류가 발생했습니다. 다시 시도해주세요.');
+          } else if (
+            error.response.data.message === '액세스 토큰이 만료되었습니다.'
+          ) {
+            const reissueResponse = await refreshAccessToken();
+            if (reissueResponse.success) {
+              await handleButtonClick();
+            } else {
+              alert(
+                reissueResponse.message ||
+                  '오류가 발생했습니다. 다시 시도해주세요.'
+              );
+            }
+          } else {
+            alert('오류가 발생했습니다. 다시 시도해주세요.');
+          }
         }
       }
     } else

@@ -11,16 +11,15 @@ import fullheart from '/public/image/fullheart.svg';
 import heart from '/public/image/heart.svg';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import useRetryFunction from '@/app/hooks/useRetryFunction';
+import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function ProductLike({ isLiked, productId, size }) {
   const access = useSelector((state) => state.login.access);
   const [isProductLiked, setIsProductLiked] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const router = useRouter();
-  const { reissueTokenAndRetry } = useRetryFunction({
-    onError: (message) => alert(message),
-  });
+  const { refreshAccessToken } = useReissueToken();
+
   useEffect(() => {
     setIsProductLiked(isLiked);
   }, [isLiked]);
@@ -48,8 +47,14 @@ export default function ProductLike({ isLiked, productId, size }) {
       setIsProductLiked(!isProductLiked);
     } catch (error) {
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-        // 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-        reissueTokenAndRetry(() => handleIsLiked(e));
+        const reissueResponse = await refreshAccessToken();
+        if (reissueResponse.success) {
+          await handleIsLiked(e);
+        } else {
+          alert(
+            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
+          );
+        }
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
       }

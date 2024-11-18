@@ -13,17 +13,14 @@ import ModifyNumber from '@/app/_components/_mypage/_modify/ModifyNumber';
 import ModifyProfileImg from '@/app/_components/_mypage/_modify/ModifyProfileImg';
 import Withdraw from '@/app/_components/_mypage/Withdraw';
 import axios from 'axios';
-import useRetryFunction from '@/app/hooks/useRetryFunction';
 import { useSelector } from 'react-redux';
+import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function Info() {
   const nickname = useSelector((state) => state.login.user.nickname);
   const profileImage = useSelector((state) => state.login.user.profileImage);
   const access = useSelector((state) => state.login.access);
-
-  const { reissueTokenAndRetry } = useRetryFunction({
-    onError: (message) => alert(message),
-  });
+  const { refreshAccessToken } = useReissueToken();
   const [userInfo, setUserInfo] = useState({
     email: null,
     phone: null,
@@ -57,13 +54,19 @@ export default function Info() {
       sessionStorage.setItem('user', JSON.stringify(user));
     } catch (error) {
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-        /* 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-        reissueTokenAndRetry(() => initMypage());*/
+        const reissueResponse = await refreshAccessToken();
+        if (reissueResponse.success) {
+          await initMypage();
+        } else {
+          alert(
+            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
+          );
+        }
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     }
-  }, [access]);
+  }, [access, refreshAccessToken]);
 
   useEffect(() => {
     if (!sessionStorage.getItem('user')) initMypage();
