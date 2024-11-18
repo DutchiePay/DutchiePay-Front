@@ -35,6 +35,9 @@ export default function MyAsk() {
     };
     fetchAsks();
   }, [access]);
+  const handleDeleteAsk = (askId) => {
+    setAsks((prevAsks) => prevAsks.filter((ask) => ask.askId !== askId));
+  };
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">문의내역</h1>
@@ -53,7 +56,9 @@ export default function MyAsk() {
           </div>
         ) : (
           asks.map((item) => {
-            return <MyAsks key={item.askId} item={item} />;
+            return (
+              <MyAsks key={item.askId} item={item} onDelete={handleDeleteAsk} />
+            );
           })
         )}
       </section>
