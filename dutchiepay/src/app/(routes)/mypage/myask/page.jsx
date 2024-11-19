@@ -8,10 +8,13 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ask from '/public/image/nonItem/ask.svg';
+import useReissueToken from '@/app/hooks/useReissueToken';
+
 export default function MyAsk() {
   const [asks, setAsks] = useState([]);
   const nickname = useSelector((state) => state.login.user.nickname);
   const access = useSelector((state) => state.login.access);
+  const { refreshAccessToken } = useReissueToken();
   useEffect(() => {
     const fetchAsks = async () => {
       try {
@@ -26,15 +29,22 @@ export default function MyAsk() {
         setAsks(response.data);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          /* 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-          reissueTokenAndRetry(() => handleFetchReviews());*/
+          const reissueResponse = await refreshAccessToken();
+          if (reissueResponse.success) {
+            await fetchAsks();
+          } else {
+            alert(
+              reissueResponse.message ||
+                '오류가 발생했습니다. 다시 시도해주세요.'
+            );
+          }
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
       }
     };
     fetchAsks();
-  }, [access]);
+  }, [access, refreshAccessToken]);
   const handleDeleteAsk = (askId) => {
     setAsks((prevAsks) => prevAsks.filter((ask) => ask.askId !== askId));
   };

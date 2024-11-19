@@ -9,15 +9,13 @@ import { useSelector } from 'react-redux';
 import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import review from '/public/image/nonItem/review.svg';
-import useRetryFunction from '@/app/hooks/useRetryFunction';
+import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function MyReview() {
   const [reviews, setReviews] = useState([]);
   const nickname = useSelector((state) => state.login.user.nickname);
   const access = useSelector((state) => state.login.access);
-  const { reissueTokenAndRetry } = useRetryFunction({
-    onError: (message) => alert(message),
-  });
+  const { refreshAccessToken } = useReissueToken();
 
   const handleFetchReviews = useCallback(async () => {
     try {
@@ -32,12 +30,19 @@ export default function MyReview() {
       setReviews(response.data);
     } catch (error) {
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-        // reissueTokenAndRetry(() => handleFetchReviews());
+        const reissueResponse = await refreshAccessToken();
+        if (reissueResponse.success) {
+          await handleFetchReviews();
+        } else {
+          alert(
+            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
+          );
+        }
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     }
-  }, [access]);
+  }, [access, refreshAccessToken]);
   const handleDeleteReview = (reviewId) => {
     setReviews((prevReviews) =>
       prevReviews.filter((review) => review.reviewId !== reviewId)

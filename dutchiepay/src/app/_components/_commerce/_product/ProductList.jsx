@@ -8,8 +8,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import ProductItem from './ProductItem';
 import axios from 'axios';
-import useRetryFunction from '@/app/hooks/useRetryFunction';
 import { useSelector } from 'react-redux';
+import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function ProductList({ category, filter, isEndContain }) {
   const access = useSelector((state) => state.login.access);
@@ -18,9 +18,8 @@ export default function ProductList({ category, filter, isEndContain }) {
   const [isInitialized, setIsInitialized] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const { reissueTokenAndRetry } = useRetryFunction({
-    onError: (message) => alert(message),
-  });
+  const { refreshAccessToken } = useReissueToken();
+
   const observerRef = useRef();
 
   const fetchProducts = useCallback(
@@ -45,10 +44,20 @@ export default function ProductList({ category, filter, isEndContain }) {
         return response.data.products;
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          /* 액세스 토큰이 만료된 경우 리프레시 토큰 발급 시도
-          reissueTokenAndRetry(() =>
-            fetchProducts(filterType, categoryParam, endParam, cursorParam)
-          );*/
+          const reissueResponse = await refreshAccessToken();
+          if (reissueResponse.success) {
+            await fetchProducts(
+              filterType,
+              categoryParam,
+              endParam,
+              cursorParam
+            );
+          } else {
+            alert(
+              reissueResponse.message ||
+                '오류가 발생했습니다. 다시 시도해주세요.'
+            );
+          }
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
