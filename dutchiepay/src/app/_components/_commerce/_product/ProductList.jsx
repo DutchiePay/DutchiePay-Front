@@ -8,8 +8,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import ProductItem from './ProductItem';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
 export default function ProductList({ category, filter, isEndContain }) {
   const access = useSelector((state) => state.login.access);
@@ -70,32 +70,19 @@ export default function ProductList({ category, filter, isEndContain }) {
   );
 
   useEffect(() => {
-    // 초기 상품 목록 불러오기
+    setHasMore(true);
+    const categoryParam = category ? `category=${category}&` : '';
+    const endParam = isEndContain ? '1' : '0';
     const loadProducts = async () => {
-      const initialProducts = await fetchProducts('newest', '', '0', '');
-      setProducts(initialProducts);
-      setIsInitialized(true);
+      const newProducts = await fetchProducts(
+        FILTERS[filter],
+        categoryParam,
+        endParam,
+        ''
+      );
+      setProducts(newProducts);
     };
     loadProducts();
-  }, [fetchProducts]);
-
-  useEffect(() => {
-    // 카테고리와 필터에 따른 상품 목록 불러오기
-    if (isInitialized) {
-      setHasMore(true);
-      const categoryParam = category ? `category=${CATEGORIES[category]}&` : '';
-      const endParam = isEndContain ? '1' : '0';
-      const loadProducts = async () => {
-        const newProducts = await fetchProducts(
-          FILTERS[filter],
-          categoryParam,
-          endParam,
-          ''
-        );
-        setProducts(newProducts);
-      };
-      loadProducts();
-    }
   }, [category, filter, isEndContain, fetchProducts, isInitialized]);
 
   const lastProductRef = useCallback(
@@ -104,9 +91,7 @@ export default function ProductList({ category, filter, isEndContain }) {
       if (observerRef.current) observerRef.current.disconnect();
       observerRef.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-          const categoryParam = category
-            ? `category=${CATEGORIES[category]}&`
-            : '';
+          const categoryParam = category ? `category=${category}&` : '';
           const endParam = isEndContain ? '1' : '0';
           const cursorParam = cursor ? `cursor=${cursor}&` : '';
           const loadProducts = async () => {

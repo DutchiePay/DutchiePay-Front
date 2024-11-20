@@ -30,7 +30,7 @@ export const FILTERS = {
 };
 
 export const CATEGORIES = {
-  전체: '전체',
+  전체: '',
   '신선/가공식품': '신선',
   냉동식품: '냉동',
   '인테리어/가구': '가구',
@@ -99,6 +99,7 @@ export const ORDER_STATUS = {
   주문취소: '배송전',
   교환처리: '배송완료',
 };
+
 export const ERROR_MESSAGES = {
   '리뷰 수정은 2회까지만 가능합니다.': '리뷰 수정은 2회까지만 가능합니다.',
   '리뷰 내용을 입력해주세요.': '리뷰 내용을 입력해주세요.',
