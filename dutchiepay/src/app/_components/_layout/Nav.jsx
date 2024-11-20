@@ -34,7 +34,7 @@ export default function Nav() {
         </ul>
       </nav>
       {(isHovered || isNavHovered) && (
-        <div className="absolute top-[99%] left-28 w-full">
+        <div className="absolute top-[99%] left-52 w-full">
           <HeaderHoverNav setIsNavHovered={setIsNavHovered} />
         </div>
       )}

@@ -12,11 +12,11 @@ export default function HeaderHoverNav({ setIsNavHovered }) {
 
   return (
     <div
-      className="w-4/5 px-[166px] border py-5 bg-white drop-shadow flex gap-12 items-start z-50"
+      className="w-3/5 h-[400px] px-10 border bg-white drop-shadow flex items-start z-50"
       onMouseEnter={() => setIsNavHovered(true)}
       onMouseLeave={() => setIsNavHovered(false)}
     >
-      <ul className="min-w-20 flex flex-col justify-center items-center gap-2 text-sm">
+      <ul className="min-w-[132px] h-full pt-3 flex flex-col items-center gap-2 text-sm border-x">
         {Object.keys(CATEGORIES).map((item, key) => {
           return (
             <li
@@ -32,42 +32,25 @@ export default function HeaderHoverNav({ setIsNavHovered }) {
           );
         })}
       </ul>
-      <ul className="min-w-20 flex flex-col justify-center items-center gap-2 text-sm">
-        {mart.map((item, key) => {
-          return (
-            <li
-              className="hover:underline hover:text-blue--500 hover:font-semibold"
-              key={key}
-            >
-              {item}
-            </li>
-          );
-        })}
-      </ul>
-      <ul className="min-w-20 flex flex-col justify-center items-center gap-2 text-sm">
-        {used.map((item, key) => {
-          return (
-            <li
-              className="hover:underline hover:text-blue--500 hover:font-semibold"
-              key={key}
-            >
-              {item}
-            </li>
-          );
-        })}
-      </ul>
-      <ul className="min-w-20 flex flex-col justify-center items-center gap-2 text-sm">
-        {community.map((item, key) => {
-          return (
-            <li
-              className="hover:underline hover:text-blue--500 hover:font-semibold"
-              key={key}
-            >
-              {item}
-            </li>
-          );
-        })}
-      </ul>
+      {[mart, used, community].map((menu, key) => {
+        return (
+          <ul
+            className="min-w-[132px] h-full pt-3 flex flex-col items-center gap-2 text-sm border-r"
+            key={key}
+          >
+            {menu.map((category, key) => {
+              return (
+                <li
+                  className="hover:underline hover:text-blue--500 hover:font-semibold"
+                  key={key}
+                >
+                  {category}
+                </li>
+              );
+            })}
+          </ul>
+        );
+      })}
     </div>
   );
 }
