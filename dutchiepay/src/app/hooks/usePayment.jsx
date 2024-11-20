@@ -3,10 +3,10 @@ import * as PortOne from '@portone/browser-sdk/v2';
 import { DELIVERY_MESSAGE } from '@/app/_util/constants';
 import axios from 'axios';
 import { getRemainingTime } from '@/app/_util/getFormatDate';
+import useReissueToken from './useReissueToken';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import useReissueToken from './useReissueToken';
 
 const usePayment = (quantity, orderInfo, buyId) => {
   const access = useSelector((state) => state.login.access);
@@ -131,50 +131,6 @@ const usePayment = (quantity, orderInfo, buyId) => {
         }
       } catch (error) {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
-      }
-    } else if (formData.paymentMethod === '토스페이') {
-      try {
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/pay?type=card`,
-          {
-            buyId: Number(buyId),
-            productName: orderInfo.productName,
-            quantity: Number(quantity),
-            amount: orderInfo.salePrice * quantity,
-            amountTaxFree: 0,
-            receiver: formData.recipient,
-            phone: formData.phone,
-            zipCode: formData.zipCode,
-            address: formData.address,
-            detail: formData.detail,
-            message: formData.deliveryMessage,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${access}`,
-            },
-          }
-        );
-
-        window.open(
-          response.data.checkoutPage,
-          `더취페이 토스페이 결제`,
-          'width=600,height=400'
-        );
-      } catch (error) {
-        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          const reissueResponse = await refreshAccessToken();
-          if (reissueResponse.success) {
-            await handlePayment(formData); // 재발급된 액세스 토큰 사용
-          } else {
-            alert(
-              reissueResponse.message ||
-                '오류가 발생했습니다. 다시 시도해주세요.'
-            );
-          }
-        } else {
-          alert('오류가 발생해 결제에 실패했습니다. 다시 시도해주세요.');
-        }
       }
     }
   };
