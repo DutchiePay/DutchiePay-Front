@@ -27,7 +27,7 @@ const convertToKST = (date) => {
 
 const getRemainingTime = (hasSecond, endTime) => {
   const now = new Date();
-  const endDate = new Date(`${endTime}T23:59:59Z`);
+  const endDate = new Date(`${endTime}T23:59:59+09:00`);
   const distance = endDate - now;
 
   if (distance <= 0) {
