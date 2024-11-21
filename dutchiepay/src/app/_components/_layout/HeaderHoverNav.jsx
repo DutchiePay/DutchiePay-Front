@@ -2,23 +2,43 @@
 
 import '@/styles/globals.css';
 
-import { CATEGORIES } from '@/app/_util/constants';
+import {
+  CATEGORIES,
+  COMMUNITY_CATEGORIES,
+  MART_CATEGORIES,
+  USED_CATEGORIES,
+} from '@/app/_util/constants';
+
 import Link from 'next/link';
 
-export default function HeaderHoverNav({ setIsNavHovered }) {
-  const mart = ['전체', '마트구매', '같이배달'];
-  const used = ['전체', '중고판매', '중고나눔'];
-  const community = ['전체', '정보공유', '질문', '취미생활', '자유게시판'];
+export default function HeaderHoverNav({ setIsNavHovered, menu }) {
+  const selectedMenu =
+    menu === '마트/배달'
+      ? MART_CATEGORIES
+      : menu === '커뮤니티'
+        ? COMMUNITY_CATEGORIES
+        : menu === '거래/나눔'
+          ? USED_CATEGORIES
+          : null;
+
+  const selectedURL =
+    menu === '마트/배달'
+      ? 'mart'
+      : menu === '커뮤니티'
+        ? 'community'
+        : menu === '거래/나눔'
+          ? 'used'
+          : null;
 
   return (
     <div
-      className="w-3/5 h-[400px] px-10 border bg-white drop-shadow flex items-start z-50"
+      className="w-32 border bg-white drop-shadow flex justify-center items-start z-50"
       onMouseEnter={() => setIsNavHovered(true)}
       onMouseLeave={() => setIsNavHovered(false)}
     >
-      <ul className="min-w-[132px] h-full pt-3 flex flex-col items-center gap-2 text-sm border-x">
-        {Object.keys(CATEGORIES).map((item, key) => {
-          return (
+      {menu === '공동구매' ? (
+        <ul className="py-3 flex flex-col items-center gap-3 text-sm">
+          {Object.keys(CATEGORIES).map((item, key) => (
             <li
               className="hover:underline hover:text-blue--500 hover:font-semibold"
               key={key}
@@ -29,28 +49,26 @@ export default function HeaderHoverNav({ setIsNavHovered }) {
                 {item}
               </Link>
             </li>
-          );
-        })}
-      </ul>
-      {[mart, used, community].map((menu, key) => {
-        return (
-          <ul
-            className="min-w-[132px] h-full pt-3 flex flex-col items-center gap-2 text-sm border-r"
-            key={key}
-          >
-            {menu.map((category, key) => {
-              return (
-                <li
-                  className="hover:underline hover:text-blue--500 hover:font-semibold"
-                  key={key}
+          ))}
+        </ul>
+      ) : (
+        selectedMenu && (
+          <ul className="py-3 flex flex-col items-center gap-3 text-sm">
+            {Object.keys(selectedMenu).map((category, key) => (
+              <li
+                className="hover:underline hover:text-blue--500 hover:font-semibold"
+                key={key}
+              >
+                <Link
+                  href={`/${selectedURL}${selectedMenu[category] ? `?category=${selectedMenu[category]}` : ''}`}
                 >
                   {category}
-                </li>
-              );
-            })}
+                </Link>
+              </li>
+            ))}
           </ul>
-        );
-      })}
+        )
+      )}
     </div>
   );
 }

@@ -2,16 +2,22 @@
 
 import '@/styles/globals.css';
 
+import { useEffect, useState } from 'react';
+
 import HeaderHoverNav from './HeaderHoverNav';
 import Link from 'next/link';
 import { MENUS } from '@/app/_util/constants';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
 
 export default function Nav() {
   const pathname = usePathname();
   const [isHovered, setIsHovered] = useState(false);
   const [isNavHovered, setIsNavHovered] = useState(false);
+  const [currentHover, setIsCurrentHover] = useState('');
+
+  useEffect(() => {
+    console.log(currentHover);
+  }, [currentHover]);
 
   return (
     <div className="relative">
@@ -23,7 +29,10 @@ export default function Nav() {
                 pathname.startsWith(`/${value}`) ? ' text-blue-500' : ''
               }`}
               key={key}
-              onMouseEnter={() => setIsHovered(true)}
+              onMouseEnter={() => {
+                setIsHovered(true);
+                setIsCurrentHover(key);
+              }}
               onMouseLeave={() => setIsHovered(false)}
             >
               <Link className="font-bold" href={`/${value}`}>
@@ -34,8 +43,13 @@ export default function Nav() {
         </ul>
       </nav>
       {(isHovered || isNavHovered) && (
-        <div className="absolute top-[99%] left-52 w-full">
-          <HeaderHoverNav setIsNavHovered={setIsNavHovered} />
+        <div
+          className={`absolute top-[99%] ${currentHover === '공동구매' ? 'left-64' : currentHover === '마트/배달' ? 'left-96' : currentHover === '거래/나눔' ? 'left-[510px]' : 'left-[640px]'} w-full `}
+        >
+          <HeaderHoverNav
+            setIsNavHovered={setIsNavHovered}
+            menu={currentHover}
+          />
         </div>
       )}
     </div>

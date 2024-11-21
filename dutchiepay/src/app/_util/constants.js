@@ -86,3 +86,21 @@ export const ERROR_MESSAGES = {
   '자신이 구매한 상품에만 후기를 달 수 있습니다.':
     '자신이 구매한 상품에만 후기를 달 수 있습니다.',
 };
+
+export const MART_CATEGORIES = {
+  전체: '',
+  마트구매: 'mart',
+  같이배달: 'delivery',
+};
+export const USED_CATEGORIES = {
+  전체: '',
+  중고판매: 'trade',
+  중고나눔: 'share',
+};
+export const COMMUNITY_CATEGORIES = {
+  전체: '',
+  정보공유: 'info',
+  질문: 'qna',
+  취미생활: 'hobby',
+  자유게시판: 'free',
+};
