@@ -2,9 +2,7 @@
 
 import '@/styles/commerce.css';
 import '@/styles/globals.css';
-
 import { useEffect, useState } from 'react';
-
 import ProductContent from '@/app/_components/_commerce/_productDetail/ProductContent';
 import ProductHeader from '@/app/_components/_commerce/_productDetail/ProductHeader';
 import axios from 'axios';
@@ -15,8 +13,15 @@ import useReissueToken from '@/app/hooks/useReissueToken';
 export default function CommerceDetail() {
   const { id } = useParams();
   const access = useSelector((state) => state.login.access);
-  const [product, setProduct] = useState(null);
   const { refreshAccessToken } = useReissueToken();
+  const [product, setProduct] = useState(null);
+  useEffect(() => {
+    // 상세 페이지로 처음 진입할 때만 스크롤을 맨 위로 초기화
+    const handleScrollToTop = () => {
+      window.scrollTo(0, 0);
+    };
+    handleScrollToTop();
+  }, []);
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -24,19 +29,16 @@ export default function CommerceDetail() {
         if (access) {
           headers.Authorization = `Bearer ${access}`;
         }
-
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BASE_URL}/commerce?buyId=${id}`,
-          {
-            headers,
-          }
+          { headers }
         );
         setProduct(response.data);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           const reissueResponse = await refreshAccessToken();
           if (reissueResponse.success) {
-            await fetchProduct(); // 재발급된 액세스 토큰 사용
+            await fetchProduct();
           } else {
             alert(
               reissueResponse.message ||
@@ -50,7 +52,7 @@ export default function CommerceDetail() {
     };
 
     fetchProduct();
-  }, [access, id, refreshAccessToken]);
+  }, [id, access, refreshAccessToken]);
 
   return (
     <section className="min-h-[750px] w-[1020px]">
