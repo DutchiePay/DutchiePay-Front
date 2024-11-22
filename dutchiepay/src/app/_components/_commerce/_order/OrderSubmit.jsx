@@ -13,6 +13,10 @@ export default function OrderSubmit({ quantity, orderInfo, buyId }) {
   const { handleSubmit, register, setValue } = useForm();
 
   const onSubmit = (formData) => {
+    if (!formData.paymentMethod) {
+      alert('결제 수단을 선택해주세요.');
+      return;
+    }
     handlePayment(formData);
   };
 

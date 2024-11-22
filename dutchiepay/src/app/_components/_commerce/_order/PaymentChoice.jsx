@@ -31,19 +31,6 @@ export default function PaymentChoice({ setValue }) {
           신용카드
         </label>
         <label
-          className={`product-order__button ${paymentMethod === '토스페이' ? 'product-order__button__active' : ''}`}
-          onClick={() => handlePaymentChange('토스페이')}
-        >
-          <input
-            className="hidden"
-            type="radio"
-            value="토스페이"
-            checked={paymentMethod === '토스페이'}
-            onChange={() => handlePaymentChange('토스페이')}
-          />
-          토스페이
-        </label>
-        <label
           className={`product-order__button ${paymentMethod === '카카오페이' ? 'product-order__button__active' : ''}`}
           onClick={() => handlePaymentChange('카카오페이')}
         >
