@@ -3,9 +3,8 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
-import ImagesModal from '@/app/(modals)/images/page';
-import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
+import ImagesModal from '@/app/(modals)/images/page';
 import Link from 'next/link';
 import Rating from '@/app/_components/_rating/Rating';
 import images from '/public/image/images.svg';

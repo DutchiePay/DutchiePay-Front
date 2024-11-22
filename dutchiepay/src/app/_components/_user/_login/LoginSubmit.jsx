@@ -3,13 +3,10 @@
 import '@/styles/globals.css';
 import '@/styles/user.css';
 
-import Cookies from 'universal-cookie';
 import LoginButton from './LoginButton';
 import LoginInput from './LoginInput';
 import RememberMe from './RememberMe';
 import axios from 'axios';
-import { login } from '@/redux/slice/loginSlice';
-import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import useLogin from '@/app/hooks/useLogin';
 import { useRouter } from 'next/navigation';
@@ -17,8 +14,6 @@ import { useState } from 'react';
 
 export default function LoginSubmit() {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const cookies = new Cookies();
   const handleLogin = useLogin();
 
   const [isRemeberMe, setIsRememberMe] = useState(false); // 자동로그인 체크 여부

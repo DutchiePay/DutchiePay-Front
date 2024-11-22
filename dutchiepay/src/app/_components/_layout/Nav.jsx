@@ -15,10 +15,6 @@ export default function Nav() {
   const [isNavHovered, setIsNavHovered] = useState(false);
   const [currentHover, setIsCurrentHover] = useState('');
 
-  useEffect(() => {
-    console.log(currentHover);
-  }, [currentHover]);
-
   return (
     <div className="relative">
       <nav>

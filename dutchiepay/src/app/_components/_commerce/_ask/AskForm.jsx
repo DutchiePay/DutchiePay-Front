@@ -6,22 +6,17 @@ import '@/styles/globals.css';
 import PopUpButton from '../../PopUpButton';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-
-import { useSelector } from 'react-redux';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
 export default function AskForm({ buyId }) {
   const access = useSelector((state) => state.login.access);
   const { refreshAccessToken } = useReissueToken();
-  const { register, handleSubmit, setValue } = useForm({
+  const { register, handleSubmit } = useForm({
     defaultValues: {
-      isSecret: false, // 기본값을 false로 설정
+      isSecret: false,
     },
   });
-
-  const closeWindow = () => {
-    window.close();
-  };
 
   const onSubmit = async (formData) => {
     if (formData.content.trim() === '') {
