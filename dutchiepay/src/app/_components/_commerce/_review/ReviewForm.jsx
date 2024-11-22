@@ -81,14 +81,22 @@ const ReviewForm = ({
         if (reissueResponse.success) {
           await handleReviewSubmission(data);
         } else {
-          alert(
-            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
-          );
+          alert(reissueResponse.message || ERROR_MESSAGES.DEFAULT);
         }
       } else {
-        const errorMessage =
-          ERROR_MESSAGES[error.response.data.message] ||
-          '오류가 발생했습니다. 다시 시도해주세요.';
+        const getErrorKeyByValue = (value) => {
+          const entries = Object.entries(ERROR_MESSAGES);
+          const foundEntry = entries.find(([, v]) => v === value);
+          return foundEntry ? foundEntry[0] : null;
+        };
+        const apiMessage = error.response?.data?.message || '';
+
+        const errorKey = getErrorKeyByValue(apiMessage);
+
+        const errorMessage = errorKey
+          ? ERROR_MESSAGES[errorKey]
+          : '오류가 발생했습니다. 다시 시도해주세요.';
+
         alert(errorMessage);
       }
     }
