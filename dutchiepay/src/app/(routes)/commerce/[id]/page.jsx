@@ -9,8 +9,8 @@ import ProductContent from '@/app/_components/_commerce/_productDetail/ProductCo
 import ProductHeader from '@/app/_components/_commerce/_productDetail/ProductHeader';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
-import { useSelector } from 'react-redux';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
 export default function CommerceDetail() {
   const { id } = useParams();
@@ -34,7 +34,7 @@ export default function CommerceDetail() {
         setProduct(response.data);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          const reissueResponse = await refreshAccessToken();
+          /*const reissueResponse = await refreshAccessToken();
           if (reissueResponse.success) {
             await fetchProduct(); // 재발급된 액세스 토큰 사용
           } else {
@@ -42,7 +42,7 @@ export default function CommerceDetail() {
               reissueResponse.message ||
                 '오류가 발생했습니다. 다시 시도해주세요.'
             );
-          }
+          }*/
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
@@ -50,7 +50,7 @@ export default function CommerceDetail() {
     };
 
     fetchProduct();
-  }, [access, id, refreshAccessToken]);
+  }, [access, id]);
 
   return (
     <section className="min-h-[750px] w-[1020px]">

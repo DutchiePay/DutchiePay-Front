@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useEffect } from 'react';
+import useReissueToken from './useReissueToken';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import useReissueToken from './useReissueToken';
 
 export default function useFetchReview({ reviewId, setReviewInfo }) {
   const access = useSelector((state) => state.login.access);
@@ -28,7 +28,7 @@ export default function useFetchReview({ reviewId, setReviewInfo }) {
         } else if (
           error.response.data.message === '액세스 토큰이 만료되었습니다.'
         ) {
-          const reissueResponse = await refreshAccessToken();
+          /*const reissueResponse = await refreshAccessToken();
           if (reissueResponse.success) {
             await fetchProduct();
           } else {
@@ -36,7 +36,7 @@ export default function useFetchReview({ reviewId, setReviewInfo }) {
               reissueResponse.message ||
                 '오류가 발생했습니다. 다시 시도해주세요.'
             );
-          }
+          }*/
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
@@ -44,5 +44,5 @@ export default function useFetchReview({ reviewId, setReviewInfo }) {
     };
 
     if (reviewId) fetchProduct();
-  }, [reviewId, access, setReviewInfo, router, refreshAccessToken]);
+  }, [reviewId, access, setReviewInfo, router]);
 }

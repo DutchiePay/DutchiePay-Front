@@ -3,6 +3,7 @@
 import '@/styles/commerce.css';
 import '@/styles/globals.css';
 
+import { DELIVERY_MESSAGE } from '@/app/_util/constants';
 import Image from 'next/image';
 import selectArrow from '/public/image/selectArrow.svg';
 import { useState } from 'react';
@@ -23,10 +24,11 @@ export default function DeliveryMessage({ register }) {
             onChange={(e) => setIsSelfMessage(e.target.value === 'option5')}
           >
             <option value="">배송메시지를 선택해주세요.</option>
-            <option value="option1">문 앞에 놓아 주시면 돼요.</option>
-            <option value="option2">직접 받을게요. (부재시 문 앞)</option>
-            <option value="option3">벨 누르지 말아주세요.</option>
-            <option value="option4">배송 전에 미리 연락주세요.</option>
+            {Object.keys(DELIVERY_MESSAGE).map((option, key) => (
+              <option value={option} key={key}>
+                {DELIVERY_MESSAGE[option]}
+              </option>
+            ))}
             <option value="option5">직접 입력하기</option>
           </select>
           <Image

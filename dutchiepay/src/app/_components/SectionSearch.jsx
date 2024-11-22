@@ -6,8 +6,6 @@ import '@/styles/community.css';
 
 import { useParams, useSearchParams } from 'next/navigation';
 
-import Image from 'next/image';
-import Link from 'next/link';
 import Post from '@/app/_components/Post';
 import ProductFilter from './_commerce/_product/ProductFilter';
 import Product_Like from '@/app/_components/Product';

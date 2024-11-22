@@ -3,13 +3,14 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
+import { useCallback, useEffect, useState } from 'react';
+
 import Image from 'next/image';
 import MyReviews from '@/app/_components/_mypage/MyReview';
-import { useSelector } from 'react-redux';
-import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import review from '/public/image/nonItem/review.svg';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
 export default function MyReview() {
   const [reviews, setReviews] = useState([]);
@@ -30,24 +31,26 @@ export default function MyReview() {
       setReviews(response.data);
     } catch (error) {
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-        const reissueResponse = await refreshAccessToken();
+        /*const reissueResponse = await refreshAccessToken();
         if (reissueResponse.success) {
           await handleFetchReviews();
         } else {
           alert(
             reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
           );
-        }
+        }*/
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     }
-  }, [access, refreshAccessToken]);
+  }, [access]);
+
   const handleDeleteReview = (reviewId) => {
     setReviews((prevReviews) =>
       prevReviews.filter((review) => review.reviewId !== reviewId)
     );
   };
+
   useEffect(() => {
     handleFetchReviews();
     const handleMessage = (event) => {
