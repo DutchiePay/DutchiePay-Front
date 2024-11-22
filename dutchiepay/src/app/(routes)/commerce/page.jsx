@@ -3,19 +3,20 @@
 import '@/styles/commerce.css';
 import '@/styles/globals.css';
 
-import ProductCategory from '@/app/_components/_commerce/_product/ProductCategory';
+import { useEffect, useState } from 'react';
+
 import ProductFilter from '@/app/_components/_commerce/_product/ProductFilter';
 import ProductList from '@/app/_components/_commerce/_product/ProductList';
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 export default function Commerce() {
-  const [category, setCategory] = useState(null);
+  const params = useSearchParams();
+  const category = params.get('category');
   const [filter, setFilter] = useState('최신순');
   const [isEndContain, setIsEndContain] = useState(false);
 
   return (
     <section className="min-h-[750px] w-[1020px]">
-      <ProductCategory category={category} setCategory={setCategory} />
       <div className="mt-[60px] flex justify-between">
         <div className="flex items-center">
           <input

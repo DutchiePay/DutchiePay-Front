@@ -1,18 +1,8 @@
-import beauty from '/public/image/category/beauty.png';
-import daily from '/public/image/category/daily.jpg';
 import delivery from '/public/image/delivery.svg';
-import desk from '/public/image/category/desk.jpg';
-import digital from '/public/image/category/digital.jpg';
-import fabric from '/public/image/category/fabric.png';
-import fresh from '/public/image/category/fresh.jpg';
-import frozen from '/public/image/category/frozen.jpg';
 import heart from '/public/image/heart.svg';
-import interior from '/public/image/category/interior.jpg';
-import kitchen from '/public/image/category/kitchen.jpg';
 import post from '/public/image/post.svg';
 import question from '/public/image/question.svg';
 import review from '/public/image/review.svg';
-import security from '/public/image/category/security.jpg';
 import user from '/public/image/user.svg';
 
 export const MENUS = {
@@ -30,7 +20,7 @@ export const FILTERS = {
 };
 
 export const CATEGORIES = {
-  전체: '전체',
+  전체: '',
   '신선/가공식품': '신선',
   냉동식품: '냉동',
   '인테리어/가구': '가구',
@@ -41,19 +31,6 @@ export const CATEGORIES = {
   '주방/청소': '주방청소',
   '잡화/데스크': '잡화',
   보안: '보안',
-};
-
-export const CATEGORY_IMAGES = {
-  '신선/가공식품': fresh,
-  냉동식품: frozen,
-  '인테리어/가구': interior,
-  '디지털/가전': digital,
-  '화장품/미용': beauty,
-  패브릭: fabric,
-  생활: daily,
-  '주방/청소': kitchen,
-  '잡화/데스크': desk,
-  보안: security,
 };
 
 export const COMMERCE_FILTER = {
@@ -99,6 +76,7 @@ export const ORDER_STATUS = {
   주문취소: '배송전',
   교환처리: '배송완료',
 };
+
 export const ERROR_MESSAGES = {
   '리뷰 수정은 2회까지만 가능합니다.': '리뷰 수정은 2회까지만 가능합니다.',
   '리뷰 내용을 입력해주세요.': '리뷰 내용을 입력해주세요.',
@@ -107,4 +85,22 @@ export const ERROR_MESSAGES = {
   '주문 정보가 없습니다.': '주문 정보가 없습니다.',
   '자신이 구매한 상품에만 후기를 달 수 있습니다.':
     '자신이 구매한 상품에만 후기를 달 수 있습니다.',
+};
+
+export const MART_CATEGORIES = {
+  전체: '',
+  마트구매: 'mart',
+  같이배달: 'delivery',
+};
+export const USED_CATEGORIES = {
+  전체: '',
+  중고판매: 'trade',
+  중고나눔: 'share',
+};
+export const COMMUNITY_CATEGORIES = {
+  전체: '',
+  정보공유: 'info',
+  질문: 'qna',
+  취미생활: 'hobby',
+  자유게시판: 'free',
 };

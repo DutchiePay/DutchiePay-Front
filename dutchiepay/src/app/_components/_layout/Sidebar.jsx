@@ -26,7 +26,7 @@ export default function Sidebar() {
   }, [isLoggedIn, router]);
 
   return (
-    <aside className="fixed w-[250px] bg-white px-[16px] py-[40px] flex flex-col items-center gap-[32px] z-10">
+    <aside className="fixed w-[250px] bg-white px-[16px] py-[40px] flex flex-col items-center gap-[32px]">
       <div className="flex flex-col items-center">
         <div className="relative w-[120px] h-[120px] mb-[12px]">
           <Image
