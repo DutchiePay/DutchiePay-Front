@@ -3,9 +3,9 @@
 import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
-import { CATEGORIES, FILTERS } from '@/app/_util/constants';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { FILTERS } from '@/app/_util/constants';
 import ProductItem from './ProductItem';
 import axios from 'axios';
 import useReissueToken from '@/app/hooks/useReissueToken';
