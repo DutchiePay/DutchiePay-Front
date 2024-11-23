@@ -4,7 +4,6 @@ import '@/styles/globals.css';
 import Link from 'next/link';
 
 export default function EventSection() {
-  //추후 데이터 들어오면 Link title 글자수 제한 코드 추가 필요
   return (
     <article className="w-full h-[200px] flex justify-between">
       <div className="w-[500px] h-[200px] rounded-xl border">이벤트</div>

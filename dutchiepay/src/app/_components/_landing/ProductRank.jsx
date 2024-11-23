@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function ProductRank({ products, isFirst, activeSlide }) {
   return (
     <div className="w-[488px]">
@@ -5,27 +7,32 @@ export default function ProductRank({ products, isFirst, activeSlide }) {
         {products.map((item, index) => {
           return (
             <li
-              className={`w-[488px] h-[40px] flex flex-row items-center gap-2 px-[20px] ${
+              className={`w-[488px] h-[40px] flex items-center ${
                 activeSlide === index
                   ? 'border border-dashed border-blue--400 rounded-md'
                   : ''
               }`}
               key={item.buyId}
             >
-              <p
-                className={`text-lg ${activeSlide === index ? 'text-blue--500 font-bold' : 'text-[#999]'}`}
+              <Link
+                className="flex flex-row items-center gap-2 px-[20px]"
+                href={`/commerce/${item.buyId}`}
               >
-                {isFirst ? index + 1 : index + 6}
-              </p>
-              <p
-                className={`text-sm w-[100%] overflow-hidden text-ellipsis text-nowrap ${
-                  activeSlide === index
-                    ? 'text-blue--500 font-semibold'
-                    : 'text-[#999]'
-                }`}
-              >
-                {item.productName}
-              </p>
+                <p
+                  className={`text-lg ${activeSlide === index ? 'text-blue--500 font-bold' : 'text-[#999]'}`}
+                >
+                  {isFirst ? index + 1 : index + 6}
+                </p>
+                <p
+                  className={`text-sm w-[100%] overflow-hidden text-ellipsis text-nowrap ${
+                    activeSlide === index
+                      ? 'text-blue--500 font-semibold'
+                      : 'text-[#999]'
+                  }`}
+                >
+                  {item.productName}
+                </p>
+              </Link>
             </li>
           );
         })}

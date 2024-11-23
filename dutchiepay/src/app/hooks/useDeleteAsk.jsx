@@ -1,7 +1,7 @@
-import useReissueToken from './useReissueToken';
-import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useCallback } from 'react';
+import useReissueToken from './useReissueToken';
+import { useSelector } from 'react-redux';
 
 const useDeleteAsk = () => {
   const access = useSelector((state) => state.login.access);
@@ -24,7 +24,7 @@ const useDeleteAsk = () => {
         return true;
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          const reissueResponse = await refreshAccessToken();
+          /*const reissueResponse = await refreshAccessToken();
           if (reissueResponse.success) {
             await deleteAsk(askId);
           } else {
@@ -32,14 +32,14 @@ const useDeleteAsk = () => {
               reissueResponse.message ||
                 '오류가 발생했습니다. 다시 시도해주세요.'
             );
-          }
+          }*/
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
         return false;
       }
     },
-    [access, refreshAccessToken]
+    [access]
   );
   return { deleteAsk };
 };

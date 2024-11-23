@@ -5,7 +5,7 @@ import '@/styles/user.css';
 
 import AuthCode from './AuthCode';
 import PhoneInput from './PhoneInput';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function PhoneAuth({
   register,

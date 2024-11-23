@@ -7,8 +7,8 @@ import PopUpButton from '../../PopUpButton';
 import RefundReason from './RefundReason';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
 export default function RefundForm({ orderId }) {
   const access = useSelector((state) => state.login.access);
@@ -20,10 +20,6 @@ export default function RefundForm({ orderId }) {
   });
 
   const type = watch('type');
-
-  const closeWindow = () => {
-    window.close();
-  };
 
   const onSubmit = async (formData) => {
     if (
@@ -52,7 +48,7 @@ export default function RefundForm({ orderId }) {
           window.location.origin
         );
 
-        closeWindow();
+        window.close();
       } catch (error) {
         if (error.response.data.message === '주문정보를 찾을 수 없습니다.') {
           alert('존재하지 않는 주문입니다. 주문번호를 다시 체크해주세요.');

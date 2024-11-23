@@ -2,13 +2,14 @@
 
 import '@/styles/mypage.css';
 
+import { useEffect, useState } from 'react';
+
 import Image from 'next/image';
 import MyAsks from '@/app/_components/_mypage/MyAsk';
-import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
 import ask from '/public/image/nonItem/ask.svg';
+import axios from 'axios';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
 export default function MyAsk() {
   const [asks, setAsks] = useState([]);
@@ -29,7 +30,7 @@ export default function MyAsk() {
         setAsks(response.data);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          const reissueResponse = await refreshAccessToken();
+          /*const reissueResponse = await refreshAccessToken();
           if (reissueResponse.success) {
             await fetchAsks();
           } else {
@@ -37,14 +38,14 @@ export default function MyAsk() {
               reissueResponse.message ||
                 '오류가 발생했습니다. 다시 시도해주세요.'
             );
-          }
+          }*/
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
       }
     };
     fetchAsks();
-  }, [access, refreshAccessToken]);
+  }, [access]);
   const handleDeleteAsk = (askId) => {
     setAsks((prevAsks) => prevAsks.filter((ask) => ask.askId !== askId));
   };

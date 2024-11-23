@@ -1,14 +1,15 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+
 import Image from 'next/image';
 import OrderFilter from '@/app/_components/_mypage/_order/OrderFilter';
 import OrderItem from '@/app/_components/_mypage/_order/OrderItem';
 import OrderListDefault from '@/app/_components/_mypage/_order/OrderListDefault';
 import arrow from '/public/image/arrow.svg';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
 export default function MyOrder() {
   const [filter, setFilter] = useState('전체');
@@ -39,7 +40,7 @@ export default function MyOrder() {
         );
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          const reissueResponse = await refreshAccessToken();
+          /*const reissueResponse = await refreshAccessToken();
           if (reissueResponse.success) {
             await fetchProduct(filterParam); // 재발급된 액세스 토큰 사용
           } else {
@@ -47,7 +48,7 @@ export default function MyOrder() {
               reissueResponse.message ||
                 '오류가 발생했습니다. 다시 시도해주세요.'
             );
-          }
+          }*/
         } else if (
           error.response.data.message === '더 이상 주문 내역이 없습니다.'
         ) {
@@ -60,7 +61,7 @@ export default function MyOrder() {
         }
       }
     },
-    [access, page, refreshAccessToken]
+    [access, page]
   );
 
   useEffect(() => {

@@ -3,11 +3,10 @@
 import '@/styles/commerce.css';
 import '@/styles/globals.css';
 
-import { useEffect, useState } from 'react';
-
 import ProductFilter from '@/app/_components/_commerce/_product/ProductFilter';
 import ProductList from '@/app/_components/_commerce/_product/ProductList';
 import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
 export default function Commerce() {
   const params = useSearchParams();

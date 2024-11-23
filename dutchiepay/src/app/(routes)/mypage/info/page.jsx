@@ -13,8 +13,8 @@ import ModifyNumber from '@/app/_components/_mypage/_modify/ModifyNumber';
 import ModifyProfileImg from '@/app/_components/_mypage/_modify/ModifyProfileImg';
 import Withdraw from '@/app/_components/_mypage/Withdraw';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
 export default function Info() {
   const nickname = useSelector((state) => state.login.user.nickname);
@@ -54,19 +54,19 @@ export default function Info() {
       sessionStorage.setItem('user', JSON.stringify(user));
     } catch (error) {
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-        const reissueResponse = await refreshAccessToken();
+        /*const reissueResponse = await refreshAccessToken();
         if (reissueResponse.success) {
           await initMypage();
         } else {
           alert(
             reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
           );
-        }
+        }*/
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     }
-  }, [access, refreshAccessToken]);
+  }, [access]);
 
   useEffect(() => {
     if (!sessionStorage.getItem('user')) initMypage();
@@ -76,8 +76,7 @@ export default function Info() {
         phone: JSON.parse(sessionStorage.getItem('user'))?.phone,
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [initMypage]);
 
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[680px]">

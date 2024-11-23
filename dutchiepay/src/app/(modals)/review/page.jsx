@@ -3,12 +3,11 @@
 import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import OrderProductInfo from '@/app/_components/_commerce/OrderProductInfo';
 import ReviewForm from '@/app/_components/_commerce/_review/ReviewForm';
 import useFetchReview from '@/app/hooks/useFetchReview';
-import OrderProductInfo from '@/app/_components/_commerce/OrderProductInfo';
+import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
 export default function ReviewModal() {
   const searchParams = useSearchParams();
