@@ -7,7 +7,6 @@ import axios from 'axios';
 import ReviewRating from '@/app/_components/_commerce/_review/ReviewRating';
 import ReviewImageUpload from '@/app/_components/_commerce/_review/ReviewImageUpload';
 import ReviewTextarea from '@/app/_components/_commerce/_review/ReviewTextarea';
-import { ERROR_MESSAGES } from '@/app/_util/constants';
 import PopUpButton from '@/app/_components/PopUpButton';
 import useReissueToken from '@/app/hooks/useReissueToken';
 
@@ -81,23 +80,15 @@ const ReviewForm = ({
         if (reissueResponse.success) {
           await handleReviewSubmission(data);
         } else {
-          alert(reissueResponse.message || ERROR_MESSAGES.DEFAULT);
+          alert(
+            reissueResponse.message || '오류가 발생했습니다 다시 시도해주세요.'
+          );
         }
       } else {
-        const getErrorKeyByValue = (value) => {
-          const entries = Object.entries(ERROR_MESSAGES);
-          const foundEntry = entries.find(([, v]) => v === value);
-          return foundEntry ? foundEntry[0] : null;
-        };
-        const apiMessage = error.response?.data?.message || '';
-
-        const errorKey = getErrorKeyByValue(apiMessage);
-
-        const errorMessage = errorKey
-          ? ERROR_MESSAGES[errorKey]
-          : '오류가 발생했습니다. 다시 시도해주세요.';
-
-        alert(errorMessage);
+        alert(
+          error.response.data.message ||
+            '오류가 발생했습니다 다시 시도해주세요.'
+        );
       }
     }
   };

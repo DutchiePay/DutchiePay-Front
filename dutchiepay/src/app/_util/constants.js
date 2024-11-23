@@ -76,16 +76,6 @@ export const ORDER_STATUS = {
   주문취소: '배송전',
   교환처리: '배송완료',
 };
-
-export const ERROR_MESSAGES = {
-  REVIEW_UPDATE_LIMIT: '리뷰 수정은 2회까지만 가능합니다.',
-  EMPTY_CONTENT: '리뷰 내용을 입력해주세요.',
-  EMPTY_RATING: '평점을 입력해주세요.',
-  DUPLICATE_REVIEW: '작성한 상품 리뷰가 이미 존재합니다.',
-  NO_ORDER_INFO: '주문 정보가 없습니다.',
-  UNAUTHORIZED_REVIEW: '자신이 구매한 상품에만 후기를 달 수 있습니다.',
-};
-
 export const MART_CATEGORIES = {
   전체: '',
   마트구매: 'mart',
