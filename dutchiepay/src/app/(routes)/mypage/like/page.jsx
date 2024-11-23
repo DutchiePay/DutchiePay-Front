@@ -9,8 +9,8 @@ import Link from 'next/link';
 import MypageFilter from '@/app/_components/_mypage/MypageFilter';
 import Product from '@/app/_components/Product';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
 export default function Like() {
   const [filter, setFilter] = useState('전체');
@@ -70,14 +70,23 @@ export default function Like() {
         {nickname}님께서 좋아요한 공동구매 상품을 확인할 수 있습니다.
       </small>
       <ul className="flex gap-[8px] my-[16px]">
-        {Object.values(CATEGORIES).map((key) => (
-          <MypageFilter
-            filter={filter}
-            setFilter={setFilter}
-            filterkey={key}
-            key={key}
-          />
-        ))}
+        {Object.values(CATEGORIES).map((key) =>
+          key === '' ? (
+            <MypageFilter
+              filter={filter}
+              setFilter={setFilter}
+              filterkey={'전체'}
+              key={key}
+            />
+          ) : (
+            <MypageFilter
+              filter={filter}
+              setFilter={setFilter}
+              filterkey={key}
+              key={key}
+            />
+          )
+        )}
       </ul>
       {filteredProducts.length > 0 ? (
         <article className="flex flex-wrap gap-[16px] mb-[40px]">
