@@ -32,7 +32,7 @@ export default function HeaderHoverNav({ setIsNavHovered, menu }) {
 
   return (
     <div
-      className="w-32 border bg-white drop-shadow flex justify-center items-start z-50"
+      className="relative w-32 border bg-white drop-shadow flex justify-center items-start z-50"
       onMouseEnter={() => setIsNavHovered(true)}
       onMouseLeave={() => setIsNavHovered(false)}
     >
