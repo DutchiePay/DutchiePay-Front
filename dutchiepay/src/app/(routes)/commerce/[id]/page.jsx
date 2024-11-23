@@ -2,7 +2,7 @@
 
 import '@/styles/commerce.css';
 import '@/styles/globals.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import ProductContent from '@/app/_components/_commerce/_productDetail/ProductContent';
 import ProductHeader from '@/app/_components/_commerce/_productDetail/ProductHeader';
 import axios from 'axios';
@@ -15,44 +15,45 @@ export default function CommerceDetail() {
   const access = useSelector((state) => state.login.access);
   const { refreshAccessToken } = useReissueToken();
   const [product, setProduct] = useState(null);
-  useEffect(() => {
-    // 상세 페이지로 처음 진입할 때만 스크롤을 맨 위로 초기화
-    const handleScrollToTop = () => {
-      window.scrollTo(0, 0);
-    };
-    handleScrollToTop();
-  }, []);
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const headers = {};
-        if (access) {
-          headers.Authorization = `Bearer ${access}`;
-        }
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/commerce?buyId=${id}`,
-          { headers }
-        );
-        setProduct(response.data);
-      } catch (error) {
-        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+  const isRefreshing = useRef(false); // 요청 중인지 상태 관리
+
+  const fetchProduct = useCallback(async () => {
+    try {
+      const headers = {};
+      if (access) {
+        headers.Authorization = `Bearer ${access}`;
+      }
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/commerce?buyId=${id}`,
+        { headers }
+      );
+      setProduct(response.data);
+    } catch (error) {
+      if (error.response?.data?.message === '액세스 토큰이 만료되었습니다.') {
+        if (!isRefreshing.current) {
+          // 요청 중이 아닐 때만 갱신
+          isRefreshing.current = true; // 요청 중으로 설정
           const reissueResponse = await refreshAccessToken();
+          isRefreshing.current = false; // 요청 완료
+
           if (reissueResponse.success) {
-            await fetchProduct();
+            await fetchProduct(); // 토큰 갱신 후 다시 호출
           } else {
             alert(
               reissueResponse.message ||
                 '오류가 발생했습니다. 다시 시도해주세요.'
             );
           }
-        } else {
-          alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
+      } else {
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
-    };
+    }
+  }, [access, id, refreshAccessToken]); // 의존성 배열에 필요한 값 추가
 
-    fetchProduct();
-  }, [id, access, refreshAccessToken]);
+  useEffect(() => {
+    fetchProduct(); // 컴포넌트 마운트 시 fetchProduct 호출
+  }, [fetchProduct]); // fetchProduct를 의존성 배열에 추가
 
   return (
     <section className="min-h-[750px] w-[1020px]">
