@@ -43,7 +43,7 @@ const useReviewDisplay = (thumbnails) => {
         contentRef.current.scrollHeight > contentRef.current.clientHeight
       );
     }
-  }, [isMore]);
+  }, []);
 
   return {
     hasImages,

@@ -10,9 +10,9 @@ import ReviewTextarea from '@/app/_components/_commerce/_review/ReviewTextarea';
 import { ERROR_MESSAGES } from '@/app/_util/constants';
 import PopUpButton from '@/app/_components/PopUpButton';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import useReview from '@/app/hooks/useReview';
 
 const ReviewForm = ({
-  onImageDelete,
   reviewId,
   orderId,
   initialContent,
@@ -26,11 +26,10 @@ const ReviewForm = ({
       images: initialImages || [],
     },
   });
-  const { refreshAccessToken } = useReissueToken();
   const images = watch('images');
   const rating = watch('rating') || 0;
   const access = useSelector((state) => state.login.access);
-
+  const { submitReview } = useReview();
   useEffect(() => {
     setValue('content', initialContent);
     setValue('images', initialImages);
@@ -51,24 +50,17 @@ const ReviewForm = ({
       setValue('images', [...images, imageUrl]);
     }
   };
-  const handleReviewSubmission = async (data) => {
-    const method = reviewId ? axios.patch : axios.post;
+  const handleImageDelete = (index) => {
+    const updatedImages = images.filter((_, i) => i !== index);
+    setValue('images', updatedImages);
+  };
+  const onFormSubmit = async (data) => {
+    if (data.rating === 0) {
+      alert('별점을 선택해 주세요.');
+      return;
+    }
     try {
-      await method(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/profile/reviews`,
-        {
-          ...(reviewId ? { reviewId } : { orderId }),
-          content: data.content,
-          rating: data.rating,
-          reviewImg: data.images,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${access}`,
-          },
-        }
-      );
-
+      await submitReview(data, reviewId, orderId);
       alert(`후기가 성공적으로 ${reviewId ? '변경' : '제출'}되었습니다.`);
       window.opener.postMessage(
         { type: 'REFRESH_REVIEW' },
@@ -76,31 +68,9 @@ const ReviewForm = ({
       );
       window.close();
     } catch (error) {
-      if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-        const reissueResponse = await refreshAccessToken();
-        if (reissueResponse.success) {
-          await handleReviewSubmission(data);
-        } else {
-          alert(
-            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
-          );
-        }
-      } else {
-        const errorMessage =
-          ERROR_MESSAGES[error.response.data.message] ||
-          '오류가 발생했습니다. 다시 시도해주세요.';
-        alert(errorMessage);
-      }
+      alert(error.message);
     }
   };
-  const onFormSubmit = (data) => {
-    if (data.rating === 0) {
-      alert('별점을 선택해 주세요.');
-      return;
-    }
-    handleReviewSubmission(data);
-  };
-
   return (
     <div className="mt-[12px]">
       <form
@@ -115,7 +85,7 @@ const ReviewForm = ({
         <ReviewImageUpload
           images={images}
           onImageUpload={handleImageUpload}
-          onImageDelete={onImageDelete}
+          onImageDelete={handleImageDelete}
         />
         <ReviewTextarea register={register} />
         <PopUpButton submitText={`후기 ${reviewId ? '수정' : '작성'}`} />
