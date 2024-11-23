@@ -11,16 +11,12 @@ import { login } from '@/redux/slice/loginSlice';
 import { logout } from '@/redux/slice/loginSlice';
 import { setAddresses } from '@/redux/slice/addressSlice';
 import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
 import useRelogin from '@/app/hooks/useRelogin';
 
 export default function Header() {
-  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const user = useSelector((state) => state.login.user);
-  const addresses = useSelector((state) => state.address.addresses);
   const access = useSelector((state) => state.login.access);
   const dispatch = useDispatch();
-  const pathname = usePathname();
   const relogin = useRelogin();
 
   useEffect(() => {
@@ -72,14 +68,8 @@ export default function Header() {
     };
   }, [dispatch, access, user]);
 
-  /*useEffect(() => {
-    if (pathname === '/' && !isLoggedIn && addresses) {
-      dispatch(setAddresses(null));
-    }
-  }, [isLoggedIn, pathname, addresses, dispatch]);*/
-
   return (
-    <header className="fixed h-[154px] top-0 left-0 right-0 z-10 w-full bg-white shadow">
+    <header className="fixed h-[154px] top-0 left-0 right-0 z-20 w-full bg-white shadow">
       <div className=" mx-auto w-[1020px]">
         <HeaderTop />
         <HeaderMain profileImage={user?.profileImage} />
