@@ -3,7 +3,7 @@
 import '@/styles/commerce.css';
 import '@/styles/globals.css';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import ProductContent from '@/app/_components/_commerce/_productDetail/ProductContent';
 import ProductHeader from '@/app/_components/_commerce/_productDetail/ProductHeader';
@@ -15,10 +15,14 @@ import { useSelector } from 'react-redux';
 export default function CommerceDetail() {
   const { id } = useParams();
   const access = useSelector((state) => state.login.access);
-  const [product, setProduct] = useState(null);
   const { refreshAccessToken } = useReissueToken();
+  const [product, setProduct] = useState(null);
+  const hasFetched = useRef(false);
   useEffect(() => {
     const fetchProduct = async () => {
+      if (hasFetched.current) return;
+
+      hasFetched.current = true;
       try {
         const headers = {};
         if (access) {
@@ -34,15 +38,16 @@ export default function CommerceDetail() {
         setProduct(response.data);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          /*const reissueResponse = await refreshAccessToken();
+          const reissueResponse = await refreshAccessToken();
+          hasFetched.current = false;
           if (reissueResponse.success) {
-            await fetchProduct(); // 재발급된 액세스 토큰 사용
+            await fetchProduct();
           } else {
             alert(
               reissueResponse.message ||
                 '오류가 발생했습니다. 다시 시도해주세요.'
             );
-          }*/
+          }
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
@@ -50,7 +55,7 @@ export default function CommerceDetail() {
     };
 
     fetchProduct();
-  }, [access, id]);
+  }, [id, access, refreshAccessToken]);
 
   return (
     <section className="min-h-[750px] w-[1020px]">
