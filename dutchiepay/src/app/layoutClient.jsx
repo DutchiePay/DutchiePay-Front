@@ -27,7 +27,6 @@ function LayoutWrapper({ children }) {
   const pathname = usePathname();
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const isCertified = useSelector((state) => state.login.user.isCertified);
-
   const rhideHeader = pathname.match(
     /\/(login|reset|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address|withdraw-auth)/
   );
@@ -37,6 +36,9 @@ function LayoutWrapper({ children }) {
   const rhideFloating = pathname.match(
     /\/(login|find|signup|ask|report|cancel|refund|review|coupon|change-number|delivery-address|extra-info|withdraw-auth)/
   );
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     if (isLoggedIn && !isCertified) {
