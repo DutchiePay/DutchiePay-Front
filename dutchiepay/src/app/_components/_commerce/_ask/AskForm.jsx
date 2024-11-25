@@ -31,7 +31,7 @@ export default function AskForm({ buyId }) {
         {
           buyId: buyId,
           content: formData.content,
-          isSecret: Boolean(formData.isSecret),
+          isSecret: formData.isSecret,
         },
         {
           headers: {

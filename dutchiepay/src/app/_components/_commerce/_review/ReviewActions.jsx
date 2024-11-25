@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const ReviewDetails = ({ item, onDelete }) => {
+const ReviewActions = ({ item, onDelete }) => {
   const openPopup = (url) => {
     window.open(url, '_blank', 'width=620, height=670');
   };
@@ -31,4 +31,4 @@ const ReviewDetails = ({ item, onDelete }) => {
   );
 };
 
-export default ReviewDetails;
+export default ReviewActions;

@@ -11,7 +11,7 @@ import images from '/public/image/images.svg';
 import more from '/public/image/more.svg';
 import useDeleteReview from '@/app/hooks/useDeleteReview';
 import useReviewDisplay from '@/app/hooks/useReviewDisplay';
-import ReviewDetails from '../_commerce/_review/ReviewDetails';
+import ReviewActions from '../_commerce/_review/ReviewActions';
 
 export default function MyReviews({ item, onDelete }) {
   const { deleteReview } = useDeleteReview();
@@ -67,7 +67,7 @@ export default function MyReviews({ item, onDelete }) {
           </div>
         )}
         <div className={`${hasImages ? 'w-[558px]' : 'w-[730px]'}`}>
-          <ReviewDetails item={item} onDelete={handleDelete} />
+          <ReviewActions item={item} onDelete={handleDelete} />
           <div className="flex justify-between mt-[4px]">
             <Rating rating={item.rating} size={15} />
             <p className="text-xs text-gray--600">{item.createdAt}</p>
