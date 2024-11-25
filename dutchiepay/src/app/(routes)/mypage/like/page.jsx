@@ -2,7 +2,7 @@
 
 import '@/styles/mypage.css';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { CATEGORIES } from '@/app/_util/constants';
 import Link from 'next/link';
@@ -19,8 +19,12 @@ export default function Like() {
   const access = useSelector((state) => state.login.access);
   const nickname = useSelector((state) => state.login.user.nickname);
   const { refreshAccessToken } = useReissueToken();
+  const hasFetched = useRef(false);
   useEffect(() => {
     const fetchProduct = async () => {
+      if (hasFetched.current) return;
+
+      hasFetched.current = true;
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BASE_URL}/profile/like`,
@@ -35,6 +39,7 @@ export default function Like() {
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           const reissueResponse = await refreshAccessToken();
+          hasFetched.current = false;
           if (reissueResponse.success) {
             await fetchProduct();
           } else {
@@ -50,7 +55,7 @@ export default function Like() {
     };
 
     fetchProduct();
-  }, [access]);
+  }, [access, refreshAccessToken]);
 
   useEffect(() => {
     if (filter === '전체') {

@@ -19,9 +19,13 @@ export default function MyOrder() {
   const [page, setPage] = useState(1);
   const [isEnd, setIsEnd] = useState(false);
   const { refreshAccessToken } = useReissueToken();
+  const hasFetched = useRef(false);
 
   const fetchProduct = useCallback(
     async (filterParam) => {
+      if (hasFetched.current) return;
+
+      hasFetched.current = true;
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BASE_URL}/profile/mygoods?page=${page}${
@@ -40,7 +44,8 @@ export default function MyOrder() {
         );
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          /*const reissueResponse = await refreshAccessToken();
+          hasFetched.current = false;
+          const reissueResponse = await refreshAccessToken();
           if (reissueResponse.success) {
             await fetchProduct(filterParam); // 재발급된 액세스 토큰 사용
           } else {
@@ -48,7 +53,7 @@ export default function MyOrder() {
               reissueResponse.message ||
                 '오류가 발생했습니다. 다시 시도해주세요.'
             );
-          }*/
+          }
         } else if (
           error.response.data.message === '더 이상 주문 내역이 없습니다.'
         ) {
@@ -61,7 +66,7 @@ export default function MyOrder() {
         }
       }
     },
-    [access, page]
+    [access, page, refreshAccessToken]
   );
 
   useEffect(() => {
@@ -94,6 +99,7 @@ export default function MyOrder() {
   }, [page, fetchProduct, filter]);
 
   const handleLoadMore = () => {
+    hasFetched.current = false;
     setPage((prevPage) => prevPage + 1);
   };
 

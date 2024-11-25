@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import useReissueToken from './useReissueToken';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
@@ -8,8 +8,12 @@ export default function useFetchOrderProduct({ buyId, setOrderInfo }) {
   const access = useSelector((state) => state.login.access);
   const router = useRouter();
   const { refreshAccessToken } = useReissueToken();
+  const hasFetched = useRef(false);
   useEffect(() => {
     const fetchProduct = async () => {
+      if (hasFetched.current) return;
+
+      hasFetched.current = true;
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/delivery?buyId=${buyId}`,
@@ -34,7 +38,8 @@ export default function useFetchOrderProduct({ buyId, setOrderInfo }) {
         } else if (
           error.response.data.message === '액세스 토큰이 만료되었습니다.'
         ) {
-          /*const reissueResponse = await refreshAccessToken();
+          const reissueResponse = await refreshAccessToken();
+          hasFetched.current = false;
           if (reissueResponse.success) {
             await fetchProduct(); // 재발급된 액세스 토큰 사용
           } else {
@@ -42,11 +47,11 @@ export default function useFetchOrderProduct({ buyId, setOrderInfo }) {
               reissueResponse.message ||
                 '오류가 발생했습니다. 다시 시도해주세요.'
             );
-          }*/
+          }
         } else alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     };
 
     if (buyId) fetchProduct();
-  }, [buyId, access, setOrderInfo, router]);
+  }, [buyId, access, setOrderInfo, router, refreshAccessToken]);
 }

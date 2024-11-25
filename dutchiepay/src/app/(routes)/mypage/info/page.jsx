@@ -3,8 +3,7 @@
 import '@/styles/globals.css';
 import '@/styles/mypage.css';
 
-import { useCallback, useEffect, useState } from 'react';
-
+import { useEffect, useRef, useState } from 'react';
 import AccountInfo from '@/app/_components/_mypage/AccountInfo';
 import DeliveryAddress from '@/app/_components/_mypage/_delivery/DeliveryAddress';
 import ModifyLocation from '@/app/_components/_mypage/_modify/ModifyLocation';
@@ -21,62 +20,58 @@ export default function Info() {
   const profileImage = useSelector((state) => state.login.user.profileImage);
   const access = useSelector((state) => state.login.access);
   const { refreshAccessToken } = useReissueToken();
-  const [userInfo, setUserInfo] = useState({
-    email: null,
-    phone: null,
-  });
+  const [userInfo, setUserInfo] = useState({ email: null, phone: null });
+  const hasFetched = useRef(false);
   const [modifyInfo, setModifyInfo] = useState({
     nickname: nickname,
     profileImage: profileImage,
   });
 
-  // 사용자 정보를 가져오는 API 호출 함수
-  const fetchUserInfo = async (access) => {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/profile`,
-      {
-        headers: {
-          Authorization: `Bearer ${access}`,
-        },
-      }
-    );
-    return {
-      email: response.data.email,
-      phone: response.data.phone,
-    };
-  };
-
-  // 초기화 함수
-  const initMypage = useCallback(async () => {
-    try {
-      const user = await fetchUserInfo(access);
-      setUserInfo(user);
-      sessionStorage.setItem('user', JSON.stringify(user));
-    } catch (error) {
-      if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-        /*const reissueResponse = await refreshAccessToken();
-        if (reissueResponse.success) {
-          await initMypage();
-        } else {
-          alert(
-            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
-          );
-        }*/
-      } else {
-        alert('오류가 발생했습니다. 다시 시도해주세요.');
-      }
-    }
-  }, [access]);
-
   useEffect(() => {
-    if (!sessionStorage.getItem('user')) initMypage();
-    else {
-      setUserInfo({
-        email: JSON.parse(sessionStorage.getItem('user'))?.email,
-        phone: JSON.parse(sessionStorage.getItem('user'))?.phone,
-      });
-    }
-  }, [initMypage]);
+    const fetchUserInfo = async () => {
+      if (hasFetched.current) return;
+
+      hasFetched.current = true;
+      if (!sessionStorage.getItem('user')) {
+        try {
+          const response = await axios.get(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/profile`,
+            {
+              headers: {
+                Authorization: `Bearer ${access}`,
+              },
+            }
+          );
+          const user = {
+            email: response.data.email,
+            phone: response.data.phone,
+          };
+
+          setUserInfo(user);
+          sessionStorage.setItem('user', JSON.stringify(user));
+        } catch (error) {
+          if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+            const reissueResponse = await refreshAccessToken();
+            hasFetched.current = false;
+            if (reissueResponse.success) {
+              await fetchUserInfo();
+            } else {
+              alert(
+                reissueResponse.message ||
+                  '오류가 발생했습니다. 다시 시도해주세요.'
+              );
+            }
+          } else {
+            alert('오류가 발생했습니다. 다시 시도해주세요.');
+          }
+        }
+      } else {
+        const user = JSON.parse(sessionStorage.getItem('user'));
+        setUserInfo({ email: user.email, phone: user.phone });
+      }
+    };
+    fetchUserInfo();
+  }, [access, refreshAccessToken]);
 
   return (
     <section className="ml-[250px] px-[40px] py-[30px] min-h-[680px]">

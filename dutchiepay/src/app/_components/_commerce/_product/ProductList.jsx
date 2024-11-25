@@ -19,6 +19,7 @@ export default function ProductList({ category, filter, isEndContain }) {
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const { refreshAccessToken } = useReissueToken();
+  const hasFetched = useRef(false);
 
   const observerRef = useRef();
 
@@ -44,6 +45,7 @@ export default function ProductList({ category, filter, isEndContain }) {
         return response.data.products;
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+          hasFetched.current = false;
           const reissueResponse = await refreshAccessToken();
           if (reissueResponse.success) {
             await fetchProducts(
@@ -66,10 +68,13 @@ export default function ProductList({ category, filter, isEndContain }) {
         setIsLoading(false);
       }
     },
-    [access]
+    [access, refreshAccessToken]
   );
 
   useEffect(() => {
+    if (hasFetched.current) return;
+
+    hasFetched.current = true;
     setHasMore(true);
     const categoryParam = category ? `category=${category}&` : '';
     const endParam = isEndContain ? '1' : '0';
