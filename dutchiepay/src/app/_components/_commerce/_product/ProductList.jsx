@@ -45,7 +45,7 @@ export default function ProductList({ category, filter, isEndContain }) {
         return response.data.products;
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          hasFetched.current = false;
+          /*hasFetched.current = false;
           const reissueResponse = await refreshAccessToken();
           if (reissueResponse.success) {
             await fetchProducts(
@@ -59,7 +59,7 @@ export default function ProductList({ category, filter, isEndContain }) {
               reissueResponse.message ||
                 '오류가 발생했습니다. 다시 시도해주세요.'
             );
-          }
+          }*/
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
@@ -68,13 +68,13 @@ export default function ProductList({ category, filter, isEndContain }) {
         setIsLoading(false);
       }
     },
-    [access, refreshAccessToken]
+    [access]
   );
 
   useEffect(() => {
-    if (hasFetched.current) return;
+    /*if (hasFetched.current) return;
 
-    hasFetched.current = true;
+    hasFetched.current = true;*/
     setHasMore(true);
     const categoryParam = category ? `category=${category}&` : '';
     const endParam = isEndContain ? '1' : '0';
