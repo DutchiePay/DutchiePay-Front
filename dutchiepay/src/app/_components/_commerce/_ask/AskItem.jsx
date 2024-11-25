@@ -41,7 +41,9 @@ const AskItem = ({ item, company, onDelete }) => {
   return (
     <>
       <tr
-        className={`border-b-2 border-gray-300 text-center ${isAnswer ? 'bg-blue--100' : ''}`}
+        className={`border-b-2 border-gray-300 text-center ${
+          item.answer && isAnswer ? 'bg-blue--100' : ''
+        }`}
         onClick={() => handleToggle()}
       >
         <td className="w-[100px] px-2 py-[20px] border-gray-300">
@@ -60,7 +62,7 @@ const AskItem = ({ item, company, onDelete }) => {
           )}
 
           <p
-            className={`flex-1 cursor-pointer ${isMore ? 'line-clamp-none' : 'line-clamp-1'}`}
+            className={`flex-1 ${item.answer ? 'cursor-pointer' : ''} ${isMore ? 'line-clamp-none' : 'line-clamp-1'}`}
             onClick={(e) => {
               e.stopPropagation();
               handleToggle();
@@ -94,7 +96,7 @@ const AskItem = ({ item, company, onDelete }) => {
         </td>
       </tr>
 
-      {isAnswer && (
+      {item.answer && isAnswer && (!item.isSecret || item.isMine) && (
         <Answer answer={answerContent} company={company} item={item} />
       )}
     </>
