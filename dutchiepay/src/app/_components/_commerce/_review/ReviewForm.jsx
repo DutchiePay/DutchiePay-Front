@@ -7,7 +7,6 @@ import axios from 'axios';
 import ReviewRating from '@/app/_components/_commerce/_review/ReviewRating';
 import ReviewImageUpload from '@/app/_components/_commerce/_review/ReviewImageUpload';
 import ReviewTextarea from '@/app/_components/_commerce/_review/ReviewTextarea';
-import { ERROR_MESSAGES } from '@/app/_util/constants';
 import PopUpButton from '@/app/_components/PopUpButton';
 import useReissueToken from '@/app/hooks/useReissueToken';
 import useReview from '@/app/hooks/useReview';
@@ -68,7 +67,21 @@ const ReviewForm = ({
       );
       window.close();
     } catch (error) {
-      alert(error.message);
+      if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+        const reissueResponse = await refreshAccessToken();
+        if (reissueResponse.success) {
+          await handleReviewSubmission(data);
+        } else {
+          alert(
+            reissueResponse.message || '오류가 발생했습니다 다시 시도해주세요.'
+          );
+        }
+      } else {
+        alert(
+          error.response.data.message ||
+            '오류가 발생했습니다 다시 시도해주세요.'
+        );
+      }
     }
   };
   return (
