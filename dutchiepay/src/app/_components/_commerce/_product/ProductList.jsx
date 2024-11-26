@@ -4,7 +4,6 @@ import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-
 import { FILTERS } from '@/app/_util/constants';
 import ProductItem from './ProductItem';
 import axios from 'axios';
@@ -18,9 +17,9 @@ export default function ProductList({ category, filter, isEndContain }) {
   const [isInitialized, setIsInitialized] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const { refreshAccessToken } = useReissueToken();
-  const hasFetched = useRef(false);
 
+  const { refreshAccessToken } = useReissueToken();
+  const hasFetched = useRef(false); // 요청 중복 방지 플래그
   const observerRef = useRef();
 
   const fetchProducts = useCallback(
@@ -45,7 +44,7 @@ export default function ProductList({ category, filter, isEndContain }) {
         return response.data.products;
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          /*hasFetched.current = false;
+          hasFetched.current = false;
           const reissueResponse = await refreshAccessToken();
           if (reissueResponse.success) {
             await fetchProducts(
@@ -59,7 +58,7 @@ export default function ProductList({ category, filter, isEndContain }) {
               reissueResponse.message ||
                 '오류가 발생했습니다. 다시 시도해주세요.'
             );
-          }*/
+          }
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
@@ -68,17 +67,24 @@ export default function ProductList({ category, filter, isEndContain }) {
         setIsLoading(false);
       }
     },
-    [access]
+    [access, refreshAccessToken]
   );
 
+  // 필터 변경 시 상태 초기화
   useEffect(() => {
-    /*if (hasFetched.current) return;
-
-    hasFetched.current = true;*/
+    hasFetched.current = false;
+    setProducts([]);
+    setCursor(null);
     setHasMore(true);
+  }, [filter]);
+
+  useEffect(() => {
     const categoryParam = category ? `category=${category}&` : '';
     const endParam = isEndContain ? '1' : '0';
+
     const loadProducts = async () => {
+      if (hasFetched.current) return;
+      hasFetched.current = true;
       const newProducts = await fetchProducts(
         FILTERS[filter],
         categoryParam,
@@ -88,7 +94,7 @@ export default function ProductList({ category, filter, isEndContain }) {
       setProducts(newProducts);
     };
     loadProducts();
-  }, [category, filter, isEndContain, fetchProducts, isInitialized]);
+  }, [category, filter, isEndContain, fetchProducts]);
 
   const lastProductRef = useCallback(
     (node) => {
