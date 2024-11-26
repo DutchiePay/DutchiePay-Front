@@ -12,11 +12,23 @@ const usePayment = (quantity, orderInfo, buyId) => {
   const access = useSelector((state) => state.login.access);
   const router = useRouter();
   const { refreshAccessToken } = useReissueToken();
+
   const handlePayment = async (formData) => {
     if (getRemainingTime(orderInfo.expireDate) === '마감된 공구 입니다.') {
       if (
         confirm(
           '공동구매가 마감되어 주문하실 수 없습니다.\n확인을 누르실 경우, 메인으로 이동합니다.'
+        )
+      ) {
+        router.push('/');
+      }
+      return;
+    }
+
+    if (quantity < 100) {
+      if (
+        confirm(
+          '최대 구매 가능 수량은 99개입니다.\n확인을 누르실 경우, 메인으로 이동합니다.'
         )
       ) {
         router.push('/');
