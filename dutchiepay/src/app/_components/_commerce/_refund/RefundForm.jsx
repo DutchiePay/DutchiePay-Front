@@ -43,6 +43,8 @@ export default function RefundForm({ orderId }) {
           }
         );
 
+        alert('정상적으로 처리되었습니다.');
+
         window.opener.postMessage(
           { type: 'REFUND/EXCHANGE' },
           window.location.origin
