@@ -2,7 +2,7 @@
 
 import '@/styles/globals.css';
 
-import { Provider, useSelector } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import { persistor, store } from '@/redux/store';
 import { redirect, usePathname } from 'next/navigation';
 
@@ -11,7 +11,11 @@ import Footer from './_components/_layout/Footer';
 import Header from './_components/_layout/Header';
 import { PersistGate } from 'redux-persist/integration/react';
 import UpDownButton from './_components/_layout/UpDownButton';
+import { login } from '@/redux/slice/loginSlice';
+import { logout } from '@/redux/slice/loginSlice';
+import { setAddresses } from '@/redux/slice/addressSlice';
 import { useEffect } from 'react';
+import useRelogin from '@/app/hooks/useRelogin';
 
 export default function RootLayoutClient({ children }) {
   return (
@@ -48,6 +52,60 @@ function LayoutWrapper({ children }) {
       }
     }
   }, [isLoggedIn, isCertified, pathname]);
+
+  const user = useSelector((state) => state.login.user);
+  const access = useSelector((state) => state.login.access);
+  const dispatch = useDispatch();
+  const relogin = useRelogin();
+
+  useEffect(() => {
+    if (localStorage.getItem('dutchie-rememberMe') && !access) {
+      relogin();
+    }
+  }, [access, relogin]);
+
+  // tab 간 데이터 동기화
+  useEffect(() => {
+    const channel = new BroadcastChannel('auth-channel');
+
+    if (!access && !localStorage.getItem('dutchie-rememberMe')) {
+      channel.postMessage({ type: 'sync-request' });
+    }
+
+    channel.onmessage = (e) => {
+      const { type, data } = e.data;
+
+      if (type === 'sync-request' && access) {
+        const sharedData = {
+          user,
+          access: access,
+        };
+        channel.postMessage({ type: 'sync-data', data: sharedData });
+      } else if (type === 'sync-data' && !access) {
+        dispatch(
+          login({
+            user: data.user,
+            access: data.access,
+          })
+        );
+      } else if (type === 'logout-event' && access) {
+        dispatch(logout());
+      } else if (type === 'login-event') {
+        dispatch(
+          login({
+            user: data.user,
+            access: data.access,
+          })
+        );
+      } else if (type === 'change-address') {
+        dispatch(setAddresses(data));
+      }
+    };
+
+    return () => {
+      channel.close();
+    };
+  }, [dispatch, access, user]);
 
   return (
     <>
