@@ -1,7 +1,6 @@
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
+import Image from 'next/image';
 import Link from 'next/link';
+import intro from '/public/image/intro.jpg';
 
 export default function EventSection() {
   return (
@@ -9,8 +8,14 @@ export default function EventSection() {
       <div className="w-[500px] h-[200px] rounded-xl border">이벤트</div>
       <Link
         href="/introduction"
-        className="w-[500px] h-[200px] rounded-xl intro__image relative"
+        className="w-[500px] h-[200px] rounded-xl relative"
       >
+        <Image
+          className="w-[500px] h-[200px] rounded-xl"
+          src={intro}
+          alt="intro"
+          fill
+        />
         <div className="flex flex-col absolute top-[60px] left-[24px]">
           <p className="text-2xl font-semibold">
             <strong>더취페이</strong>가 처음이라면?

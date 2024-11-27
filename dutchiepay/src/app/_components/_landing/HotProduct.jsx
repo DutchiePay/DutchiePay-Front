@@ -1,4 +1,3 @@
-import '@/styles/commerce.css';
 import '@/styles/globals.css';
 
 import Image from 'next/image';

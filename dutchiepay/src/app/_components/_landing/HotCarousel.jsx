@@ -1,11 +1,34 @@
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 import { useRef, useState } from 'react';
 
-import CarouselIndex from './CarouselIndex';
-import HotRanking from './HotRanking';
+import ContentLoader from 'react-content-loader';
 import Slider from 'react-slick';
+import dynamic from 'next/dynamic';
+
+const CarouselIndex = dynamic(() => import('./CarouselIndex'));
+
+const HotRanking = dynamic(() => import('./HotRanking'), {
+  loading: () => (
+    <ContentLoader
+      speed={2}
+      width={1020}
+      height={210}
+      viewBox="0 0 1020 210"
+      backgroundColor="#f3f3f3"
+      foregroundColor="#ecebeb"
+    >
+      <rect x="0" y="5" rx="0" ry="0" width="200" height="200" />
+      <rect x="216" y="25" rx="4" ry="4" width="220" height="20" />
+      <rect x="216" y="49" rx="4" ry="4" width="230" height="56" />
+      <rect x="216" y="110" rx="4" ry="4" width="130" height="28" />
+      <rect x="340" y="140" rx="4" ry="4" width="110" height="36" />
+      <rect x="529" y="5" rx="4" ry="4" width="488" height="30" />
+      <rect x="529" y="45" rx="4" ry="4" width="488" height="30" />
+      <rect x="529" y="85" rx="4" ry="4" width="488" height="30" />
+      <rect x="529" y="125" rx="4" ry="4" width="488" height="30" />
+      <rect x="529" y="165" rx="4" ry="4" width="488" height="30" />
+    </ContentLoader>
+  ),
+});
 
 export default function HotCarousel({ hotProduct }) {
   const [slideChange, setSlideChange] = useState(false);
@@ -36,7 +59,7 @@ export default function HotCarousel({ hotProduct }) {
   return (
     <article>
       <div className="relative">
-        <h2 className="main__title">가장 HOT🔥한</h2>
+        <h2 className="text-3xl font-black text-center">가장 HOT🔥한</h2>
         <CarouselIndex
           end={1}
           activeSlide={activeSlide}

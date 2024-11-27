@@ -81,6 +81,15 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
+.main__recommendCarousel {
+  width: 100%;
+  position: relative;
+  padding: 0;
+  height: 300px;
+  margin-left: calc(-50% + 50%);
+  z-index: 1;
+}
+
 /* HTML: <div class="loader"></div> */
 .loader {
   width: 50px;
