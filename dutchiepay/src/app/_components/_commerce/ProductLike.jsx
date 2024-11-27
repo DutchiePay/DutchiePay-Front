@@ -9,9 +9,9 @@ import Image from 'next/image';
 import axios from 'axios';
 import fullheart from '/public/image/fullheart.svg';
 import heart from '/public/image/heart.svg';
+import useReissueToken from '@/app/hooks/useReissueToken';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function ProductLike({ isLiked, productId, size }) {
   const access = useSelector((state) => state.login.access);
@@ -22,7 +22,7 @@ export default function ProductLike({ isLiked, productId, size }) {
 
   useEffect(() => {
     setIsProductLiked(isLiked);
-  }, [isLiked]);
+  }, [isLiked, productId]);
 
   const handleIsLiked = async (e) => {
     e.preventDefault(); // Link 동작하지 않도록 함
