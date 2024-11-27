@@ -11,9 +11,10 @@ import profile from '/public/image/profile.jpg';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
-export default function HeaderMain({ profileImage }) {
+export default function HeaderMain() {
   const router = useRouter();
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const profileImage = useSelector((state) => state.login.user.profileImage);
 
   return (
     <div className="flex items-center relative w-full">
@@ -40,11 +41,10 @@ export default function HeaderMain({ profileImage }) {
           />
           <div className="relative w-[55px] h-[55px] ml-[18px] cursor-pointer">
             <Image
-              className="rounded-full border"
+              className="rounded-full border object-cover"
               src={profileImage || profile}
               alt="profile"
               fill
-              style={{ objectFit: 'cover' }}
               onClick={() => router.push('/mypage')}
             />
           </div>
