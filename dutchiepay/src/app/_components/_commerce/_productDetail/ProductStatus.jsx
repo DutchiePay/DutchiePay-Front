@@ -18,7 +18,7 @@ export default function ProductStatus({ product }) {
         <p className="text-gray--500">판매된 수량</p>
         <p>{product?.nowCount}개</p>
         <p className="font-medium">
-          ({Math.round(product?.nowCount / product?.skeleton) * 100}%)
+          ({Math.round((product?.nowCount / product?.skeleton) * 100)}%)
         </p>
       </li>
       <li className="product-summary__item">
