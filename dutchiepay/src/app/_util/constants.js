@@ -76,20 +76,30 @@ export const ORDER_STATUS = {
   주문취소: '배송전',
   교환처리: '배송완료',
 };
+
 export const MART_CATEGORIES = {
   전체: '',
   마트구매: 'mart',
   같이배달: 'delivery',
 };
+
 export const USED_CATEGORIES = {
   전체: '',
   중고판매: 'trade',
   중고나눔: 'share',
 };
+
 export const COMMUNITY_CATEGORIES = {
   전체: '',
   정보공유: 'info',
   질문: 'qna',
   취미생활: 'hobby',
   자유게시판: 'free',
+};
+
+export const ORDER_FILTER = {
+  배송전: 'pending',
+  배송중: 'shipped',
+  배송완료: 'delivered',
+  전체: null,
 };

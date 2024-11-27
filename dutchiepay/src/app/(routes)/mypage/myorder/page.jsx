@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
+import { ORDER_FILTER } from '@/app/_util/constants';
 import OrderFilter from '@/app/_components/_mypage/_order/OrderFilter';
 import OrderItem from '@/app/_components/_mypage/_order/OrderItem';
 import OrderListDefault from '@/app/_components/_mypage/_order/OrderListDefault';
@@ -40,8 +41,11 @@ export default function MyOrder() {
 
         // 페이지가 1이면 데이터를 초기화하고, 아니면 추가
         setProduct((prevProducts) =>
-          page === 1 ? response.data : [...prevProducts, ...response.data]
+          page === 1
+            ? response.data.goods
+            : [...prevProducts, ...response.data.goods]
         );
+        setIsEnd(!response.data.hasNext);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           hasFetched.current = false;
@@ -70,24 +74,14 @@ export default function MyOrder() {
   );
 
   useEffect(() => {
-    const getFilterValue = () => {
-      switch (filter) {
-        case '배송전':
-          return 'pending';
-        case '배송중':
-          return 'shipped';
-        case '배송완료':
-          return 'delivered';
-        default:
-          return null;
-      }
-    };
+    fetchProduct(ORDER_FILTER[filter]);
+  }, [page, fetchProduct, filter]);
 
-    fetchProduct(getFilterValue());
-
+  useEffect(() => {
     const handleMessage = (event) => {
       if (event.data.type === 'REFUND/EXCHANGE') {
-        fetchProduct(getFilterValue());
+        hasFetched.current = false;
+        setPage(1);
       }
     };
 
@@ -96,7 +90,7 @@ export default function MyOrder() {
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, [page, fetchProduct, filter]);
+  }, []);
 
   const handleLoadMore = () => {
     hasFetched.current = false;
@@ -118,7 +112,7 @@ export default function MyOrder() {
       {product.length === 0 ? (
         <OrderListDefault />
       ) : (
-        <article className="flex flex-col gap-[24px]">
+        <article className="flex flex-col gap-[24px] mb-[100px]">
           {product.map((item, key) => (
             <OrderItem key={key} product={item} />
           ))}
