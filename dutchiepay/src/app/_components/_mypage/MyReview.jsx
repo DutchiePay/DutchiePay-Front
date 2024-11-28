@@ -16,10 +16,11 @@ export default function MyReviews({ item, onDelete }) {
   const { deleteReview } = useDeleteReview();
 
   const handleDelete = async () => {
-    await deleteReview(item.reviewId);
-    onDelete(item.reviewId);
+    const isDeleted = await deleteReview(item.reviewId);
+    if (isDeleted) {
+      onDelete(item.reviewId);
+    }
   };
-
   const {
     hasImages,
     isModalOpen,
@@ -73,7 +74,7 @@ export default function MyReviews({ item, onDelete }) {
           </div>
           <p
             ref={contentRef}
-            className={`text-sm w-[510px] mt-[12px] ${isMore ? '' : 'mypage-reviews__review'}`}
+            className={`text-sm ${hasImages ? 'w-[510px]' : 'w-[650px]'} mt-[12px] ${isMore ? '' : 'mypage-reviews__review'}`}
             onClick={hasOverflow ? handleToggle : undefined}
           >
             {item.content}

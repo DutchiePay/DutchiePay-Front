@@ -6,17 +6,20 @@ import { useState, useEffect } from 'react';
 
 import useDeleteAsk from '@/app/hooks/useDeleteAsk';
 import AskHeader from '@/app/_components/_commerce/_ask/AskHeader';
-import AskResponse from '@/app/_components/_commerce/_ask/AskHeader';
+import AskResponse from '@/app/_components/_commerce/_ask/AskResponse';
 export default function MyAsks({ item, onDelete }) {
   const [isAnswered, setIsAnswered] = useState(false);
+  const [isMore, setIsMore] = useState(true);
   const { deleteAsk } = useDeleteAsk();
   useEffect(() => {
     setIsAnswered(!!item.answer);
   }, [item.answer]);
 
   const handleDelete = async () => {
-    await deleteAsk(item.askId);
-    onDelete(item.askId);
+    const isDeleted = await deleteAsk(item.askId);
+    if (isDeleted) {
+      onDelete(item.askId);
+    }
   };
   return (
     <div className="w-[730px]">
@@ -26,7 +29,11 @@ export default function MyAsks({ item, onDelete }) {
           isAnswered={isAnswered}
           onDelete={handleDelete}
         />
-        <p className="mt-[8px] text-sm">{item.content}</p>
+        <p
+          className={`mt-[8px] text-sm   ${isMore ? 'line-clamp-none' : 'line-clamp-1'}`}
+        >
+          {item.content}
+        </p>
       </div>
       <AskResponse item={item} isAnswered={isAnswered} />
     </div>
