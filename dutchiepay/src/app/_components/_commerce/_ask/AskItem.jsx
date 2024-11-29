@@ -24,9 +24,8 @@ const AskItem = ({ item, company, onDelete }) => {
   }, [userId, item.userId]);
 
   const handleToggle = () => {
-    if (!item.isSecret) {
-      setIsMore((prev) => !prev);
-    }
+    setIsMore((prev) => !prev);
+
     setIsAnswer((prev) => !prev);
   };
 

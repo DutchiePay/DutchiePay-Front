@@ -11,18 +11,16 @@ import images from '/public/image/images.svg';
 import more from '/public/image/more.svg';
 import useDeleteReview from '@/app/hooks/useDeleteReview';
 import useReviewDisplay from '@/app/hooks/useReviewDisplay';
-
+import ReviewActions from '@/app/_components/_commerce/_review/ReviewActions';
 export default function MyReviews({ item, onDelete }) {
   const { deleteReview } = useDeleteReview();
-  const openPopup = (url) => {
-    window.open(url, '_blank', 'width=620, height=670');
-  };
 
   const handleDelete = async () => {
-    await deleteReview(item.reviewId);
-    onDelete(item.reviewId);
+    const isDeleted = await deleteReview(item.reviewId);
+    if (isDeleted) {
+      onDelete(item.reviewId);
+    }
   };
-
   const {
     hasImages,
     isModalOpen,
@@ -48,7 +46,7 @@ export default function MyReviews({ item, onDelete }) {
           <div className="relative w-[120px] h-[120px]">
             <Image
               className="rounded-lg object-cover"
-              src={item.reviewImg[0]} // 첫 번째 이미지 사용
+              src={item.reviewImg[0]}
               alt="리뷰 이미지"
               fill
             />
@@ -69,43 +67,18 @@ export default function MyReviews({ item, onDelete }) {
           </div>
         )}
         <div className={`${hasImages ? 'w-[558px]' : 'w-[730px]'}`}>
-          <div className="flex justify-between items-center">
-            <Link
-              href={`/commerce/${item.buyId}`}
-              className="inline-block max-w-[470px] title--single-line font-bold"
-            >
-              {item.productName}
-            </Link>
-            <div className="flex gap-[12px]">
-              {item.isPossible && (
-                <button
-                  className="text-sm font-semibold"
-                  onClick={() =>
-                    openPopup(
-                      `/review?reviewId=${item.reviewId}&buyId=${item.buyId}`
-                    )
-                  }
-                >
-                  수정
-                </button>
-              )}
-              <button className="text-sm font-semibold" onClick={handleDelete}>
-                삭제
-              </button>
-            </div>
-          </div>
+          <ReviewActions item={item} onDelete={handleDelete} />
           <div className="flex justify-between mt-[4px]">
             <Rating rating={item.rating} size={15} />
             <p className="text-xs text-gray--600">{item.createdAt}</p>
           </div>
           <p
             ref={contentRef}
-            className={`text-sm w-[510px] mt-[12px] ${isMore ? '' : 'mypage-reviews__review'}`}
-            onClick={handleToggle}
+            className={`text-sm ${hasImages ? 'w-[510px]' : 'w-[650px]'} mt-[12px] ${isMore ? '' : 'mypage-reviews__review'}`}
+            onClick={hasOverflow ? handleToggle : undefined}
           >
             {item.content}
           </p>
-          {/* 내용이 넘칠 때만 "더보기" 아이콘 표시 */}
           {(hasOverflow || isMore) && (
             <Image
               className={`w-[20px] h-[20px] absolute bottom-[8px] right-[20px] cursor-pointer ${isMore ? 'rotate-180' : ''}`}

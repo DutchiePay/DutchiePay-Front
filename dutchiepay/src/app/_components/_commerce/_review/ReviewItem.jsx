@@ -68,7 +68,7 @@ export default function ReviewItem({ className, item }) {
             className={`text-sm ${hasImages ? 'max-w-[800px]' : 'max-w-[920px]'} mt-[4px] ${
               isMore ? '' : 'mypage-reviews__review'
             }`}
-            onClick={handleToggle}
+            onClick={hasOverflow ? handleToggle : undefined}
           >
             {item.content}
           </p>

@@ -11,7 +11,6 @@ import PopUpButton from '@/app/_components/PopUpButton';
 import useReissueToken from '@/app/hooks/useReissueToken';
 
 const ReviewForm = ({
-  onImageDelete,
   reviewId,
   orderId,
   initialContent,
@@ -35,7 +34,10 @@ const ReviewForm = ({
     setValue('images', initialImages);
     setValue('rating', initialRating);
   }, [initialContent, initialImages, initialRating, setValue]);
-
+  const handleImageDelete = (index) => {
+    const updatedImages = images.filter((_, i) => i !== index);
+    setValue('images', updatedImages);
+  };
   const handleImageUpload = async (event) => {
     const imageFile = event.target.files[0];
     if (!imageFile) return;
@@ -114,7 +116,7 @@ const ReviewForm = ({
         <ReviewImageUpload
           images={images}
           onImageUpload={handleImageUpload}
-          onImageDelete={onImageDelete}
+          onImageDelete={handleImageDelete}
         />
         <ReviewTextarea register={register} />
         <PopUpButton submitText={`후기 ${reviewId ? '수정' : '작성'}`} />

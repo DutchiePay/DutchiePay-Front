@@ -8,7 +8,8 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import useReissueToken from '@/app/hooks/useReissueToken';
 import { useSelector } from 'react-redux';
-
+import AskTextarea from './AskTextarea';
+import AskRadioButton from './AskRadioButton';
 export default function AskForm({ buyId }) {
   const access = useSelector((state) => state.login.access);
   const { refreshAccessToken } = useReissueToken();
@@ -30,7 +31,7 @@ export default function AskForm({ buyId }) {
         {
           buyId: buyId,
           content: formData.content,
-          isSecret: Boolean(formData.isSecret),
+          isSecret: formData.isSecret,
         },
         {
           headers: {
@@ -63,36 +64,8 @@ export default function AskForm({ buyId }) {
 
   return (
     <form className="mt-[12px]" onSubmit={handleSubmit(onSubmit)}>
-      <p className="text-blue--500 font-semibold">문의 내용</p>
-      <textarea
-        className="w-full h-[300px] mt-[8px] border border-blue--500 rounded p-[12px] resize-none product-ask-textarea outline-none"
-        placeholder="문의 사항을 작성해주세요."
-        {...register('content')}
-      />
-
-      <div className="flex items-center gap-[8px] mt-[8px]">
-        <p className="mr-[8px] text-blue--500 font-semibold">공개 설정</p>
-        <input
-          id="all"
-          type="radio"
-          value={false}
-          defaultChecked
-          {...register('isSecret')}
-        />
-        <label className="text-sm text-gray--500 mr-[8px]" htmlFor="all">
-          전체 공개
-        </label>
-        <input
-          id="secret"
-          type="radio"
-          value={true}
-          {...register('isSecret')}
-        />
-        <label className="text-sm text-gray--500" htmlFor="secret">
-          비공개
-        </label>
-      </div>
-
+      <AskTextarea register={register} />
+      <AskRadioButton register={register} />
       <PopUpButton submitText={'문의하기'} />
     </form>
   );

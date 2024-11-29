@@ -3,7 +3,7 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 import MyReviews from '@/app/_components/_mypage/MyReview';
@@ -17,8 +17,11 @@ export default function MyReview() {
   const nickname = useSelector((state) => state.login.user.nickname);
   const access = useSelector((state) => state.login.access);
   const { refreshAccessToken } = useReissueToken();
-
+  const hasFetched = useRef(false);
   const handleFetchReviews = useCallback(async () => {
+    if (hasFetched.current) return;
+
+    hasFetched.current = true;
     try {
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/profile/reviews`,
@@ -31,19 +34,20 @@ export default function MyReview() {
       setReviews(response.data);
     } catch (error) {
       if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-        /*const reissueResponse = await refreshAccessToken();
+        const reissueResponse = await refreshAccessToken();
+        hasFetched.current = false;
         if (reissueResponse.success) {
           await handleFetchReviews();
         } else {
           alert(
             reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
           );
-        }*/
+        }
       } else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     }
-  }, [access]);
+  }, [access, refreshAccessToken]);
 
   const handleDeleteReview = (reviewId) => {
     setReviews((prevReviews) =>
