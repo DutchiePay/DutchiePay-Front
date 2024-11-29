@@ -25,7 +25,7 @@ const usePayment = (quantity, orderInfo, buyId) => {
       return;
     }
 
-    if (quantity < 100) {
+    if (Number(quantity) >= 100) {
       if (
         confirm(
           '최대 구매 가능 수량은 99개입니다.\n확인을 누르실 경우, 메인으로 이동합니다.'
