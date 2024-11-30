@@ -1,7 +1,5 @@
 'use client';
 
-import '@/styles/community.css';
-import '@/styles/globals.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -9,28 +7,16 @@ import { useCallback, useRef, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import Slider from 'react-slick';
-import carousel1 from '../../../../public/image/carousel/carousel1.jpg';
-import carousel2 from '../../../../public/image/carousel/carousel2.jpg';
-import pause from '../../../../public/image/pause.svg';
-import play from '../../../../public/image/play.svg';
-import prevNnext from '../../../../public/image/prevNnext.svg';
+import carousel1 from '/public/image/carousel/carousel1.jpg';
+import carousel2 from '/public/image/carousel/carousel2.jpg';
+import dynamic from 'next/dynamic';
 
-// 화살표 컴포넌트
-const ArrowButton = ({ direction, onClick }) => (
-  <button
-    className="w-[44px] h-[44px] bg-black/30 rounded-full flex justify-center items-center"
-    onClick={onClick}
-  >
-    <Image
-      src={prevNnext}
-      alt={`${direction} arrow`}
-      width={18}
-      height={18}
-      className={direction === 'next' ? 'rotate-180' : ''}
-    />
-  </button>
-);
+const Slider = dynamic(() => import('react-slick'), {
+  ssr: false,
+});
+const MainCarouselInfo = dynamic(() => import('./MainCarouselInfo'));
+const MainArrow = dynamic(() => import('./MainArrow'));
+
 export default function MainCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
@@ -38,19 +24,6 @@ export default function MainCarousel() {
 
   const handleNextClick = useCallback(() => sliderRef.current?.slickNext(), []);
   const handlePrevClick = useCallback(() => sliderRef.current?.slickPrev(), []);
-
-  // 슬라이드 제어 함수
-  const handleSlideAction = useCallback((action) => {
-    if (sliderRef.current) {
-      sliderRef.current[action]();
-    }
-  }, []);
-
-  // 자동 재생 토글 함수
-  const toggleAutoPlay = useCallback(() => {
-    handleSlideAction(isAutoPlay ? 'slickPause' : 'slickPlay');
-    setIsAutoPlay((prev) => !prev);
-  }, [isAutoPlay, handleSlideAction]);
 
   const settings = {
     dots: false,
@@ -61,8 +34,8 @@ export default function MainCarousel() {
     arrows: false,
     autoplay: isAutoPlay,
     autoplaySpeed: 10000,
-    prevArrow: <ArrowButton direction="prev" onClick={handlePrevClick} />,
-    nextArrow: <ArrowButton direction="next" onClick={handleNextClick} />,
+    prevArrow: <MainArrow direction="prev" onClick={handlePrevClick} />,
+    nextArrow: <MainArrow direction="next" onClick={handleNextClick} />,
     beforeChange: (oldIndex, newIndex) => setCurrentSlide(newIndex),
   };
 
@@ -71,11 +44,12 @@ export default function MainCarousel() {
       <Slider className="w-[1020px]" ref={sliderRef} {...settings}>
         <Link href="/mart" className="h-[400px] relative">
           <Image
-            className="w-full h-[400px]"
+            className="w-full h-[400px] object-cover"
             src={carousel1}
             alt="더취페이 메인"
             fill
-            style={{ objectFit: 'cover' }}
+            priority
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
           <div className="flex flex-col gap-[4px] absolute top-[120px] left-[40px]">
             <span className="text-3xl flex font-semibold">
@@ -89,11 +63,11 @@ export default function MainCarousel() {
         </Link>
         <Link href="/commerce" className="h-[400px] relative">
           <Image
-            className="h-full w-[400px]"
+            className="h-full w-[400px] object-cover"
             src={carousel2}
             alt="더취페이 메인"
             fill
-            style={{ objectFit: 'cover' }}
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
           <div className="flex flex-col gap-[4px] absolute top-[120px] left-[40px]">
             <p className="text-3xl flex font-semibold">
@@ -108,25 +82,14 @@ export default function MainCarousel() {
           </div>
         </Link>
       </Slider>
-      <div className="absolute bottom-[24px] right-[40px] flex gap-[16px] items-center">
-        <div className="w-[44px] h-[24px] bg-black/30 text-white text-xs flex justify-center items-center rounded-2xl">
-          <strong>{currentSlide + 1}</strong>&nbsp;/&nbsp;2
-        </div>
-        <div className="flex gap-[16px]">
-          <ArrowButton direction="prev" onClick={handlePrevClick} />
-          <button
-            className="w-[44px] h-[44px] bg-black/30 rounded-full flex justify-center items-center"
-            onClick={toggleAutoPlay}
-          >
-            {isAutoPlay ? (
-              <Image src={pause} alt="pause" width={25} height={30} />
-            ) : (
-              <Image src={play} alt="play" width={20} height={20} />
-            )}
-          </button>
-          <ArrowButton direction="next" onClick={handleNextClick} />
-        </div>
-      </div>
+      <MainCarouselInfo
+        isAutoPlay={isAutoPlay}
+        setIsAutoPlay={setIsAutoPlay}
+        sliderRef={sliderRef}
+        currentSlide={currentSlide}
+        handleNextClick={handleNextClick}
+        handlePrevClick={handlePrevClick}
+      />
     </article>
   );
 }

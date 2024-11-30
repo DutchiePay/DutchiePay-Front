@@ -1,6 +1,3 @@
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 export default function CarouselIndex({ end, activeSlide, handleSlideChange }) {
   return (
     <div className="absolute bottom-[10px] left-[930px]">
