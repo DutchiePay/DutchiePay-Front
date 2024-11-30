@@ -35,7 +35,7 @@ const ArrowButton = ({ direction, onClick }) => (
       alt={`${direction} arrow`}
       width={20}
       height={20}
-      className={direction === 'next' ? 'rotate-180' : ''}
+      className={`h-auto w-auto ${direction === 'next' ? 'rotate-180' : ''}`}
     />
   </button>
 );

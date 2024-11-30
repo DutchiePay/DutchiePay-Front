@@ -34,6 +34,7 @@ export default function HotRanking({
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
+    arrows: false,
     vertical: true,
     beforeChange: (current, next) => setActiveSlide(next),
     afterChange: (current) => {
