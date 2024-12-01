@@ -34,7 +34,7 @@ export default function OrderInfo({ orderInfo, quantity }) {
                 </strong>
                 <div className="flex items-center gap-[8px] py-[4px] text-blue--700 text-sm font-semibold">
                   <Image src={delivery} alt="배송시작" width={20} height={20} />
-                  {orderInfo?.expireDate} 이후 순차 발송 예정
+                  {orderInfo?.deadline} 이후 순차 발송 예정
                 </div>
               </div>
             </div>

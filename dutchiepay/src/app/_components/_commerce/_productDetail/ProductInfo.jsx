@@ -29,7 +29,12 @@ export default function ProductInfo({ isEnd, product, productId }) {
         deadline={product?.deadline}
         isLiked={product?.isLiked}
       />
-      <OrderButton isEnd={isEnd} productId={productId} quantity={quantity} />
+      <OrderButton
+        isEnd={isEnd}
+        productId={productId}
+        quantity={quantity}
+        product={product}
+      />
     </article>
   );
 }
