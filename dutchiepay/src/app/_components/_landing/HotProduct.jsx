@@ -13,7 +13,12 @@ export default function HotProduct({ product }) {
       className="w-[480px] flex items-center"
     >
       <div className="w-[200px] h-[200px] relative object-cover">
-        <Image src={product?.productImg} alt={product?.productName} fill />
+        <Image
+          src={product?.productImg}
+          alt={product?.productName}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
       </div>
       <div className="w-[240px] pl-[16px]">
         <div className="flex items-center gap-[4px]">

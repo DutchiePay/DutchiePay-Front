@@ -1,8 +1,15 @@
 import '@/styles/globals.css';
 import '@/styles/mypage.css';
 
-export default function OrderFilter({ filter, setFilter, setPage, setIsEnd }) {
+export default function OrderFilter({
+  hasFetched,
+  filter,
+  setFilter,
+  setPage,
+  setIsEnd,
+}) {
   const handleFilter = (e) => {
+    hasFetched.current = false;
     setFilter(e.target.innerText);
     setPage(1);
     setIsEnd(false);

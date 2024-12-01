@@ -1,13 +1,16 @@
 'use client';
 
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-
-import AddressAddition from '@/app/_components/_mypage/_delivery/AddressAddition';
-import DeliveryAddressItem from '@/app/_components/_mypage/_delivery/DeliveryAddressItem';
 import Image from 'next/image';
 import delivery from '/public/image/delivery.svg';
+import dynamic from 'next/dynamic';
 import useFetchDelivery from '@/app/hooks/useFetchDelivery';
+
+const DeliveryAddressItem = dynamic(
+  () => import('@/app/_components/_mypage/_delivery/DeliveryAddressItem')
+);
+const AddressAddition = dynamic(
+  () => import('@/app/_components/_mypage/_delivery/AddressAddition')
+);
 
 export default function DeliveryAddress() {
   const { deliveryAddress, setIsChanged } = useFetchDelivery();

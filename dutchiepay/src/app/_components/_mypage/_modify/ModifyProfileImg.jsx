@@ -1,17 +1,16 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/mypage.css';
-
 import { useDispatch, useSelector } from 'react-redux';
 
 import Image from 'next/image';
-import ProfileImgButton from './ProfileImgButton';
 import axios from 'axios';
+import dynamic from 'next/dynamic';
 import profile from '/public/image/profile.jpg';
 import { setUserInfoChange } from '@/redux/slice/loginSlice';
-import { useState } from 'react';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useState } from 'react';
+
+const ProfileImgButton = dynamic(() => import('./ProfileImgButton'));
 
 export default function ModifyProfileImg({ modifyInfo, setModifyInfo }) {
   const profileImage = useSelector((state) => state.login.user.profileImage);
@@ -57,9 +56,9 @@ export default function ModifyProfileImg({ modifyInfo, setModifyInfo }) {
   };
 
   return (
-    <article className="mypage-profile">
+    <article className="flex justify-between items-center">
       <div className="flex items-center">
-        <h2 className="mypage-profile__label">
+        <h2 className="w-[130px] font-semibold text-2xl">
           프로필
           <br />
           이미지
@@ -67,11 +66,12 @@ export default function ModifyProfileImg({ modifyInfo, setModifyInfo }) {
         <div className="flex gap-[24px] items-center">
           <div className="relative w-[150px] h-[150px] mb-[12px]">
             <Image
-              className="rounded-full border"
+              className="rounded-full border object-cover"
               src={modifyInfo.profileImage || profile}
               alt="profile"
               fill
-              style={{ objectFit: 'cover' }}
+              priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
           </div>
           {isModify && <ProfileImgButton setModifyInfo={setModifyInfo} />}
@@ -80,14 +80,14 @@ export default function ModifyProfileImg({ modifyInfo, setModifyInfo }) {
       <div className="flex gap-[12px]">
         {isModify && (
           <button
-            className="mypage-profile__button"
+            className="min-w-[80px] p-[8px] border border-gray--200 rounded-lg"
             onClick={handleModifyCancel}
           >
             변경취소
           </button>
         )}
         <button
-          className={`mypage-profile__button ${isModify && 'mypage-profile__button-finish'}`}
+          className={`min-w-[80px] p-[8px] border border-gray--200 rounded-lg ${isModify && 'border-none text-white bg-blue--500'}`}
           onClick={() =>
             isModify ? handleModifyComplete() : setIsModify(!isModify)
           }

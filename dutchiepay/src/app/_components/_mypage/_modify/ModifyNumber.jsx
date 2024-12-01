@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/mypage.css';
-
 import { useEffect } from 'react';
 
 export default function ModifyNumber({ userInfo, setUserInfo }) {
@@ -30,13 +27,13 @@ export default function ModifyNumber({ userInfo, setUserInfo }) {
   }, [setUserInfo]);
 
   return (
-    <article className="mypage-profile">
+    <article className="flex justify-between items-center">
       <div className="flex items-center">
-        <h2 className="mypage-profile__label">전화번호</h2>
-        <p className="mypage-profile__value">{userInfo.phone}</p>
+        <h2 className="w-[130px] font-semibold text-2xl">전화번호</h2>
+        <p className="text-lg">{userInfo.phone}</p>
       </div>
       <button
-        className="mypage-profile__button"
+        className="min-w-[80px] p-[8px] border border-gray--200 rounded-lg"
         onClick={() => {
           window.open(
             '/change-number',

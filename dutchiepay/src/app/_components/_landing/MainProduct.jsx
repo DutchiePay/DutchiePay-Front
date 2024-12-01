@@ -16,6 +16,7 @@ export default function MainProduct({ product }) {
           src={product?.productImg}
           alt={product?.productName}
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </div>
       <p className="title--single-line font-medium mt-[4px]">
