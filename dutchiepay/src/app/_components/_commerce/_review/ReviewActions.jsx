@@ -17,7 +17,9 @@ const ReviewActions = ({ item, onDelete }) => {
           <button
             className="text-sm font-semibold"
             onClick={() =>
-              openPopup(`/review?reviewId=${item.reviewId}&buyId=${item.buyId}`)
+              openPopup(
+                `/review?reviewId=${item.reviewId}&buyId=${item.buyId}&orderNum=${item.orderNum}`
+              )
             }
           >
             수정
