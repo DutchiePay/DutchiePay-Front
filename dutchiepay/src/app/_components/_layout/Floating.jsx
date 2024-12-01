@@ -10,7 +10,7 @@ export default function Floating() {
     <div className="fixed w-[50px] h-[50px]  right-[50px] bottom-[100px] drop-shadow-md z-2">
       <div className="relative rounded-full w-[70px] h-[70px] bg-blue--500 flex items-center justify-center cursor-pointer">
         <Image
-          className=""
+          className="w-[40px] h-[40px]"
           src={floating}
           width={40}
           height={40}

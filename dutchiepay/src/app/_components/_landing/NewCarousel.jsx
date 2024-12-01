@@ -1,6 +1,9 @@
+'use client';
+
 import ContentLoader from 'react-content-loader';
 import Slider from 'react-slick';
 import dynamic from 'next/dynamic';
+import { useState } from 'react';
 
 const MainProduct = dynamic(() => import('./MainProduct'), {
   loading: () => (
@@ -21,11 +24,14 @@ const MainProduct = dynamic(() => import('./MainProduct'), {
 });
 
 export default function NewCarousel({ newProduct }) {
+  const [activeSlide, setActiveSlide] = useState(0);
+
   const settings = {
     dots: false,
     slidesToShow: 4,
     slidesToScroll: 4,
     arrows: false,
+    beforeChange: (current, next) => setActiveSlide(next),
   };
 
   return (
@@ -34,9 +40,13 @@ export default function NewCarousel({ newProduct }) {
         최근 공구가 시작됐어요!
       </h2>
       <div className="mt-[8px] flex justify-between">
-        <Slider className="w-[1022px] mx-auto " {...settings}>
+        <Slider className="w-[1022px] mx-auto" {...settings}>
           {newProduct.map((item, key) => (
-            <MainProduct key={key} product={item} />
+            <MainProduct
+              key={key}
+              product={item}
+              isHidden={key !== activeSlide}
+            />
           ))}
         </Slider>
       </div>

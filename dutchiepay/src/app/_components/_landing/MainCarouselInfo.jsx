@@ -40,9 +40,21 @@ export default function MainCarouselInfo({
           onClick={toggleAutoPlay}
         >
           {isAutoPlay ? (
-            <Image src={pause} alt="pause" width={25} height={30} />
+            <Image
+              className="w-auto h-auto"
+              src={pause}
+              alt="pause"
+              width={35}
+              height={30}
+            />
           ) : (
-            <Image src={play} alt="play" width={20} height={20} />
+            <Image
+              className="w-auto h-auto"
+              src={play}
+              alt="play"
+              width={20}
+              height={20}
+            />
           )}
         </button>
         <MainArrow direction="next" onClick={handleNextClick} />
