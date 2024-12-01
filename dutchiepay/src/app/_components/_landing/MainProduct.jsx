@@ -3,12 +3,13 @@ import Link from 'next/link';
 import clock from '/public/image/clock.svg';
 import { getRemainingTime } from '@/app/_util/getFormatDate';
 
-export default function MainProduct({ product }) {
+export default function MainProduct({ product, isHidden }) {
   return (
     <Link
       href={`/commerce/${product?.buyId}`}
       title={product?.productName}
       className="w-[240px] px-[12px] py-[8px] flex flex-col justify-center gap-[4px]"
+      aria-hidden={isHidden}
     >
       <div className="w-full h-[210px] relative overflow-hidden rounded-xl">
         <Image
@@ -16,7 +17,7 @@ export default function MainProduct({ product }) {
           src={product?.productImg}
           alt={product?.productName}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>
       <p className="title--single-line font-medium mt-[4px]">

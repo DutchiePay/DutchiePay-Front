@@ -17,7 +17,7 @@ export default function HotProduct({ product }) {
           src={product?.productImg}
           alt={product?.productName}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>
       <div className="w-[240px] pl-[16px]">

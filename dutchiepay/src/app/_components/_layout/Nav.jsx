@@ -1,13 +1,12 @@
 'use client';
 
-import '@/styles/globals.css';
-
-import { useEffect, useState } from 'react';
-
-import HeaderHoverNav from './HeaderHoverNav';
 import Link from 'next/link';
 import { MENUS } from '@/app/_util/constants';
+import dynamic from 'next/dynamic';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+
+const HeaderHoverNav = dynamic(() => import('./HeaderHoverNav'));
 
 export default function Nav() {
   const pathname = usePathname();
