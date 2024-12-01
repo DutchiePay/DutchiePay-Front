@@ -1,15 +1,14 @@
 'use client';
 
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import OrderActionButton from './OrderActionButton';
-import OrderDetail from './OrderDetail';
+import dynamic from 'next/dynamic';
 import more from '/public/image/more.svg';
+
+const OrderActionButton = dynamic(() => import('./OrderActionButton'));
+const OrderDetail = dynamic(() => import('./OrderDetail'));
 
 export default function OrderItem({ product }) {
   const [isMore, setIsMore] = useState(false);
@@ -39,6 +38,8 @@ export default function OrderItem({ product }) {
             src={product.productImg}
             alt={product.productName}
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority
           />
         </Link>
 

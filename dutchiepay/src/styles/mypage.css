@@ -2,21 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.mypage__filter {
-  padding: 6px 12px;
-  color: #4b70f5;
-  border: 1px solid #4b70f5;
-  font-size: 14px;
-  border-radius: 50px;
-  transition: all 0.3s ease-in-out;
-  cursor: pointer;
-}
-
-.mypage__filter--selected {
-  color: #fff;
-  background: #4b70f5;
-}
-
 .mypage-reviews__review {
   font-size: 14px;
   overflow: hidden;
@@ -24,29 +9,6 @@
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-}
-
-.mypage-orders__order-number {
-  color: #8c8f9a;
-}
-
-.mypage-orders__order-number::before {
-  content: '|';
-  width: 1px;
-  height: 100%;
-  margin: 0 8px;
-}
-
-.mypage-order-details__table-header {
-  background: #dbe2fd;
-  font-weight: 600;
-  padding: 16px;
-  width: 140px;
-}
-
-.mypage-order-details__table-data {
-  width: 360px;
-  padding: 16px;
 }
 
 .address__input {

@@ -1,6 +1,3 @@
-import '@/styles/globals.css';
-import '@/styles/mypage.css';
-
 export default function OrderDetail({ product, isMore }) {
   return (
     <>
@@ -8,8 +5,10 @@ export default function OrderDetail({ product, isMore }) {
         <div>
           <table className="mx-auto my-[16px] border border-collapse">
             <tr className="border-b">
-              <th className="mypage-order-details__table-header">배송지</th>
-              <td className="flex flex-col mypage-order-details__table-data">
+              <th className="w-[140px] bg-blue--100 font-semibold p-[16px]">
+                배송지
+              </th>
+              <td className="flex flex-col w-[360px] p-[16px]">
                 <p className="font-bold">{product.receiver}</p>
                 <p className="text-sm">{product.phone}</p>
                 <div className="flex gap-[8px]">
@@ -22,8 +21,10 @@ export default function OrderDetail({ product, isMore }) {
               </td>
             </tr>
             <tr className="border-b">
-              <th className="mypage-order-details__table-header">배송메시지</th>
-              <td className="mypage-order-details__table-data">
+              <th className="w-[140px] bg-blue--100 font-semibold p-[16px]">
+                배송메시지
+              </th>
+              <td className="w-[360px] p-[16px]">
                 {product.message
                   ? product.message
                   : '설정하신 배송메시지가 없습니다.'}
@@ -34,20 +35,25 @@ export default function OrderDetail({ product, isMore }) {
               product.deliveryState !== '취소완료' &&
               product.deliveryState !== '공구실패' && (
                 <tr className="border-b">
-                  <th className="mypage-order-details__table-header">
+                  <th className="w-[140px] bg-blue--100 font-semibold p-[16px]">
                     송장번호
                   </th>
-                  <td className="mypage-order-details__table-data flex justify-between">
-                    <span className="tracking-number">1234567890</span>
-                    <button className="bg-blue--500 text-white text-xs px-[8px] py-[4px] rounded-md">
+                  <td className="w-[360px] p-[16px] flex justify-between">
+                    <span>1234567890</span>
+                    <button
+                      className="bg-blue--500 text-white text-xs px-[8px] py-[4px] rounded-md"
+                      onClick={() => alert('배송조회 클릭됨')}
+                    >
                       배송조회
                     </button>
                   </td>
                 </tr>
               )}
             <tr className="border-b">
-              <th className="mypage-order-details__table-header">결제정보</th>
-              <td className="mypage-order-details__table-data flex flex-col gap-[16px]">
+              <th className="w-[140px] bg-blue--100 font-semibold p-[16px]">
+                결제정보
+              </th>
+              <td className="w-[360px] p-[16px] flex flex-col gap-[16px]">
                 <div>
                   <div className="flex justify-between">
                     <strong>주문 금액</strong>

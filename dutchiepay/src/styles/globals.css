@@ -90,6 +90,17 @@ input:-webkit-autofill:active {
   z-index: 1;
 }
 
+.mypage-orders__order-number {
+  color: #8c8f9a;
+}
+
+.mypage-orders__order-number::before {
+  content: '|';
+  width: 1px;
+  height: 100%;
+  margin: 0 8px;
+}
+
 /* HTML: <div class="loader"></div> */
 .loader {
   width: 50px;

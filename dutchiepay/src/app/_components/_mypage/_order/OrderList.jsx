@@ -1,15 +1,36 @@
-import '@/styles/globals.css';
-import '@/styles/mypage.css';
-
 import { useCallback, useEffect, useState } from 'react';
 
-import LoadMore from './LoadMore';
+import ContentLoader from 'react-content-loader';
 import { ORDER_FILTER } from '@/app/_util/constants';
-import OrderItem from '@/app/_components/_mypage/_order/OrderItem';
 import OrderListDefault from '@/app/_components/_mypage/_order/OrderListDefault';
 import axios from 'axios';
+import dynamic from 'next/dynamic';
 import useReissueToken from '@/app/hooks/useReissueToken';
 import { useSelector } from 'react-redux';
+
+const LoadMore = dynamic(() => import('./LoadMore'));
+const OrderItem = dynamic(
+  () => import('@/app/_components/_mypage/_order/OrderItem'),
+  {
+    loading: () => (
+      <ContentLoader
+        speed={2}
+        width={730}
+        height={172}
+        viewBox="0 0 730 172"
+        backgroundColor="#f3f3f3"
+        foregroundColor="#ecebeb"
+      >
+        <rect x="0" y="0" rx="4" ry="4" width="200" height="24" />
+        <rect x="0" y="32" rx="8" ry="8" width="140" height="140" />
+        <rect x="160" y="36" rx="4" ry="4" width="100" height="32" />
+        <rect x="160" y="72" rx="4" ry="4" width="200" height="24" />
+        <rect x="160" y="100" rx="4" ry="4" width="100" height="24" />
+        <rect x="160" y="128" rx="4" ry="4" width="160" height="38" />
+      </ContentLoader>
+    ),
+  }
+);
 
 export default function OrderList({
   hasFetched,

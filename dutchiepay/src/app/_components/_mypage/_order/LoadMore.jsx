@@ -1,6 +1,3 @@
-import '@/styles/globals.css';
-import '@/styles/mypage.css';
-
 import Image from 'next/image';
 import arrow from '/public/image/arrow.svg';
 
