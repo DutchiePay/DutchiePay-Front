@@ -41,7 +41,7 @@ const AskItem = ({ item, company, onDelete }) => {
     <>
       <tr
         className={`border-b-2 border-gray-300 text-center ${
-          item.answer && isAnswer ? 'bg-blue--100' : ''
+          item.answer && isAnswer && item.isSecret ? 'bg-blue--100' : ''
         }`}
         onClick={() => handleToggle()}
       >
@@ -50,7 +50,7 @@ const AskItem = ({ item, company, onDelete }) => {
         </td>
 
         <td className="w-[500px] px-2 py-[20px] text-start flex items-center gap-[4px]">
-          {item.isSecret && !isMine && (
+          {item.isSecret && (
             <Image
               className="mr-[4px] flex-shrink-0"
               src={secret}

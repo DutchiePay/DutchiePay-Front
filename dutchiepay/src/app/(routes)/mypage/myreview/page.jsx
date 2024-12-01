@@ -60,6 +60,8 @@ export default function MyReview() {
     const handleMessage = (event) => {
       if (event.origin !== window.location.origin) return;
       if (event.data && event.data.type === 'REFRESH_REVIEW') {
+        hasFetched.current = false;
+
         handleFetchReviews();
       }
     };

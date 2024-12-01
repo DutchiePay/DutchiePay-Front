@@ -5,7 +5,6 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import ImagesModal from '@/app/(modals)/images/page';
-import Link from 'next/link';
 import Rating from '@/app/_components/_rating/Rating';
 import images from '/public/image/images.svg';
 import more from '/public/image/more.svg';
@@ -45,16 +44,14 @@ export default function MyReviews({ item, onDelete }) {
         {hasImages && (
           <div className="relative w-[120px] h-[120px]">
             <Image
-              className="rounded-lg object-cover"
+              className="rounded-lg object-cover cursor-pointer"
               src={item.reviewImg[0]}
               alt="리뷰 이미지"
               fill
+              onClick={handleImageClick}
             />
             {item.reviewImg.length > 1 && (
-              <div
-                className="absolute bottom-[8px] right-[8px] bg-white w-[30px] h-[30px] rounded-full flex justify-center items-center cursor-pointer"
-                onClick={handleImageClick}
-              >
+              <div className="absolute bottom-[8px] right-[8px] bg-white w-[30px] h-[30px] rounded-full flex justify-center items-center cursor-pointer">
                 <Image
                   className="opacity-80"
                   src={images}

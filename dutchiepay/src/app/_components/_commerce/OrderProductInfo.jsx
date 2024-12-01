@@ -2,12 +2,17 @@
 
 import '@/styles/commerce.css';
 import '@/styles/globals.css';
-
+import clock from '/public/image/clock.svg';
 import Image from 'next/image';
 import useFetchOrderProduct from '@/app/hooks/useFetchOrderProduct';
 import { useState } from 'react';
+import { getRemainingTime } from '@/app/_util/getFormatDate'; // getRemainingTime 임포트
 
-export default function OrderProductInfo({ buyId, orderNum }) {
+export default function OrderProductInfo({
+  buyId,
+  orderNum,
+  showRemainingTime = false,
+}) {
   const [orderInfo, setOrderInfo] = useState(null);
   useFetchOrderProduct({ buyId, setOrderInfo });
 
@@ -15,19 +20,28 @@ export default function OrderProductInfo({ buyId, orderNum }) {
     <>
       {orderInfo && (
         <div className="flex gap-[12px] mb-[12px]">
-          <Image
-            className="rounded"
-            src={orderInfo.productImg}
-            alt={orderInfo.productName}
-            width={100}
-            height={100}
-          />
+          <div
+            className={`relative ${showRemainingTime ? 'w-[120px] h-[120px]' : 'w-[100px] h-[100px]'}`}
+          >
+            <Image
+              className="rounded object-cover"
+              src={orderInfo.productImg}
+              alt={orderInfo.productName}
+              fill
+            />
+          </div>
           <div className="flex flex-col justify-center w-[400px] gap-[4px]">
             <p className="text-sm text-gray--500 font-normal">{orderNum}</p>
             <p className="text-xs text-gray--500">{orderInfo.storeName}</p>
             <strong className="title--multi-line">
               {orderInfo.productName}
             </strong>
+            {showRemainingTime && orderInfo.expireDate && (
+              <div className="flex gap-[4px] text-sm text-blue--700 font-semibold">
+                <Image src={clock} alt="남은 시간" width={16} height={16} />
+                <p>{getRemainingTime('ask', orderInfo.expireDate)}</p>
+              </div>
+            )}
           </div>
         </div>
       )}
