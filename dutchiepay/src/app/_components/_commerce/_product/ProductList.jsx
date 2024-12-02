@@ -4,6 +4,7 @@ import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+
 import { FILTERS } from '@/app/_util/constants';
 import ProductItem from './ProductItem';
 import axios from 'axios';
@@ -76,7 +77,7 @@ export default function ProductList({ category, filter, isEndContain }) {
     setProducts([]);
     setCursor(null);
     setHasMore(true);
-  }, [filter]);
+  }, [filter, isEndContain]);
 
   useEffect(() => {
     const categoryParam = category ? `category=${category}&` : '';
