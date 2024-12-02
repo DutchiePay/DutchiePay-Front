@@ -39,7 +39,7 @@ export default function Sidebar() {
       <ul>
         {Object.entries(MYPAGE_MENU).map(([key, value]) => (
           <li
-            className="w-[200px] h-[50px] flex items-center rounded-lg hover:bg-gray-100"
+            className="w-[200px] h-[50px] flex items-center rounded-lg hover:bg-gray--100"
             key={key}
           >
             <Link
