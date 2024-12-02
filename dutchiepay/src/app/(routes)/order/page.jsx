@@ -13,9 +13,16 @@ export default function Order() {
   const router = useRouter();
 
   const productInfo = JSON.parse(sessionStorage.getItem('productInfo'));
-  const { product, quantity, productId } = productInfo;
+  const { product, quantity, productId } = productInfo || {};
 
   useEffect(() => {
+    if (!productInfo) {
+      alert('비정상적인 접근입니다.');
+      router.push('/');
+    } else if (productInfo.quantity < 1 || productInfo.quantity > 100) {
+      alert('최대 구매 가능 수량은 99개입니다.');
+      router.push('/');
+    }
     const handleMessage = (event) => {
       const allowedOrigins = [process.env.NEXT_PUBLIC_BASE_URL];
 
@@ -36,7 +43,7 @@ export default function Order() {
     return () => {
       window.removeEventListener('message', handleMessage);
     };
-  }, [router]);
+  }, [router, productInfo]);
 
   return (
     <section className="min-h-[750px] w-[1020px] mt-[40px] mb-[100px]">
