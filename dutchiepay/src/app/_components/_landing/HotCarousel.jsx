@@ -48,6 +48,7 @@ export default function HotCarousel({ hotProduct }) {
     slidesToScroll: 1,
     autoplay: false,
     vertical: true,
+    arrows: false,
     beforeChange: (current, next) => {
       setActiveSlide(next);
     },

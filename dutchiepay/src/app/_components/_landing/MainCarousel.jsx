@@ -7,13 +7,11 @@ import { useCallback, useRef, useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import Slider from 'react-slick';
 import carousel1 from '/public/image/carousel/carousel1.jpg';
 import carousel2 from '/public/image/carousel/carousel2.jpg';
 import dynamic from 'next/dynamic';
 
-const Slider = dynamic(() => import('react-slick'), {
-  ssr: false,
-});
 const MainCarouselInfo = dynamic(() => import('./MainCarouselInfo'));
 const MainArrow = dynamic(() => import('./MainArrow'));
 
@@ -42,14 +40,18 @@ export default function MainCarousel() {
   return (
     <article className="w-[1020px] h-[400px] relative">
       <Slider className="w-[1020px]" ref={sliderRef} {...settings}>
-        <Link href="/mart" className="h-[400px] relative">
+        <Link
+          href="/mart"
+          className="h-[400px] relative"
+          aria-hidden={currentSlide !== 0}
+        >
           <Image
             className="w-full h-[400px] object-cover"
             src={carousel1}
             alt="더취페이 메인"
             fill
             priority
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="100vw"
           />
           <div className="flex flex-col gap-[4px] absolute top-[120px] left-[40px]">
             <span className="text-3xl flex font-semibold">
@@ -61,13 +63,17 @@ export default function MainCarousel() {
             </p>
           </div>
         </Link>
-        <Link href="/commerce" className="h-[400px] relative">
+        <Link
+          href="/commerce"
+          className="h-[400px] relative"
+          aria-hidden={currentSlide !== 1}
+        >
           <Image
             className="h-full w-[400px] object-cover"
             src={carousel2}
             alt="더취페이 메인"
             fill
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="100vw"
           />
           <div className="flex flex-col gap-[4px] absolute top-[120px] left-[40px]">
             <p className="text-3xl flex font-semibold">
