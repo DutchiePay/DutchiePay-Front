@@ -1,13 +1,35 @@
 'use client';
 
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-
-import AddressAddition from '@/app/_components/_mypage/_delivery/AddressAddition';
-import DeliveryAddressItem from '@/app/_components/_mypage/_delivery/DeliveryAddressItem';
+import ContentLoader from 'react-content-loader';
 import Image from 'next/image';
 import delivery from '/public/image/delivery.svg';
+import dynamic from 'next/dynamic';
 import useFetchDelivery from '@/app/hooks/useFetchDelivery';
+
+const DeliveryAddressItem = dynamic(
+  () => import('@/app/_components/_mypage/_delivery/DeliveryAddressItem'),
+  {
+    loading: () => (
+      <ContentLoader
+        speed={2}
+        width={690}
+        height={118}
+        viewBox="0 0 690 118"
+        backgroundColor="#f3f3f3"
+        foregroundColor="#ecebeb"
+      >
+        <rect x="0" y="0" rx="4" ry="4" width="50" height="28" />
+        <rect x="0" y="30" rx="4" ry="4" width="50" height="24" />
+        <rect x="0" y="30" rx="4" ry="4" width="100" height="24" />
+        <rect x="0" y="56" rx="4" ry="4" width="200" height="24" />
+        <rect x="0" y="82" rx="4" ry="4" width="200" height="24" />
+      </ContentLoader>
+    ),
+  }
+);
+const AddressAddition = dynamic(
+  () => import('@/app/_components/_mypage/_delivery/AddressAddition')
+);
 
 export default function DeliveryAddress() {
   const { deliveryAddress, setIsChanged } = useFetchDelivery();

@@ -3,7 +3,6 @@
 import '@/styles/mypage.css';
 import '@/styles/globals.css';
 
-import Image from 'next/image';
 import MypageFilter from '@/app/_components/_mypage/MypageFilter';
 import Post from '@/app/_components/Post';
 import { useSelector } from 'react-redux';

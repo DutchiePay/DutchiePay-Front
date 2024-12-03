@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/mypage.css';
-
 import getImage from '@/app/_util/getImage';
 import { useRef } from 'react';
 
@@ -39,6 +36,7 @@ export default function ProfileImgButton({ setModifyInfo }) {
         type="file"
         className="hidden"
         onChange={hanldeImage}
+        aria-hidden={true}
       />
       <button
         className="border rounded-lg text-sm px-[16px] py-[4px]"

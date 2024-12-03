@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-
 import { MYPAGE_ICON, MYPAGE_MENU } from '@/app/_util/constants';
 
 import Image from 'next/image';
@@ -30,20 +27,23 @@ export default function Sidebar() {
       <div className="flex flex-col items-center">
         <div className="relative w-[120px] h-[120px] mb-[12px]">
           <Image
-            className="rounded-full border"
+            className="rounded-full border object-cover"
             src={userInfo?.profileImage || profile}
             alt="profile"
             fill
-            style={{ objectFit: 'cover' }}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
         <strong>{userInfo?.nickname}</strong>
       </div>
       <ul>
         {Object.entries(MYPAGE_MENU).map(([key, value]) => (
-          <li className="mypage-sidebar-navbar__item" key={key}>
+          <li
+            className="w-[200px] h-[50px] flex items-center rounded-lg hover:bg-gray--100"
+            key={key}
+          >
             <Link
-              className="mypage-sidebar-navbar__link"
+              className="w-full flex items-center gap-[12px] p-[8px]"
               href={`/mypage/${value}`}
             >
               <Image src={MYPAGE_ICON[key]} alt={key} width={20} height={20} />

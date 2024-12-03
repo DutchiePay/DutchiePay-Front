@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/mypage.css';
-
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
@@ -55,13 +52,13 @@ export default function ModifyLocation() {
   };
 
   return (
-    <article className="mypage-profile">
+    <article className="flex justify-between items-center">
       <div className="flex items-center">
-        <h2 className="mypage-profile__label">지역</h2>
-        <p className="mypage-profile__value">{location}</p>
+        <h2 className="w-[130px] font-semibold text-2xl">지역</h2>
+        <p className="text-lg">{location}</p>
       </div>
       <button
-        className="mypage-profile__button"
+        className="min-w-[80px] p-[8px] border border-gray--200 rounded-lg"
         onClick={handleGetCurrentLocation}
       >
         재설정

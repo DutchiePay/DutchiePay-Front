@@ -1,4 +1,4 @@
-import '@/styles/mypage.css';
+'use client';
 
 import { useCallback, useEffect } from 'react';
 

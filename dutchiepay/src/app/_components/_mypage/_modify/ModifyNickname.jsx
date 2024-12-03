@@ -1,14 +1,11 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/mypage.css';
-
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from 'axios';
 import { setUserInfoChange } from '@/redux/slice/loginSlice';
-import { useState } from 'react';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useState } from 'react';
 
 export default function ModifyNickname({ modifyInfo, setModifyInfo }) {
   const nickname = useSelector((state) => state.login.user.nickname);
@@ -66,9 +63,9 @@ export default function ModifyNickname({ modifyInfo, setModifyInfo }) {
   };
 
   return (
-    <article className="mypage-profile">
+    <article className="flex justify-between items-center">
       <div className="flex items-center">
-        <h2 className="mypage-profile__label">닉네임</h2>
+        <h2 className="w-[130px] font-semibold text-2xl">닉네임</h2>
         {isModify ? (
           <input
             className="px-[8px] py-[4px] border rounded-lg outline-none"
@@ -82,20 +79,20 @@ export default function ModifyNickname({ modifyInfo, setModifyInfo }) {
             placeholder="닉네임"
           />
         ) : (
-          <p className="mypage-profile__value">{nickname}</p>
+          <p className="text-lg">{nickname}</p>
         )}
       </div>
       <div className="flex gap-[12px]">
         {isModify && (
           <button
-            className="mypage-profile__button"
+            className="min-w-[80px] p-[8px] border border-gray--200 rounded-lg"
             onClick={handleModifyCancel}
           >
             변경취소
           </button>
         )}
         <button
-          className={`mypage-profile__button ${isModify && 'mypage-profile__button-finish'}`}
+          className={`min-w-[80px] p-[8px] border border-gray--200 rounded-lg ${isModify && 'border-none text-white bg-blue--500'}`}
           onClick={() => {
             isModify ? handleModifyComplete() : setIsModify(!isModify);
           }}

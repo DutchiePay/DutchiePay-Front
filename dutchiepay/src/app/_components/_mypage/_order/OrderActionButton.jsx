@@ -1,10 +1,7 @@
 'use client';
 
-import useReissueToken from '@/app/hooks/useReissueToken';
-import '@/styles/globals.css';
-import '@/styles/mypage.css';
-
 import axios from 'axios';
+import useReissueToken from '@/app/hooks/useReissueToken';
 import { useSelector } from 'react-redux';
 
 export default function OrderActionButton({ product, setStatus, status }) {

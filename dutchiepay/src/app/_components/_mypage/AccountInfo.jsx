@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/mypage.css';
-
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
@@ -19,11 +16,11 @@ export default function AccountInfo({ userInfo }) {
   }, []);
 
   return (
-    <article className="mypage-profile">
+    <article className="flex justify-between items-center">
       <div className="flex items-center">
-        <h2 className="mypage-profile__label">계정정보</h2>
+        <h2 className="w-[130px] font-semibold text-2xl">계정정보</h2>
         {loginType === 'email' ? (
-          <p className="mypage-profile__value">{userInfo.email}</p>
+          <p className="text-lg">{userInfo.email}</p>
         ) : loginType === 'kakao' ? (
           <div className="flex items-center gap-[12px]">
             <Image
@@ -51,7 +48,7 @@ export default function AccountInfo({ userInfo }) {
       {loginType === 'email' && (
         <Link
           href="/reset"
-          className="mypage-profile__button-reset"
+          className="min-w-[100px] py-[8px] px-[12px] border border-gray--200 rounded-lg"
           role="button"
         >
           비밀번호 변경
