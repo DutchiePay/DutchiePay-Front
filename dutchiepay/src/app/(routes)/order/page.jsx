@@ -20,7 +20,7 @@ export default function Order() {
       alert('비정상적인 접근입니다.');
       router.push('/');
     } else if (productInfo.quantity < 1 || productInfo.quantity > 100) {
-      alert('최대 구매 가능 수량은 99개입니다.');
+      alert('구매 가능 수량은 1개부터 99개까지입니다.');
       router.push('/');
     }
     const handleMessage = (event) => {
@@ -42,6 +42,7 @@ export default function Order() {
 
     return () => {
       window.removeEventListener('message', handleMessage);
+      sessionStorage.removeItem('productInfo');
     };
   }, [router, productInfo]);
 
