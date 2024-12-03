@@ -11,8 +11,8 @@ import selectArrow from '../../../../public/image/selectArrow.svg';
 
 export default function PostDetail({ menu, isTrade = false, isMyPostWritten }) {
   return (
-    <section
-      className="w-[290px] h-[750px] fixed top-[158px] right-[440px] pl-[24px] py-[40px]"
+    <article
+      className="w-[290px] h-[750px] sticky top-[150px] pl-[20px] py-[40px]"
       aria-labelledby="trade-info"
     >
       <div className="flex items-center gap-[8px]">
@@ -92,6 +92,6 @@ export default function PostDetail({ menu, isTrade = false, isMyPostWritten }) {
       <button className="w-full rounded-lg py-[12px] text-white font-bold bg-blue--500">
         채팅방으로 이동
       </button>
-    </section>
+    </article>
   );
 }

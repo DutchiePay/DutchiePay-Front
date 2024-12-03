@@ -10,13 +10,15 @@ export default function UsedDetail({ params }) {
   const postId = searchParams.get('postId');
 
   return (
-    <section className="w-full flex min-h-[750px] w-[1020px]">
-      <PostContent
-        category={'거래'}
-        menu={'거래/나눔'}
-        isMyPostWritten={true}
-      />
-      <PostDetail menu={'거래/나눔'} isTrade={true} isMyPostWritten={true} />
+    <section className="flex min-h-[750px] w-[1020px]">
+      <div className="flex justify-between">
+        <PostContent
+          category={'거래'}
+          menu={'거래/나눔'}
+          isMyPostWritten={true}
+        />
+        <PostDetail menu={'거래/나눔'} isTrade={true} isMyPostWritten={true} />
+      </div>
     </section>
   );
 }
