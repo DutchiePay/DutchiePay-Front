@@ -8,15 +8,16 @@ import HeadCount from '@/app/_components/_community/_post/HeadCount';
 import Location_Modal from '@/app/(routes)/location/page';
 import MettingPlaceInput from '@/app/_components/_community/_post/MeetingPlaceInput';
 import PostWritingAction from '@/app/_components/_community/_post/PostWritingAction';
-import TextEditor from '@/app/_components/_community/TextEditor';
+import TextEditor from '@/app/_components/_community/_post/TextEditor';
 import TitleInput from '@/app/_components/_community/_post/TitleInput';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 
 export default function MartWrite() {
   const [filter, setFilter] = useState('마트');
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [locationDescription, setLocationDescription] = useState('');
+  const [editorContent, setEditorContent] = useState('');
   const {
     register,
     watch,
@@ -38,6 +39,7 @@ export default function MartWrite() {
 
   const onSubmit = async (formData) => {
     console.log(formData);
+    console.log(editorContent);
   };
 
   return (
@@ -64,7 +66,7 @@ export default function MartWrite() {
               입력 가능합니다.
             </small>
           </div>
-          <TextEditor />
+          <TextEditor setEditorContent={setEditorContent} />
           <PostWritingAction />
         </form>
       )}
