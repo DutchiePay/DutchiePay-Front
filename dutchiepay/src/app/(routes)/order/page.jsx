@@ -3,23 +3,26 @@
 import '@/styles/globals.css';
 import '@/styles/commerce.css';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import OrderInfo from '@/app/_components/_commerce/_order/OrderInfo';
 import OrderSubmit from '@/app/_components/_commerce/_order/OrderSubmit';
-import useFetchOrderProduct from '@/app/hooks/useFetchOrderProduct';
 
 export default function Order() {
-  const searchParams = useSearchParams();
-  const buyId = searchParams.get('productId');
-  const quantity = searchParams.get('quantity');
-  const [orderInfo, setOrderInfo] = useState(null);
   const router = useRouter();
 
-  useFetchOrderProduct({ buyId, setOrderInfo });
+  const productInfo = JSON.parse(sessionStorage.getItem('productInfo'));
+  const { product, quantity, productId } = productInfo || {};
 
   useEffect(() => {
+    if (!productInfo) {
+      alert('비정상적인 접근입니다.');
+      router.push('/');
+    } else if (productInfo.quantity < 1 || productInfo.quantity > 100) {
+      alert('구매 가능 수량은 1개부터 99개까지입니다.');
+      router.push('/');
+    }
     const handleMessage = (event) => {
       const allowedOrigins = [process.env.NEXT_PUBLIC_BASE_URL];
 
@@ -39,8 +42,9 @@ export default function Order() {
 
     return () => {
       window.removeEventListener('message', handleMessage);
+      sessionStorage.removeItem('productInfo');
     };
-  }, [router]);
+  }, [router, productInfo]);
 
   return (
     <section className="min-h-[750px] w-[1020px] mt-[40px] mb-[100px]">
@@ -49,8 +53,8 @@ export default function Order() {
         ※ 공동구매 마감 시간 이전까지 결제가 완료 되어야 성공적으로 구매가
         가능합니다.
       </p>
-      <OrderInfo orderInfo={orderInfo} quantity={Number(quantity)} />
-      <OrderSubmit quantity={quantity} orderInfo={orderInfo} buyId={buyId} />
+      <OrderInfo orderInfo={product} quantity={Number(quantity)} />
+      <OrderSubmit quantity={quantity} orderInfo={product} buyId={productId} />
     </section>
   );
 }
