@@ -10,13 +10,15 @@ export default function MartDetail() {
   const postId = searchParams.get('postId');
 
   return (
-    <section className="min-h-[750px] w-[1020px] w-full flex">
-      <PostContent
-        category={'배달'}
-        menu={'마트/배달'}
-        isMyPostWritten={true}
-      />
-      <PostDetail menu={'마트/배달'} isMyPostWritten={true} />
+    <section className="min-h-[750px] w-[1020px]">
+      <div className="flex justify-between">
+        <PostContent
+          category={'배달'}
+          menu={'마트/배달'}
+          isMyPostWritten={true}
+        />
+        <PostDetail menu={'마트/배달'} isMyPostWritten={true} />
+      </div>
     </section>
   );
 }
