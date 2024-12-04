@@ -1,7 +1,7 @@
 'use client';
 
 import '@/styles/globals.css';
-import 'react-quill/dist/quill.snow.css';
+import 'react-quill-new/dist/quill.snow.css';
 
 import { useMemo, useState } from 'react';
 
@@ -9,7 +9,7 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import image from '../../../../public/image/reviewImg/reviewImg1.jpg';
 
-const ReactQuill = dynamic(() => import('react-quill'), {
+const ReactQuill = dynamic(() => import('react-quill-new'), {
   ssr: false,
 });
 
@@ -24,11 +24,10 @@ export default function TextEditor() {
           [{ header: [1, 2, 3, 4, 5, false] }],
           ['bold', 'italic', 'underline', 'strike'],
           ['blockquote', 'code-block'],
-          [{ list: 'ordered' }, { list: 'bullet' }],
           [{ color: [] }, { background: [] }],
           [{ align: [] }],
-          ['clean'],
           ['image'],
+          ['link'],
         ],
       },
     }),
@@ -40,12 +39,14 @@ export default function TextEditor() {
     'bold',
     'italic',
     'underline',
-    'list',
-    'bullet',
+    'strike',
+    'blockquote',
+    'code-block',
     'link',
     'image',
     'color',
     'background',
+    'align',
   ];
 
   return (
@@ -65,13 +66,8 @@ export default function TextEditor() {
           </small>
         </div>
         <div className="flex gap-[4px] mt-[4px]">
-          <div className="w-[60px] h-[60px] border relative">
-            <Image
-              src={image}
-              alt="첨부이미지"
-              fill
-              style={{ objectFit: 'cover' }}
-            />
+          <div className="w-[60px] h-[60px] border relative object-cover">
+            <Image src={image} alt="첨부이미지" fill />
             {isThumbnail && (
               <div className="text-[10px] text-white bg-blue--500 py-[2px] px-[4px] absolute top-0 left-0">
                 대표
