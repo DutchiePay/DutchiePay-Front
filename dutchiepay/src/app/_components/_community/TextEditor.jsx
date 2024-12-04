@@ -1,21 +1,56 @@
 'use client';
 
-import '@/styles/globals.css';
 import 'react-quill-new/dist/quill.snow.css';
 
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import image from '../../../../public/image/reviewImg/reviewImg1.jpg';
+import getImage from '@/app/_util/getImage';
+import image from '/public/image/reviewImg/reviewImg1.jpg';
+import { useRef } from 'react';
 
-const ReactQuill = dynamic(() => import('react-quill-new'), {
-  ssr: false,
-});
+const ReactQuill = dynamic(
+  async () => {
+    const { default: RQ } = await import('react-quill-new');
+
+    const Component = ({ forwardedRef, ...props }) => (
+      <RQ ref={forwardedRef} {...props} />
+    );
+
+    Component.displayName = 'ReactQuill';
+    return Component;
+  },
+  {
+    ssr: false,
+  }
+);
+
+ReactQuill.displayName = 'ReactQuillComponent';
 
 export default function TextEditor() {
   const [editorContent, setEditorContent] = useState('');
   const [isThumbnail, setIsThumbnail] = useState(false);
+  const quillRef = useRef(null);
+
+  const handleImageAddition = useCallback(async () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.click();
+
+    input.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const imageUrl = await getImage(file);
+        if (imageUrl) {
+          const quill = quillRef.current.getEditor();
+          const range = quill.getSelection();
+          quill.insertEmbed(range.index, 'image', imageUrl);
+        }
+      }
+    };
+  }, []);
 
   const modules = useMemo(
     () => ({
@@ -29,9 +64,10 @@ export default function TextEditor() {
           ['image'],
           ['link'],
         ],
+        handlers: { image: handleImageAddition },
       },
     }),
-    []
+    [handleImageAddition]
   );
 
   const formats = [
@@ -52,7 +88,7 @@ export default function TextEditor() {
   return (
     <>
       <ReactQuill
-        className="quill-container"
+        forwardedRef={quillRef}
         onChange={setEditorContent}
         theme="snow"
         modules={modules}
