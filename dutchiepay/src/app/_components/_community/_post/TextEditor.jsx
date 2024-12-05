@@ -2,9 +2,8 @@
 
 import 'react-quill-new/dist/quill.snow.css';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
-import Image from 'next/image';
 import UploadedImages from './UploadedImages';
 import dynamic from 'next/dynamic';
 import getImage from '@/app/_util/getImage';
@@ -30,8 +29,26 @@ ReactQuill.displayName = 'ReactQuillComponent';
 
 export default function TextEditor({ setEditorContent }) {
   const [images, setImages] = useState([]);
-  const [isThumbnail, setIsThumbnail] = useState(false);
+  const [thumbnail, setThumbnail] = useState('');
   const quillRef = useRef(null);
+
+  const handleContentChange = (value) => {
+    setEditorContent(value);
+
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = value;
+    const imageList = Array.from(tempDiv.querySelectorAll('img')).map(
+      (img) => img.src
+    );
+
+    setImages((prevImages) => {
+      if (prevImages.length === 0 && imageList.length > 0) {
+        // 최초 업로드일 경우에만 썸네일로 등록함
+        setThumbnail(imageList[0]);
+      }
+      return imageList;
+    });
+  };
 
   const handleImageAddition = useCallback(async () => {
     const input = document.createElement('input');
@@ -47,7 +64,6 @@ export default function TextEditor({ setEditorContent }) {
           const quill = quillRef.current.getEditor();
           const range = quill.getSelection();
           quill.insertEmbed(range.index, 'image', imageUrl);
-          setImages((prevImages) => [...prevImages, imageUrl]);
         }
       }
     };
@@ -90,12 +106,18 @@ export default function TextEditor({ setEditorContent }) {
     <>
       <ReactQuill
         forwardedRef={quillRef}
-        onChange={setEditorContent}
+        onChange={handleContentChange}
         theme="snow"
         modules={modules}
         formats={formats}
       />
-      <UploadedImages isThumbnail={isThumbnail} images={images} />
+      <UploadedImages
+        quillRef={quillRef}
+        thumbnail={thumbnail}
+        setThumbnail={setThumbnail}
+        images={images}
+        setImages={setImages}
+      />
     </>
   );
 }
