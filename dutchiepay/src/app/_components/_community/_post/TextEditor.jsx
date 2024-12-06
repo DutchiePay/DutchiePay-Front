@@ -2,7 +2,7 @@
 
 import 'react-quill-new/dist/quill.snow.css';
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import UploadedImages from './UploadedImages';
 import dynamic from 'next/dynamic';
@@ -32,24 +32,6 @@ export default function TextEditor({ setEditorContent }) {
   const [thumbnail, setThumbnail] = useState('');
   const quillRef = useRef(null);
 
-  const handleContentChange = (value) => {
-    setEditorContent(value);
-
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = value;
-    const imageList = Array.from(tempDiv.querySelectorAll('img')).map(
-      (img) => img.src
-    );
-
-    setImages(() => {
-      // 최초 이미지 업로드 또는 썸네일을 삭제한 경우
-      if (!thumbnail || !imageList.includes(thumbnail)) {
-        setThumbnail(imageList[0]);
-      }
-      return imageList;
-    });
-  };
-
   const getImageCount = () => {
     const editor = quillRef.current?.getEditor();
     const editorContainer = editor?.root;
@@ -57,11 +39,36 @@ export default function TextEditor({ setEditorContent }) {
     return images ? images.length : 0;
   };
 
-  const handleImageAddition = useCallback(async () => {
-    const imageCount = getImageCount();
+  const handleContentChange = (value) => {
+    if (getImageCount() >= 10) {
+      alert('이미지 업로드는 최대 10장만 가능합니다.');
+      return;
+    }
 
-    if (imageCount >= 10) {
-      alert('이미지는 최대 10장까지 업로드할 수 있습니다.');
+    setEditorContent(value);
+
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = value;
+    const imagesInEditor = Array.from(tempDiv.querySelectorAll('img')).map(
+      (img) => img.src
+    );
+
+    setImages((prevImages) => {
+      // images 배열에 존재하는 이미지들만 남기고, 없는 이미지는 제거 => 삭제된 이미지를 images에서 제거
+      const updatedImages = prevImages.filter((image) =>
+        imagesInEditor.includes(image)
+      );
+      if (!imagesInEditor.includes(thumbnail) && updatedImages.length > 0) {
+        setThumbnail(updatedImages[0]);
+      }
+
+      return updatedImages;
+    });
+  };
+
+  const handleImageAddition = useCallback(async () => {
+    if (getImageCount() >= 10) {
+      alert('이미지 업로드는 최대 10장만 가능합니다.');
       return;
     }
 
@@ -78,44 +85,17 @@ export default function TextEditor({ setEditorContent }) {
           const quill = quillRef.current.getEditor();
           const range = quill.getSelection();
           quill.insertEmbed(range.index, 'image', imageUrl);
+          setImages((prevImages) => [...prevImages, imageUrl]);
         }
       }
     };
   }, []);
 
-  const handlePaste = useCallback((e) => {
-    console.log('실행');
-    const quill = quillRef.current.getEditor();
-    const imageCount = getImageCount();
-    console.log(imageCount);
-
-    // 이미지 개수가 10개 이상이면 붙여넣기를 막음
-    if (imageCount >= 10) {
-      alert('이미지는 최대 10장까지 업로드할 수 있습니다.');
-      e.preventDefault();
-      return;
+  useEffect(() => {
+    if (images.length > 0 && !thumbnail) {
+      setThumbnail(images[0]);
     }
-
-    // 기본 붙여넣기 처리
-    const clipboardData = e.clipboardData || window.clipboardData;
-    const items = clipboardData.items;
-    if (items) {
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        if (item.type.indexOf('image') !== -1) {
-          const blob = item.getAsFile();
-          const reader = new FileReader();
-          reader.onload = () => {
-            const imageUrl = reader.result;
-            const range = quill.getSelection();
-            quill.insertEmbed(range.index, 'image', imageUrl);
-          };
-          reader.readAsDataURL(blob);
-          e.preventDefault();
-        }
-      }
-    }
-  }, []);
+  }, [images, thumbnail]);
 
   const modules = useMemo(
     () => ({
@@ -161,7 +141,6 @@ export default function TextEditor({ setEditorContent }) {
       <ReactQuill
         forwardedRef={quillRef}
         onChange={handleContentChange}
-        onPaste={handlePaste}
         theme="snow"
         modules={modules}
         formats={formats}

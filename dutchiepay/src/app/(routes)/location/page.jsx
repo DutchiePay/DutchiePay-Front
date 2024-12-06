@@ -2,75 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import CryptoJS from 'crypto-js';
 import Script from 'next/script';
-import axios from 'axios';
 
 export default function Location_Modal({ onLocationUpdate }) {
   const markerRef = useRef(null);
   const [location, setLocation] = useState({ lat: 37.5665, lng: 126.978 });
   const [locationDescription, setLocationDescription] = useState('');
-  const [clientIp, setClientIp] = useState('');
-
-  const generateSignature = (method, url, timestamp, accessKey, secretKey) => {
-    const message = [method, url, '\n', timestamp, '\n', accessKey].join('');
-    const hmac = CryptoJS.HmacSHA256(message, secretKey);
-    return CryptoJS.enc.Base64.stringify(hmac);
-  };
-
-  const fetchClientIp = async () => {
-    try {
-      const response = await axios.get('https://api.ipify.org?format=json');
-      setClientIp(response.data.ip);
-    } catch {
-      alert('오류가 발생했습니다. 다시 시도해주세요.');
-    }
-  };
-
-  const getCurrentLocationFromIP = useCallback(async () => {
-    const method = 'GET';
-    const url = `/geolocation/v2/geoLocation?ip=${clientIp}&ext=t&enc=utf8&responseFormatType=json`;
-    const timestamp = String(Date.now());
-    const accessKey = process.env.NEXT_PUBLIC_NCP_ACCESS_KEY;
-    const secretKey = process.env.NEXT_PUBLIC_NCP_SECRET_KEY;
-
-    const signature = generateSignature(
-      method,
-      url,
-      timestamp,
-      accessKey,
-      secretKey
-    );
-
-    if (!signature) {
-      alert('오류가 발생했습니다. 다시 시도해주세요.');
-      return;
-    }
-
-    try {
-      const response = await axios.get(
-        `https://geolocation.apigw.ntruss.com${url}`,
-        {
-          headers: {
-            'x-ncp-apigw-timestamp': timestamp,
-            'x-ncp-iam-access-key': accessKey,
-            'x-ncp-apigw-signature-v2': signature,
-          },
-        }
-      );
-
-      const data = response.data;
-
-      if (data.returnCode === '0') {
-        const { lat, long } = data.geoLocation;
-        setLocation({ lat, lng: long });
-      } else {
-        alert('위치 정보를 불러올 수 없습니다.');
-      }
-    } catch {
-      alert('오류가 발생했습니다. 다시 시도해주세요.');
-    }
-  }, [clientIp]);
 
   const initializeMap = useCallback(() => {
     if (window.naver && window.naver.maps) {
@@ -107,15 +44,18 @@ export default function Location_Modal({ onLocationUpdate }) {
     }
   }, [location]);
 
-  useEffect(() => {
-    fetchClientIp();
-  }, []);
+  const getCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        setLocation({ lat: latitude, lng: longitude });
+      });
+    }
+  };
 
   useEffect(() => {
-    if (clientIp) {
-      getCurrentLocationFromIP();
-    }
-  }, [clientIp, getCurrentLocationFromIP]);
+    getCurrentLocation();
+  }, []);
 
   useEffect(() => {
     initializeMap();
@@ -129,26 +69,22 @@ export default function Location_Modal({ onLocationUpdate }) {
   return (
     <article className="max-w-[600px] p-[32px] overflow-x-hidden border b-black m-0 m-auto">
       <h1 className="text-3xl font-bold">거래 진행 위치 설정</h1>
-      <p className="text-xs font-bold mt-[8px]">
-        거래를 원하는 위치로 마커를 이동시켜주세요. 위치 설정 후에 게시글을
-        작성하실 수 있습니다.
+      <p className="text-xs mt-[4px]">
+        거래를 원하는 위치를 클릭하시면 마크가 이동합니다.
       </p>
-      <p className="text-xs text-gray--500 mt-[16px]">
+      <p className="text-xs text-gray--500 mt-[12px]">
         ※ 추천 거래 진행 위치
         <br />
-        마트의 경우 - 구매를 진행할 마트 위치나 구매한 상품을 분배하는 특정 장소
-        등<br />
-        배달의 경우 - 배달 시킨 음식을 나눌 장소 등<br />
-        나눔/배달의 경우 - 거래를 진행할 장소
+        마트의 경우 - 구매를 진행할 마트 위치 등<br />
+        배달의 경우 - 배달 시킨 음식을 나눌 장소, 배달 시킬 장소 등<br />
       </p>
 
-      <section className="mt-[40px]">
+      <section className="mt-[24px]">
         <form onSubmit={handleSubmit}>
           <div>
             <div
-              className="border border-gray--200"
+              className="border border-gray--200 w-full h-[300px]"
               id="map"
-              style={{ width: '100%', height: '300px' }}
             ></div>
             <Script
               src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_CLIENT_ID}`}
