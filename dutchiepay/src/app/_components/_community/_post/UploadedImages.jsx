@@ -13,13 +13,14 @@ export default function UploadedImages({
   };
 
   const handleImageDelete = (img) => {
-    if (img === thumbnail) {
-      alert(
-        '대표 이미지로 설정된 사진은 제거할 수 없습니다.\n삭제를 원할 경우 대표 이미지를 다른 이미지로 변경해주세요.'
-      );
-      return;
-    }
-    setImages((prevImages) => prevImages.filter((image) => image !== img));
+    setImages((prevImages) => {
+      const updatedImages = prevImages.filter((image) => image !== img);
+      // 썸네일이 삭제된 경우
+      if (img === thumbnail) {
+        setThumbnail(updatedImages[0] || '');
+      }
+      return updatedImages;
+    });
 
     const quill = quillRef.current.getEditor();
     const delta = quill.getContents();

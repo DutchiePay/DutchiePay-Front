@@ -41,16 +41,30 @@ export default function TextEditor({ setEditorContent }) {
       (img) => img.src
     );
 
-    setImages((prevImages) => {
-      if (prevImages.length === 0 && imageList.length > 0) {
-        // 최초 업로드일 경우에만 썸네일로 등록함
+    setImages(() => {
+      // 최초 이미지 업로드 또는 썸네일을 삭제한 경우
+      if (!thumbnail || !imageList.includes(thumbnail)) {
         setThumbnail(imageList[0]);
       }
       return imageList;
     });
   };
 
+  const getImageCount = () => {
+    const editor = quillRef.current?.getEditor();
+    const editorContainer = editor?.root;
+    const images = editorContainer?.querySelectorAll('img');
+    return images ? images.length : 0;
+  };
+
   const handleImageAddition = useCallback(async () => {
+    const imageCount = getImageCount();
+
+    if (imageCount >= 10) {
+      alert('이미지는 최대 10장까지 업로드할 수 있습니다.');
+      return;
+    }
+
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
@@ -69,8 +83,45 @@ export default function TextEditor({ setEditorContent }) {
     };
   }, []);
 
+  const handlePaste = useCallback((e) => {
+    console.log('실행');
+    const quill = quillRef.current.getEditor();
+    const imageCount = getImageCount();
+    console.log(imageCount);
+
+    // 이미지 개수가 10개 이상이면 붙여넣기를 막음
+    if (imageCount >= 10) {
+      alert('이미지는 최대 10장까지 업로드할 수 있습니다.');
+      e.preventDefault();
+      return;
+    }
+
+    // 기본 붙여넣기 처리
+    const clipboardData = e.clipboardData || window.clipboardData;
+    const items = clipboardData.items;
+    if (items) {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (item.type.indexOf('image') !== -1) {
+          const blob = item.getAsFile();
+          const reader = new FileReader();
+          reader.onload = () => {
+            const imageUrl = reader.result;
+            const range = quill.getSelection();
+            quill.insertEmbed(range.index, 'image', imageUrl);
+          };
+          reader.readAsDataURL(blob);
+          e.preventDefault();
+        }
+      }
+    }
+  }, []);
+
   const modules = useMemo(
     () => ({
+      clipboard: {
+        matchVisual: false,
+      },
       toolbar: {
         container: [
           [{ header: [1, 2, 3, 4, 5, false] }],
@@ -82,6 +133,9 @@ export default function TextEditor({ setEditorContent }) {
           ['link'],
         ],
         handlers: { image: handleImageAddition },
+      },
+      ImageResize: {
+        modules: ['Resize', 'DisplaySize', 'Toolbar'],
       },
     }),
     [handleImageAddition]
@@ -107,6 +161,7 @@ export default function TextEditor({ setEditorContent }) {
       <ReactQuill
         forwardedRef={quillRef}
         onChange={handleContentChange}
+        onPaste={handlePaste}
         theme="snow"
         modules={modules}
         formats={formats}
