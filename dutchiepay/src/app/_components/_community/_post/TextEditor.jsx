@@ -138,6 +138,14 @@ export default function TextEditor({ setEditorContent }) {
 
   return (
     <>
+      <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
+        <label className="community__label" htmlFor="content">
+          내용
+        </label>
+        <small className="community__label-description">
+          최대 3,000글자까지 입력 가능합니다.
+        </small>
+      </div>
       <ReactQuill
         forwardedRef={quillRef}
         onChange={handleContentChange}

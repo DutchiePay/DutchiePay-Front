@@ -57,17 +57,8 @@ export default function MartWrite() {
           <DateInput register={register} setValue={setValue} />
           <MettingPlaceInput />
           <HeadCount register={register} setValue={setValue} watch={watch} />
-          <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
-            <label className="font-bold text-lg" htmlFor="content">
-              내용
-            </label>
-            <small className="text-sm text-gray--500">
-              추가적인 설명이 필요하신 경우 작성해주세요. 최대 3,000글자까지
-              입력 가능합니다.
-            </small>
-          </div>
           <TextEditor setEditorContent={setEditorContent} />
-          <PostWritingAction />
+          <PostWritingAction menu={'mart'} />
         </form>
       )}
     </section>

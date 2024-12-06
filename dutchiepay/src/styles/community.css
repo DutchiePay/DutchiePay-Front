@@ -88,15 +88,3 @@
 .community__comment__textarea::placeholder {
   font-size: 14px;
 }
-
-.ql-toolbar.ql-snow {
-  position: sticky !important;
-  top: 0 !important;
-  background: white !important;
-  z-index: 10 !important;
-}
-
-.ql-editor {
-  padding-top: 50px;
-  height: 450px !important;
-}
