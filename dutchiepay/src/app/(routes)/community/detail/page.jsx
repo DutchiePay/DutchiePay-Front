@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import PostContent from '@/app/_components/_community/PostContent';
+import PostContent from '@/app/_components/_community/_post/PostContent';
 import Post_Hot from '@/app/_components/_community/Post_Hot';
 import Post_Similar from '@/app/_components/_community/Post_Similar';
 import { useSearchParams } from 'next/navigation';
