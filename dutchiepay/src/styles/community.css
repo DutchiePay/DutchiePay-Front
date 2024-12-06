@@ -61,11 +61,6 @@
   font-size: 14px;
 }
 
-.quill-container {
-  height: 450px;
-  overflow: hidden;
-}
-
 .community__button-number {
   width: 25px;
   height: 25px;
@@ -92,4 +87,16 @@
 
 .community__comment__textarea::placeholder {
   font-size: 14px;
+}
+
+.ql-toolbar.ql-snow {
+  position: sticky !important;
+  top: 0 !important;
+  background: white !important;
+  z-index: 10 !important;
+}
+
+.ql-editor {
+  padding-top: 50px;
+  height: 450px !important;
 }
