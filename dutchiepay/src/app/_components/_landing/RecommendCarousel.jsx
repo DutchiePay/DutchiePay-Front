@@ -85,7 +85,7 @@ const RecommendCarousel = ({ recommendProduct }) => {
           handleSlideChange={handleSlideChange}
         />
       </div>
-      <div className="flex items-center relative main__recommendCarousel">
+      <div className="flex items-center relative ">
         <ArrowButton direction="prev" onClick={handlePrevClick} />
         <Slider className="w-[1020px] mx-auto " ref={sliderRef} {...settings}>
           {recommendProduct.map((item, key) => {
