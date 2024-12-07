@@ -114,9 +114,6 @@ export default function TextEditor({ setEditorContent }) {
         ],
         handlers: { image: handleImageAddition },
       },
-      ImageResize: {
-        modules: ['Resize', 'DisplaySize', 'Toolbar'],
-      },
     }),
     [handleImageAddition]
   );
