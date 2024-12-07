@@ -4,7 +4,7 @@ import '@/styles/community.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import Location_Modal from '@/app/(routes)/location/page';
+import Location_Modal from '@/app/_components/_community/_post/LocationModal';
 import TextEditor from '@/app/_components/_community/_post/TextEditor';
 import { useState } from 'react';
 
