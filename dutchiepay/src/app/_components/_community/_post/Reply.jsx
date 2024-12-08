@@ -1,3 +1,7 @@
+'use client';
+
+import '@/styles/globals.css';
+
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
@@ -5,13 +9,14 @@ import profile from '/public/image/profile.jpg';
 import reply from '/public/image/community/reply.svg';
 import axios from 'axios';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import PostCommentAction from './PostCommentAction';
 
 export default function Reply() {
   const [isReplyActive, setIsReplyActive] = useState(false); // 답글 활성화
   const [isModified, setIsModified] = useState(false); // 댓글 수정 여부
   const [commenterName, setCommenterName] = useState('한유진'); // 댓글 단 사람 이름
   const { refreshAccessToken } = useReissueToken();
-  const { watch, setValue, handleSubmit } = useForm({
+  const { register, watch, setValue, handleSubmit } = useForm({
     mode: 'onTouched',
     criteriaMode: 'all',
     reValidateMode: 'onblur',
@@ -43,8 +48,10 @@ export default function Reply() {
         <div className="w-full">
           <div className="w-full px-[12px] py-[4px] flex justify-between items-center">
             <div className="flex gap-[8px] items-center">
-              <strong className="text-sm text-blue-500">{commenterName}</strong>
-              <p className="text-xs text-gray-500">
+              <strong className="text-sm text-blue--500">
+                {commenterName}
+              </strong>
+              <p className="text-xs text-gray--500">
                 2024. 08. 02. 20:26{isModified && ' (수정됨)'}
               </p>
             </div>
@@ -76,45 +83,29 @@ export default function Reply() {
             width={50}
             height={50}
           />
-          <div className="w-[500px] ml-[4px] community__comment__textarea border ">
+          <div className="w-[500px] ml-1 border border-gray--300 rounded-lg p-3 text-sm">
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-              <span className="text-blue-500 font-bold mr-[5px] bg-gray-100 p-1">
+              <span className="text-blue--500 font-bold mr-[5px] bg-gray--100 p-1">
                 @{commenterName}
               </span>
-
-              <span
-                className="reply-input p-2 focus:outline-none"
-                contentEditable={true}
+              <textarea
+                id="comment"
+                {...register('comment')}
+                className="w-full resize-none outline-none text-sm p-2 min-h-[100px]"
+                placeholder="답글을 입력해주세요."
+                spellCheck="false"
+                maxLength={800}
                 onInput={(e) => {
-                  const text = e.target.innerText;
+                  const text = e.target.value;
                   if (text.length > 800) {
-                    e.target.innerText = text.substring(0, 800);
-                    const range = document.createRange();
-                    const sel = window.getSelection();
-                    range.selectNodeContents(e.target);
-                    range.collapse(false);
-                    sel.removeAllRanges();
-                    sel.addRange(range);
+                    e.target.value = text.substring(0, 800);
+                    setValue('comment', e.target.value);
                   } else {
                     setValue('comment', text);
                   }
                 }}
               />
-
-              <div className="flex justify-end items-center mt-2">
-                <span className="text-xs text-gray-500">{`${comment.length}/800`}</span>
-                <button
-                  type="submit"
-                  disabled={comment.length === 0}
-                  className={`px-4 py-2 text-sm font-sm text-white rounded-lg ml-2 ${
-                    comment.length > 0
-                      ? 'bg-blue-500 hover:bg-blue-600'
-                      : 'bg-gray-300 cursor-not-allowed'
-                  }`}
-                >
-                  등록
-                </button>
-              </div>
+              <PostCommentAction comment={comment} />
             </form>
           </div>
         </div>

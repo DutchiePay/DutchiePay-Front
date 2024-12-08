@@ -1,6 +1,5 @@
 'use client';
 
-import '@/styles/community.css';
 import '@/styles/globals.css';
 
 import Comment from '@/app/_components/_community/_post/Comment';
@@ -9,6 +8,7 @@ import profile from '/public/image/profile.jpg';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import PostCommentAction from './PostCommentAction';
 const CommentForm = () => {
   const { refreshAccessToken } = useReissueToken();
   const { register, watch, handleSubmit, setValue } = useForm({
@@ -60,25 +60,21 @@ const CommentForm = () => {
             <textarea
               id="comment"
               {...register('comment')}
-              className="w-full resize-none outline-none text-sm p-2 min-h-[80px]"
+              className="w-full resize-none outline-none text-sm p-2 min-h-[100px]"
               placeholder="댓글을 입력해주세요."
               spellCheck="false"
-              maxLength="800"
+              maxLength={800}
+              onInput={(e) => {
+                const text = e.target.value;
+                if (text.length > 800) {
+                  e.target.value = text.substring(0, 800);
+                  setValue('comment', e.target.value);
+                } else {
+                  setValue('comment', text);
+                }
+              }}
             />
-            <div className="flex justify-end items-center mt-2">
-              <span className="text-xs text-gray--500">{`${comment.length}/800`}</span>
-              <button
-                type="submit"
-                disabled={comment.length === 0}
-                className={`px-4 py-2 text-sm font-sm text-white rounded-lg ml-2 ${
-                  comment.length > 0
-                    ? 'bg-blue--500 hover:bg-blue--600'
-                    : 'bg-gray--300 cursor-not-allowed'
-                }`}
-              >
-                등록
-              </button>
-            </div>
+            <PostCommentAction comment={comment} />
           </div>
         </form>
       </div>
