@@ -64,7 +64,7 @@ export default function MartWrite() {
           </small>
         </div>
         <TextEditor setEditorContent={setEditorContent} />
-        <PostWritingAction />
+        <PostWritingAction menu={'mart'} />
       </form>
       {isModalOpen && (
         <Location_Modal

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export default function PostWritingAction() {
+export default function PostWritingAction({ menu }) {
   return (
     <div className="flex justify-center gap-[16px] mt-[48px]">
       <button
@@ -10,7 +10,7 @@ export default function PostWritingAction() {
         등록
       </button>
       <Link
-        href="/mart"
+        href={`/${menu}`}
         className="border border-blue--500 text-blue--500 text-lg font-semibold rounded-lg px-[60px] py-[6px]"
         role="button"
       >
