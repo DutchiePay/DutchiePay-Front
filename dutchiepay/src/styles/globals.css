@@ -203,6 +203,6 @@ textarea::-webkit-scrollbar {
 }
 
 textarea::-webkit-scrollbar-thumb {
-  background-color: #93a9f9; /* 스크롤바 색상 */
-  border-radius: 5px; /* 코너 라운드 */
+  background-color: #babcc2;
+  border-radius: 5px;
 }
