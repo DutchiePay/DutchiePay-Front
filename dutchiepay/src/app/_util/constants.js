@@ -103,3 +103,12 @@ export const ORDER_FILTER = {
   배송완료: 'delivered',
   전체: null,
 };
+
+export const COMMMUNITY_CATEGORIES = {
+  마트: 'mart',
+  배달: 'delivery',
+  자유: 'free',
+  질문: 'qna',
+  취미: 'hobby',
+  정보: 'info',
+};
