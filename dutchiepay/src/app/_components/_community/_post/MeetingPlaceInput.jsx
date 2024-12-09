@@ -14,6 +14,7 @@ export default function MettingPlaceInput({
         <button
           className="text-sm text-blue-500 font-bold hover:underline"
           onClick={() => setIsModalOpen(true)}
+          type="button"
         >
           거래위치변경
         </button>
