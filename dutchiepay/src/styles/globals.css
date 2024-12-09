@@ -210,3 +210,11 @@ input:-webkit-autofill:active {
     url(../../public/fonts/Pretendard-Thin.woff2) format('woff2'),
     url(../../public/fonts/Pretendard-Thin.woff) format('woff');
 }
+textarea::-webkit-scrollbar {
+  width: 7px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background-color: #babcc2;
+  border-radius: 5px;
+}

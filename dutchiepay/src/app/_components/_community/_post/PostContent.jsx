@@ -3,12 +3,12 @@
 import '@/styles/community.css';
 import '@/styles/globals.css';
 
-import Comment from '@/app/_components/_community/Comment';
 import Image from 'next/image';
 import Post_Complete from '@/app/_components/_community/Post_Complete';
-import prev from '../../../../public/image/prev.svg';
-import profile from '../../../../public/image/profile.jpg';
+import prev from '/public/image/prev.svg';
+import profile from '/public/image/profile.jpg';
 import { useRouter } from 'next/navigation';
+import CommentForm from './CommentForm';
 
 export default function PostContent({ category, menu, isMyPostWritten }) {
   const router = useRouter();
@@ -88,29 +88,7 @@ export default function PostContent({ category, menu, isMyPostWritten }) {
             </div>
           </div>
         ) : (
-          <div className="mt-[40px]">
-            <div className="flex items-center gap-[12px]">
-              <h2 className="text-xl font-bold">댓글</h2>
-              <p>2개</p>
-            </div>
-            <div className="flex gap-[12px] my-[12px]">
-              <Image
-                className="w-[50px] h-[50px] rounded-full border"
-                src={profile}
-                alt="프로필"
-                width={50}
-                height={50}
-              />
-              <textarea
-                className="w-[600px] community__comment__textarea"
-                cols="50"
-                rows="3"
-                placeholder="댓글을 입력해주세요."
-                spellCheck="false"
-              />
-            </div>
-            <Comment />
-          </div>
+          <CommentForm />
         )}
       </article>
     </section>
