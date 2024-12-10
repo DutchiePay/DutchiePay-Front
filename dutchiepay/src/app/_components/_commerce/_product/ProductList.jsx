@@ -77,7 +77,7 @@ export default function ProductList({ category, filter, isEndContain }) {
     setProducts([]);
     setCursor(null);
     setHasMore(true);
-  }, [filter, isEndContain]);
+  }, [filter, isEndContain, category]);
 
   useEffect(() => {
     const categoryParam = category ? `category=${category}&` : '';
