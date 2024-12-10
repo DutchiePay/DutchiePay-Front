@@ -1,6 +1,6 @@
 'use client';
 
-import { COMMMUNITY_CATEGORIES } from '@/app/_util/constants';
+import { ALL_COMMUNITY_CATEGORIES } from '@/app/_util/constants';
 import LocationModal from '@/app/_components/_community/_local/LocationModal';
 import MartPostForm from '@/app/_components/_community/_local/MartPostForm';
 import axios from 'axios';
@@ -58,7 +58,7 @@ export default function MartWrite() {
           content: JSON.stringify(editorContent),
           thumbnail: thumbnail,
           images: images,
-          category: COMMMUNITY_CATEGORIES[formData.category],
+          category: ALL_COMMUNITY_CATEGORIES[formData.category],
         },
         {
           headers: {
@@ -86,6 +86,7 @@ export default function MartWrite() {
           images={images}
           setImages={setImages}
           setThumbnail={setThumbnail}
+          isUpdate={false}
         />
       </form>
       {isModalOpen && (

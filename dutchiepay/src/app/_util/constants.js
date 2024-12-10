@@ -104,7 +104,7 @@ export const ORDER_FILTER = {
   전체: null,
 };
 
-export const COMMMUNITY_CATEGORIES = {
+export const ALL_COMMUNITY_CATEGORIES = {
   마트: 'mart',
   배달: 'delivery',
   자유: 'free',

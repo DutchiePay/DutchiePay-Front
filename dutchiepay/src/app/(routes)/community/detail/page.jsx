@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import PostContent from '@/app/_components/_community/PostContent';
-import Post_Hot from '@/app/_components/_community/Post_Hot';
-import Post_Similar from '@/app/_components/_community/Post_Similar';
+import Post_Hot from '@/app/_components/_community/_free/Post_Hot';
+import Post_Similar from '@/app/_components/_community/_free/Post_Similar';
 import { useSearchParams } from 'next/navigation';
 
 export default function CommunityDetail() {
