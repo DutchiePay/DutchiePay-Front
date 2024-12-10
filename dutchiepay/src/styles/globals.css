@@ -101,6 +101,18 @@ input:-webkit-autofill:active {
   margin: 0 8px;
 }
 
+.ql-toolbar.ql-snow {
+  position: sticky !important;
+  top: 0 !important;
+  background: white !important;
+  z-index: 10 !important;
+}
+
+.ql-editor {
+  padding-top: 50px;
+  height: 450px !important;
+}
+
 /* HTML: <div class="loader"></div> */
 .loader {
   width: 50px;
@@ -197,4 +209,12 @@ input:-webkit-autofill:active {
   src:
     url(../../public/fonts/Pretendard-Thin.woff2) format('woff2'),
     url(../../public/fonts/Pretendard-Thin.woff) format('woff');
+}
+textarea::-webkit-scrollbar {
+  width: 7px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background-color: #babcc2;
+  border-radius: 5px;
 }

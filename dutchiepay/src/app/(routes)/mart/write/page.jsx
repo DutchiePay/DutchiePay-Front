@@ -1,16 +1,8 @@
 'use client';
 
-import '@/styles/community.css';
-
 import { COMMMUNITY_CATEGORIES } from '@/app/_util/constants';
-import CommunityFilter from '@/app/_components/_community/_post/CommunityFilter';
-import DateInput from '@/app/_components/_community/_post/DateInput';
-import HeadCount from '@/app/_components/_community/_post/HeadCount';
-import Location_Modal from '@/app/_components/_community/_post/LocationModal';
-import MettingPlaceInput from '@/app/_components/_community/_post/MeetingPlaceInput';
-import PostWritingAction from '@/app/_components/_community/_post/PostWritingAction';
-import TextEditor from '@/app/_components/_community/_post/TextEditor';
-import TitleInput from '@/app/_components/_community/_post/TitleInput';
+import LocationModal from '@/app/_components/_community/_local/LocationModal';
+import MartPostForm from '@/app/_components/_community/_local/MartPostForm';
 import axios from 'axios';
 import getTextLength from '@/app/_util/getTextLength';
 import { useForm } from 'react-hook-form';
@@ -20,18 +12,17 @@ import { useState } from 'react';
 
 export default function MartWrite() {
   const access = useSelector((state) => state.login.access);
-  const [filter, setFilter] = useState('마트');
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [editorContent, setEditorContent] = useState('');
-  const [location, setLocation] = useState({ lat: null, lng: null });
-  const [locationDescription, setLocationDescription] = useState('');
+  const router = useRouter();
   const [images, setImages] = useState([]);
   const [thumbnail, setThumbnail] = useState('');
-  const router = useRouter();
 
   const { register, watch, handleSubmit, setValue } = useForm({
     defaultValues: {
       headCount: 2,
+      category: '마트',
+      location: { lat: null, lng: null },
     },
   });
 
@@ -61,13 +52,13 @@ export default function MartWrite() {
           title: formData.title,
           date: formData.formattedDateTime,
           maximum: formData.headCount,
-          meetingPlace: locationDescription,
-          latitude: location.lat,
-          longitude: location.lng,
+          meetingPlace: formData.locationDescription,
+          latitude: formData.location.lat,
+          longitude: formData.location.lng,
           content: JSON.stringify(editorContent),
           thumbnail: thumbnail,
           images: images,
-          category: COMMMUNITY_CATEGORIES[filter],
+          category: COMMMUNITY_CATEGORIES[formData.category],
         },
         {
           headers: {
@@ -85,43 +76,24 @@ export default function MartWrite() {
   return (
     <section className="min-h-[750px] w-[1020px] mb-[100px] mt-[40px] mx-[60px] relative">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <CommunityFilter
-          categories={['마트', '배달']}
-          filter={filter}
-          setFilter={setFilter}
-        />
-        <TitleInput register={register} />
-        <DateInput register={register} setValue={setValue} />
-        <MettingPlaceInput
+        <MartPostForm
           setIsModalOpen={setIsModalOpen}
-          locationDescription={locationDescription}
-        />
-        <HeadCount register={register} setValue={setValue} watch={watch} />
-        <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
-          <label className="font-bold text-lg" htmlFor="content">
-            내용
-          </label>
-          <small className="text-sm text-gray--500">
-            추가적인 설명이 필요하신 경우 작성해주세요. 최대 3,000글자까지 입력
-            가능합니다.
-          </small>
-        </div>
-        <TextEditor
+          register={register}
+          setValue={setValue}
+          watch={watch}
           setEditorContent={setEditorContent}
           thumbnail={thumbnail}
           images={images}
-          setThumbnail={setThumbnail}
           setImages={setImages}
+          setThumbnail={setThumbnail}
         />
-        <PostWritingAction />
       </form>
       {isModalOpen && (
-        <Location_Modal
+        <LocationModal
           setIsModalOpen={setIsModalOpen}
-          locationDescription={locationDescription}
-          setLocationDescription={setLocationDescription}
-          setLocation={setLocation}
-          location={location}
+          register={register}
+          setValue={setValue}
+          watch={watch}
         />
       )}
     </section>

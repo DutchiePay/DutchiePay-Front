@@ -1,7 +1,5 @@
-export default function MettingPlaceInput({
-  locationDescription,
-  setIsModalOpen,
-}) {
+export default function MettingPlaceInput({ setIsModalOpen, watch }) {
+  const locationDescription = watch('locationDescription');
   return (
     <>
       <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
