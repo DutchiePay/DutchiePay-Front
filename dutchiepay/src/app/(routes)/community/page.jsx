@@ -3,7 +3,7 @@
 import '@/styles/community.css';
 import '@/styles/globals.css';
 
-import Post_Community from '@/app/_components/_community/Post_Community';
+import CommunityPostList from '@/app/_components/_community/CommunityPostList';
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import FreeCommunityFilter from '@/app/_components/_community/_free/FreeCommunityFilter';
@@ -27,13 +27,12 @@ export default function Community() {
           </Link>
         </div>
       </div>
-      <section className="mt-[16px] flex flex-wrap gap-[20px] ">
-        <Post_Community
-          filter={filter}
-          setFilter={setFilter}
-          category={category}
-        />
-      </section>
+
+      <CommunityPostList
+        filter={filter}
+        setFilter={setFilter}
+        category={category}
+      />
     </section>
   );
 }

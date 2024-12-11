@@ -1,4 +1,3 @@
-'use client';
 import '@/styles/community.css';
 import '@/styles/globals.css';
 
@@ -6,21 +5,20 @@ import Image from 'next/image';
 import Link from 'next/link';
 import post from '/public/image/community/post.svg';
 
-import { COMMUNITY_FILTER } from '@/app/_util/constants';
-import FreePostItem from '@/app/_components/_community/_free/FreePostItem';
 import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
+import MartPostItem from './MartPostItem';
 
-export default function Post_Community({ category, filter }) {
+export default function MartPostList({ category }) {
   const categoryParam = category ? `category=${category}&` : '';
-  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/free/list`;
+  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/mart/list`;
   const {
     items: posts,
     isInitialized,
     lastItemRef,
-  } = useInfiniteScroll(fetchUrl, categoryParam, COMMUNITY_FILTER[filter]);
+  } = useInfiniteScroll(fetchUrl, categoryParam);
 
   return (
-    <>
+    <section className="mt-[16px] flex flex-wrap gap-[20px]">
       {!isInitialized || posts.length === 0 ? (
         <div className="mx-auto my-auto  flex flex-col justify-center items-center">
           <Image
@@ -35,9 +33,8 @@ export default function Post_Community({ category, filter }) {
             <br />
             새로운 게시글을 작성하여 다양한 의견과 정보를 공유해 주세요.
           </strong>
-
           <Link
-            href="/community/write"
+            href="/mart/write"
             className="text-white rounded bg-blue--500 px-[40px] py-[14px] text-sm"
             role="button"
           >
@@ -48,12 +45,12 @@ export default function Post_Community({ category, filter }) {
         <>
           <div className="grid grid-cols-4 gap-8">
             {posts.map((item, key) => (
-              <FreePostItem key={key} item={item} />
+              <MartPostItem key={key} item={item} />
             ))}
             <div ref={lastItemRef}></div>
           </div>
         </>
       )}
-    </>
+    </section>
   );
 }

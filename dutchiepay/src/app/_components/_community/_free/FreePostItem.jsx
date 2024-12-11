@@ -4,7 +4,6 @@ import '@/styles/globals.css';
 import '@/styles/community.css';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
 import community from '/public/image/community.jpg';
 import comment from '/public/image/comment.svg';
 

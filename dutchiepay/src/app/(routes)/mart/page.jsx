@@ -4,7 +4,7 @@ import '@/styles/community.css';
 import '@/styles/globals.css';
 
 import Link from 'next/link';
-import Post_Mart from '@/app/_components/_community/Post_Mart';
+import MartPostList from '@/app/_components/_community/_local/MartPostList';
 import { useSearchParams } from 'next/navigation';
 
 export default function Mart() {
@@ -21,9 +21,7 @@ export default function Mart() {
           게시글 작성
         </Link>
       </div>
-      <section className="mt-[16px] flex flex-wrap gap-[20px]">
-        <Post_Mart category={category} />
-      </section>
+      <MartPostList category={category} />
     </main>
   );
 }
