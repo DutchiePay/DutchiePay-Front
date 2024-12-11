@@ -54,7 +54,6 @@ export default function CommunityWrite() {
 
       router.push(`/community/${response.data.freeId}`);
     } catch (error) {
-      console.log(error);
       alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
@@ -66,6 +65,7 @@ export default function CommunityWrite() {
           register={register}
           setValue={setValue}
           watch={watch}
+          editorContent={editorContent}
           setEditorContent={setEditorContent}
           setThumbnail={setThumbnail}
           thumbnail={thumbnail}

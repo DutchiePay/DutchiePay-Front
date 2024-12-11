@@ -5,9 +5,11 @@ import '@/styles/globals.css';
 
 import Link from 'next/link';
 import Post_Community from '@/app/_components/_community/Post_Community';
+import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
 export default function Community() {
+  const access = useSelector((state) => state.login.access);
   const [filter, setFilter] = useState('최신순');
 
   return (
@@ -35,7 +37,7 @@ export default function Community() {
             </li>
           </ul>
           <Link
-            href="/community/write"
+            href={`${access ? '/mart/write' : '/login'}`}
             className="text-white rounded bg-blue--500 px-[16px] py-[8px] text-sm"
             role="button"
           >
