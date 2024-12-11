@@ -52,7 +52,7 @@ export default function CommunityWrite() {
         }
       );
 
-      router.push(`/mart/${response.data.freeId}`);
+      router.push(`/community/${response.data.freeId}`);
     } catch (error) {
       console.log(error);
       alert('오류가 발생했습니다. 다시 시도해주세요.');

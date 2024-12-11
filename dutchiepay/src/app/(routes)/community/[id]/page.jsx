@@ -1,23 +1,53 @@
 'use client';
 
-import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { useParams, useRouter } from 'next/navigation';
+
 import PostContent from '@/app/_components/_community/PostContent';
 import Post_Hot from '@/app/_components/_community/_free/Post_Hot';
 import Post_Similar from '@/app/_components/_community/_free/Post_Similar';
-import { useSearchParams } from 'next/navigation';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function CommunityDetail() {
-  const searchParams = useSearchParams();
-  const postId = searchParams.get('postId');
+  const { id } = useParams();
+  const access = useSelector((state) => state.login.access);
+  const [post, setPost] = useState(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchCommunityDetail = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/free?freeId=${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${access}`,
+            },
+          }
+        );
+        setPost(response.data);
+      } catch (error) {
+        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+          //
+        } else if (
+          error.response.data.message === '자유 게시글을 찾을 수 없습니다.'
+        ) {
+          alert('존재하지 않는 게시글 입니다.');
+          router.push('/community');
+        } else {
+          alert('오류가 발생했습니다. 다시 시도해주세요.');
+        }
+      }
+    };
+
+    fetchCommunityDetail();
+  }, [id, access, router]);
 
   return (
     <section className="min-h-[750px] w-[1020px]">
       <div className="flex justify-between">
-        <PostContent
-          category={'정보'}
-          menu={'커뮤니티'}
-          isMyPostWritten={true}
-        />
+        {post && <PostContent menu={'community'} post={post} postId={id} />}
 
         <section className="w-[290px] h-[750px] sticky top-[150px] pl-[24px] py-[40px] flex flex-col gap-[40px]">
           <article>

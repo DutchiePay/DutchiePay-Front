@@ -2,7 +2,7 @@
 
 import '@/styles/globals.css';
 
-import Comment from '@/app/_components/_community/_local/Comment';
+import Comment from '@/app/_components/_community/_free/Comment';
 import Image from 'next/image';
 import PostCommentAction from './PostCommentAction';
 import axios from 'axios';

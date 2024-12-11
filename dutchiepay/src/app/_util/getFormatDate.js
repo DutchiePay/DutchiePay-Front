@@ -41,4 +41,25 @@ const calculateTimeUnits = (distance) => {
   };
 };
 
-export { getFormatDate, getRemainingTime };
+const getPostDate = (dateString) => {
+  const date = new Date(dateString);
+
+  const options = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  };
+
+  const formatter = new Intl.DateTimeFormat('ko-KR', options);
+  const formattedDate = formatter.format(date);
+
+  const [year, month, day, hour, minute] = formattedDate.split(/[^0-9]+/);
+  const ampm = date.getHours() >= 12 ? '오후' : '오전';
+
+  return `${year}년 ${month}월 ${day}일 ${ampm} ${hour}:${minute}`;
+};
+
+export { getFormatDate, getRemainingTime, getPostDate };
