@@ -19,7 +19,7 @@ export default function FreePostItem({ item }) {
         <div className="rounded-t-xl h-[160px] overflow-hidden relative object-cover">
           <Image
             className="rounded-t-xl w-[240px] h-[160px] transform transition-transform duration-300 hover:scale-110"
-            src={community}
+            src={item.thumbnail || community}
             alt="썸네일"
             fill
           />

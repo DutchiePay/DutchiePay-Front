@@ -6,7 +6,7 @@ import Link from 'next/link';
 import post from '/public/image/community/post.svg';
 
 import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
-import MartPostItem from './_mart/MartPostItem';
+import MartPostItem from './_local/MartPostItem';
 
 export default function Post_Mart({ category }) {
   const categoryParam = category ? `category=${category}&` : '';
