@@ -1,4 +1,15 @@
-export default function CommunityFilter({ categories, filter, setFilter }) {
+export default function CommunityFilter({
+  categories,
+  setValue,
+  register,
+  watch,
+}) {
+  const selectedCategory = watch('category');
+
+  const handleCategoryClick = (value) => {
+    setValue('category', value);
+  };
+
   return (
     <>
       <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
@@ -14,9 +25,10 @@ export default function CommunityFilter({ categories, filter, setFilter }) {
           return (
             <li key={key}>
               <button
-                className={`py-[6px] px-[16px] text-blue--500 text-sm border border-blue--500 rounded-2xl transition-all duration-300 ease-in-out ${filter === value ? 'bg-blue--500 text-white' : ''}`}
-                onClick={() => setFilter(value)}
+                className={`py-[6px] px-[16px] text-blue--500 text-sm border border-blue--500 rounded-2xl transition-all duration-300 ease-in-out ${selectedCategory === value ? 'bg-blue--500 text-white' : ''}`}
+                onClick={() => handleCategoryClick(value)}
                 type="button"
+                {...register('category')}
               >
                 {value}
               </button>

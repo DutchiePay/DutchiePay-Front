@@ -3,12 +3,12 @@
 import '@/styles/community.css';
 import '@/styles/globals.css';
 
+import CommentForm from './CommentForm';
 import Image from 'next/image';
 import Post_Complete from '@/app/_components/_community/Post_Complete';
 import prev from '/public/image/prev.svg';
 import profile from '/public/image/profile.jpg';
 import { useRouter } from 'next/navigation';
-import CommentForm from './CommentForm';
 
 export default function PostContent({ category, menu, isMyPostWritten }) {
   const router = useRouter();

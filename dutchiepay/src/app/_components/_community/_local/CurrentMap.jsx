@@ -2,8 +2,9 @@ import { useCallback, useEffect, useRef } from 'react';
 
 import Script from 'next/script';
 
-export default function CurrentMap({ location, setLocation }) {
+export default function CurrentMap({ setValue, watch }) {
   const markerRef = useRef(null);
+  const location = watch('location');
 
   const initializeMap = useCallback(() => {
     if (window.naver && window.naver.maps) {
@@ -32,22 +33,22 @@ export default function CurrentMap({ location, setLocation }) {
       window.naver.maps.Event.addListener(map, 'click', function (e) {
         const newLocation = e.coord;
         marker.setPosition(newLocation);
-        setLocation({
+        setValue('location', {
           lat: newLocation.lat(),
           lng: newLocation.lng(),
         });
       });
     }
-  }, [location, setLocation]);
+  }, [location, setValue]);
 
   const getCurrentLocation = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         const { latitude, longitude } = position.coords;
-        setLocation({ lat: latitude, lng: longitude });
+        setValue('location', { lat: latitude, lng: longitude });
       });
     }
-  }, [setLocation]);
+  }, [setValue]);
 
   useEffect(() => {
     if (!location.lat && !location.lng) getCurrentLocation();

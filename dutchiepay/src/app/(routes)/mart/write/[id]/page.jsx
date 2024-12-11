@@ -6,22 +6,23 @@ import MartPostForm from '@/app/_components/_community/_local/MartPostForm';
 import axios from 'axios';
 import getTextLength from '@/app/_util/getTextLength';
 import { useForm } from 'react-hook-form';
+import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
-export default function MartWrite() {
+export default function MartModify() {
+  const { id } = useParams();
   const access = useSelector((state) => state.login.access);
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [editorContent, setEditorContent] = useState('');
   const router = useRouter();
   const [images, setImages] = useState([]);
   const [thumbnail, setThumbnail] = useState('');
 
+  // 수정 페이지 내에서 데이터 호출 시 setValue 처리 필요
   const { register, watch, handleSubmit, setValue } = useForm({
     defaultValues: {
-      headCount: 2,
-      category: '마트',
       location: { lat: null, lng: null },
     },
   });
@@ -46,12 +47,12 @@ export default function MartWrite() {
     }
 
     try {
-      const response = await axios.post(
+      await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/mart`,
         {
+          sharedId: id,
           title: formData.title,
           date: formData.formattedDateTime,
-          maximum: formData.headCount,
           meetingPlace: formData.locationDescription,
           latitude: formData.location.lat,
           longitude: formData.location.lng,
@@ -67,7 +68,7 @@ export default function MartWrite() {
         }
       );
 
-      router.push(`/mart/${response.data.sharedId}`);
+      router.push(`/mart/${id}`);
     } catch (error) {
       alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
@@ -86,7 +87,7 @@ export default function MartWrite() {
           images={images}
           setImages={setImages}
           setThumbnail={setThumbnail}
-          isUpdate={false}
+          isUpdate={true}
         />
       </form>
       {isModalOpen && (

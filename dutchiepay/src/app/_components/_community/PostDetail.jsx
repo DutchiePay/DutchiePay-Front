@@ -4,7 +4,7 @@ import '@/styles/community.css';
 import '@/styles/globals.css';
 
 import Image from 'next/image';
-import LandingMap from '@/app/_components/_community/LandingMap';
+import LandingMap from '@/app/_components/_community/_local/LandingMap';
 import Link from 'next/link';
 import info from '../../../../public/image/info.svg';
 import selectArrow from '../../../../public/image/selectArrow.svg';
