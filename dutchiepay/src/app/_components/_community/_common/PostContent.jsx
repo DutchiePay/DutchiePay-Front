@@ -1,11 +1,11 @@
 'use client';
 
 import { ALL_COMMUNITY_CATEGORIES } from '@/app/_util/constants';
-import CommentForm from './_free/CommentForm';
-import CurrentPost from './_local/CurrentPost';
+import CommentForm from '@/app/_components/_community/_free/CommentForm';
+import CurrentPost from '@/app/_components/_community/_local/CurrentPost';
 import DOMPurify from 'dompurify';
 import Image from 'next/image';
-import PostDetailAction from './_common/PostDetailAction';
+import PostDetailAction from '@/app/_components/_community/_common/PostDetailAction';
 import { getPostDate } from '@/app/_util/getFormatDate';
 import prev from '/public/image/prev.svg';
 import { useRouter } from 'next/navigation';

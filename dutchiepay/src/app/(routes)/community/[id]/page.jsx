@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 
-import PostContent from '@/app/_components/_community/PostContent';
+import PostContent from '@/app/_components/_community/_common/PostContent';
 import Post_Hot from '@/app/_components/_community/_free/Post_Hot';
 import Post_Similar from '@/app/_components/_community/_free/Post_Similar';
 import axios from 'axios';
