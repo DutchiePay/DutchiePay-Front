@@ -3,86 +3,54 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import date from '../../../../public/image/date.svg';
-import location from '../../../../public/image/location.svg';
-import mart from '../../../../public/image/mart.jpg';
-import people from '../../../../public/image/people.svg';
-import profile from '../../../../public/image/profile.jpg';
-import { useState } from 'react';
+import post from '/public/image/community/post.svg';
 
-export default function Post_Mart() {
-  const [hasThumbnail, setHasThumbnail] = useState(false);
-  const [isEnd, setIsEnd] = useState(true);
+import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
+import MartPostItem from './_mart/MartPostItem';
+
+export default function Post_Mart({ category }) {
+  const categoryParam = category ? `category=${category}&` : '';
+  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/mart/list`;
+  const {
+    items: posts,
+    isInitialized,
+    lastItemRef,
+  } = useInfiniteScroll(fetchUrl, categoryParam);
 
   return (
-    <Link
-      href="/mart/detail?postId=123"
-      className="w-[240px] border rounded-xl flex flex-col gap-[4px] cursor-pointer"
-    >
-      <div className="rounded-t-xl h-[160px] relative overflow-hidden">
-        <Image
-          className={`rounded-t-xl w-[240px] h-[160px] transform transition-transform duration-300 hover:scale-110 ${isEnd ? 'grayscale-[50%]' : ''}`}
-          src={hasThumbnail ? '' : mart}
-          alt="썸네일"
-          fill
-          style={{ objectFit: 'cover' }}
-        />
-        <div className="absolute top-[8px] left-[8px] text-xs text-blue--500 font-bold bg-white rounded-lg w-[54px] py-[2px] flex justify-center">
-          모집완료
+    <>
+      {!isInitialized || posts.length === 0 ? (
+        <div className="mx-auto my-auto  flex flex-col justify-center items-center">
+          <Image
+            src={post}
+            alt="등록된 게시글이 없습니다."
+            width={60}
+            height={60}
+            className="mt-[25%] pb-[30px] mx-auto"
+          />
+          <strong className="text-2xl text-center mb-[50px]">
+            현재 등록된 게시글이 없습니다.
+            <br />
+            새로운 게시글을 작성하여 다양한 의견과 정보를 공유해 주세요.
+          </strong>
+          <Link
+            href="/mart/write"
+            className="text-white rounded bg-blue--500 px-[40px] py-[14px] text-sm"
+            role="button"
+          >
+            게시글 작성
+          </Link>
         </div>
-      </div>
-      <div className="w-[240px] px-[12px] pt-[4px] pb-[8px]">
-        <strong className="inline-block w-[224px] title--single-line font-extrabold">
-          효과적인 의사소통을 위한 비언어적 신호
-        </strong>
-        <div className="flex flex-col gap-[8px] my-[4px]">
-          <div className="flex gap-[8px] items-center">
-            <Image
-              className="w-[18px] h-[18px]"
-              src={date}
-              alt="일정"
-              width={18}
-              height={18}
-            />
-            <p className="text-xs font-medium">
-              08월 02일 금요일 오후 07시 00분
-            </p>
+      ) : (
+        <>
+          <div className="grid grid-cols-4 gap-8">
+            {posts.map((item, key) => (
+              <MartPostItem key={key} item={item} />
+            ))}
+            <div ref={lastItemRef}></div>
           </div>
-          <div className="flex gap-[8px] items-center">
-            <Image
-              className="w-[18px] h-[18px]"
-              src={location}
-              alt="위치"
-              width={18}
-              height={18}
-            />
-            <p className="text-xs font-medium">이마트 부천점</p>
-          </div>
-          <div className="flex gap-[8px] items-center">
-            <Image
-              className="w-[18px] h-[18px]"
-              src={people}
-              alt="인원수"
-              width={18}
-              height={18}
-            />
-            <p className="text-xs font-medium">2/4명</p>
-          </div>
-        </div>
-        <div className="w-full flex justify-between items-center mt-[12px]">
-          <div className="flex gap-[4px] items-center">
-            <Image
-              className="w-[16px] h-[16px] border rounded-full"
-              src={profile}
-              alt="profile"
-              width={16}
-              height={16}
-            />
-            <p className="font-semibold text-xs">한유진</p>
-          </div>
-          <p className="text-[12px] text-gray--500">3시간 전</p>
-        </div>
-      </div>
-    </Link>
+        </>
+      )}
+    </>
   );
 }

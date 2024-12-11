@@ -3,37 +3,21 @@
 import '@/styles/community.css';
 import '@/styles/globals.css';
 
-import Link from 'next/link';
 import Post_Community from '@/app/_components/_community/Post_Community';
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import FreeCommunityFilter from '@/app/_components/_community/_free/FreeCommunityFilter';
+import Link from 'next/link';
 
 export default function Community() {
+  const params = useSearchParams();
   const [filter, setFilter] = useState('최신순');
-
+  const category = params.get('category');
   return (
     <section className="min-h-[750px] w-[1020px] mb-[100px]">
       <div className="mt-[60px] flex justify-end items-end">
         <div className="flex items-end gap-[24px]">
-          <ul className="flex">
-            <li
-              className={`fillter__item ${filter === '최신순' && 'fillter__item--selected'}`}
-              onClick={() => setFilter('최신순')}
-            >
-              최신순
-            </li>
-            <li
-              className={`fillter__item ${filter === '댓글많은순' && 'fillter__item--selected'}`}
-              onClick={() => setFilter('댓글많은순')}
-            >
-              댓글많은순
-            </li>
-            <li
-              className={`fillter__item ${filter === '조회수순' && 'fillter__item--selected'}`}
-              onClick={() => setFilter('조회수순')}
-            >
-              조회수순
-            </li>
-          </ul>
+          <FreeCommunityFilter filter={filter} setFilter={setFilter} />
           <Link
             href="/community/write"
             className="text-white rounded bg-blue--500 px-[16px] py-[8px] text-sm"
@@ -44,18 +28,11 @@ export default function Community() {
         </div>
       </div>
       <section className="mt-[16px] flex flex-wrap gap-[20px] ">
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
+        <Post_Community
+          filter={filter}
+          setFilter={setFilter}
+          category={category}
+        />
       </section>
     </section>
   );
