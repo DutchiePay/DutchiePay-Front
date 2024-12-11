@@ -2,13 +2,14 @@
 
 import '@/styles/globals.css';
 
-import Comment from '@/app/_components/_community/_post/Comment';
+import Comment from '@/app/_components/_community/_local/Comment';
 import Image from 'next/image';
+import PostCommentAction from './PostCommentAction';
+import axios from 'axios';
 import profile from '/public/image/profile.jpg';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import useReissueToken from '@/app/hooks/useReissueToken';
-import PostCommentAction from './PostCommentAction';
+
 const CommentForm = () => {
   const { refreshAccessToken } = useReissueToken();
   const { register, watch, handleSubmit, setValue } = useForm({

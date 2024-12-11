@@ -4,8 +4,8 @@ import '@/styles/community.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import Location_Modal from '@/app/_components/_community/_post/LocationModal';
-import TextEditor from '@/app/_components/_community/_post/TextEditor';
+import Location_Modal from '@/app/_components/_community/_local/LocationModal';
+import TextEditor from '@/app/_components/_community/_common/TextEditor';
 import { useState } from 'react';
 
 export default function UsedWrite() {

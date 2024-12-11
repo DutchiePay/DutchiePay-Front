@@ -2,14 +2,14 @@
 
 import '@/styles/globals.css';
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import Image from 'next/image';
+import PostCommentAction from './PostCommentAction';
+import axios from 'axios';
 import profile from '/public/image/profile.jpg';
 import reply from '/public/image/community/reply.svg';
-import axios from 'axios';
+import { useForm } from 'react-hook-form';
 import useReissueToken from '@/app/hooks/useReissueToken';
-import PostCommentAction from './PostCommentAction';
+import { useState } from 'react';
 
 export default function Reply() {
   const [isReplyActive, setIsReplyActive] = useState(false); // 답글 활성화

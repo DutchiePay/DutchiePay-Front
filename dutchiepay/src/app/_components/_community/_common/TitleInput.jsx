@@ -15,13 +15,7 @@ export default function TitleInput({ register }) {
         type="text"
         placeholder="게시글 제목"
         aria-required="true"
-        {...register('title', {
-          required: '제목을 입력해주세요',
-          maxLength: {
-            value: 60,
-            message: '게시글 제목은 60자까지 입력 가능합니다.',
-          },
-        })}
+        {...register('title')}
       />
     </>
   );

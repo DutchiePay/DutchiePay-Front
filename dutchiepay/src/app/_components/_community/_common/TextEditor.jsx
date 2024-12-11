@@ -2,7 +2,7 @@
 
 import 'react-quill-new/dist/quill.snow.css';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 
 import UploadedImages from './UploadedImages';
 import dynamic from 'next/dynamic';
@@ -27,9 +27,13 @@ const ReactQuill = dynamic(
 
 ReactQuill.displayName = 'ReactQuillComponent';
 
-export default function TextEditor({ setEditorContent }) {
-  const [images, setImages] = useState([]);
-  const [thumbnail, setThumbnail] = useState('');
+export default function TextEditor({
+  setEditorContent,
+  setThumbnail,
+  thumbnail,
+  images,
+  setImages,
+}) {
   const quillRef = useRef(null);
 
   const getImageCount = () => {
@@ -58,8 +62,8 @@ export default function TextEditor({ setEditorContent }) {
       const updatedImages = prevImages.filter((image) =>
         imagesInEditor.includes(image)
       );
-      if (!imagesInEditor.includes(thumbnail) && updatedImages.length > 0) {
-        setThumbnail(updatedImages[0]);
+      if (!imagesInEditor.includes(thumbnail)) {
+        setThumbnail(updatedImages[0] || '');
       }
 
       return updatedImages;
@@ -89,13 +93,13 @@ export default function TextEditor({ setEditorContent }) {
         }
       }
     };
-  }, []);
+  }, [setImages]);
 
   useEffect(() => {
     if (images.length > 0 && !thumbnail) {
       setThumbnail(images[0]);
     }
-  }, [images, thumbnail]);
+  }, [images, thumbnail, setThumbnail]);
 
   const modules = useMemo(
     () => ({
@@ -136,10 +140,10 @@ export default function TextEditor({ setEditorContent }) {
   return (
     <>
       <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
-        <label className="community__label" htmlFor="content">
+        <label className="font-bold text-lg" htmlFor="content">
           내용
         </label>
-        <small className="community__label-description">
+        <small className="text-sm text-gray--500">
           최대 3,000글자까지 입력 가능합니다.
         </small>
       </div>

@@ -5,13 +5,16 @@ import '@/styles/globals.css';
 
 import Link from 'next/link';
 import Post_Mart from '@/app/_components/_community/Post_Mart';
+import { useSelector } from 'react-redux';
 
 export default function Mart() {
+  const access = useSelector((state) => state.login.access);
+
   return (
     <main className="min-h-[750px] w-[1020px] mb-[100px]">
       <div className="mt-[60px] flex justify-end">
         <Link
-          href="/mart/write"
+          href={`${access ? '/mart/write' : '/login'}`}
           className="text-white rounded bg-blue--500 px-[16px] py-[8px] text-sm"
           role="button"
         >

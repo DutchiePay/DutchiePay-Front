@@ -4,11 +4,11 @@ import CurrentMap from './CurrentMap';
 
 export default function LocationModal({
   setIsModalOpen,
-  locationDescription,
-  setLocationDescription,
-  location,
-  setLocation,
+  register,
+  setValue,
+  watch,
 }) {
+  const locationDescription = watch('locationDescription');
   const handleLocation = () => {
     if (!locationDescription.trim()) {
       alert('위치에 대한 설명을 입력해주세요.');
@@ -32,14 +32,13 @@ export default function LocationModal({
         </p>
 
         <div className="w-full mt-[24px]">
-          <CurrentMap location={location} setLocation={setLocation} />
+          <CurrentMap setValue={setValue} watch={watch} />
           <div className="flex flex-col items-center">
             <input
               className="w-full mt-[20px] text-sm border p-[12px] outline-none resize-none rounded"
               type="text"
               placeholder="해당 위치 이름 또는 설명을 적어주세요. (ex) 삼각지역 1번출구)"
-              value={locationDescription}
-              onChange={(e) => setLocationDescription(e.target.value)}
+              {...register('locationDescription')}
             />
 
             <button
