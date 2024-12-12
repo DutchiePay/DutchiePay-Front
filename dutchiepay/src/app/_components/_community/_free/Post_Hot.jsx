@@ -3,8 +3,8 @@ import '@/styles/globals.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import comment from '../../../../public/image/comment.svg';
-import profile from '../../../../public/image/profile.jpg';
+import comment from '/public/image/comment.svg';
+import profile from '/public/image/profile.jpg';
 
 export default function Post_Hot({ index }) {
   return (

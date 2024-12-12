@@ -2,7 +2,7 @@ import '@/styles/community.css';
 import '@/styles/globals.css';
 
 import Image from 'next/image';
-import Reply from '../Reply';
+import Reply from '@/app/_components/_community/_free/Reply';
 import profile from '/public/image/otherProfile.jpg';
 import reply from '/public/image/community/reply.svg';
 import { useState } from 'react';

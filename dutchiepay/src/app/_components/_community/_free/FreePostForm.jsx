@@ -7,6 +7,7 @@ export default function FreePostForm({
   register,
   setValue,
   watch,
+  editorContent,
   setEditorContent,
   thumbnail,
   images,
@@ -23,6 +24,7 @@ export default function FreePostForm({
       />
       <TitleInput register={register} />
       <TextEditor
+        editorContent={editorContent}
         setEditorContent={setEditorContent}
         thumbnail={thumbnail}
         images={images}

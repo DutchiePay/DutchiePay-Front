@@ -81,6 +81,7 @@ export default function MartWrite() {
           register={register}
           setValue={setValue}
           watch={watch}
+          editorContent={setEditorContent}
           setEditorContent={setEditorContent}
           thumbnail={thumbnail}
           images={images}
