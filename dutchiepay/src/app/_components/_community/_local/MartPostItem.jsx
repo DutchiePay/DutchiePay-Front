@@ -11,16 +11,19 @@ import mart from '/public/image/mart.jpg';
 import people from '/public/image/people.svg';
 import profile from '/public/image/profile.jpg';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+
 export default function MartPostItem({ item }) {
-  const [isEnd, setIsEnd] = useState(true);
+  const access = useSelector((state) => state.login.access);
+
   return (
     <Link
-      href={`/mart/${item.shareId}`}
+      href={`${access ? `/mart/${item.shareId}` : '/login'}`}
       className="w-[240px] border rounded-xl flex flex-col gap-[4px] cursor-pointer"
     >
-      <div className="rounded-t-xl h-[160px] relative overflow-hidden object-cover">
+      <div className="rounded-t-xl h-[160px] relative overflow-hidden ">
         <Image
-          className={`rounded-t-xl w-[240px] h-[160px] transform transition-transform duration-300 hover:scale-110 ${isEnd ? 'grayscale-[50%]' : ''}`}
+          className={`rounded-t-xl w-[240px] h-[160px] transform transition-transform duration-300 hover:scale-110 ${item.state === '모집완료' ? 'grayscale-[50%]' : ''} object-cover`}
           src={item.thumbnail || mart}
           alt="썸네일"
           fill
