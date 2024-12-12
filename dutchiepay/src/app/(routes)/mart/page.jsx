@@ -4,10 +4,14 @@ import '@/styles/community.css';
 import '@/styles/globals.css';
 
 import Link from 'next/link';
-import Post_Mart from '@/app/_components/_community/Post_Mart';
-import { useSelector } from 'react-redux';
 
+import MartPostList from '@/app/_components/_community/_local/MartPostList';
+import { useSearchParams } from 'next/navigation';
+import { useSelector } from 'react-redux';
 export default function Mart() {
+  const params = useSearchParams();
+  const category = params.get('category');
+
   const access = useSelector((state) => state.login.access);
 
   return (
@@ -21,20 +25,7 @@ export default function Mart() {
           게시글 작성
         </Link>
       </div>
-      <section className="mt-[16px] flex flex-wrap gap-[20px]">
-        <Post_Mart />
-        <Post_Mart />
-        <Post_Mart />
-        <Post_Mart />
-        <Post_Mart />
-        <Post_Mart />
-        <Post_Mart />
-        <Post_Mart />
-        <Post_Mart />
-        <Post_Mart />
-        <Post_Mart />
-        <Post_Mart />
-      </section>
+      <MartPostList category={category} />
     </main>
   );
 }
