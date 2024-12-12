@@ -4,14 +4,14 @@ import '@/styles/globals.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import comment from '/public/image/comment.svg';
-
+import profile from '/public/image/profile.jpg';
 export default function SimilarPostList({ item }) {
   return (
     <div>
       <div className="flex items-center gap-[4px]">
         <Image
           className="w-[16px] h-[16px] rounded-full border"
-          src={item.writerProfileImg}
+          src={item.writerProfileImg || profile}
           alt="프로필"
           width={16}
           height={16}

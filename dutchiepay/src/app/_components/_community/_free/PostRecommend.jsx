@@ -56,22 +56,27 @@ export default function PostRecommend({ post }) {
 
   return (
     <section className="w-[290px] h-[750px] sticky top-[150px] pl-[24px] py-[40px] flex flex-col gap-[40px]">
-      <article>
-        <h2 className="text-2xl font-bold">유사한 게시글</h2>
-        <div className="flex flex-col gap-[12px] mt-[8px]">
-          {similarPost.map((item, key) => (
-            <SimilarPostList key={key} item={item} />
-          ))}
-        </div>
-      </article>
-      <article>
-        <h2 className="text-2xl font-bold">주간 HOT🔥 게시글</h2>
-        <div className="flex flex-col gap-[12px] mt-[8px]">
-          {hotPost.map((item, key) => (
-            <HotPostList key={key} item={item} index={key + 1} />
-          ))}
-        </div>
-      </article>
+      {similarPost.length > 0 && (
+        <article>
+          <h2 className="text-2xl font-bold">유사한 게시글</h2>
+          <div className="flex flex-col gap-[12px] mt-[8px]">
+            {similarPost.map((item, key) => (
+              <SimilarPostList key={key} item={item} />
+            ))}
+          </div>
+        </article>
+      )}
+
+      {hotPost.length > 0 && (
+        <article>
+          <h2 className="text-2xl font-bold">주간 HOT🔥 게시글</h2>
+          <div className="flex flex-col gap-[12px] mt-[8px]">
+            {hotPost.map((item, key) => (
+              <HotPostList key={key} item={item} index={key + 1} />
+            ))}
+          </div>
+        </article>
+      )}
     </section>
   );
 }
