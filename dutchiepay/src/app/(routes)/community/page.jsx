@@ -37,7 +37,7 @@ export default function Community() {
             </li>
           </ul>
           <Link
-            href={`${access ? '/mart/write' : '/login'}`}
+            href={`${access ? '/community/write' : '/login'}`}
             className="text-white rounded bg-blue--500 px-[16px] py-[8px] text-sm"
             role="button"
           >
