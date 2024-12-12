@@ -9,11 +9,11 @@ import comment from '/public/image/comment.svg';
 import profile from '/public/image/profile.jpg';
 import { useSelector } from 'react-redux';
 export default function FreePostItem({ item }) {
-  const access = useSelector((state) => state.login.access);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
 
   return (
     <Link
-      href={`${access ? `/community/${item.freeId}` : '/login'}`}
+      href={`${isLoggedIn ? `/community/${item.freeId}` : '/login'}`}
       className="w-[240px] border rounded-xl flex flex-col gap-[4px] cursor-pointer"
     >
       <div className="rounded-t-xl h-[160px] overflow-hidden relative ">
