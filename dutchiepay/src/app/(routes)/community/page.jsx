@@ -3,14 +3,23 @@
 import '@/styles/community.css';
 import '@/styles/globals.css';
 
+
 import CommunityPostList from '@/app/_components/_community/CommunityPostList';
+
+import Link from 'next/link';
+
+import { useSelector } from 'react-redux';
+
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import FreeCommunityFilter from '@/app/_components/_community/_free/FreeCommunityFilter';
-import Link from 'next/link';
 
 export default function Community() {
+
   const params = useSearchParams();
+ 
+  const access = useSelector((state) => state.login.access);
+
   const [filter, setFilter] = useState('최신순');
   const category = params.get('category');
   return (
@@ -19,7 +28,7 @@ export default function Community() {
         <div className="flex items-end gap-[24px]">
           <FreeCommunityFilter filter={filter} setFilter={setFilter} />
           <Link
-            href="/community/write"
+            href={`${access ? '/mart/write' : '/login'}`}
             className="text-white rounded bg-blue--500 px-[16px] py-[8px] text-sm"
             role="button"
           >

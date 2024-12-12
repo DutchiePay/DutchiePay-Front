@@ -28,6 +28,7 @@ const ReactQuill = dynamic(
 ReactQuill.displayName = 'ReactQuillComponent';
 
 export default function TextEditor({
+  editorContent,
   setEditorContent,
   setThumbnail,
   thumbnail,
@@ -149,6 +150,7 @@ export default function TextEditor({
       </div>
       <ReactQuill
         forwardedRef={quillRef}
+        value={editorContent}
         onChange={handleContentChange}
         theme="snow"
         modules={modules}
