@@ -1,7 +1,5 @@
-export default function MettingPlaceInput({
-  locationDescription,
-  setIsModalOpen,
-}) {
+export default function MettingPlaceInput({ setIsModalOpen, watch }) {
+  const locationDescription = watch('locationDescription');
   return (
     <>
       <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
@@ -14,6 +12,7 @@ export default function MettingPlaceInput({
         <button
           className="text-sm text-blue-500 font-bold hover:underline"
           onClick={() => setIsModalOpen(true)}
+          type="button"
         >
           거래위치변경
         </button>
