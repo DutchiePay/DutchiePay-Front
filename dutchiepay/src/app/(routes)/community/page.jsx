@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
 export default function Community() {
-  const access = useSelector((state) => state.login.access);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const [filter, setFilter] = useState('최신순');
 
   return (
@@ -37,7 +37,7 @@ export default function Community() {
             </li>
           </ul>
           <Link
-            href={`${access ? '/mart/write' : '/login'}`}
+            href={`${isLoggedIn ? '/community/write' : '/login'}`}
             className="text-white rounded bg-blue--500 px-[16px] py-[8px] text-sm"
             role="button"
           >

@@ -16,7 +16,7 @@ export default function PostDetailAction({ postId, writerId, menu }) {
     ) {
       try {
         await axios.delete(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/free?freeId=${postId}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/${menu === 'mart' ? 'mart/shareId' : 'free/freeId'}=${postId}`,
           {
             headers: {
               Authorization: `Bearer ${access}`,
@@ -25,7 +25,7 @@ export default function PostDetailAction({ postId, writerId, menu }) {
         );
 
         alert('정상적으로 삭제되었습니다.');
-        router.push('/community');
+        router.push(`/${menu}`);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           //
