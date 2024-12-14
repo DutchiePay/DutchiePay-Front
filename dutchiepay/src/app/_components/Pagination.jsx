@@ -1,6 +1,12 @@
 import React from 'react';
 
-const Pagination = ({ activePage, totalItems, limit, onPageChange }) => {
+const Pagination = ({
+  activePage,
+  totalItems,
+  limit,
+  onPageChange,
+  mypost,
+}) => {
   const totalPageCount = Math.ceil(totalItems / limit); // 총 페이지 수 계산
   const pageRangeDisplayed = 5; // 보여줄 페이지 수
 
@@ -22,7 +28,9 @@ const Pagination = ({ activePage, totalItems, limit, onPageChange }) => {
   const pageRange = calculatePageRange();
 
   return (
-    <div className="flex justify-center mt-4 w-[1020px]">
+    <div
+      className={`flex justify-center mt-4 w-[1020px] ${mypost ? 'w-[720px]' : 'w-[1020px]'}`}
+    >
       {/* 이전 버튼 */}
       <button
         onClick={() => onPageChange(Math.max(activePage - 1, 1))}

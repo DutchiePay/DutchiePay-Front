@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import Post from '@/app/_components/Post';
+import Post from '@/app/_components/_mypage/MyPostList';
 import Product_Like from '@/app/_components/Product';
 import arrow from '../../../../public/image/arrow.svg';
 import { useSearchParams } from 'next/navigation';
