@@ -3,39 +3,24 @@
 import '@/styles/community.css';
 import '@/styles/globals.css';
 
+import CommunityPostList from '@/app/_components/_community/CommunityPostList';
+import FreeCommunityFilter from '@/app/_components/_community/_free/FreeCommunityFilter';
 import Link from 'next/link';
-import Post_Community from '@/app/_components/_community/Post_Community';
+import { useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
 export default function Community() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
-  const [filter, setFilter] = useState('최신순');
+  const params = useSearchParams();
 
+  const [filter, setFilter] = useState('최신순');
+  const category = params.get('category');
   return (
     <section className="min-h-[750px] w-[1020px] mb-[100px]">
       <div className="mt-[60px] flex justify-end items-end">
         <div className="flex items-end gap-[24px]">
-          <ul className="flex">
-            <li
-              className={`fillter__item ${filter === '최신순' && 'fillter__item--selected'}`}
-              onClick={() => setFilter('최신순')}
-            >
-              최신순
-            </li>
-            <li
-              className={`fillter__item ${filter === '댓글많은순' && 'fillter__item--selected'}`}
-              onClick={() => setFilter('댓글많은순')}
-            >
-              댓글많은순
-            </li>
-            <li
-              className={`fillter__item ${filter === '조회수순' && 'fillter__item--selected'}`}
-              onClick={() => setFilter('조회수순')}
-            >
-              조회수순
-            </li>
-          </ul>
+          <FreeCommunityFilter filter={filter} setFilter={setFilter} />
           <Link
             href={`${isLoggedIn ? '/community/write' : '/login'}`}
             className="text-white rounded bg-blue--500 px-[16px] py-[8px] text-sm"
@@ -45,20 +30,12 @@ export default function Community() {
           </Link>
         </div>
       </div>
-      <section className="mt-[16px] flex flex-wrap gap-[20px] ">
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-        <Post_Community />
-      </section>
+
+      <CommunityPostList
+        filter={filter}
+        setFilter={setFilter}
+        category={category}
+      />
     </section>
   );
 }

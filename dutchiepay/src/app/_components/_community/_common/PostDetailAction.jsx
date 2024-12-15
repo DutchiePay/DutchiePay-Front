@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import axios from 'axios';
+import useReissueToken from '@/app/hooks/useReissueToken';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
@@ -9,6 +10,7 @@ export default function PostDetailAction({ postId, writerId, menu }) {
   const userId = useSelector((state) => state.login.user.userId);
   const access = useSelector((state) => state.login.access);
   const router = useRouter();
+  const { refreshAccessToken } = useReissueToken();
 
   const handlePostDelete = async () => {
     if (
@@ -16,7 +18,7 @@ export default function PostDetailAction({ postId, writerId, menu }) {
     ) {
       try {
         await axios.delete(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/${menu === 'mart' ? 'mart/shareId' : 'free/freeId'}=${postId}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/${menu === 'mart' ? 'mart?shareId' : 'free?freeId'}=${postId}`,
           {
             headers: {
               Authorization: `Bearer ${access}`,
@@ -28,7 +30,15 @@ export default function PostDetailAction({ postId, writerId, menu }) {
         router.push(`/${menu}`);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          //
+          const reissueResponse = await refreshAccessToken();
+          if (reissueResponse.success) {
+            await handlePostDelete();
+          } else {
+            alert(
+              reissueResponse.message ||
+                '오류가 발생했습니다 다시 시도해주세요.'
+            );
+          }
         } else if (
           error.response.data.message === '작성자가 일치하지 않습니다.'
         ) {

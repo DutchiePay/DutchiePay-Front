@@ -49,7 +49,7 @@ export default function PostContent({ menu, post, postId }) {
         </div>
         <h1 className="text-2xl text-blue--500 font-bold">{post.title}</h1>
         <p
-          className="inline-block min-h-[320px] mt-[24px]"
+          className="inline-block min-h-[320px] mt-[24px] mb-[60px]"
           dangerouslySetInnerHTML={{ __html: cleanHtml }}
         />
         <div className="flex justify-between">
