@@ -45,7 +45,7 @@ export default function PostContent({ menu, post, postId }) {
             </div>
             <strong>{post.writer}님의 게시글</strong>
           </div>
-          <p className="text-xs text-gray--500">조회수 {post.hit}</p>
+          <p className="text-xs text-gray--500">조회수 {post.hits}</p>
         </div>
         <h1 className="text-2xl text-blue--500 font-bold">{post.title}</h1>
         <p
@@ -62,7 +62,15 @@ export default function PostContent({ menu, post, postId }) {
             menu={menu}
           />
         </div>
-        {menu !== 'community' ? <CurrentPost /> : <CommentForm />}
+        {menu !== 'community' ? (
+          <CurrentPost
+            writerId={post.writerId}
+            writer={post.writer}
+            writerProfileImage={post.writerProfileImage}
+          />
+        ) : (
+          <CommentForm />
+        )}
       </article>
     </section>
   );

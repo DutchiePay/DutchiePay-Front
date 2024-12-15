@@ -32,7 +32,6 @@ export default function MartDetail() {
           }
         );
         setPost(response.data);
-        console.log(response.data);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           const reissueResponse = await refreshAccessToken();
