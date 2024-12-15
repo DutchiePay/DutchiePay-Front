@@ -6,7 +6,7 @@ import '@/styles/community.css';
 
 import { useParams, useSearchParams } from 'next/navigation';
 
-import Post from '@/app/_components/Post';
+import Post from '@/app/_components/_mypage/MyPostList';
 import ProductFilter from './_commerce/_product/ProductFilter';
 import Product_Like from '@/app/_components/Product';
 import { useState } from 'react';
