@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/community.css';
-import '@/styles/globals.css';
-
 import CommunityPostList from '@/app/_components/_community/CommunityPostList';
 import FreeCommunityFilter from '@/app/_components/_community/_free/FreeCommunityFilter';
 import Link from 'next/link';

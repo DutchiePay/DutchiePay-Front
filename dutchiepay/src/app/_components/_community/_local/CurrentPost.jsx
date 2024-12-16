@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 
+import CompletePost from './CompletePost';
 import Image from 'next/image';
-import Post_Complete from '../CompletePost';
 import axios from 'axios';
 import profile from '/public/image/profile.jpg';
 import useReissueToken from '@/app/hooks/useReissueToken';
@@ -20,7 +20,7 @@ export default function CurrentPost({ writerId, writerProfileImage, writer }) {
 
         hasFetched.current = true;
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/recent-post?userId=${writerId}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/community/recent-post?userId=${writerId}`,
           {
             headers: {
               Authorization: `Bearer ${access}`,
@@ -62,10 +62,16 @@ export default function CurrentPost({ writerId, writerProfileImage, writer }) {
         </div>
         <h2 className="font-bold">{writer}님의 최근 거래 완료글</h2>
       </div>
-      <div className="flex flex-col gap-[8px] mt-[12px]">
-        {currentPost.map((post, key) => {
-          return <Post_Complete post={post} key={key} />;
-        })}
+      <div className="flex flex-col gap-[8px] mt-[12px] h-[100px]">
+        {currentPost.length > 0 ? (
+          currentPost.map((post, key) => {
+            return <CompletePost post={post} key={key} />;
+          })
+        ) : (
+          <div className="h-full flex justify-center items-center text-sm text-gray--500">
+            거래 완료된 게시글이 존재하지 않습니다.
+          </div>
+        )}
       </div>
     </div>
   );

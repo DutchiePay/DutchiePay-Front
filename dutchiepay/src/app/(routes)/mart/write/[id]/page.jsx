@@ -42,9 +42,10 @@ export default function MartModify() {
         )
       );
       setValue('locationDescription', post.meetingPlace);
-      setValue('location', { lat: post.latitude, lng: post.longtitude });
+      setValue('location', { lat: post.latitude, lng: post.longitude });
       setThumbnail(post.thumbnail);
       setImages(post.images);
+      setValue('formattedDateTime', post.date);
       const { date, time } = getStringDateToTimeStamp(post.date);
       setValue('date', date);
       setValue('time', time);
@@ -76,7 +77,7 @@ export default function MartModify() {
       await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/mart`,
         {
-          sharedId: id,
+          shareId: id,
           title: formData.title,
           date: formData.formattedDateTime,
           meetingPlace: formData.locationDescription,
@@ -96,6 +97,7 @@ export default function MartModify() {
 
       router.push(`/mart/${id}`);
     } catch (error) {
+      console.log(error);
       alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
   };

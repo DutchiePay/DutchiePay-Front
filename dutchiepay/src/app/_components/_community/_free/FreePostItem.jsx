@@ -1,13 +1,12 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/community.css';
-import Link from 'next/link';
 import Image from 'next/image';
-import community from '/public/image/community.jpg';
+import Link from 'next/link';
 import comment from '/public/image/comment.svg';
+import community from '/public/image/community.jpg';
 import profile from '/public/image/profile.jpg';
 import { useSelector } from 'react-redux';
+
 export default function FreePostItem({ item }) {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
 

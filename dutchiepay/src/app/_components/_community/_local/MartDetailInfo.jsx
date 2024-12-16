@@ -7,7 +7,7 @@ import PostState from './PostState';
 import info from '/public/image/info.svg';
 import { useSelector } from 'react-redux';
 
-export default function MartDetailInfo({ post }) {
+export default function MartDetailInfo({ post, postId }) {
   const userId = useSelector((state) => state.login.user.userId);
 
   return (
@@ -48,6 +48,7 @@ export default function MartDetailInfo({ post }) {
         <PostState
           isMyPostWritten={post.writerId === userId}
           state={post.state}
+          postId={postId}
         />
       </div>
       <ChatButton />

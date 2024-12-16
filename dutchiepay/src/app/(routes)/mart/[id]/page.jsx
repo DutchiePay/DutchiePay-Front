@@ -64,7 +64,7 @@ export default function MartDetail() {
         {post && (
           <>
             <PostContent menu={'mart'} post={post} postId={id} />
-            <MartDetailInfo post={post} />
+            <MartDetailInfo post={post} postId={id} />
           </>
         )}
       </div>

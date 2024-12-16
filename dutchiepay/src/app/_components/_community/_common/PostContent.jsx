@@ -8,6 +8,7 @@ import Image from 'next/image';
 import PostDetailAction from '@/app/_components/_community/_common/PostDetailAction';
 import { getPostDate } from '@/app/_util/getFormatDate';
 import prev from '/public/image/prev.svg';
+import profile from '/public/image/profile.jpg';
 import { useRouter } from 'next/navigation';
 
 export default function PostContent({ menu, post, postId }) {
@@ -38,7 +39,7 @@ export default function PostContent({ menu, post, postId }) {
             <div className="relative w-[40px] h-[40px] rounded-full border">
               <Image
                 className="w-[40px] h-[40px] rounded-full object-cover"
-                src={post.writerProfileImage}
+                src={post.writerProfileImage || profile}
                 alt={post.writer}
                 fill
               />

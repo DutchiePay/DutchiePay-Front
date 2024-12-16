@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/community.css';
-import '@/styles/globals.css';
-
 import Link from 'next/link';
 import MartPostList from '@/app/_components/_community/_local/MartPostList';
 import { useSearchParams } from 'next/navigation';

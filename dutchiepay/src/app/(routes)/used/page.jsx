@@ -1,7 +1,5 @@
 'use client';
 
-import '@/styles/community.css';
-
 import Post_Used from '@/app/_components/_community/Post_Used';
 import { useRouter } from 'next/navigation';
 

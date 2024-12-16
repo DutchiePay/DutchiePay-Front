@@ -41,7 +41,7 @@ const calculateTimeUnits = (distance) => {
   };
 };
 
-const getPostDate = (dateString) => {
+const getPostDate = (dateString, type = 'default') => {
   const date = new Date(dateString);
 
   const options = {
@@ -59,7 +59,9 @@ const getPostDate = (dateString) => {
   const [year, month, day, hour, minute] = formattedDate.split(/[^0-9]+/);
   const ampm = date.getHours() >= 12 ? '오후' : '오전';
 
-  return `${year}년 ${month}월 ${day}일 ${ampm} ${hour}:${minute}`;
+  if (type === 'default')
+    return `${year}년 ${month}월 ${day}일 ${ampm} ${hour}:${minute}`;
+  else return `${year}년 ${month}월 ${day}일`;
 };
 
 const getStringDateToTimeStamp = (date) => {
