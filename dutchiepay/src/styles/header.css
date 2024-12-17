@@ -1,9 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-.nav-item:not(:last-child)::after {
-  content: '|';
-  color: #d1d2d7;
-  margin-left: 6px;
-  font-size: 12px;
-}
