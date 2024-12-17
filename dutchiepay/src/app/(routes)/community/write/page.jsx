@@ -5,6 +5,7 @@ import FreePostForm from '@/app/_components/_community/_free/FreePostForm';
 import axios from 'axios';
 import getTextLength from '@/app/_util/getTextLength';
 import { useForm } from 'react-hook-form';
+import useReissueToken from '@/app/hooks/useReissueToken';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
@@ -15,6 +16,7 @@ export default function CommunityWrite() {
   const router = useRouter();
   const [images, setImages] = useState([]);
   const [thumbnail, setThumbnail] = useState('');
+  const { refreshAccessToken } = useReissueToken();
   const { register, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       category: '정보',
@@ -54,7 +56,21 @@ export default function CommunityWrite() {
 
       router.push(`/community/${response.data.freeId}`);
     } catch (error) {
-      alert('오류가 발생했습니다. 다시 시도해주세요.');
+      if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+        const reissueResponse = await refreshAccessToken();
+        if (reissueResponse.success) {
+          await onSubmit(formData);
+        } else {
+          alert(
+            reissueResponse.message || '오류가 발생했습니다 다시 시도해주세요.'
+          );
+        }
+      } else {
+        alert(
+          error.response.data.message ||
+            '오류가 발생했습니다 다시 시도해주세요.'
+        );
+      }
     }
   };
 

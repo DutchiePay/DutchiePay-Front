@@ -41,6 +41,12 @@ export const COMMERCE_FILTER = {
   할인율순: 'discount',
 };
 
+export const COMMUNITY_FILTER = {
+  최신순: 'new',
+  댓글많은순: 'comment',
+  조회수순: 'view',
+};
+
 export const MYPAGE_MENU = {
   회원정보: 'info',
   활동내역: 'mypost',

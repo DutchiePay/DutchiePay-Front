@@ -9,6 +9,7 @@ import getTextLength from '@/app/_util/getTextLength';
 import useFetchUpdatePostData from '@/app/hooks/useFetchUpdatePostData';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'next/navigation';
+import useReissueToken from '@/app/hooks/useReissueToken';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
@@ -20,6 +21,7 @@ export default function MartModify() {
   const [images, setImages] = useState([]);
   const [thumbnail, setThumbnail] = useState('');
   const [post, setPost] = useState(null);
+  const { refreshAccessToken } = useReissueToken();
   useFetchUpdatePostData({ id, setPost });
 
   const { register, watch, handleSubmit, setValue } = useForm();
@@ -77,7 +79,21 @@ export default function MartModify() {
 
       router.push(`/community/${id}`);
     } catch (error) {
-      alert('오류가 발생했습니다. 다시 시도해주세요.');
+      if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+        const reissueResponse = await refreshAccessToken();
+        if (reissueResponse.success) {
+          await onSubmit(formData);
+        } else {
+          alert(
+            reissueResponse.message || '오류가 발생했습니다 다시 시도해주세요.'
+          );
+        }
+      } else {
+        alert(
+          error.response.data.message ||
+            '오류가 발생했습니다 다시 시도해주세요.'
+        );
+      }
     }
   };
 

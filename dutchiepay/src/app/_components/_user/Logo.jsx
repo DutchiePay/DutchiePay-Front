@@ -9,11 +9,11 @@ export default function Logo() {
     <h1>
       <Link href="/">
         <Image
-          className="w-[200px] h-[120px] mb-[16px]"
+          className="w-[200px] h-[60px] mb-[16px]"
           src={logo}
           alt="logo"
           width={200}
-          height={120}
+          height={60}
           priority
         />
       </Link>

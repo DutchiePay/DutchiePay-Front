@@ -1,39 +1,40 @@
-import '@/styles/community.css';
+'use client';
+
 import '@/styles/globals.css';
+import '@/styles/community.css';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import date from '../../../../public/image/date.svg';
-import location from '../../../../public/image/location.svg';
-import mart from '../../../../public/image/mart.jpg';
-import people from '../../../../public/image/people.svg';
-import profile from '../../../../public/image/profile.jpg';
+import date from '/public/image/date.svg';
+import location from '/public/image/location.svg';
+import mart from '/public/image/mart.jpg';
+import people from '/public/image/people.svg';
+import profile from '/public/image/profile.jpg';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-export default function Post_Mart() {
-  const [hasThumbnail, setHasThumbnail] = useState(false);
-  const [isEnd, setIsEnd] = useState(true);
+export default function MartPostItem({ item }) {
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
 
   return (
     <Link
-      href="/mart/detail?postId=123"
+      href={`${isLoggedIn ? `/mart/${item.shareId}` : '/login'}`}
       className="w-[240px] border rounded-xl flex flex-col gap-[4px] cursor-pointer"
     >
-      <div className="rounded-t-xl h-[160px] relative overflow-hidden">
+      <div className="rounded-t-xl h-[160px] relative overflow-hidden ">
         <Image
-          className={`rounded-t-xl w-[240px] h-[160px] transform transition-transform duration-300 hover:scale-110 ${isEnd ? 'grayscale-[50%]' : ''}`}
-          src={hasThumbnail ? '' : mart}
+          className={`rounded-t-xl w-[240px] h-[160px] transform transition-transform duration-300 hover:scale-110 ${item.state === '모집완료' ? 'grayscale-[50%]' : ''} object-cover`}
+          src={item.thumbnail || mart}
           alt="썸네일"
           fill
-          style={{ objectFit: 'cover' }}
         />
         <div className="absolute top-[8px] left-[8px] text-xs text-blue--500 font-bold bg-white rounded-lg w-[54px] py-[2px] flex justify-center">
-          모집완료
+          {item.state}
         </div>
       </div>
       <div className="w-[240px] px-[12px] pt-[4px] pb-[8px]">
         <strong className="inline-block w-[224px] title--single-line font-extrabold">
-          효과적인 의사소통을 위한 비언어적 신호
+          {item.title}
         </strong>
         <div className="flex flex-col gap-[8px] my-[4px]">
           <div className="flex gap-[8px] items-center">
@@ -44,9 +45,7 @@ export default function Post_Mart() {
               width={18}
               height={18}
             />
-            <p className="text-xs font-medium">
-              08월 02일 금요일 오후 07시 00분
-            </p>
+            <p className="text-xs font-medium">{item.date}</p>
           </div>
           <div className="flex gap-[8px] items-center">
             <Image
@@ -56,7 +55,7 @@ export default function Post_Mart() {
               width={18}
               height={18}
             />
-            <p className="text-xs font-medium">이마트 부천점</p>
+            <p className="text-xs font-medium">{item.meetingPlace}</p>
           </div>
           <div className="flex gap-[8px] items-center">
             <Image
@@ -66,7 +65,9 @@ export default function Post_Mart() {
               width={18}
               height={18}
             />
-            <p className="text-xs font-medium">2/4명</p>
+            <p className="text-xs font-medium">
+              {item.now}/{item.maximum}명
+            </p>
           </div>
         </div>
         <div className="w-full flex justify-between items-center mt-[12px]">
@@ -78,9 +79,9 @@ export default function Post_Mart() {
               width={16}
               height={16}
             />
-            <p className="font-semibold text-xs">한유진</p>
+            <p className="font-semibold text-xs">{item.writer}</p>
           </div>
-          <p className="text-[12px] text-gray--500">3시간 전</p>
+          <p className="text-[12px] text-gray--500">{item.relativeTime}</p>
         </div>
       </div>
     </Link>
