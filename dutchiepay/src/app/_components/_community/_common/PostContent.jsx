@@ -8,6 +8,7 @@ import Image from 'next/image';
 import PostDetailAction from '@/app/_components/_community/_common/PostDetailAction';
 import { getPostDate } from '@/app/_util/getFormatDate';
 import prev from '/public/image/prev.svg';
+import profile from '/public/image/profile.jpg';
 import { useRouter } from 'next/navigation';
 
 export default function PostContent({ menu, post, postId }) {
@@ -38,18 +39,18 @@ export default function PostContent({ menu, post, postId }) {
             <div className="relative w-[40px] h-[40px] rounded-full border">
               <Image
                 className="w-[40px] h-[40px] rounded-full object-cover"
-                src={post.writerProfileImage}
+                src={post.writerProfileImage || profile}
                 alt={post.writer}
                 fill
               />
             </div>
             <strong>{post.writer}님의 게시글</strong>
           </div>
-          <p className="text-xs text-gray--500">조회수 {post.hit}</p>
+          <p className="text-xs text-gray--500">조회수 {post.hits}</p>
         </div>
         <h1 className="text-2xl text-blue--500 font-bold">{post.title}</h1>
         <p
-          className="inline-block min-h-[320px] mt-[24px]"
+          className="inline-block min-h-[320px] mt-[24px] mb-[60px]"
           dangerouslySetInnerHTML={{ __html: cleanHtml }}
         />
         <div className="flex justify-between">
@@ -62,7 +63,15 @@ export default function PostContent({ menu, post, postId }) {
             menu={menu}
           />
         </div>
-        {menu !== 'community' ? <CurrentPost /> : <CommentForm />}
+        {menu !== 'community' ? (
+          <CurrentPost
+            writerId={post.writerId}
+            writer={post.writer}
+            writerProfileImage={post.writerProfileImage}
+          />
+        ) : (
+          <CommentForm />
+        )}
       </article>
     </section>
   );

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+
 import axios from 'axios';
 import useReissueToken from '@/app/hooks/useReissueToken';
 import { useSelector } from 'react-redux';
@@ -38,6 +39,7 @@ const useInfiniteScroll = (
         setIsInitialized(true);
         return response.data.posts || response.data.products || [];
       } catch (error) {
+        console.log(error);
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           hasFetched.current = false;
           const reissueResponse = await refreshAccessToken();

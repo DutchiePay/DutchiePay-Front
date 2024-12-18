@@ -1,29 +1,30 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
 
+import MartDetailInfo from '@/app/_components/_community/_local/MartDetailInfo';
 import PostContent from '@/app/_components/_community/_common/PostContent';
-import PostRecommend from '@/app/_components/_community/_free/PostRecommend';
 import axios from 'axios';
+import { useParams } from 'next/navigation';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
-export default function CommunityDetail() {
+export default function MartDetail() {
   const { id } = useParams();
   const access = useSelector((state) => state.login.access);
   const [post, setPost] = useState(null);
   const router = useRouter();
-  const hasFetched = useRef(false);
   const { refreshAccessToken } = useReissueToken();
+  const hasFetched = useRef(false);
 
   useEffect(() => {
-    const fetchCommunityDetail = async () => {
+    const fetchMartDetail = async () => {
       if (hasFetched.current) return;
       hasFetched.current = true;
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/free?freeId=${id}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/mart?shareId=${id}`,
           {
             headers: {
               Authorization: `Bearer ${access}`,
@@ -31,13 +32,12 @@ export default function CommunityDetail() {
           }
         );
         setPost(response.data);
-        console.log(response.data);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           const reissueResponse = await refreshAccessToken();
           hasFetched.current = false;
           if (reissueResponse.success) {
-            await fetchCommunityDetail();
+            await fetchMartDetail();
           } else {
             alert(
               reissueResponse.message ||
@@ -48,23 +48,26 @@ export default function CommunityDetail() {
           error.response.data.message === '자유 게시글을 찾을 수 없습니다.'
         ) {
           alert('존재하지 않는 게시글 입니다.');
-          router.push('/community');
+          router.push('/mart');
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
       }
     };
-    fetchCommunityDetail();
+
+    fetchMartDetail();
   }, [id, access, router, refreshAccessToken]);
 
   return (
     <section className="min-h-[750px] w-[1020px]">
-      {post && (
-        <div className="flex justify-between">
-          <PostContent menu={'community'} post={post} postId={id} />
-          <PostRecommend post={post} />
-        </div>
-      )}
+      <div className="flex justify-between">
+        {post && (
+          <>
+            <PostContent menu={'mart'} post={post} postId={id} />
+            <MartDetailInfo post={post} postId={id} />
+          </>
+        )}
+      </div>
     </section>
   );
 }
