@@ -8,6 +8,7 @@ import comment from '/public/image/comment.svg';
 import mart from '/public/image/mart.jpg';
 import profile from '/public/image/profile.jpg';
 import community from '/public/image/community.jpg';
+import { ALL_COMMUNITY_CATEGORIES } from '@/app/_util/constants';
 export default function MyPostList({ item }) {
   return (
     <Link
@@ -33,7 +34,13 @@ export default function MyPostList({ item }) {
       </div>
 
       <div className="flex justify-between items-center py-[6px] border-b">
-        <p className="text-blue--500 text-sm font-semibold">{item.category}</p>
+        <p className="text-blue--500 text-sm font-semibold">
+          {item.category === '마트/배달'
+            ? item.category
+            : Object.keys(ALL_COMMUNITY_CATEGORIES).find(
+                (key) => ALL_COMMUNITY_CATEGORIES[key] === item.category
+              )}
+        </p>
         {item.category !== '마트/배달' ? (
           <div className="flex items-center gap-[8px]">
             <Image src={comment} width={20} height={20} alt="댓글" />
