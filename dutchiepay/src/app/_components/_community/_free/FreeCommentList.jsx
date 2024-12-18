@@ -11,7 +11,7 @@ import useReissueToken from '@/app/hooks/useReissueToken';
 import profile from '/public/image/profile.jpg';
 import ReplyForm from './ReplyForm';
 import RootCommentInfo from './RootCommentInfo';
-
+import trash from '/public/image/trash.svg';
 export default function FreeCommentList({
   item,
   postId,
@@ -79,7 +79,11 @@ export default function FreeCommentList({
     <div className="flex items-start">
       <Image
         className="border rounded-full"
-        src={item.profileImg || profile}
+        src={
+          item.nickname === null && item.contents == '삭제된 댓글입니다.'
+            ? trash
+            : item.profileImg || profile
+        }
         alt="profile"
         width={50}
         height={50}

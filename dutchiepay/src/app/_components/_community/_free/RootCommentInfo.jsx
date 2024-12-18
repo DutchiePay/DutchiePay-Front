@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import FreeDetailAction from './FreeDetailAction';
 import ReplyEditForm from './ReplyEditForm';
-import trash from '/public/image/trash.svg';
 import { getFormatDate } from '@/app/_util/getFormatDate';
 import { useSelector } from 'react-redux';
-import Image from 'next/image';
 
 export default function RootCommentInfo({
   item,
@@ -22,20 +20,9 @@ export default function RootCommentInfo({
   const [isEdit, setIsEdit] = useState(false);
   return (
     <>
-      {isDeleted &&
-      item.nickname === null &&
-      item.contents == '삭제된 댓글입니다.' ? (
-        <div className="flex gap-[12px] my-[12px]">
-          <Image
-            className="w-[50px] h-[50px] rounded-full border"
-            src={trash}
-            alt="프로필"
-            width={50}
-            height={50}
-          />
-          <div className="h-[45px] ml-[12px] font-bold flex items-center">
-            삭제된 댓글입니다.
-          </div>
+      {item.nickname === null && item.contents == '삭제된 댓글입니다.' ? (
+        <div className="h-[45px] ml-[12px] font-bold flex items-center">
+          삭제된 댓글입니다.
         </div>
       ) : (
         isInitialized && (
