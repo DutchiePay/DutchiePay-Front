@@ -4,7 +4,7 @@ export default function SearchEmpty({ keyword }) {
   return (
     <article className="h-[300px] mt-[40px] border rounded-lg px-[60px] flex flex-col justify-center">
       <p className="text-xl font-bold">
-        <strong className="text-red--500">
+        <strong className="text-blue--500">
           &apos;{keyword ? keyword : '검색어 없음'}&apos;
         </strong>
         {'  '}에 대한 검색 결과가 없습니다.

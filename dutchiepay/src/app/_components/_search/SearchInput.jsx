@@ -6,6 +6,7 @@ import CurrentSearch from './CurrentSearch';
 import Image from 'next/image';
 import SearchWordList from './SearchWordList';
 import axios from 'axios';
+import deleteIcon from '/public/image/delete.svg';
 import search from '/public/image/search.svg';
 
 export default function SearchInput({ keyword, setKeyword }) {
@@ -13,6 +14,9 @@ export default function SearchInput({ keyword, setKeyword }) {
   const [wordList, setWordList] = useState([]);
   const [isFocus, setIsFocus] = useState(false);
   const [isSearchStoreEnabled, setIsSearchStoreEnabled] = useState(false);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
+  const [searchHistory, setSearchHistory] = useState([]);
+  const divRef = useRef(null);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -39,31 +43,54 @@ export default function SearchInput({ keyword, setKeyword }) {
   const handleSearch = (word) => {
     if (!word.trim()) return;
     setKeyword(word);
+    setSearchWord(word);
 
     if (isSearchStoreEnabled) {
       const searchHistory =
         JSON.parse(localStorage.getItem('searchHistory')) || [];
-      if (!searchHistory.includes(word)) {
-        const updatedHistory = [...searchHistory, word];
-        localStorage.setItem(
-          'searchHistory',
-          JSON.stringify(updatedHistory.reverse())
-        );
-      }
+      const filteredHistory = searchHistory.filter((item) => item !== word);
+      const updatedHistory = [word, ...filteredHistory];
+      localStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
     }
+    setIsFocus(false);
   };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      handleSearch(searchWord);
+      if (focusedIndex >= 0) {
+        if (searchWord && wordList[focusedIndex]) {
+          handleSearch(wordList[focusedIndex]);
+        } else {
+          setSearchWord(searchHistory[focusedIndex]);
+          handleSearch(searchHistory[focusedIndex]);
+        }
+        setFocusedIndex(-1);
+      } else {
+        handleSearch(searchWord);
+      }
+      if (inputRef.current) {
+        inputRef.current.blur();
+      }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setFocusedIndex((prev) =>
+        Math.min(
+          prev + 1,
+          searchWord ? wordList.length - 1 : searchHistory.length - 1
+        )
+      );
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setFocusedIndex((prev) => Math.max(prev - 1, -1));
     }
   };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (inputRef.current && !inputRef.current.contains(event.target)) {
+      if (divRef.current && !divRef.current.contains(event.target)) {
         setIsFocus(false);
+        setFocusedIndex(-1);
       }
     };
 
@@ -75,16 +102,27 @@ export default function SearchInput({ keyword, setKeyword }) {
   }, []);
 
   return (
-    <div ref={inputRef}>
+    <div ref={divRef}>
       <div className="relative">
         <Image
-          className="absolute pt-[14px] pb-[13px] ml-[20px]"
+          className="absolute top-[14px] left-[20px]"
           src={search}
           width={20}
           height={20}
           alt="search"
         />
+        {searchWord && (
+          <Image
+            className="absolute right-[12px] top-[15px]"
+            src={deleteIcon}
+            width={25}
+            height={25}
+            alt="delete"
+            onClick={() => setSearchWord('')}
+          />
+        )}
         <input
+          ref={inputRef}
           className="w-[500px] border-b-2 border-black pt-[13px] pb-[13px] pl-[52px] outline-none"
           placeholder="찾으시는 상품을 입력해주세요"
           value={searchWord || ''}
@@ -97,6 +135,11 @@ export default function SearchInput({ keyword, setKeyword }) {
         <CurrentSearch
           isSearchStoreEnabled={isSearchStoreEnabled}
           setIsSearchStoreEnabled={setIsSearchStoreEnabled}
+          focusedIndex={focusedIndex}
+          setSearchHistory={setSearchHistory}
+          searchHistory={searchHistory}
+          handleSearch={handleSearch}
+          setFocusedIndex={setFocusedIndex}
         />
       )}
       {isFocus && searchWord && (
@@ -104,6 +147,7 @@ export default function SearchInput({ keyword, setKeyword }) {
           wordList={wordList}
           isSearchStoreEnabled={isSearchStoreEnabled}
           setIsSearchStoreEnabled={setIsSearchStoreEnabled}
+          focusedIndex={focusedIndex}
         />
       )}
     </div>

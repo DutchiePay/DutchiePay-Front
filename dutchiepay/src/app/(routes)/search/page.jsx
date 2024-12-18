@@ -23,21 +23,16 @@ export default function Search() {
         &apos;{keyword ? keyword : '검색어 없음'}&apos;&nbsp;에 대한 검색결과
       </h2>
       {hasCommerce && (
-        <section className="mt-[24px]">
-          <div className="flex justify-between">
-            <p>
-              공동구매 <strong className="text-blue--500">1,300</strong>건
-            </p>
-          </div>
+        <article className="mt-[24px]">
           <div className="flex justify-between mt-[12px] px-[12px]">
             <Product_Like />
             <Product_Like />
             <Product_Like />
             <Product_Like />
           </div>
-        </section>
+        </article>
       )}
-      {!hasCommerce && <SearchEmpty />}
+      {!hasCommerce && <SearchEmpty keyword={keyword} />}
     </section>
   );
 }
