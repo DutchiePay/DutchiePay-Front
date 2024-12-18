@@ -1,7 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/community.css';
 import { COMMUNITY_FILTER } from '@/app/_util/constants';
 
 export default function FreeCommunityFilter({ filter, setFilter }) {

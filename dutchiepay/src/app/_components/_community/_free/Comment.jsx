@@ -1,6 +1,3 @@
-import '@/styles/community.css';
-import '@/styles/globals.css';
-
 import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
 import FreeCommentList from './FreeCommentList';
 

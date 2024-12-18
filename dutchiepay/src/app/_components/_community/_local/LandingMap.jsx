@@ -1,25 +1,18 @@
 'use client';
 
-import '@/styles/community.css';
-import '@/styles/globals.css';
-
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import Script from 'next/script';
 
-export default function LandingMap({ index }) {
+export default function LandingMap({ lat, lng, meetingPlace }) {
   const infoWindowRef = useRef(null);
-  // 더미 좌표 데이터 (실제 좌표로 교체 필요)
-  const lat = 37.5665; // 위도
-  const lng = 126.978; // 경도
 
-  const initializeMap = () => {
+  const initializeMap = useCallback(() => {
     if (window.naver && window.naver.maps) {
       const location = new window.naver.maps.LatLng(lat, lng);
-      // 지도 생성
       const map = new window.naver.maps.Map('map', {
         center: location,
-        zoomControl: true, // 줌 설정
+        zoomControl: true,
         zoom: 15,
         zoomControlOptions: {
           style: window.naver.maps.ZoomControlStyle.SMALL,
@@ -27,14 +20,13 @@ export default function LandingMap({ index }) {
         },
       });
 
-      // 마커와 정보창 설정
       const marker = new window.naver.maps.Marker({
         map,
-        position: location, // 마커 좌표
+        position: location,
       });
 
       const infoWindow = new window.naver.maps.InfoWindow({
-        content: '<div style="padding:5px;">삼각지역 1번 출구</div>', // 표시할 텍스트
+        content: `<div style="padding:5px;">${meetingPlace}</div>`,
         borderWidth: 0,
       });
 
@@ -48,20 +40,15 @@ export default function LandingMap({ index }) {
         }
       });
     }
-  };
+  }, [lat, lng, meetingPlace]);
 
   useEffect(() => {
-    // 지도 초기화
     initializeMap();
-  }, []);
+  }, [initializeMap]);
 
   return (
     <>
-      <div
-        className="border border-gray--200"
-        id="map"
-        style={{ width: '100%', height: '170px' }}
-      ></div>
+      <div className="w-full h-[170px] border border-gray--200" id="map"></div>
       <Script
         src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_MAP_CLIENT_ID}`}
         strategy="afterInteractive"
