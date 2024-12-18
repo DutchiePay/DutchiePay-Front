@@ -1,32 +1,27 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import * as Hangul from 'hangul-js';
 
-import CurrentSearch from './CurrentSearch';
 import Image from 'next/image';
-import SearchWordList from './SearchWordList';
 import axios from 'axios';
 import deleteIcon from '/public/image/delete.svg';
 import search from '/public/image/search.svg';
+import { useRef } from 'react';
 
-export default function SearchInput({ keyword, setKeyword }) {
-  const [searchWord, setSearchWord] = useState(keyword);
-  const [wordList, setWordList] = useState([]);
-  const [isFocus, setIsFocus] = useState(false);
-  const [isSearchStoreEnabled, setIsSearchStoreEnabled] = useState(false);
-  const [focusedIndex, setFocusedIndex] = useState(-1);
-  const [searchHistory, setSearchHistory] = useState([]);
-  const divRef = useRef(null);
+export default function SearchInput({
+  setIsFocus,
+  searchHistory,
+  handleSearch,
+  wordList,
+  setWordList,
+  filteredList,
+  setFilteredList,
+  searchWord,
+  setSearchWord,
+  focusedIndex,
+  setFocusedIndex,
+}) {
   const inputRef = useRef(null);
-
-  useEffect(() => {
-    const storedValue = JSON.parse(
-      localStorage.getItem('isSearchStoreEnabled')
-    );
-    if (storedValue !== null) {
-      setIsSearchStoreEnabled(storedValue);
-    }
-  }, []);
 
   const getSearchDic = async () => {
     setIsFocus(true);
@@ -40,27 +35,12 @@ export default function SearchInput({ keyword, setKeyword }) {
     }
   };
 
-  const handleSearch = (word) => {
-    if (!word.trim()) return;
-    setKeyword(word);
-    setSearchWord(word);
-
-    if (isSearchStoreEnabled) {
-      const searchHistory =
-        JSON.parse(localStorage.getItem('searchHistory')) || [];
-      const filteredHistory = searchHistory.filter((item) => item !== word);
-      const updatedHistory = [word, ...filteredHistory];
-      localStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
-    }
-    setIsFocus(false);
-  };
-
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       if (focusedIndex >= 0) {
-        if (searchWord && wordList[focusedIndex]) {
-          handleSearch(wordList[focusedIndex]);
+        if (searchWord && filteredList[focusedIndex]) {
+          handleSearch(filteredList[focusedIndex]);
         } else {
           setSearchWord(searchHistory[focusedIndex]);
           handleSearch(searchHistory[focusedIndex]);
@@ -77,7 +57,7 @@ export default function SearchInput({ keyword, setKeyword }) {
       setFocusedIndex((prev) =>
         Math.min(
           prev + 1,
-          searchWord ? wordList.length - 1 : searchHistory.length - 1
+          searchWord ? filteredList.length - 1 : searchHistory.length - 1
         )
       );
     } else if (e.key === 'ArrowUp') {
@@ -86,70 +66,45 @@ export default function SearchInput({ keyword, setKeyword }) {
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (divRef.current && !divRef.current.contains(event.target)) {
-        setIsFocus(false);
-        setFocusedIndex(-1);
-      }
-    };
+  const handleWordSearch = (e) => {
+    let word = e.target.value;
+    setSearchWord(word);
+    const searcher = new Hangul.Searcher(word);
+    const filteredWords = wordList.filter((decomposedTag) => {
+      return searcher.search(decomposedTag) === 0;
+    });
 
-    document.addEventListener('mousedown', handleClickOutside);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+    setFilteredList(filteredWords.slice(0, 6));
+  };
 
   return (
-    <div ref={divRef}>
-      <div className="relative">
+    <div className="relative">
+      <Image
+        className="absolute top-[14px] left-[20px]"
+        src={search}
+        width={20}
+        height={20}
+        alt="search"
+      />
+      {searchWord && (
         <Image
-          className="absolute top-[14px] left-[20px]"
-          src={search}
-          width={20}
-          height={20}
-          alt="search"
-        />
-        {searchWord && (
-          <Image
-            className="absolute right-[12px] top-[15px]"
-            src={deleteIcon}
-            width={25}
-            height={25}
-            alt="delete"
-            onClick={() => setSearchWord('')}
-          />
-        )}
-        <input
-          ref={inputRef}
-          className="w-[500px] border-b-2 border-black pt-[13px] pb-[13px] pl-[52px] outline-none"
-          placeholder="찾으시는 상품을 입력해주세요"
-          value={searchWord || ''}
-          onChange={(e) => setSearchWord(e.target.value)}
-          onClick={() => getSearchDic()}
-          onKeyDown={handleKeyDown}
-        />
-      </div>
-      {isFocus && !searchWord && (
-        <CurrentSearch
-          isSearchStoreEnabled={isSearchStoreEnabled}
-          setIsSearchStoreEnabled={setIsSearchStoreEnabled}
-          focusedIndex={focusedIndex}
-          setSearchHistory={setSearchHistory}
-          searchHistory={searchHistory}
-          handleSearch={handleSearch}
-          setFocusedIndex={setFocusedIndex}
+          className="absolute right-[12px] top-[15px]"
+          src={deleteIcon}
+          width={25}
+          height={25}
+          alt="delete"
+          onClick={() => setSearchWord('')}
         />
       )}
-      {isFocus && searchWord && (
-        <SearchWordList
-          wordList={wordList}
-          isSearchStoreEnabled={isSearchStoreEnabled}
-          setIsSearchStoreEnabled={setIsSearchStoreEnabled}
-          focusedIndex={focusedIndex}
-        />
-      )}
+      <input
+        ref={inputRef}
+        className="w-[500px] border-b-2 border-black pt-[13px] pb-[13px] pl-[52px] outline-none"
+        placeholder="찾으시는 상품을 입력해주세요"
+        value={searchWord || ''}
+        onChange={(e) => handleWordSearch(e)}
+        onClick={() => getSearchDic()}
+        onKeyDown={handleKeyDown}
+      />
     </div>
   );
 }

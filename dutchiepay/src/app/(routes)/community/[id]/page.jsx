@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 
 import PostContent from '@/app/_components/_community/_common/PostContent';
+import PostRecommend from '@/app/_components/_community/_free/PostRecommend';
 import axios from 'axios';
 import useReissueToken from '@/app/hooks/useReissueToken';
 import { useSelector } from 'react-redux';
-import PostRecommend from '@/app/_components/_community/_free/PostRecommend';
 
 export default function CommunityDetail() {
   const { id } = useParams();
