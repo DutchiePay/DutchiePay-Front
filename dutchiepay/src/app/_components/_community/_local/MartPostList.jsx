@@ -9,13 +9,22 @@ import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
 import MartPostItem from './MartPostItem';
 
 export default function MartPostList({ category }) {
-  const categoryParam = category ? `category=${category}&` : '';
+  const categoryParam = category ? category : '';
   const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/mart/list`;
+  const limitParam = 16;
   const {
     items: posts,
     isInitialized,
     lastItemRef,
-  } = useInfiniteScroll(fetchUrl, categoryParam);
+  } = useInfiniteScroll(
+    fetchUrl,
+    categoryParam,
+    null, // filter
+    null, // endParam
+    null, // freeId
+    null, // word
+    limitParam
+  );
 
   return (
     <section className="mt-[16px] flex flex-wrap gap-[20px]">

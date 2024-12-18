@@ -2,84 +2,73 @@
 
 import '@/styles/globals.css';
 
-import Comment from '@/app/_components/_community/_free/Comment';
 import Image from 'next/image';
-import PostCommentAction from './PostCommentAction';
-import axios from 'axios';
 import profile from '/public/image/profile.jpg';
-import { useForm } from 'react-hook-form';
-import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
-const CommentForm = () => {
-  const { refreshAccessToken } = useReissueToken();
-  const { register, watch, handleSubmit, setValue } = useForm({
-    mode: 'onTouched',
-    criteriaMode: 'all',
-    reValidateMode: 'onblur',
-    shouldFocusError: true,
-    shouldUseNativeValidation: false,
-  });
+import FreeCommentList from './FreeCommentList';
+import CommentWrite from './CommentWrite';
+import communityComment from '/public/image/community/communityComment.svg';
 
-  const comment = watch('comment', '');
-
-  const onSubmit = async (formData) => {
-    setValue('comment', '');
-    try {
-      await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/free/comments`);
-    } catch (error) {
-      if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-        const reissueResponse = await refreshAccessToken();
-        if (reissueResponse.success) {
-          await onSubmit();
-        } else {
-          alert(
-            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
-          );
-        }
-      } else {
-        alert('오류가 발생했습니다. 다시 시도해주세요.');
-      }
-    }
-  };
+const CommentForm = ({
+  postId,
+  post,
+  isInitialized,
+  comments,
+  refreshComments,
+  lastItemRef,
+}) => {
+  const profileImage = useSelector((state) => state.login.user.profileImage);
 
   return (
     <div className="mt-[40px]">
       <div className="flex items-center gap-[12px]">
         <h2 className="text-xl font-bold">댓글</h2>
-        <p>2개</p>
+        <p>{post.commentsCount}개</p>
       </div>
       <div className="flex gap-[12px] my-[12px]">
         <Image
           className="w-[50px] h-[50px] rounded-full border"
-          src={profile}
+          src={profileImage || profile}
           alt="프로필"
           width={50}
           height={50}
         />
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
-          <div className="flex flex-col border border-gray--300 rounded-lg p-2 bg-white">
-            <textarea
-              id="comment"
-              {...register('comment')}
-              className="w-full resize-none outline-none text-sm p-2 min-h-[100px]"
-              placeholder="댓글을 입력해주세요."
-              spellCheck="false"
-              maxLength={800}
-              onInput={(e) => {
-                const text = e.target.value;
-                if (text.length > 800) {
-                  e.target.value = text.substring(0, 800);
-                  setValue('comment', e.target.value);
-                } else {
-                  setValue('comment', text);
-                }
-              }}
-            />
-            <PostCommentAction comment={comment} />
-          </div>
-        </form>
+        <CommentWrite
+          postId={postId}
+          refreshComments={refreshComments}
+          type={'comment'}
+        />
       </div>
-      <Comment />
+      {!isInitialized || comments.length === 0 ? (
+        <div className="mx-auto my-auto  flex flex-col justify-center items-center">
+          <Image
+            src={communityComment}
+            alt="등록된 댓글이 없습니다."
+            width={60}
+            height={60}
+            className="mt-[15%] pb-[30px] mx-auto"
+          />
+          <strong className="text-l text-center mb-[50px]">
+            현재 등록된 댓글이 없습니다.
+            <br />
+            새로운 댓글을 작성하여 다양한 의견과 정보를 공유해 주세요.
+          </strong>
+        </div>
+      ) : (
+        <div className="border-b py-[16px]">
+          {comments.map((item, index) => (
+            <FreeCommentList
+              key={index}
+              item={item}
+              postId={postId}
+              isInitialized={isInitialized}
+              refreshComments={refreshComments}
+            />
+          ))}
+          <div ref={lastItemRef}></div>
+        </div>
+      )}
     </div>
   );
 };

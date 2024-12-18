@@ -9,10 +9,21 @@ import PostDetailAction from '@/app/_components/_community/_common/PostDetailAct
 import { getPostDate } from '@/app/_util/getFormatDate';
 import prev from '/public/image/prev.svg';
 import { useRouter } from 'next/navigation';
+import profile from '/public/image/profile.jpg';
+import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
 
 export default function PostContent({ menu, post, postId }) {
   const router = useRouter();
   const cleanHtml = DOMPurify.sanitize(JSON.parse(post.content));
+  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/free/comments/list`;
+  const freeId = postId;
+  const limitParam = 9;
+  const {
+    items: comments,
+    isInitialized,
+    lastItemRef,
+    refresh: refreshComments,
+  } = useInfiniteScroll(fetchUrl, null, null, null, freeId, null, limitParam);
 
   return (
     <section className="min-h-[750px] w-[730px] px-[24px] py-[40px] border-r">
@@ -38,7 +49,7 @@ export default function PostContent({ menu, post, postId }) {
             <div className="relative w-[40px] h-[40px] rounded-full border">
               <Image
                 className="w-[40px] h-[40px] rounded-full object-cover"
-                src={post.writerProfileImage}
+                src={post.writerProfileImage || profile}
                 alt={post.writer}
                 fill
               />
@@ -62,7 +73,18 @@ export default function PostContent({ menu, post, postId }) {
             menu={menu}
           />
         </div>
-        {menu !== 'community' ? <CurrentPost /> : <CommentForm />}
+        {menu !== 'community' ? (
+          <CurrentPost />
+        ) : (
+          <CommentForm
+            postId={postId}
+            post={post}
+            isInitialized={isInitialized}
+            comments={comments}
+            refreshComments={refreshComments}
+            lastItemRef={lastItemRef}
+          />
+        )}
       </article>
     </section>
   );
