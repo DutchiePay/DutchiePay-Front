@@ -42,7 +42,7 @@ const calculateTimeUnits = (distance) => {
   };
 };
 
-const getPostDate = (dateString) => {
+const getPostDate = (dateString, type = 'default') => {
   const date = new Date(dateString);
 
   const options = {
@@ -60,7 +60,34 @@ const getPostDate = (dateString) => {
   const [year, month, day, hour, minute] = formattedDate.split(/[^0-9]+/);
   const ampm = date.getHours() >= 12 ? '오후' : '오전';
 
-  return `${year}년 ${month}월 ${day}일 ${ampm} ${hour}:${minute}`;
+  if (type === 'default')
+    return `${year}년 ${month}월 ${day}일 ${ampm} ${hour}:${minute}`;
+  else return `${year}년 ${month}월 ${day}일`;
 };
 
-export { getFormatDate, getRemainingTime, getPostDate };
+const getStringDateToTimeStamp = (date) => {
+  const [monthDay, dayOfWeek, weekDay, ampm, time] = date.split(' ');
+  const [month, day] = [
+    monthDay.replace('월', ''),
+    dayOfWeek.replace('일', ''),
+  ];
+  let [hours, minutes] = time.split(':').map(Number);
+
+  if (ampm === '오후' && hours < 12) hours += 12;
+  const formattedDate = new Date(new Date().getFullYear(), month - 1, day)
+    .toISOString()
+    .split('T')[0];
+  const formattedTime = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+
+  return {
+    date: formattedDate,
+    time: formattedTime,
+  };
+};
+
+export {
+  getFormatDate,
+  getRemainingTime,
+  getPostDate,
+  getStringDateToTimeStamp,
+};

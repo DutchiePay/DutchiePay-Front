@@ -1,13 +1,10 @@
 'use client';
-import '@/styles/community.css';
-import '@/styles/globals.css';
-
-import Image from 'next/image';
-import Link from 'next/link';
-import post from '/public/image/community/post.svg';
 
 import { COMMUNITY_FILTER } from '@/app/_util/constants';
 import FreePostItem from '@/app/_components/_community/_free/FreePostItem';
+import Image from 'next/image';
+import Link from 'next/link';
+import post from '/public/image/community/post.svg';
 import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
 
 export default function CommunityPostList({ category, filter }) {

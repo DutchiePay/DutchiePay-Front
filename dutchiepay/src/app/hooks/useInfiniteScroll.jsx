@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+
 import axios from 'axios';
 import useReissueToken from '@/app/hooks/useReissueToken';
 import { useSelector } from 'react-redux';
@@ -40,7 +41,6 @@ const useInfiniteScroll = (
         const response = await axios.get(`${fetchUrl}?${params}`, {
           headers,
         });
-        console.log(response.data);
 
         if (response.data.cursor === null) setHasMore(false);
         setCursor(response.data.cursor);
@@ -52,7 +52,7 @@ const useInfiniteScroll = (
           []
         );
       } catch (error) {
-        if (error.response?.data?.message === '액세스 토큰이 만료되었습니다.') {
+        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           hasFetched.current = false;
           const reissueResponse = await refreshAccessToken();
           if (reissueResponse.success) {

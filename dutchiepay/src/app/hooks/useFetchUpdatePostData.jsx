@@ -5,7 +5,7 @@ import useReissueToken from './useReissueToken';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
-export default function useFetchUpdatePostData({ id, setPost }) {
+export default function useFetchUpdatePostData({ id, setPost, menu }) {
   const access = useSelector((state) => state.login.access);
   const router = useRouter();
   const hasFetched = useRef(false);
@@ -18,7 +18,7 @@ export default function useFetchUpdatePostData({ id, setPost }) {
       hasFetched.current = true;
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/free/${id}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/${menu}/${id}`,
           {
             headers: {
               Authorization: `Bearer ${access}`,
@@ -27,6 +27,7 @@ export default function useFetchUpdatePostData({ id, setPost }) {
         );
         setPost(response.data);
       } catch (error) {
+        console.log(error);
         if (error.response.data.message === '작성자가 일치하지 않습니다.') {
           alert('게시글의 권한이 없습니다. 메인으로 돌아갑니다.');
           router.push('/');

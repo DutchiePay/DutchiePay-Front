@@ -1,15 +1,18 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+
 import { ALL_COMMUNITY_CATEGORIES } from '@/app/_util/constants';
 import LocationModal from '@/app/_components/_community/_local/LocationModal';
 import MartPostForm from '@/app/_components/_community/_local/MartPostForm';
 import axios from 'axios';
+import { getStringDateToTimeStamp } from '@/app/_util/getFormatDate';
 import getTextLength from '@/app/_util/getTextLength';
+import useFetchUpdatePostData from '@/app/hooks/useFetchUpdatePostData';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
 
 export default function MartModify() {
   const { id } = useParams();
@@ -19,13 +22,37 @@ export default function MartModify() {
   const router = useRouter();
   const [images, setImages] = useState([]);
   const [thumbnail, setThumbnail] = useState('');
+  const [post, setPost] = useState(null);
+  useFetchUpdatePostData({ id, setPost, menu: 'mart' });
 
-  // 수정 페이지 내에서 데이터 호출 시 setValue 처리 필요
   const { register, watch, handleSubmit, setValue } = useForm({
     defaultValues: {
       location: { lat: null, lng: null },
     },
   });
+
+  useEffect(() => {
+    const handleSetValue = () => {
+      setEditorContent(JSON.parse(post.content));
+      setValue('title', post.title);
+      setValue(
+        'category',
+        Object.keys(ALL_COMMUNITY_CATEGORIES).find(
+          (key) => ALL_COMMUNITY_CATEGORIES[key] === post.category
+        )
+      );
+      setValue('locationDescription', post.meetingPlace);
+      setValue('location', { lat: post.latitude, lng: post.longitude });
+      setThumbnail(post.thumbnail);
+      setImages(post.images);
+      setValue('formattedDateTime', post.date);
+      const { date, time } = getStringDateToTimeStamp(post.date);
+      setValue('date', date);
+      setValue('time', time);
+    };
+
+    if (post) handleSetValue();
+  }, [post, setValue]);
 
   const onSubmit = async (formData) => {
     if (!formData.title || formData.title.length > 60) {
@@ -50,7 +77,7 @@ export default function MartModify() {
       await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/mart`,
         {
-          sharedId: id,
+          shareId: id,
           title: formData.title,
           date: formData.formattedDateTime,
           meetingPlace: formData.locationDescription,
@@ -70,6 +97,7 @@ export default function MartModify() {
 
       router.push(`/mart/${id}`);
     } catch (error) {
+      console.log(error);
       alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
@@ -82,6 +110,7 @@ export default function MartModify() {
           register={register}
           setValue={setValue}
           watch={watch}
+          editorContent={editorContent}
           setEditorContent={setEditorContent}
           thumbnail={thumbnail}
           images={images}

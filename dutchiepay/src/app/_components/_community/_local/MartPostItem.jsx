@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/community.css';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import date from '/public/image/date.svg';
@@ -10,7 +7,6 @@ import location from '/public/image/location.svg';
 import mart from '/public/image/mart.jpg';
 import people from '/public/image/people.svg';
 import profile from '/public/image/profile.jpg';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 export default function MartPostItem({ item }) {

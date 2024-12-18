@@ -22,7 +22,7 @@ export default function MartModify() {
   const [thumbnail, setThumbnail] = useState('');
   const [post, setPost] = useState(null);
   const { refreshAccessToken } = useReissueToken();
-  useFetchUpdatePostData({ id, setPost });
+  useFetchUpdatePostData({ id, setPost, menu: 'free' });
 
   const { register, watch, handleSubmit, setValue } = useForm();
 
