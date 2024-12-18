@@ -64,6 +64,7 @@ export default function MyPost() {
   };
 
   const handleFilterChange = (newFilter) => {
+    hasFetched.current = false;
     setFilter(newFilter);
     setActivePage(1);
   };
