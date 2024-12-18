@@ -1,6 +1,3 @@
-import '@/styles/community.css';
-import '@/styles/globals.css';
-
 import Image from 'next/image';
 import Reply from '@/app/_components/_community/_free/Reply';
 import profile from '/public/image/otherProfile.jpg';

@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/community.css';
-
-import Image from 'next/image';
 import Link from 'next/link';
 import Location_Modal from '@/app/_components/_community/_local/LocationModal';
 import TextEditor from '@/app/_components/_community/_common/TextEditor';
@@ -45,85 +42,65 @@ export default function UsedWrite() {
       ) : (
         <form>
           <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
-            <label className="community__label" htmlFor="category">
+            <label className="font-bold text-lg" htmlFor="category">
               카테고리
             </label>
-            <small className="community__label-description">
+            <small className="text-sm text-gray--500">
               작성하실 게시글의 카테고리를 선택해주세요.
             </small>
           </div>
-          <ul className="flex gap-[16px]">
-            <li>
-              <button
-                type="button"
-                className={`community__filter ${filter === '거래' ? `community__filter--selected` : ''}`}
-                onClick={() => setFilter('거래')}
-              >
-                거래
-              </button>
-            </li>
-            <li>
-              <button
-                type="button"
-                className={`community__filter ${filter === '나눔' ? `community__filter--selected` : ''}`}
-                onClick={() => setFilter('나눔')}
-              >
-                나눔
-              </button>
-            </li>
-          </ul>
           <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
-            <label className="community__label" htmlFor="title">
+            <label className="font-bold text-lg" htmlFor="title">
               제목
             </label>
-            <small className="community__label-description">
+            <small className="text-sm text-gray--500">
               게시글 제목을 입력해주세요. 최대 60글자까지 입력 가능합니다.
             </small>
           </div>
           <input
             id="title"
-            className="community__input-text"
+            className="w-[150px] border rounded-lg outline-none py-[8px] px-[12px]"
             type="text"
             placeholder="게시글 제목"
             aria-required="true"
           />
           <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
-            <label className="community__label" htmlFor="product">
+            <label className="font-bold text-lg" htmlFor="product">
               상품명
             </label>
-            <small className="community__label-description">
+            <small className="text-sm text-gray--500">
               상품명을 입력해주세요. 최대 10글자까지 입력 가능합니다.
             </small>
           </div>
           <input
             id="product"
-            className="community__input-text"
+            className="w-[150px] border rounded-lg outline-none py-[8px] px-[12px]"
             type="text"
             placeholder="상품명"
             aria-required="true"
           />
           <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
-            <label className="community__label" htmlFor="trading-place">
+            <label className="font-bold text-lg" htmlFor="trading-place">
               거래 장소
             </label>
-            <small className="community__label-description">
+            <small className="text-sm text-gray--500">
               거래를 진행할 장소입니다. 수정이 불가능합니다.
             </small>
           </div>
 
           <input
             id="trading-place"
-            className="community__input-text"
+            className="w-[600px] border rounded-lg outline-none py-[8px] pl-[50px]"
             type="text"
             value={`${locationDescription}`}
             disabled={true}
             aria-disabled="true"
           />
           <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
-            <label className="community__label" htmlFor="price">
+            <label className="font-bold text-lg" htmlFor="price">
               가격
             </label>
-            <small className="community__label-description">
+            <small className="text-sm text-gray--500">
               판매를 희망하시는 가격을 작성해주세요. 1 이상의 숫자만 입력
               가능합니다.
             </small>
@@ -131,7 +108,7 @@ export default function UsedWrite() {
           <div className="flex gap-[12px] items-end">
             <input
               id="price"
-              className="community__input-price"
+              className="w-[150px] border rounded-lg outline-none py-[8px] px-[12px]"
               type="text"
               value={inputValue || ''}
               onChange={(e) => handlePrice(e)}
@@ -142,10 +119,10 @@ export default function UsedWrite() {
           </div>
 
           <div className="flex items-center gap-[12px] mt-[24px] mb-[8px]">
-            <label className="community__label" htmlFor="content">
+            <label className="font-bold text-lg" htmlFor="content">
               내용
             </label>
-            <small className="community__label-description">
+            <small className="text-sm text-gray--500">
               나눔/거래에 대해 추가적인 설명이 필요하신 경우 작성해주세요. 최대
               3,000글자까지 입력 가능합니다.
             </small>

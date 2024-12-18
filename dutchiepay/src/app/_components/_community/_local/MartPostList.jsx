@@ -1,12 +1,8 @@
-import '@/styles/community.css';
-import '@/styles/globals.css';
-
 import Image from 'next/image';
 import Link from 'next/link';
-import post from '/public/image/community/post.svg';
-
-import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
 import MartPostItem from './MartPostItem';
+import post from '/public/image/community/post.svg';
+import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
 
 export default function MartPostList({ category }) {
   const categoryParam = category ? `category=${category}&` : '';

@@ -11,6 +11,7 @@ export default function MartPostForm({
   register,
   setValue,
   watch,
+  editorContent,
   setEditorContent,
   thumbnail,
   images,
@@ -33,6 +34,7 @@ export default function MartPostForm({
         <HeadCount register={register} setValue={setValue} watch={watch} />
       )}
       <TextEditor
+        editorContent={editorContent}
         setEditorContent={setEditorContent}
         thumbnail={thumbnail}
         images={images}

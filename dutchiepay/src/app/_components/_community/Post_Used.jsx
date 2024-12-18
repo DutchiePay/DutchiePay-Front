@@ -1,6 +1,3 @@
-import '@/styles/community.css';
-import '@/styles/globals.css';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import location from '../../../../public/image/location.svg';
