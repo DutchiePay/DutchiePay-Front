@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import PostContent from '@/app/_components/_community/_common/PostContent';
-import PostDetail from '@/app/_components/_community/PostDetail';
 import { useSearchParams } from 'next/navigation';
 
 export default function UsedDetail({ params }) {
@@ -17,7 +16,6 @@ export default function UsedDetail({ params }) {
           menu={'거래/나눔'}
           isMyPostWritten={true}
         />
-        <PostDetail menu={'거래/나눔'} isTrade={true} isMyPostWritten={true} />
       </div>
     </section>
   );
