@@ -24,7 +24,7 @@ export default function ProductDetailTab({
   };
 
   return (
-    <ul className="mt-[40px] flex gap-[52px] border border-2 border-t-black py-[12px] px-[40px] sticky top-[154px] bg-white z-10">
+    <ul className="mt-[40px] flex gap-[52px] border border-2 border-t-black py-[12px] px-[40px] sticky top-[105px] bg-white z-10">
       <li
         className={`cursor-pointer hover:font-bold ${tab === '상품정보' ? 'product-tab__item--selected' : ''}`}
         onClick={(e) => handleTab(e)}

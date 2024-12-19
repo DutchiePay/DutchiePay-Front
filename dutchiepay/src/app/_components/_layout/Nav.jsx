@@ -17,7 +17,7 @@ export default function Nav() {
   return (
     <div className="relative">
       <nav>
-        <ul className="flex justify-center text-center w-[1020px] gap-[60px] mb-[4px] relative z-50">
+        <ul className="flex justify-center text-center gap-[60px] mb-[4px] relative z-50">
           {Object.entries(MENUS).map(([key, value]) => (
             <li
               className={`cursor-pointer hover:text-blue--500 px-1 ${
@@ -37,9 +37,9 @@ export default function Nav() {
           ))}
         </ul>
       </nav>
-      {(isHovered || isNavHovered) && (
+      {currentHover !== '상품검색' && (isHovered || isNavHovered) && (
         <div
-          className={`absolute top-[99%] ${currentHover === '공동구매' ? 'left-64' : currentHover === '마트/배달' ? 'left-96' : currentHover === '거래/나눔' ? 'left-[510px]' : 'left-[640px]'} w-full `}
+          className={`absolute top-[99%] ${currentHover === '공동구매' ? 'left-[90px]' : currentHover === '마트/배달' ? 'left-[220px]' : currentHover === '거래/나눔' ? 'left-[350px]' : 'left-[470px]'} w-full `}
         >
           <HeaderHoverNav
             setIsNavHovered={setIsNavHovered}

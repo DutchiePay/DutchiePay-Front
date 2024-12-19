@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 import Link from 'next/link';
 import useLogout from '@/app/hooks/useLogout';
 import { useSelector } from 'react-redux';
@@ -17,39 +14,44 @@ export default function HeaderTop() {
     <ul className="flex justify-end items-center mt-[4px] gap-[6px]">
       {isLoggedIn ? (
         <>
-          <li className="nav-item">
-            <span className="font-bold text-xs">{user?.nickname}님</span>
+          <li className="header-nav-item">
+            <Link
+              href={'/mypage'}
+              className="font-bold text-xs hover:underline"
+            >
+              {user?.nickname}님
+            </Link>
           </li>
-          <li className="nav-item">
-            <button onClick={handleLogout} className="text-xs">
+          <li className="header-nav-item">
+            <button onClick={handleLogout} className="text-xs hover:underline">
               로그아웃
             </button>
           </li>
-          <li className="nav-item">
-            <Link href="/mypage/myorder" className="text-xs">
+          <li className="header-nav-item">
+            <Link href="/mypage/myorder" className="text-xs hover:underline">
               주문/배송
             </Link>
           </li>
-          <li className="nav-item">
-            <Link href="/help" className="text-xs">
+          <li className="header-nav-item">
+            <Link href="/help" className="text-xs hover:underline">
               고객센터
             </Link>
           </li>
         </>
       ) : (
         <>
-          <li className="nav-item">
-            <Link href="/signup" className="text-xs">
+          <li className="header-nav-item">
+            <Link href="/signup" className="text-xs hover:underline">
               회원가입
             </Link>
           </li>
-          <li className="nav-item">
-            <Link href="/login" className="text-xs">
+          <li className="header-nav-item">
+            <Link href="/login" className="text-xs hover:underline">
               로그인
             </Link>
           </li>
-          <li className="nav-item">
-            <Link href="/help" className="text-xs">
+          <li className="header-nav-item">
+            <Link href="/help" className="text-xs hover:underline">
               고객센터
             </Link>
           </li>

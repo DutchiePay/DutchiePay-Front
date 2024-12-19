@@ -7,13 +7,6 @@
   box-sizing: border-box;
 }
 
-.layout {
-  width: 1020px;
-  display: flex;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .layout__main {
   flex-grow: 1;
 }
@@ -110,6 +103,13 @@ input:-webkit-autofill:active {
 
 .ql-editor {
   height: 450px !important;
+}
+
+.header-nav-item:not(:last-child)::after {
+  content: '|';
+  color: #d1d2d7;
+  margin-left: 6px;
+  font-size: 12px;
 }
 
 /* HTML: <div class="loader"></div> */

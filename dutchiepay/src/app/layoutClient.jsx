@@ -1,7 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { persistor, store } from '@/redux/store';
 import { redirect, usePathname } from 'next/navigation';
@@ -110,7 +108,9 @@ function LayoutWrapper({ children }) {
   return (
     <>
       {!rhideHeader && <Header />}
-      <main className={`layout ${!rhideHeader ? 'mt-[155px]' : ''}`}>
+      <main
+        className={`w-[1020px] flex mx-auto ${!rhideHeader ? 'mt-[105px]' : ''}`}
+      >
         {children}
         {!rhideFloating && <Floating />}
         {!rhideFloating && <UpDownButton />}
