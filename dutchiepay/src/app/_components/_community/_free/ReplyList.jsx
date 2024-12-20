@@ -10,7 +10,12 @@ import { getFormatDate } from '@/app/_util/getFormatDate';
 import FreeDetailAction from './FreeDetailAction';
 import ReplyEditForm from './ReplyEditForm';
 
-export default function ReplyList({ item, refreshComments, postId }) {
+export default function ReplyList({
+  item,
+  refreshComments,
+  postId,
+  rootCommentId,
+}) {
   const [isReplyActive, setIsReplyActive] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const isMine =
@@ -83,7 +88,7 @@ export default function ReplyList({ item, refreshComments, postId }) {
                   ? item.mentionedNickname
                   : '탈퇴한 사용자'}
               </span>
-              <span className="text-sm px-[12px]">{item.content}</span>
+              <span className="text-sm px-[12px]">{item.contents}</span>
             </>
           )}
         </div>
@@ -106,10 +111,10 @@ export default function ReplyList({ item, refreshComments, postId }) {
           />
           <div className="w-[500px] ml-1 border border-gray--300 rounded-lg p-3 text-sm">
             <ReplyForm
-              mentionedNickname={item.nickname}
-              mentionedId={item.commentId}
+              mentionedNickname={item.mentionedNickname}
+              mentionedId={item.mentionedId}
               postId={postId}
-              rootCommentId={item.commentId}
+              rootCommentId={rootCommentId}
               refreshComments={refreshComments}
             />
           </div>

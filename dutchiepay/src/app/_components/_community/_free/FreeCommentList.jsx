@@ -1,6 +1,3 @@
-import '@/styles/community.css';
-import '@/styles/globals.css';
-
 import Image from 'next/image';
 import ReplyList from '@/app/_components/_community/_free/ReplyList';
 import reply from '/public/image/community/reply.svg';
@@ -12,6 +9,7 @@ import profile from '/public/image/profile.jpg';
 import ReplyForm from './ReplyForm';
 import RootCommentInfo from './RootCommentInfo';
 import trash from '/public/image/trash.svg';
+
 export default function FreeCommentList({
   item,
   postId,
@@ -25,8 +23,9 @@ export default function FreeCommentList({
   const hasFetched = useRef(false);
   const { refreshAccessToken } = useReissueToken();
   const [replys, setReplys] = useState([]);
-  const [type, setType] = useState('first');
+  const [type, setType] = useState('');
   const commentId = item.commentId || '';
+  const [hasViewedReplies, setHasViewedReplies] = useState(false);
 
   const fetchReplies = useCallback(
     async (typeParam) => {
@@ -44,6 +43,7 @@ export default function FreeCommentList({
             ? [...prevReplies, ...response.data]
             : response.data;
         });
+        setType(typeParam);
       } catch (error) {
         if (error.response?.data?.message === '액세스 토큰이 만료되었습니다.') {
           const reissueResponse = await refreshAccessToken();
@@ -63,24 +63,12 @@ export default function FreeCommentList({
     [access, commentId, refreshAccessToken]
   );
 
-  useEffect(() => {
-    if (!hasFetched.current) {
-      hasFetched.current = true;
-      fetchReplies(type);
-    }
-  }, [fetchReplies, type]);
-
-  const handleLoadMore = () => {
-    setType('rest');
-    fetchReplies('rest');
-  };
-
   return (
-    <div className="flex items-start">
+    <div className="flex items-start mb-[20px] gap-[4px]">
       <Image
-        className="border rounded-full"
+        className="border rounded-full "
         src={
-          item.nickname === null && item.contents == '삭제된 댓글입니다.'
+          item.nickname === null && item.contents === '삭제된 댓글입니다.'
             ? trash
             : item.profileImg || profile
         }
@@ -97,21 +85,36 @@ export default function FreeCommentList({
             setIsReplyActive={setIsReplyActive}
             isReplyActive={isReplyActive}
           />
-        )}
-
-        <div className="mt-[8px] flex flex-col gap-[4px]">
+        )}{' '}
+        <div className="mt-[10px] flex flex-col gap-[4px]">
+          {item.reCommentCount > 0 && !hasViewedReplies && (
+            <button
+              onClick={() => {
+                fetchReplies('first');
+                hasFetched.current = true;
+                setHasViewedReplies(true);
+              }}
+              className="text-sm mb-[5px] text-blue--500"
+            >
+              답글 보기
+            </button>
+          )}
           {replys &&
             replys.map((replyItem, key) => (
               <ReplyList
                 item={replyItem}
                 key={key}
                 postId={postId}
+                rootCommentId={item.commentId}
                 refreshComments={refreshComments}
               />
             ))}
-          {item.hasMore && type != 'rest' && (
+          {item.reCommentCount > 5 && type === 'first' && (
             <button
-              onClick={handleLoadMore}
+              onClick={() => {
+                fetchReplies('rest');
+                hasFetched.current = true;
+              }}
               className="text-sm mb-[5px] text-blue--500"
             >
               답글 더보기

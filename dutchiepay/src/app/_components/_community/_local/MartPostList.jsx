@@ -5,22 +5,13 @@ import post from '/public/image/community/post.svg';
 import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
 
 export default function MartPostList({ category }) {
-  const categoryParam = category ? category : '';
-  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/mart/list`;
-  const limitParam = 16;
+  const categoryParam = category ? `category=${category}&` : '';
+  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/mart/list?${categoryParam}limit=16`;
   const {
     items: posts,
     isInitialized,
     lastItemRef,
-  } = useInfiniteScroll(
-    fetchUrl,
-    categoryParam,
-    null, // filter
-    null, // endParam
-    null, // freeId
-    null, // word
-    limitParam
-  );
+  } = useInfiniteScroll({ fetchUrl });
 
   return (
     <section className="mt-[16px] flex flex-wrap gap-[20px]">

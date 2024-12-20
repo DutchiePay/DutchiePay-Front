@@ -4,15 +4,7 @@ import axios from 'axios';
 import useReissueToken from '@/app/hooks/useReissueToken';
 import { useSelector } from 'react-redux';
 
-const useInfiniteScroll = (
-  fetchUrl,
-  categoryParam,
-  filter = null,
-  endParam = null,
-  freeId = null,
-  word = null,
-  limitParam
-) => {
+const useInfiniteScroll = ({ fetchUrl }) => {
   const access = useSelector((state) => state.login.access);
   const [items, setItems] = useState([]);
   const [cursor, setCursor] = useState(null);
@@ -30,15 +22,10 @@ const useInfiniteScroll = (
         const headers = access ? { Authorization: `Bearer ${access}` } : {};
 
         const params = new URLSearchParams({
-          limit: limitParam,
-          ...(freeId && { freeId }),
-          ...(filter && { filter }),
-          ...(categoryParam && { category: categoryParam }),
-          ...(endParam && { end: endParam }),
           ...(cursorParam && { cursor: cursorParam }),
         });
 
-        const response = await axios.get(`${fetchUrl}?${params}`, {
+        const response = await axios.get(`${fetchUrl}&${params}`, {
           headers,
         });
 
@@ -52,6 +39,8 @@ const useInfiniteScroll = (
           []
         );
       } catch (error) {
+        console.log(error);
+
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           hasFetched.current = false;
           const reissueResponse = await refreshAccessToken();
@@ -71,16 +60,7 @@ const useInfiniteScroll = (
         setIsLoading(false);
       }
     },
-    [
-      access,
-      fetchUrl,
-      filter,
-      refreshAccessToken,
-      categoryParam,
-      freeId,
-      limitParam,
-      endParam,
-    ]
+    [access, fetchUrl, refreshAccessToken]
   );
   const refresh = useCallback(async () => {
     hasFetched.current = false;
@@ -96,7 +76,7 @@ const useInfiniteScroll = (
     setItems([]);
     setCursor(null);
     setHasMore(true);
-  }, [filter, categoryParam, endParam]);
+  }, [fetchUrl]);
 
   useEffect(() => {
     const loadItems = async () => {
@@ -106,7 +86,7 @@ const useInfiniteScroll = (
       setItems(newItems);
     };
     loadItems();
-  }, [filter, categoryParam, endParam, fetchItems]);
+  }, [fetchUrl, fetchItems]);
 
   const lastItemRef = useCallback(
     (node) => {
