@@ -6,6 +6,7 @@ import review from '/public/image/review.svg';
 import user from '/public/image/user.svg';
 
 export const MENUS = {
+  상품검색: 'search',
   공동구매: 'commerce',
   '마트/배달': 'mart',
   '거래/나눔': 'used',
