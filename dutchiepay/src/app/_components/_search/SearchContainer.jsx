@@ -56,7 +56,7 @@ export default function SearchContainer({ keyword, setKeyword }) {
   }, []);
 
   return (
-    <div ref={divRef}>
+    <div ref={divRef} className="z-20">
       <SearchInput
         setIsFocus={setIsFocus}
         searchHistory={searchHistory}

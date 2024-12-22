@@ -32,6 +32,7 @@ const useInfiniteScroll = ({ fetchUrl }) => {
         if (response.data.cursor === null) setHasMore(false);
         setCursor(response.data.cursor);
         setIsInitialized(true);
+        console.log(response.data.products);
         return (
           response.data.posts ||
           response.data.products ||
@@ -40,7 +41,6 @@ const useInfiniteScroll = ({ fetchUrl }) => {
         );
       } catch (error) {
         console.log(error);
-
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           hasFetched.current = false;
           const reissueResponse = await refreshAccessToken();
