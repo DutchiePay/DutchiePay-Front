@@ -6,12 +6,12 @@ import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
 
 export default function MartPostList({ category }) {
   const categoryParam = category ? `category=${category}&` : '';
-  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/mart/list`;
+  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/mart/list?${categoryParam}limit=16`;
   const {
     items: posts,
     isInitialized,
     lastItemRef,
-  } = useInfiniteScroll(fetchUrl, categoryParam);
+  } = useInfiniteScroll({ fetchUrl });
 
   return (
     <section className="mt-[16px] flex flex-wrap gap-[20px]">

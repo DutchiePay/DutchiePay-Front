@@ -13,6 +13,7 @@ const getFormatDate = (type, dateString) => {
     case 'review':
       return `${year}년 ${month}월 ${day}일`;
     case 'myask':
+    case 'comment':
       return `${year}. ${month}. ${day}. ${hours}:${minutes}`;
     default:
       return ''; // 기본값

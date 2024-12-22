@@ -8,16 +8,15 @@ import ProductItem from './ProductItem';
 import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
 
 export default function ProductList({ category, filter, isEndContain }) {
-
   const categoryParam = category ? `category=${category}&` : '';
+  const filterParam = FILTERS[filter];
   const endParam = isEndContain ? '1' : '0';
-  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/list`;
+  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/commerce/list?${categoryParam}filter=${filterParam}&end=${endParam}&limit=16`;
   const {
     items: products,
     isInitialized,
     lastItemRef,
-  } = useInfiniteScroll(fetchUrl, categoryParam, FILTERS[filter], endParam);
-
+  } = useInfiniteScroll({ fetchUrl });
 
   return (
     <>

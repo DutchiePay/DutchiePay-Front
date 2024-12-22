@@ -4,12 +4,7 @@ import axios from 'axios';
 import useReissueToken from '@/app/hooks/useReissueToken';
 import { useSelector } from 'react-redux';
 
-const useInfiniteScroll = (
-  fetchUrl,
-  categoryParam,
-  filter,
-  endParam = null
-) => {
+const useInfiniteScroll = ({ fetchUrl }) => {
   const access = useSelector((state) => state.login.access);
   const [items, setItems] = useState([]);
   const [cursor, setCursor] = useState(null);
@@ -24,22 +19,28 @@ const useInfiniteScroll = (
     async (cursorParam) => {
       setIsLoading(true);
       try {
-        const headers = {};
-        if (access) {
-          headers.Authorization = `Bearer ${access}`;
-        }
+        const headers = access ? { Authorization: `Bearer ${access}` } : {};
 
-        const response = await axios.get(
-          `${fetchUrl}?${filter ? `filter=${filter}` : ''}&${categoryParam}${endParam ? `&end=${endParam}` : ''}&cursor=${cursorParam}&limit=16`,
-          { headers }
-        );
+        const params = new URLSearchParams({
+          ...(cursorParam && { cursor: cursorParam }),
+        });
+
+        const response = await axios.get(`${fetchUrl}&${params}`, {
+          headers,
+        });
 
         if (response.data.cursor === null) setHasMore(false);
         setCursor(response.data.cursor);
         setIsInitialized(true);
-        return response.data.posts || response.data.products || [];
+        return (
+          response.data.posts ||
+          response.data.products ||
+          response.data.comments ||
+          []
+        );
       } catch (error) {
         console.log(error);
+
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           hasFetched.current = false;
           const reissueResponse = await refreshAccessToken();
@@ -59,15 +60,23 @@ const useInfiniteScroll = (
         setIsLoading(false);
       }
     },
-    [access, endParam, fetchUrl, filter, refreshAccessToken, categoryParam]
+    [access, fetchUrl, refreshAccessToken]
   );
+  const refresh = useCallback(async () => {
+    hasFetched.current = false;
+    setItems([]);
+    setCursor(null);
+    setHasMore(true);
+    const newItems = await fetchItems('');
+    setItems(newItems);
+  }, [fetchItems]);
 
   useEffect(() => {
     hasFetched.current = false;
     setItems([]);
     setCursor(null);
     setHasMore(true);
-  }, [filter, categoryParam, endParam]);
+  }, [fetchUrl]);
 
   useEffect(() => {
     const loadItems = async () => {
@@ -77,7 +86,7 @@ const useInfiniteScroll = (
       setItems(newItems);
     };
     loadItems();
-  }, [filter, categoryParam, endParam, fetchItems]);
+  }, [fetchUrl, fetchItems]);
 
   const lastItemRef = useCallback(
     (node) => {
@@ -98,7 +107,14 @@ const useInfiniteScroll = (
     [cursor, isLoading, fetchItems, hasMore]
   );
 
-  return { items, isInitialized, lastItemRef, hasMore, isLoading };
+  return {
+    items,
+    isInitialized,
+    lastItemRef,
+    refresh,
+    hasMore,
+    isLoading,
+  };
 };
 
 export default useInfiniteScroll;
