@@ -1,14 +1,12 @@
-import { useCallback } from 'react';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+
+import axios from 'axios';
 import { setAccessToken } from '@/redux/slice/loginSlice';
-import Cookies from 'universal-cookie';
+import { useCallback } from 'react';
 import useClearUserData from './useClearUserData';
 
 const useReissueToken = () => {
-  const cookies = new Cookies();
   const accessToken = useSelector((state) => state.login.access);
-  const refresh = cookies.get('refresh');
   const dispatch = useDispatch();
   const clearUserData = useClearUserData();
   const refreshAccessToken = useCallback(async () => {
@@ -17,7 +15,6 @@ const useReissueToken = () => {
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/reissue`,
         {
           access: accessToken,
-          refresh: refresh,
         }
       );
 
@@ -40,7 +37,7 @@ const useReissueToken = () => {
       }
       return { success: false, message };
     }
-  }, [accessToken, refresh, dispatch, clearUserData]);
+  }, [accessToken, dispatch, clearUserData]);
 
   return { refreshAccessToken }; // 함수 반환
 };
