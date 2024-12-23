@@ -9,8 +9,8 @@ import PostDetailAction from '@/app/_components/_community/_common/PostDetailAct
 import { getPostDate } from '@/app/_util/getFormatDate';
 import prev from '/public/image/prev.svg';
 import profile from '/public/image/profile.jpg';
-import { useRouter } from 'next/navigation';
 import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
+import { useRouter } from 'next/navigation';
 
 export default function PostContent({ menu, post, postId }) {
   const router = useRouter();
@@ -31,7 +31,7 @@ export default function PostContent({ menu, post, postId }) {
           alt="뒤로가기"
           width={30}
           height={30}
-          onClick={() => router.back()}
+          onClick={() => router.push(`/${menu}`)}
           role="button"
           tabIndex="0"
         />
