@@ -7,10 +7,10 @@ import Link from 'next/link';
 import post from '/public/image/community/post.svg';
 import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
 
-export default function CommunityPostList({ category, filter }) {
+export default function CommunityPostList({ category, filter, keyword }) {
   const categoryParam = category ? `category=${category}&` : '';
   const filterParam = COMMUNITY_FILTER[filter];
-  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/free/list?${categoryParam}filter=${filterParam}&limit=16`;
+  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/free/list?${categoryParam}filter=${filterParam}&limit=16&word=${keyword}`;
   const {
     items: posts,
     isInitialized,

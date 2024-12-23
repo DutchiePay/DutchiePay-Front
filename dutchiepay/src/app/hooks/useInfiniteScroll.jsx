@@ -39,8 +39,6 @@ const useInfiniteScroll = ({ fetchUrl }) => {
           []
         );
       } catch (error) {
-        console.log(error);
-
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           hasFetched.current = false;
           const reissueResponse = await refreshAccessToken();
@@ -52,6 +50,10 @@ const useInfiniteScroll = ({ fetchUrl }) => {
                 '오류가 발생했습니다. 다시 시도해주세요.'
             );
           }
+        } else if (
+          error.response.data.message === '검색어가 입력되지 않았습니다.'
+        ) {
+          return [];
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }

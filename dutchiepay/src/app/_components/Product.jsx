@@ -14,7 +14,7 @@ export default function Product({ product }) {
           href={`/commerce/${product.buyId}`}
           className="w-[220px] flex flex-col gap-[4px]"
         >
-          <div className="w-full h-[148px] relative overflow-hidden">
+          <div className="w-full h-[148px] relative overflow-hidden z-10">
             <Image
               className={`w-full h-[148px] transform transition-transform duration-300 hover:scale-110 object-cover ${product.expireDate < 0 ? 'grayscale-[65%]' : ''}`}
               src={product.productImg}
@@ -40,10 +40,10 @@ export default function Product({ product }) {
               {product.discountPercent}%
             </p>
             <p className="text-[12px] text-gray--500 line-through">
-              {product.originalPrice.toLocaleString('ko-KR')}원
+              {product.productPrice?.toLocaleString('ko-KR')}원
             </p>
             <strong className="text-[16px]">
-              {product.salePrice.toLocaleString('ko-KR')}원
+              {product.discountPrice?.toLocaleString('ko-KR')}원
             </strong>
           </div>
 

@@ -56,7 +56,7 @@ export default function CommentWrite({ postId, refreshComments }) {
     }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-[580px]">
       <div className="flex flex-col border border-gray--300 rounded-lg p-2 bg-white">
         <textarea
           id="comment"

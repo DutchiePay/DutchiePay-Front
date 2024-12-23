@@ -2,22 +2,22 @@
 
 import '@/styles/globals.css';
 
+import CommentWrite from './CommentWrite';
+import FreeCommentList from './FreeCommentList';
 import Image from 'next/image';
+import communityComment from '/public/image/community/communityComment.svg';
 import profile from '/public/image/profile.jpg';
+import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
 import { useSelector } from 'react-redux';
 
-import FreeCommentList from './FreeCommentList';
-import CommentWrite from './CommentWrite';
-import communityComment from '/public/image/community/communityComment.svg';
-
-const CommentForm = ({
-  postId,
-  post,
-  isInitialized,
-  comments,
-  refreshComments,
-  lastItemRef,
-}) => {
+const CommentForm = ({ postId, post }) => {
+  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/free/comments/list?freeId=${postId}&limit=6`;
+  const {
+    items: comments,
+    isInitialized,
+    lastItemRef,
+    refresh: refreshComments,
+  } = useInfiniteScroll({ fetchUrl });
   const profileImage = useSelector((state) => state.login.user.profileImage);
 
   return (
@@ -26,14 +26,15 @@ const CommentForm = ({
         <h2 className="text-xl font-bold">댓글</h2>
         <p>{post.commentsCount}개</p>
       </div>
-      <div className="flex gap-[12px] my-[12px]">
-        <Image
-          className="w-[50px] h-[50px] rounded-full border"
-          src={profileImage || profile}
-          alt="프로필"
-          width={50}
-          height={50}
-        />
+      <div className="flex justify-between my-[12px]">
+        <div className="relative w-[50px] h-[50px] rounded-full border">
+          <Image
+            className="w-[50px] h-[50px] rounded-full object-cover"
+            src={profileImage || profile}
+            alt="프로필"
+            fill
+          />
+        </div>
         <CommentWrite
           postId={postId}
           refreshComments={refreshComments}
@@ -45,15 +46,15 @@ const CommentForm = ({
           <Image
             src={communityComment}
             alt="등록된 댓글이 없습니다."
-            width={60}
-            height={60}
-            className="mt-[15%] pb-[30px] mx-auto"
+            width={58}
+            height={58}
+            className="mt-[60px] mb-[12px] mx-auto"
           />
-          <strong className="text-l text-center mb-[50px]">
+          <p className="text-sm text-center mb-[50px]">
             현재 등록된 댓글이 없습니다.
             <br />
             새로운 댓글을 작성하여 다양한 의견과 정보를 공유해 주세요.
-          </strong>
+          </p>
         </div>
       ) : (
         <div className="border-b py-[16px]">
