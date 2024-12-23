@@ -28,6 +28,8 @@ export default function ProductLike({ isLiked, productId, size }) {
     e.preventDefault(); // Link 동작하지 않도록 함
     e.stopPropagation(); // Link로 전파되지 않도록 함
 
+    console.log('클릭됨');
+
     if (!access) {
       router.push('/login');
       return;

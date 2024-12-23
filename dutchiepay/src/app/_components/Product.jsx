@@ -6,7 +6,7 @@ import Link from 'next/link';
 import ProductLike from './_commerce/ProductLike';
 import Rating from './_rating/Rating';
 
-export default function Product({ product }) {
+export default function Product({ product, isLikePage = false }) {
   return (
     <>
       {product && (
@@ -30,7 +30,13 @@ export default function Product({ product }) {
                 ({product.reviewCount > 999 ? '999+' : product.reviewCount})
               </p>
             </div>
-            {<ProductLike isLiked={true} productId={product.buyId} size={22} />}
+            {
+              <ProductLike
+                isLiked={isLikePage ? true : product.isLiked}
+                productId={product.buyId}
+                size={22}
+              />
+            }
           </div>
           <p className="mt-[4px] title--multi-line font-medium min-h-[48px]">
             {product.productName}
@@ -40,10 +46,10 @@ export default function Product({ product }) {
               {product.discountPercent}%
             </p>
             <p className="text-[12px] text-gray--500 line-through">
-              {product.originalPrice.toLocaleString('ko-KR')}원
+              {product.productPrice.toLocaleString('ko-KR')}원
             </p>
             <strong className="text-[16px]">
-              {product.salePrice.toLocaleString('ko-KR')}원
+              {product.discountPrice.toLocaleString('ko-KR')}원
             </strong>
           </div>
 
