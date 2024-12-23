@@ -1,14 +1,15 @@
+import { useCallback, useRef, useState } from 'react';
+
 import Image from 'next/image';
-import ReplyList from '@/app/_components/_community/_free/ReplyList';
-import reply from '/public/image/community/reply.svg';
-import { useEffect, useRef, useState, useCallback } from 'react';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import useReissueToken from '@/app/hooks/useReissueToken';
-import profile from '/public/image/profile.jpg';
 import ReplyForm from './ReplyForm';
+import ReplyList from '@/app/_components/_community/_free/ReplyList';
 import RootCommentInfo from './RootCommentInfo';
+import axios from 'axios';
+import profile from '/public/image/profile.jpg';
+import reply from '/public/image/community/reply.svg';
 import trash from '/public/image/trash.svg';
+import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
 export default function FreeCommentList({
   item,
@@ -66,7 +67,7 @@ export default function FreeCommentList({
   return (
     <div className="flex items-start mb-[20px] gap-[4px]">
       <Image
-        className="border rounded-full "
+        className="border rounded-full"
         src={
           item.nickname === null && item.contents === '삭제된 댓글입니다.'
             ? trash
@@ -94,7 +95,7 @@ export default function FreeCommentList({
                 hasFetched.current = true;
                 setHasViewedReplies(true);
               }}
-              className="text-sm mb-[5px] text-blue--500"
+              className="text-sm mb-[5px] text-blue--500 hover:underline"
             >
               답글 보기
             </button>
