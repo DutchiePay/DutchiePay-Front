@@ -40,10 +40,10 @@ export default function Product({ product }) {
               {product.discountPercent}%
             </p>
             <p className="text-[12px] text-gray--500 line-through">
-              {product.originalPrice?.toLocaleString('ko-KR')}원
+              {product.productPrice?.toLocaleString('ko-KR')}원
             </p>
             <strong className="text-[16px]">
-              {product.salePrice?.toLocaleString('ko-KR')}원
+              {product.discountPrice?.toLocaleString('ko-KR')}원
             </strong>
           </div>
 

@@ -35,7 +35,7 @@ export default function Search() {
         <ProductFilter filter={filter} setFilter={setFilter} />
       </div>
 
-      {isInitialized && products.length > 0 ? (
+      {isInitialized && products.length > 0 && keyword ? (
         <article className="mt-[24px] grid grid-cols-4 gap-8">
           {products.map((item, key) => (
             <Product key={key} product={item} />
