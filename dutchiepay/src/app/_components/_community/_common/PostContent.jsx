@@ -9,19 +9,15 @@ import PostDetailAction from '@/app/_components/_community/_common/PostDetailAct
 import { getPostDate } from '@/app/_util/getFormatDate';
 import prev from '/public/image/prev.svg';
 import profile from '/public/image/profile.jpg';
+<<<<<<< HEAD
 import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
+=======
+>>>>>>> 646bc11349baf9abaaa90b014f29d08f92586c43
 import { useRouter } from 'next/navigation';
 
 export default function PostContent({ menu, post, postId }) {
   const router = useRouter();
   const cleanHtml = DOMPurify.sanitize(JSON.parse(post.content));
-  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/free/comments/list?freeId=${postId}&limit=6`;
-  const {
-    items: comments,
-    isInitialized,
-    lastItemRef,
-    refresh: refreshComments,
-  } = useInfiniteScroll({ fetchUrl });
 
   return (
     <section className="min-h-[750px] w-[730px] px-[24px] py-[40px] border-r">
@@ -78,14 +74,7 @@ export default function PostContent({ menu, post, postId }) {
             writerProfileImage={post.writerProfileImage}
           />
         ) : (
-          <CommentForm
-            postId={postId}
-            post={post}
-            isInitialized={isInitialized}
-            comments={comments}
-            refreshComments={refreshComments}
-            lastItemRef={lastItemRef}
-          />
+          <CommentForm postId={postId} post={post} />
         )}
       </article>
     </section>

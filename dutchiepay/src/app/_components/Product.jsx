@@ -14,7 +14,7 @@ export default function Product({ product, isLikePage = false }) {
           href={`/commerce/${product.buyId}`}
           className="w-[220px] flex flex-col gap-[4px]"
         >
-          <div className="w-full h-[148px] relative overflow-hidden">
+          <div className="w-full h-[148px] relative overflow-hidden z-10">
             <Image
               className={`w-full h-[148px] transform transition-transform duration-300 hover:scale-110 object-cover ${product.expireDate < 0 ? 'grayscale-[65%]' : ''}`}
               src={product.productImg}
