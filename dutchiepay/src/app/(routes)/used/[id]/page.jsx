@@ -24,7 +24,7 @@ export default function TradeDetail() {
       hasFetched.current = true;
       try {
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}//trading?purchaseId=${id}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/trading?purchaseId=${id}`,
           {
             headers: {
               Authorization: `Bearer ${access}`,
