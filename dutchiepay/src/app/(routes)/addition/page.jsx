@@ -19,6 +19,7 @@ export default function Addition() {
     storeAddress: '',
     contactNumber: '',
     discountPercent: 0,
+    tag: '',
   });
 
   const categories = [
@@ -59,6 +60,11 @@ export default function Addition() {
         ...prev,
         category: updatedCategories.slice(0, 2), // 최대 2개로 제한
       }));
+    } else if (name === 'tag') {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
     } else {
       setFormData((prev) => ({
         ...prev,
@@ -97,6 +103,7 @@ export default function Addition() {
     업체대표: ${updatedFormData.representative}
     업체주소: ${updatedFormData.storeAddress}
     업체번호: ${updatedFormData.contactNumber}
+    검색어: ${updatedFormData.tag.replaceAll(',', ', ')}
   `;
 
     if (confirm(`다음 정보를 확인해 주세요:\n${confirmationMessage}`)) {
@@ -123,6 +130,7 @@ export default function Addition() {
           contactNumber: '',
           discountPercent: 0, // 기본값 설정
         });
+        console.log(response);
       } catch (error) {
         alert('오류 발생 콘솔 확인');
         console.log(error);
@@ -265,7 +273,16 @@ export default function Addition() {
           onChange={handleChange}
           value={formData.contactNumber || ''}
         />
-
+        <label className="flex flex-col gap-[12px] text-lg font-bold">
+          검색 태그
+        </label>
+        <input
+          className="border"
+          name="tag"
+          placeholder="검색 태그 띄어쓰기 없이 ,(콤마)로만 구분"
+          onChange={handleChange}
+          value={formData.tag || ''}
+        />
         <button type="submit" className="bg-blue--500 text-white p-[12px]">
           데이터 추가
         </button>
