@@ -31,7 +31,7 @@ export default function FreePostForm({
         setThumbnail={setThumbnail}
         setImages={setImages}
       />
-      <PostWritingAction menu={'mart'} />
+      <PostWritingAction menu={'community'} />
     </>
   );
 }
