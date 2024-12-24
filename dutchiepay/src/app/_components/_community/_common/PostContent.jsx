@@ -9,10 +9,6 @@ import PostDetailAction from '@/app/_components/_community/_common/PostDetailAct
 import { getPostDate } from '@/app/_util/getFormatDate';
 import prev from '/public/image/prev.svg';
 import profile from '/public/image/profile.jpg';
-<<<<<<< HEAD
-import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
-=======
->>>>>>> 646bc11349baf9abaaa90b014f29d08f92586c43
 import { useRouter } from 'next/navigation';
 
 export default function PostContent({ menu, post, postId }) {
