@@ -13,8 +13,7 @@ export default function useRelogin() {
 
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/users/relogin`,
-        { refresh: refresh }
+        `${process.env.NEXT_PUBLIC_BASE_URL}/users/relogin`
       );
 
       const userInfo = {
