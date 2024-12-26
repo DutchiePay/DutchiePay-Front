@@ -20,7 +20,8 @@ export default function CurrentSearch({
     setSearchHistory(storedHistory);
   }, [setSearchHistory]);
 
-  const removeSearchTerm = (term) => {
+  const removeSearchTerm = (e, term) => {
+    e.stopPropagation();
     const updatedHistory = searchHistory.filter((item) => item !== term);
     setSearchHistory(updatedHistory);
     localStorage.setItem('searchHistory', JSON.stringify(updatedHistory));
@@ -47,7 +48,7 @@ export default function CurrentSearch({
               onMouseLeave={() => setFocusedIndex(-1)}
             >
               <p>{term}</p>
-              <button onClick={() => removeSearchTerm(term)}>
+              <button onClick={(e) => removeSearchTerm(e, term)}>
                 <Image src={close} alt="close" width={20} height={20} />
               </button>
             </li>
