@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 
 import UploadedImages from './UploadedImages';
 import dynamic from 'next/dynamic';
+import getBase64File from '@/app/_util/getBase64File';
 import getImage from '@/app/_util/getImage';
 import { useRef } from 'react';
 
@@ -44,13 +45,11 @@ export default function TextEditor({
     return images ? images.length : 0;
   };
 
-  const handleContentChange = (value) => {
+  const handleContentChange = async (value) => {
     if (getImageCount() >= 10) {
       alert('이미지 업로드는 최대 10장만 가능합니다.');
       return;
     }
-
-    setEditorContent(value);
 
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = value;
@@ -69,6 +68,21 @@ export default function TextEditor({
 
       return updatedImages;
     });
+
+    for (let imgSrc of imagesInEditor) {
+      if (imgSrc.startsWith('data:image/')) {
+        const base64Image = imgSrc;
+        const imageFile = await getBase64File(base64Image); // Base64를 File로 변환
+
+        const uploadedUrl = await getImage(imageFile);
+        if (uploadedUrl) {
+          setImages((prevImages) => [...prevImages, uploadedUrl]);
+          value = value.replace(base64Image, uploadedUrl);
+        }
+      }
+    }
+
+    setEditorContent(value);
   };
 
   const handleImageAddition = useCallback(async () => {
