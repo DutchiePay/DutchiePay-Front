@@ -10,6 +10,8 @@ export default function CommentInput({
   watch,
   setValue,
   isEdit = false,
+  isStart = false,
+  setIsCancel = undefined,
 }) {
   const profileImage = useSelector((state) => state.login.user.profileImage);
   const comment = watch('comment', '');
@@ -44,7 +46,11 @@ export default function CommentInput({
             }
           }}
         />
-        <PostCommentAction comment={comment} />
+        <PostCommentAction
+          comment={comment}
+          isStart={isStart}
+          setIsCancel={setIsCancel}
+        />
       </div>
     </>
   );

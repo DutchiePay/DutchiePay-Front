@@ -11,6 +11,7 @@ export default function ReplyInput({
   postId,
   rootCommentId,
   refreshComments,
+  setIsReplyActive,
 }) {
   const { refreshAccessToken } = useReissueToken();
   const access = useSelector((state) => state.login.access);
@@ -61,7 +62,12 @@ export default function ReplyInput({
       className="w-[560px] mt-[8px] flex gap-[8px]"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <CommentInput register={register} setValue={setValue} watch={watch} />
+      <CommentInput
+        register={register}
+        setValue={setValue}
+        watch={watch}
+        setIsCancel={setIsReplyActive}
+      />
     </form>
   );
 }

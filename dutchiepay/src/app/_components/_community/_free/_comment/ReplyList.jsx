@@ -1,13 +1,9 @@
-import '@/styles/globals.css';
-
-import FreeDetailAction from '../FreeDetailAction';
+import CommentInfo from './CommentInfo';
 import Image from 'next/image';
 import ReplyEditForm from './ReplyEditForm';
-import ReplyForm from './ReplyInput';
-import { getFormatDate } from '@/app/_util/getFormatDate';
+import ReplyInput from './ReplyInput';
 import profile from '/public/image/profile.jpg';
 import reply from '/public/image/community/reply.svg';
-import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
 export default function ReplyList({
@@ -18,10 +14,6 @@ export default function ReplyList({
 }) {
   const [isReplyActive, setIsReplyActive] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
-  const isMine =
-    item.nickname === useSelector((state) => state.login.user.nickname)
-      ? true
-      : false;
   const [isEdit, setIsEdit] = useState(false);
 
   return (
@@ -44,33 +36,14 @@ export default function ReplyList({
         </div>
 
         <div className="w-[515px]">
-          <div className="px-[12px] py-[4px] flex justify-between items-center">
-            <div className="flex gap-[8px] items-center">
-              <strong className="text-sm">
-                {item.userState === '회원' ? item.nickname : '탈퇴한 사용자'}
-              </strong>
-              <p className="text-xs text-gray--500">
-                {getFormatDate('comment', item.createdAt)}
-                {item.isModified && ' (수정됨)'}
-              </p>
-            </div>
-            {!isMine && item.userState === '회원' ? (
-              <button
-                className="font-bold text-xs"
-                onClick={() => setIsReplyActive(!isReplyActive)}
-              >
-                답글
-              </button>
-            ) : (
-              <FreeDetailAction
-                writerName={item.nickname}
-                commentId={item.commentId}
-                setIsEdit={setIsEdit}
-                setIsDeleted={setIsDeleted}
-                refreshComments={refreshComments}
-              />
-            )}
-          </div>
+          <CommentInfo
+            item={item}
+            refreshComments={refreshComments}
+            setIsEdit={setIsEdit}
+            setIsDeleted={setIsDeleted}
+            setIsReplyActive={setIsReplyActive}
+            isReplyActive={isReplyActive}
+          />
           {isEdit ? (
             <ReplyEditForm
               commentId={item.commentId}
@@ -102,13 +75,13 @@ export default function ReplyList({
             width={20}
             height={20}
           />
-          <ReplyForm
+          <ReplyInput
             mentionedNickname={item.mentionedNickname}
             mentionedId={item.mentionedId}
             postId={postId}
             rootCommentId={rootCommentId}
             refreshComments={refreshComments}
-            is
+            setIsReplyActive={setIsReplyActive}
           />
         </div>
       )}

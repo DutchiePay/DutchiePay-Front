@@ -101,6 +101,7 @@ export default function FreeCommentList({
                   postId={postId}
                   rootCommentId={item.commentId}
                   refreshComments={refreshComments}
+                  setIsReplyActive={setIsReplyActive}
                 />
               </div>
             )}

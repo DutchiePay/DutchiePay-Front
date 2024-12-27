@@ -54,7 +54,12 @@ export default function CommentSubmit({ postId, refreshComments }) {
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mt-[8px] flex gap-[8px]">
-      <CommentInput register={register} setValue={setValue} watch={watch} />
+      <CommentInput
+        register={register}
+        setValue={setValue}
+        watch={watch}
+        isStart={true}
+      />
     </form>
   );
 }

@@ -72,6 +72,7 @@ export default function ReplyEditForm({
         setValue={setValue}
         watch={watch}
         isEdit={true}
+        setIsCancel={setIsEdit}
       />
     </form>
   );
