@@ -1,7 +1,5 @@
 'use client';
 
-import React, { useState } from 'react';
-
 import CommentInput from './CommentInput';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';

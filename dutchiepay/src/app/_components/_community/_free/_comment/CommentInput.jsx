@@ -5,20 +5,27 @@ import PostCommentAction from './PostCommentAction';
 import profile from '/public/image/profile.jpg';
 import { useSelector } from 'react-redux';
 
-export default function CommentInput({ register, watch, setValue }) {
+export default function CommentInput({
+  register,
+  watch,
+  setValue,
+  isEdit = false,
+}) {
   const profileImage = useSelector((state) => state.login.user.profileImage);
   const comment = watch('comment', '');
 
   return (
     <>
-      <div className="relative w-[50px] h-[50px] rounded-full border">
-        <Image
-          className="w-[50px] h-[50px] rounded-full object-cover"
-          src={profileImage || profile}
-          alt="프로필"
-          fill
-        />
-      </div>
+      {!isEdit && (
+        <div className="relative w-[50px] h-[50px] rounded-full border">
+          <Image
+            className="w-[50px] h-[50px] rounded-full object-cover"
+            src={profileImage || profile}
+            alt="프로필"
+            fill
+          />
+        </div>
+      )}
       <div className="flex flex-col grow border border-gray--300 rounded-lg p-2 bg-white">
         <textarea
           id="comment"

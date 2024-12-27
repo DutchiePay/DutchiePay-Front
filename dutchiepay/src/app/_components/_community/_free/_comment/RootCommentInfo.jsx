@@ -50,14 +50,12 @@ export default function RootCommentInfo({
         </div>
       </div>
       {isEdit ? (
-        <div className="w-[589px] ml-3 border border-gray--300 rounded-lg p-3 text-sm">
-          <ReplyEditForm
-            commentId={item.commentId}
-            item={item}
-            setIsEdit={setIsEdit}
-            refreshComments={refreshComments}
-          />
-        </div>
+        <ReplyEditForm
+          commentId={item.commentId}
+          item={item}
+          setIsEdit={setIsEdit}
+          refreshComments={refreshComments}
+        />
       ) : (
         <span className="text-sm px-[12px]">{item.contents}</span>
       )}

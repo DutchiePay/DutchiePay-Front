@@ -35,15 +35,17 @@ export default function ReplyList({
           width={20}
           height={20}
         />
-        <Image
-          className="border rounded-full ml-[8px]"
-          src={item.profileImg || profile}
-          alt="profile"
-          width={50}
-          height={50}
-        />
-        <div className="w-full">
-          <div className="w-full px-[12px] py-[4px] flex justify-between items-center">
+        <div className="ml-[8px] relative w-[50px] h-[50px] border rounded-full">
+          <Image
+            className="rounded-full object-cover"
+            src={item.profileImg || profile}
+            alt="profile"
+            fill
+          />
+        </div>
+
+        <div className="w-[515px]">
+          <div className="px-[12px] py-[4px] flex justify-between items-center">
             <div className="flex gap-[8px] items-center">
               <strong className="text-sm">
                 {item.userState === '회원' ? item.nickname : '탈퇴한 사용자'}
@@ -71,19 +73,17 @@ export default function ReplyList({
             )}
           </div>
           {isEdit ? (
-            <div className="w-[500px] ml-3 border border-gray--300 rounded-lg p-3 text-sm">
-              <ReplyEditForm
-                commentId={item.commentId}
-                item={item}
-                setIsEdit={setIsEdit}
-                mentionedNickname={item.mentionedNickname}
-                refreshComments={refreshComments}
-                reply={true}
-              />
-            </div>
+            <ReplyEditForm
+              commentId={item.commentId}
+              item={item}
+              setIsEdit={setIsEdit}
+              mentionedNickname={item.mentionedNickname}
+              refreshComments={refreshComments}
+              reply={true}
+            />
           ) : (
             <>
-              <span className="text-blue--500 font-bold text-xs ml-3 bg-gray--100 p-1">
+              <span className="text-blue--500 font-bold text-sm ml-3">
                 @
                 {item.mentionedUserState === '회원'
                   ? item.mentionedNickname
@@ -103,22 +103,14 @@ export default function ReplyList({
             width={20}
             height={20}
           />
-          <Image
-            className="w-[50px] h-[50px] border rounded-full"
-            src={profile}
-            alt="profile"
-            width={50}
-            height={50}
+          <ReplyForm
+            mentionedNickname={item.mentionedNickname}
+            mentionedId={item.mentionedId}
+            postId={postId}
+            rootCommentId={rootCommentId}
+            refreshComments={refreshComments}
+            is
           />
-          <div className="w-[500px] ml-1 border border-gray--300 rounded-lg p-3 text-sm">
-            <ReplyForm
-              mentionedNickname={item.mentionedNickname}
-              mentionedId={item.mentionedId}
-              postId={postId}
-              rootCommentId={rootCommentId}
-              refreshComments={refreshComments}
-            />
-          </div>
         </div>
       )}
     </div>
