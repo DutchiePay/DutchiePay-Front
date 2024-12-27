@@ -1,6 +1,7 @@
 'use client';
 import { NOTICE_CATEGORY } from '@/app/_util/constants';
 import axios from 'axios';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -9,6 +10,7 @@ export default function HasMoreAlarm({ alarms }) {
   const access = useSelector((state) => state.login.access);
   const id = alarms.noticeId || '';
   const [moreAlarms, setMoreAlarms] = useState([]);
+
   useEffect(() => {
     const fetchAlarms = async () => {
       try {
@@ -20,6 +22,7 @@ export default function HasMoreAlarm({ alarms }) {
             },
           }
         );
+        console.log(response.data);
         setMoreAlarms(response.data);
       } catch (error) {
         console.error('API 호출 오류:', error);
@@ -29,6 +32,23 @@ export default function HasMoreAlarm({ alarms }) {
     fetchAlarms();
   }, [access, id]);
 
+  const handleLinkClick = async ({ noticeId }) => {
+    try {
+      await axios.patch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/notice`,
+        {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        },
+        {
+          noticeId: noticeId,
+        }
+      );
+    } catch (error) {
+      console.error('API 호출 오류:', error);
+    }
+  };
   const displayedAlarms = isExpanded ? moreAlarms : moreAlarms.slice(0, 2);
 
   return (
@@ -43,11 +63,22 @@ export default function HasMoreAlarm({ alarms }) {
           const top = `${index * 5}px`;
           const zIndex = `${10 - index}`;
 
+          const alarmLink =
+            alarm.type === 'comment' || alarm.type === 'reply'
+              ? `/community/${alarm.pageId}`
+              : alarm.type === 'commerce'
+                ? '/mypage/myorder'
+                : alarm.type === 'chat'
+                  ? `/chat/${alarm.pageId}`
+                  : '#'; // 기본 링크
+
           return (
             <div
               key={alarm.commentId}
               className={`bg-white p-4 rounded-lg shadow-md ${
-                isExpanded ? 'w-[380px] m-auto top-0 left-0 mb-3' : 'absolute'
+                isExpanded
+                  ? 'w-[380px] m-auto top-0 left-0 mb-3 cursor-pointer'
+                  : 'absolute'
               }`}
               style={
                 isExpanded
@@ -70,45 +101,57 @@ export default function HasMoreAlarm({ alarms }) {
                   {index === 0 ? (isExpanded ? '간략히 보기' : '전체보기') : ''}
                 </button>
               </div>
-              <div className="flex justify-between">
-                <div>
-                  <strong className="text-lg">{alarm.origin}</strong>
-                  {alarm.type === 'success' || alarm.type === 'fail' ? (
-                    <>
-                      의 <span className="text-blue--500"> 공동구매</span>가{' '}
-                      {alarm.type === 'success' ? (
-                        <>
-                          <span className="text-blue--500 font-bold">성공</span>
-                          했습니다.
-                        </>
-                      ) : (
-                        <>
-                          <span className="text-red--500 font-bold">실패</span>
-                          했습니다.
-                        </>
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      님이{' '}
-                      <span className="text-blue--500 font-bold">
-                        {Object.keys(NOTICE_CATEGORY).find(
-                          (key) => NOTICE_CATEGORY[key] === alarm.type
+              <Link
+                href={alarmLink}
+                onClick={() => handleLinkClick(alarm.noticeId)}
+              >
+                <div className="flex justify-between">
+                  <div>
+                    <strong className="text-lg">{alarm.origin}</strong>
+                    {alarm.type === 'success' || alarm.type === 'fail' ? (
+                      <>
+                        의 <span className="text-blue--500"> 공동구매</span>가{' '}
+                        {alarm.type === 'success' ? (
+                          <>
+                            <span className="text-blue--500 font-bold">
+                              성공
+                            </span>
+                            했습니다.
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-red--500 font-bold">
+                              실패
+                            </span>
+                            했습니다.
+                          </>
                         )}
-                      </span>
-                      을 {alarm.type === 'chat' ? '보냈습니다.' : '다셨습니다.'}
-                    </>
-                  )}
+                      </>
+                    ) : (
+                      <>
+                        님이{' '}
+                        <span className="text-blue--500 font-bold">
+                          {Object.keys(NOTICE_CATEGORY).find(
+                            (key) => NOTICE_CATEGORY[key] === alarm.type
+                          )}
+                        </span>
+                        을{' '}
+                        {alarm.type === 'chat' ? '보냈습니다.' : '다셨습니다.'}
+                      </>
+                    )}
+                  </div>
+                  <div>
+                    {index === 0 && !isExpanded && (
+                      <div className="w-5 h-5 bg-red-500 rounded-full border border-white flex items-center justify-center text-white text-xs">
+                        {alarms.count}
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  {index === 0 && !isExpanded && (
-                    <div className="w-5 h-5 bg-red-500 rounded-full border border-white flex items-center justify-center text-white text-xs">
-                      {alarm.count}
-                    </div>
-                  )}
+                <div className="title--single-line text-sm">
+                  {alarm.content}
                 </div>
-              </div>
-              <div className="title--single-line text-sm">{alarm.content}</div>
+              </Link>
             </div>
           );
         })}

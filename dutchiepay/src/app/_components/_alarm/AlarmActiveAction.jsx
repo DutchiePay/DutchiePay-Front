@@ -3,7 +3,11 @@ import useReissueToken from '@/app/hooks/useReissueToken';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-export default function AlarmActiveAction({ setActiveTab, activeTab }) {
+export default function AlarmActiveAction({
+  setActiveTab,
+  activeTab,
+  setIsDelete,
+}) {
   const access = useSelector((state) => state.login.access);
   const { refreshAccessToken } = useReissueToken();
 
@@ -19,6 +23,7 @@ export default function AlarmActiveAction({ setActiveTab, activeTab }) {
         });
 
         alert('정상적으로 삭제되었습니다.');
+        setIsDelete(true);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           const reissueResponse = await refreshAccessToken();
@@ -49,29 +54,29 @@ export default function AlarmActiveAction({ setActiveTab, activeTab }) {
 
           <div className="after:content-['|']"></div>
           <div
-            onClick={() => setActiveTab('채팅')}
-            className={`cursor-pointer ${activeTab === '채팅' ? 'text-black' : ''} hover:text-black`}
+            onClick={() => setActiveTab('chat')}
+            className={`cursor-pointer ${activeTab === 'chat' ? 'text-black' : ''} hover:text-black`}
           >
             채팅
           </div>
           <div className="after:content-['|']"></div>
           <div
-            onClick={() => setActiveTab('댓글')}
-            className={`cursor-pointer ${activeTab === '댓글' ? 'text-black' : ''} hover:text-black`}
+            onClick={() => setActiveTab('comment')}
+            className={`cursor-pointer ${activeTab === 'comment' ? 'text-black' : ''} hover:text-black`}
           >
             댓글
           </div>
           <div className="after:content-['|']"></div>
           <div
-            onClick={() => setActiveTab('답글')}
-            className={`cursor-pointer ${activeTab === '답글' ? 'text-black' : ''} hover:text-black`}
+            onClick={() => setActiveTab('reply')}
+            className={`cursor-pointer ${activeTab === 'reply' ? 'text-black' : ''} hover:text-black`}
           >
             답글
           </div>
           <div className="after:content-['|']"></div>
           <div
-            onClick={() => setActiveTab('공동구매')}
-            className={`cursor-pointer ${activeTab === '공동구매' ? 'text-black' : ''} hover:text-black`}
+            onClick={() => setActiveTab('commerce')}
+            className={`cursor-pointer ${activeTab === 'commerce' ? 'text-black' : ''} hover:text-black`}
           >
             공동구매
           </div>
