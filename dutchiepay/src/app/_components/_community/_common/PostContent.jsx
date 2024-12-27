@@ -1,7 +1,7 @@
 'use client';
 
 import { ALL_COMMUNITY_CATEGORIES } from '@/app/_util/constants';
-import CommentForm from '@/app/_components/_community/_free/CommentForm';
+import CommentForm from '@/app/_components/_community/_free/_comment/CommentForm';
 import CurrentPost from '@/app/_components/_community/_local/CurrentPost';
 import DOMPurify from 'dompurify';
 import Image from 'next/image';

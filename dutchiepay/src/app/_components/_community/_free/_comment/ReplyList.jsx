@@ -1,14 +1,15 @@
 import '@/styles/globals.css';
+
+import FreeDetailAction from '../FreeDetailAction';
 import Image from 'next/image';
-import ReplyForm from './ReplyForm'; // 새로운 컴포넌트 import
+import ReplyEditForm from './ReplyEditForm';
+import ReplyForm from './ReplyInput'; // 새로운 컴포넌트 import
 import axios from 'axios';
+import { getFormatDate } from '@/app/_util/getFormatDate';
 import profile from '/public/image/profile.jpg';
 import reply from '/public/image/community/reply.svg';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getFormatDate } from '@/app/_util/getFormatDate';
-import FreeDetailAction from './FreeDetailAction';
-import ReplyEditForm from './ReplyEditForm';
+import { useState } from 'react';
 
 export default function ReplyList({
   item,
@@ -25,7 +26,7 @@ export default function ReplyList({
   const [isEdit, setIsEdit] = useState(false);
 
   return (
-    <div className="py-[16px]">
+    <div className="w-[590px] py-[16px]">
       <div className="flex items-start">
         <Image
           className="mt-[8px]"

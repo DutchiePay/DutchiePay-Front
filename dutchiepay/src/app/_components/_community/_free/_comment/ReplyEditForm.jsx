@@ -1,39 +1,43 @@
 'use client';
-import React from 'react';
-import { useForm } from 'react-hook-form';
+
+import React, { useEffect } from 'react';
+
 import PostCommentAction from './PostCommentAction';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
-const ReplyForm = ({
+const ReplyEditForm = ({
+  commentId,
+  item,
+  setIsEdit,
   mentionedNickname,
-  mentionedId,
-  postId,
-  rootCommentId,
   refreshComments,
+  reply = null,
 }) => {
+  const edit = true;
   const { register, watch, setValue, handleSubmit } = useForm({
     mode: 'onTouched',
     criteriaMode: 'all',
-    reValidateMode: 'onblur',
+    reValidateMode: 'onBlur',
     shouldFocusError: true,
     shouldUseNativeValidation: false,
   });
+  useEffect(() => {
+    setValue('comment', item.contents);
+  }, [item.contents, setValue]);
 
   const access = useSelector((state) => state.login.access);
   const comment = watch('comment', '');
   const { refreshAccessToken } = useReissueToken();
-
   const handleReplySubmit = async (formData) => {
     try {
-      await axios.post(
+      await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/free/comments`,
         {
-          freeId: postId,
+          commentId: commentId,
           content: formData.comment,
-          rootCommentId: rootCommentId,
-          mentionedId: mentionedId,
         },
         {
           headers: {
@@ -41,10 +45,11 @@ const ReplyForm = ({
           },
         }
       );
-      alert('댓글이 성공적으로 등록되었습니다.');
+      alert('댓글이 성공적으로 수정되었습니다.');
+      setIsEdit(false);
       refreshComments();
     } catch (error) {
-      if (error.response?.data?.message === '액세스 토큰이 만료되었습니다.') {
+      if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
         const reissueResponse = await refreshAccessToken();
         if (reissueResponse.success) {
           await handleReplySubmit(formData);
@@ -60,7 +65,10 @@ const ReplyForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(handleReplySubmit)} className="w-full">
+    <form
+      onSubmit={handleSubmit(handleReplySubmit)}
+      className={`${reply ? 'w-[474px]' : 'w-full'}`}
+    >
       {mentionedNickname && (
         <span className="text-blue--500 font-bold mr-[5px] bg-gray--100 p-1">
           @{mentionedNickname}
@@ -69,8 +77,7 @@ const ReplyForm = ({
       <textarea
         id="comment"
         {...register('comment')}
-        className="w-full resize-none outline-none text-sm p-2 min-h-[100px]"
-        placeholder="답글을 입력해주세요."
+        className={`resize-none outline-none text-sm p-2 min-h-[100px] ${reply ? 'w-[474px]' : 'w-full'}`}
         spellCheck="false"
         maxLength={800}
         onInput={(e) => {
@@ -83,9 +90,9 @@ const ReplyForm = ({
           }
         }}
       />
-      <PostCommentAction comment={comment} />
+      <PostCommentAction comment={comment} edit={edit} setIsEdit={setIsEdit} />
     </form>
   );
 };
 
-export default ReplyForm;
+export default ReplyEditForm;
