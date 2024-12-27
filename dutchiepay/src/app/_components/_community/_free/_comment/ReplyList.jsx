@@ -3,8 +3,7 @@ import '@/styles/globals.css';
 import FreeDetailAction from '../FreeDetailAction';
 import Image from 'next/image';
 import ReplyEditForm from './ReplyEditForm';
-import ReplyForm from './ReplyInput'; // 새로운 컴포넌트 import
-import axios from 'axios';
+import ReplyForm from './ReplyInput';
 import { getFormatDate } from '@/app/_util/getFormatDate';
 import profile from '/public/image/profile.jpg';
 import reply from '/public/image/community/reply.svg';
@@ -82,15 +81,15 @@ export default function ReplyList({
               reply={true}
             />
           ) : (
-            <>
-              <span className="text-blue--500 font-bold text-sm ml-3">
+            <p className="ml-3">
+              <span className="text-blue--500 font-bold text-sm">
                 @
                 {item.mentionedUserState === '회원'
                   ? item.mentionedNickname
                   : '탈퇴한 사용자'}
               </span>
               <span className="text-sm px-[12px]">{item.contents}</span>
-            </>
+            </p>
           )}
         </div>
       </div>
