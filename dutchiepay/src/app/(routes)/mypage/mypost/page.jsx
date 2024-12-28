@@ -101,7 +101,7 @@ export default function MyPost() {
           </div>
         ) : (
           posts.map((item, index) => {
-            return <MyPostList key={index} item={item} />;
+            return <MyPostList key={index} item={item} filter={filter} />;
           })
         )}
         {posts.length > 0 && (
