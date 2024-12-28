@@ -7,6 +7,7 @@ export default function AlarmActiveAction({
   setActiveTab,
   activeTab,
   setIsDelete,
+  setHasNotification,
 }) {
   const access = useSelector((state) => state.login.access);
   const { refreshAccessToken } = useReissueToken();
@@ -24,6 +25,7 @@ export default function AlarmActiveAction({
 
         alert('정상적으로 삭제되었습니다.');
         setIsDelete(true);
+        setHasNotification(false);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           const reissueResponse = await refreshAccessToken();

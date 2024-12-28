@@ -7,10 +7,10 @@ import { useSelector } from 'react-redux';
 import { usePathname } from 'next/navigation';
 import AlarmHeader from '../_alarm/AlarmHeader';
 import AlarmActiveAction from '../_alarm/AlarmActiveAction';
-import axios from 'axios';
 import AlarmInfo from '../_alarm/AlarmInfo';
 import alarmIcon from '/public/image/alarm/alarm.svg';
-import { EventSourcePolyfill } from 'event-source-polyfill';
+import useSse from '@/app/hooks/useSse';
+import useFetchAlarms from '@/app/hooks/useFetchAlarms';
 
 export default function Floating() {
   const pathname = usePathname();
@@ -21,84 +21,21 @@ export default function Floating() {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [activeTab, setActiveTab] = useState('전체');
-  const [alarms, setAlarms] = useState([]);
-  const [isNotificationRead, setIsNotificationRead] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
-  const hasFetched = useRef(false);
-  const eventSourceRef = useRef(null);
 
-  const createEventSource = useCallback(() => {
-    if (eventSourceRef.current) return;
+  const { alarms, fetchAlarms } = useFetchAlarms(access);
 
-    const source = new EventSourcePolyfill(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/notice/subscribe`,
-      {
-        headers: {
-          Authorization: `Bearer ${access}`,
-        },
-      }
-    );
-
-    source.onopen = () => {
-      console.log('SSE 연결 성공');
-    };
-
-    source.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      console.log('SSE 메시지 수신:', data);
-      if (data.message === 'NEW_NOTICE') {
-        setHasNotification(true);
-        source.close();
-        eventSourceRef.current = null;
-      }
-      if (data.isUnread) {
-        setHasNotification(true);
-        source.close();
-        eventSourceRef.current = null;
-      }
-    };
-
-    source.onerror = (error) => {
-      console.error('SSE 오류 발생:', error);
-      source.close();
-      eventSourceRef.current = null;
-    };
-
-    eventSourceRef.current = source;
-  }, [access]);
-
-  // 알림 데이터 가져오기
-  const fetchAlarms = useCallback(async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/notice`,
-        {
-          headers: {
-            Authorization: `Bearer ${access}`,
-          },
-        }
-      );
-      console.log(response.data);
-
-      setAlarms(response.data);
-    } catch (error) {
-      console.error('API 호출 오류:', error);
+  const createEventSource = useCallback((data) => {
+    if (data.message === 'NEW_NOTICE' || data.isUnread) {
+      setHasNotification(true);
     }
-  }, [access]);
+  }, []);
 
-  // SSE 연결 관리
-  useEffect(() => {
-    if (isLoggedIn && !isNotificationRead && !eventSourceRef.current) {
-      createEventSource();
-    }
-
-    return () => {
-      if (eventSourceRef.current) {
-        eventSourceRef.current.close();
-        eventSourceRef.current = null;
-      }
-    };
-  }, [isLoggedIn, isNotificationRead, createEventSource]);
+  useSse(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/notice/subscribe`,
+    access,
+    createEventSource
+  );
 
   const handlePopup = () => {
     if (isPopupVisible) {
@@ -106,12 +43,9 @@ export default function Floating() {
       setTimeout(() => {
         setIsPopupVisible(false);
         setIsAnimating(false);
-        setIsNotificationRead(true);
-        createEventSource();
       }, 500);
     } else {
       setIsPopupVisible(true);
-      setIsNotificationRead(false);
     }
   };
 
@@ -168,6 +102,7 @@ export default function Floating() {
               <AlarmActiveAction
                 setActiveTab={setActiveTab}
                 activeTab={activeTab}
+                setHasNotification={setHasNotification}
                 setIsDelete={setIsDelete}
               />
               <div className="scrollable max-h-[600px] min-h-[600px] overflow-y-auto">
