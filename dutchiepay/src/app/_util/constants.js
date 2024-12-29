@@ -118,4 +118,6 @@ export const ALL_COMMUNITY_CATEGORIES = {
   질문: 'qna',
   취미: 'hobby',
   정보: 'info',
+  거래: 'trade',
+  나눔: 'share',
 };

@@ -18,7 +18,7 @@ export default function PostDetailAction({ postId, writerId, menu }) {
     ) {
       try {
         await axios.delete(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/${menu === 'mart' ? 'mart?shareId' : 'free?freeId'}=${postId}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/${menu === 'mart' ? 'mart?shareId' : menu === 'community' ? 'free?freeId' : 'trading?purchaseId'}=${postId}`,
           {
             headers: {
               Authorization: `Bearer ${access}`,
