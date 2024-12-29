@@ -4,7 +4,7 @@ import axios from 'axios';
 import useReissueToken from '@/app/hooks/useReissueToken';
 import { useSelector } from 'react-redux';
 
-export default function FreeDetailAction({
+export default function CommentActions({
   commentId,
   writerName,
   setIsEdit,

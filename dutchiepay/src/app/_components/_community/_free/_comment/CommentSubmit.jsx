@@ -1,14 +1,12 @@
 'use client';
 
-import '@/styles/globals.css';
-
-import PostCommentAction from './PostCommentAction';
+import CommentInput from './CommentInput';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import useReissueToken from '@/app/hooks/useReissueToken';
 import { useSelector } from 'react-redux';
 
-export default function CommentWrite({ postId, refreshComments }) {
+export default function CommentSubmit({ postId, refreshComments }) {
   const { refreshAccessToken } = useReissueToken();
   const { register, watch, handleSubmit, setValue } = useForm({
     mode: 'onTouched',
@@ -18,7 +16,6 @@ export default function CommentWrite({ postId, refreshComments }) {
     shouldUseNativeValidation: false,
   });
   const access = useSelector((state) => state.login.access);
-  const comment = watch('comment', '');
 
   const onSubmit = async (formData) => {
     setValue('comment', '');
@@ -56,27 +53,13 @@ export default function CommentWrite({ postId, refreshComments }) {
     }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-[580px]">
-      <div className="flex flex-col border border-gray--300 rounded-lg p-2 bg-white">
-        <textarea
-          id="comment"
-          {...register('comment')}
-          className="w-full resize-none outline-none text-sm p-2 min-h-[100px]"
-          placeholder="댓글을 입력해주세요."
-          spellCheck="false"
-          maxLength={800}
-          onInput={(e) => {
-            const text = e.target.value;
-            if (text.length > 800) {
-              e.target.value = text.substring(0, 800);
-              setValue('comment', e.target.value);
-            } else {
-              setValue('comment', text);
-            }
-          }}
-        />
-        <PostCommentAction comment={comment} />
-      </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-[8px] flex gap-[8px]">
+      <CommentInput
+        register={register}
+        setValue={setValue}
+        watch={watch}
+        isStart={true}
+      />
     </form>
   );
 }

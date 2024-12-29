@@ -1,20 +1,22 @@
 'use client';
-import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import PostCommentAction from './PostCommentAction';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import useReissueToken from '@/app/hooks/useReissueToken';
 
-const ReplyEditForm = ({
+import React, { useEffect } from 'react';
+
+import CommentInput from './CommentInput';
+import axios from 'axios';
+import { useForm } from 'react-hook-form';
+import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
+
+export default function ReplyEditForm({
   commentId,
   item,
   setIsEdit,
-  mentionedNickname,
   refreshComments,
   reply = null,
-}) => {
-  const edit = true;
+}) {
+  const access = useSelector((state) => state.login.access);
+  const { refreshAccessToken } = useReissueToken();
   const { register, watch, setValue, handleSubmit } = useForm({
     mode: 'onTouched',
     criteriaMode: 'all',
@@ -22,13 +24,11 @@ const ReplyEditForm = ({
     shouldFocusError: true,
     shouldUseNativeValidation: false,
   });
+
   useEffect(() => {
     setValue('comment', item.contents);
   }, [item.contents, setValue]);
 
-  const access = useSelector((state) => state.login.access);
-  const comment = watch('comment', '');
-  const { refreshAccessToken } = useReissueToken();
   const handleReplySubmit = async (formData) => {
     try {
       await axios.patch(
@@ -65,32 +65,15 @@ const ReplyEditForm = ({
   return (
     <form
       onSubmit={handleSubmit(handleReplySubmit)}
-      className={`${reply ? 'w-[474px]' : 'w-full'}`}
+      className={`ml-[8px] ${reply ? 'w-[495px]' : 'w-[590px]'}`}
     >
-      {mentionedNickname && (
-        <span className="text-blue--500 font-bold mr-[5px] bg-gray--100 p-1">
-          @{mentionedNickname}
-        </span>
-      )}
-      <textarea
-        id="comment"
-        {...register('comment')}
-        className={`resize-none outline-none text-sm p-2 min-h-[100px] ${reply ? 'w-[474px]' : 'w-full'}`}
-        spellCheck="false"
-        maxLength={800}
-        onInput={(e) => {
-          const text = e.target.value;
-          if (text.length > 800) {
-            e.target.value = text.substring(0, 800);
-            setValue('comment', e.target.value);
-          } else {
-            setValue('comment', text);
-          }
-        }}
+      <CommentInput
+        register={register}
+        setValue={setValue}
+        watch={watch}
+        isEdit={true}
+        setIsCancel={setIsEdit}
       />
-      <PostCommentAction comment={comment} edit={edit} setIsEdit={setIsEdit} />
     </form>
   );
-};
-
-export default ReplyEditForm;
+}

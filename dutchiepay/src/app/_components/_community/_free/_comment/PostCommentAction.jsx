@@ -1,4 +1,9 @@
-export default function PostCommentAction({ comment, edit = null, setIsEdit }) {
+export default function PostCommentAction({
+  comment,
+  edit = null,
+  setIsCancel = null,
+  isStart = false,
+}) {
   return (
     <div className="flex justify-end items-center mt-2">
       <span className="text-xs text-gray--500">{`${comment.length}/800`}</span>
@@ -13,10 +18,11 @@ export default function PostCommentAction({ comment, edit = null, setIsEdit }) {
       >
         {edit ? '수정' : '등록'}
       </button>
-      {edit && (
+      {!isStart && (
         <button
-          onClick={() => setIsEdit(false)}
-          className={`px-3 py-1 text-sm font-sm border border-blue--500 text-blue--500 rounded-lg ml-2 bg-white hover:bg-blue--500 hover:text-white`}
+          type="button"
+          onClick={() => setIsCancel(false)}
+          className={`px-3 py-1 text-sm font-sm border border-blue--500 text-blue--500 rounded-lg ml-2 bg-white`}
         >
           취소
         </button>
