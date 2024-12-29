@@ -28,8 +28,8 @@ export default function HeaderTop() {
             </button>
           </li>
           <li className="header-nav-item">
-            <Link href="/mypage/myorder" className="text-xs hover:underline">
-              주문/배송
+            <Link href="/mypage" className="text-xs hover:underline">
+              마이페이지
             </Link>
           </li>
           <li className="header-nav-item">

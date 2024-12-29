@@ -4,9 +4,9 @@ import MartPostItem from './MartPostItem';
 import post from '/public/image/community/post.svg';
 import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
 
-export default function MartPostList({ category }) {
+export default function MartPostList({ category, keyword }) {
   const categoryParam = category ? `category=${category}&` : '';
-  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/mart/list?${categoryParam}limit=16`;
+  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/mart/list?${categoryParam}limit=16&word=${keyword}`;
   const {
     items: posts,
     isInitialized,

@@ -6,7 +6,7 @@ import Link from 'next/link';
 import ProductLike from './_commerce/ProductLike';
 import Rating from './_rating/Rating';
 
-export default function Product({ product }) {
+export default function Product({ product, isLikePage = false }) {
   return (
     <>
       {product && (
@@ -14,7 +14,7 @@ export default function Product({ product }) {
           href={`/commerce/${product.buyId}`}
           className="w-[220px] flex flex-col gap-[4px]"
         >
-          <div className="w-full h-[148px] relative overflow-hidden">
+          <div className="w-full h-[148px] relative overflow-hidden z-10">
             <Image
               className={`w-full h-[148px] transform transition-transform duration-300 hover:scale-110 object-cover ${product.expireDate < 0 ? 'grayscale-[65%]' : ''}`}
               src={product.productImg}
@@ -30,7 +30,13 @@ export default function Product({ product }) {
                 ({product.reviewCount > 999 ? '999+' : product.reviewCount})
               </p>
             </div>
-            {<ProductLike isLiked={true} productId={product.buyId} size={22} />}
+            {
+              <ProductLike
+                isLiked={isLikePage ? true : product.isLiked}
+                productId={product.buyId}
+                size={22}
+              />
+            }
           </div>
           <p className="mt-[4px] title--multi-line font-medium min-h-[48px]">
             {product.productName}
@@ -40,10 +46,10 @@ export default function Product({ product }) {
               {product.discountPercent}%
             </p>
             <p className="text-[12px] text-gray--500 line-through">
-              {product.originalPrice.toLocaleString('ko-KR')}원
+              {product.productPrice.toLocaleString('ko-KR')}원
             </p>
             <strong className="text-[16px]">
-              {product.salePrice.toLocaleString('ko-KR')}원
+              {product.discountPrice.toLocaleString('ko-KR')}원
             </strong>
           </div>
 

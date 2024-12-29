@@ -3,6 +3,7 @@
 import CommunityPostList from '@/app/_components/_community/CommunityPostList';
 import FreeCommunityFilter from '@/app/_components/_community/_free/FreeCommunityFilter';
 import Link from 'next/link';
+import PostSearch from '@/app/_components/_community/_common/PostSearch';
 import { useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
@@ -10,12 +11,14 @@ import { useState } from 'react';
 export default function Community() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const params = useSearchParams();
-
   const [filter, setFilter] = useState('최신순');
   const category = params.get('category');
+  const [keyword, setKeyword] = useState('');
+
   return (
     <section className="min-h-[750px] w-[1020px] mb-[100px]">
-      <div className="mt-[60px] flex justify-end items-end">
+      <div className="mt-[60px] flex justify-between items-end">
+        <PostSearch setKeyword={setKeyword} />
         <div className="flex items-end gap-[24px]">
           <FreeCommunityFilter filter={filter} setFilter={setFilter} />
           <Link
@@ -32,6 +35,7 @@ export default function Community() {
         filter={filter}
         setFilter={setFilter}
         category={category}
+        keyword={keyword}
       />
     </section>
   );
