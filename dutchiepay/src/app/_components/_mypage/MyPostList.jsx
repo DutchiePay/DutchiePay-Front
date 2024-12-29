@@ -9,11 +9,11 @@ import mart from '/public/image/mart.jpg';
 import profile from '/public/image/profile.jpg';
 import community from '/public/image/community.jpg';
 import { ALL_COMMUNITY_CATEGORIES } from '@/app/_util/constants';
-export default function MyPostList({ item }) {
+export default function MyPostList({ item, filter }) {
   return (
     <Link
       href={`/mart/detail?postId=${item.postId}`}
-      className="w-[220px] flex flex-col gap-[4px] cursor-pointer"
+      className="w-[220px]  flex flex-col gap-[4px] cursor-pointer"
     >
       <div className="w-full h-[148px] relative overflow-hidden">
         {item.category == '마트/배달' ? (
@@ -37,9 +37,11 @@ export default function MyPostList({ item }) {
         <p className="text-blue--500 text-sm font-semibold">
           {item.category === '마트/배달'
             ? item.category
-            : Object.keys(ALL_COMMUNITY_CATEGORIES).find(
-                (key) => ALL_COMMUNITY_CATEGORIES[key] === item.category
-              )}
+            : filter === '작성한 게시글'
+              ? item.category
+              : Object.keys(ALL_COMMUNITY_CATEGORIES).find(
+                  (key) => ALL_COMMUNITY_CATEGORIES[key] === item.category
+                )}
         </p>
         {item.category !== '마트/배달' ? (
           <div className="flex items-center gap-[8px]">
@@ -55,7 +57,7 @@ export default function MyPostList({ item }) {
       </div>
 
       <strong className="mt-[4px] title--multi-line">{item.title}</strong>
-      <p className="text-xs text-gray--500 title--multi-line title--multi-line-3 mt-[4px] mb-[8px]">
+      <p className="min-h-[45px]  text-xs text-gray--500 title--multi-line title--multi-line-3 mt-[4px] mb-[8px]">
         {item.description}
       </p>
       <div className="w-full flex justify-between items-center">

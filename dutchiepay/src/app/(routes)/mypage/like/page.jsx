@@ -96,7 +96,7 @@ export default function Like() {
       {filteredProducts.length > 0 ? (
         <article className="flex flex-wrap gap-[16px] mb-[40px]">
           {filteredProducts.map((item, key) => (
-            <Product key={key} product={item} />
+            <Product key={key} product={item} isLikePage={true} />
           ))}
         </article>
       ) : (

@@ -39,7 +39,7 @@ export default function Nav() {
       </nav>
       {currentHover !== '상품검색' && (isHovered || isNavHovered) && (
         <div
-          className={`absolute top-[99%] ${currentHover === '공동구매' ? 'left-[90px]' : currentHover === '마트/배달' ? 'left-[220px]' : currentHover === '거래/나눔' ? 'left-[350px]' : 'left-[470px]'} w-full `}
+          className={`absolute top-[86%] ${currentHover === '공동구매' ? 'left-[90px]' : currentHover === '마트/배달' ? 'left-[220px]' : currentHover === '거래/나눔' ? 'left-[350px]' : 'left-[470px]'} w-full `}
         >
           <HeaderHoverNav
             setIsNavHovered={setIsNavHovered}

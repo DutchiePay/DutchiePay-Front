@@ -14,7 +14,7 @@ export default async function getImage(image) {
     return;
   }
 
-  const imageName = uuidv4() + image.name; // 파일 이름 중복되지 않기 위함
+  const imageName = uuidv4();
 
   try {
     let response = await axios.post(

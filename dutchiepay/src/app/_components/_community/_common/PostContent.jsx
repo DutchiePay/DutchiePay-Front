@@ -23,7 +23,7 @@ export default function PostContent({ menu, post, postId }) {
           alt="뒤로가기"
           width={30}
           height={30}
-          onClick={() => router.back()}
+          onClick={() => router.push(`/${menu}`)}
           role="button"
           tabIndex="0"
         />
