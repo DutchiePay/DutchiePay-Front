@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import MartDetailInfo from '@/app/_components/_community/_local/MartDetailInfo';
 import PostContent from '@/app/_components/_community/_common/PostContent';
+import TradeDetailInfo from '@/app/_components/_community/_local/TradeDetailInfo';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
 import useReissueToken from '@/app/hooks/useReissueToken';
@@ -58,8 +58,8 @@ export default function TradeDetail() {
       <div className="flex justify-between">
         {post && (
           <>
-            <PostContent menu={'trade'} post={post} postId={id} />
-            <MartDetailInfo post={post} postId={id} />
+            <PostContent menu={'used'} post={post} postId={id} />
+            <TradeDetailInfo post={post} postId={id} />
           </>
         )}
       </div>

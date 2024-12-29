@@ -27,7 +27,6 @@ export default function useFetchUpdatePostData({ id, setPost, menu }) {
         );
         setPost(response.data);
       } catch (error) {
-        console.log(error);
         if (error.response.data.message === '작성자가 일치하지 않습니다.') {
           alert('게시글의 권한이 없습니다. 메인으로 돌아갑니다.');
           router.push('/');
@@ -51,5 +50,5 @@ export default function useFetchUpdatePostData({ id, setPost, menu }) {
     };
 
     if (id) fetchProduct();
-  }, [id, setPost, access, router, refreshAccessToken]);
+  }, [id, setPost, access, router, refreshAccessToken, menu]);
 }

@@ -22,7 +22,7 @@ export default function TradeModify() {
   const [images, setImages] = useState([]);
   const [thumbnail, setThumbnail] = useState('');
   const [post, setPost] = useState(null);
-  useFetchUpdatePostData({ id, setPost, menu: 'mart' });
+  useFetchUpdatePostData({ id, setPost, menu: 'trading' });
 
   const { register, watch, handleSubmit, setValue } = useForm({
     defaultValues: {
