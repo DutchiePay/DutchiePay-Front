@@ -45,8 +45,8 @@ export default function AlarmActiveAction({
   };
   return (
     <>
-      <div className="flex items-center justify-between text-xs p-4 w-[100%]">
-        <div className="flex justify-between w-[180px] text-gray--500 ">
+      <div className="flex items-center justify-between text-xs py-4 w-[380px] m-auto">
+        <div className="flex justify-between w-[200px] text-gray--500">
           <div
             onClick={() => setActiveTab('전체')}
             className={`cursor-pointer ${activeTab === '전체' ? 'text-black' : ''} hover:text-black`}

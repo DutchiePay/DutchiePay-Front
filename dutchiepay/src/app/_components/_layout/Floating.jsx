@@ -63,7 +63,7 @@ export default function Floating() {
     if (activeTab === '전체') return true;
     if (
       activeTab === 'commerce' &&
-      (alarm.type === 'success' || alarm.type === 'fail')
+      (alarm.type === 'commerce_success' || alarm.type === 'commerce_fail')
     ) {
       return true;
     }

@@ -1,3 +1,5 @@
+'use cilent';
+
 import Image from 'next/image';
 import close from '/public/image/alarm/close.svg';
 import chat from '/public/image/chat.svg';
@@ -8,8 +10,13 @@ export default function AlarmHeader({ handlePopup }) {
     <div className="flex items-center justify-between bg-white p-3 rounded-t-lg w-full h-[70px]">
       <div className="font-bold text-xl">알림</div>
       <div className="flex w-[120px] justify-between">
-        <Link href="/chat" className="flex  items-center">
-          <div className="text-sm">채팅방이동</div>
+        <Link
+          href="/chat"
+          className="flex w-[100px] mr-[15px] items-center border rounded"
+        >
+          <div className="inline-block text-center text-sm w-full">
+            채팅방이동
+          </div>
         </Link>
         <button onClick={handlePopup}>
           <Image

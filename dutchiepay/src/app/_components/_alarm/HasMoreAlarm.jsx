@@ -18,7 +18,7 @@ export default function HasMoreAlarm({ alarms }) {
     <div className="block">
       <div
         className={`relative m-auto h-auto ${
-          isExpanded ? 'w-full top-0 z-30 bg-gray-100 ' : 'w-[380px]'
+          isExpanded ? 'w-full top-0 z-30  ' : 'w-[380px]'
         }`}
       >
         {displayedAlarms.map((alarm, index) => {
@@ -37,7 +37,7 @@ export default function HasMoreAlarm({ alarms }) {
           return (
             <div
               key={alarm.commentId}
-              className={`bg-white p-4 rounded-lg ${
+              className={`bg-white p-4 rounded-lg  shadow-md ${
                 isExpanded
                   ? 'w-[380px] m-auto top-0 left-0 mb-3 cursor-pointer'
                   : 'absolute'
@@ -67,7 +67,7 @@ export default function HasMoreAlarm({ alarms }) {
                 href={alarmLink}
                 onClick={() => handleLinkClick(alarm.noticeId)}
               >
-                <div className="flex justify-between">
+                <div className="flex justify-between items-center">
                   <div>
                     <strong className="text-lg">
                       {alarm.type === 'commerce_success' ||
