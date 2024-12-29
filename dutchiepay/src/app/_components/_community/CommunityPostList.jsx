@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import post from '/public/image/community/post.svg';
 import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
+import NoPostMessage from '@/app/_util/getNoPostMessage';
 
 export default function CommunityPostList({ category, filter, keyword }) {
   const categoryParam = category ? `category=${category}&` : '';
@@ -28,11 +29,7 @@ export default function CommunityPostList({ category, filter, keyword }) {
             height={60}
             className="mt-[25%] pb-[30px] mx-auto"
           />
-          <strong className="text-2xl text-center mb-[50px]">
-            현재 등록된 게시글이 없습니다.
-            <br />
-            새로운 게시글을 작성하여 다양한 의견과 정보를 공유해 주세요.
-          </strong>
+          <NoPostMessage keyword={keyword} />
 
           <Link
             href="/community/write"
