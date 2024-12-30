@@ -57,11 +57,6 @@ export default function TradeModify() {
       return;
     }
 
-    if (!formData.formattedDateTime) {
-      alert('날짜와 시간을 모두 입력해주세요.');
-      return;
-    }
-
     const length = getTextLength(editorContent);
     if (length > 3000) {
       alert(
