@@ -12,11 +12,9 @@ export default function AlarmHeader({ handlePopup }) {
       <div className="flex w-[120px] justify-between">
         <Link
           href="/chat"
-          className="flex w-[100px] mr-[15px] items-center border rounded"
+          className="flex text-center w-full text-sm mr-[15px] items-center border rounded justify-center"
         >
-          <div className="inline-block text-center text-sm w-full">
-            채팅방이동
-          </div>
+          채팅방이동
         </Link>
         <button onClick={handlePopup}>
           <Image
