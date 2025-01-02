@@ -224,7 +224,7 @@ textarea::-webkit-scrollbar-thumb {
 
 /* Webkit 기반 브라우저에서 스크롤바 스타일링 */
 .scrollable::-webkit-scrollbar {
-  width: 5px; /* 스크롤바 너비 */
+  width: 5px !important;
 }
 
 .scrollable::-webkit-scrollbar-thumb {

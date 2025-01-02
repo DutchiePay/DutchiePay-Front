@@ -11,7 +11,7 @@ export default function Used() {
   };
 
   return (
-    <section className="min-h-[750px] w-[1020px] mb-[100px]">
+    <section className="min-h-[750px] w-[1020px] mb-[100px] ">
       <div className="mt-[60px] flex justify-end">
         <button
           className="text-white rounded bg-blue--500 px-[16px] py-[8px] text-sm"

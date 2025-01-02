@@ -1,35 +1,136 @@
 'use client';
 import Image from 'next/image';
-import arrow from '/public/image/chat/arrow.svg';
 import profile from '/public/image/profile.jpg';
 import { useSelector } from 'react-redux';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import '@/styles/globals.css';
+import Link from 'next/link';
 import axios from 'axios';
-
+import CahtListHeader from '@/app/_components/_chat/ChatListHeader';
+import useDeleteChat from '@/app/hooks/useDeleteChat ';
+import SockJS from 'sockjs-client';
+import { Client } from '@stomp/stompjs';
 export default function ChatList() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const access = useSelector((state) => state.login.access);
   const hasFetched = useRef(false);
   const [chatList, setChatList] = useState([]);
-  const router = useRouter();
+
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [selectedChat, setSelectedChat] = useState(null);
+  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+  const deleteChat = useDeleteChat(access);
+  const handleContextMenu = (chat, event) => {
+    event.preventDefault();
+    setSelectedChat(chat);
+    setPopupPosition({ x: event.clientX, y: event.clientY });
+    setPopupVisible(true);
+  };
+  useEffect(() => {
+    const socket = new SockJS(`${process.env.NEXT_PUBLIC_BASE_URL}/ws`);
+    const stompClient = new Client({
+      webSocketFactory: () => socket,
+      connectHeaders: {
+        Authorization: `Bearer ${access}`,
+      },
+    });
+
+    stompClient.activate();
+
+    return () => {
+      stompClient.deactivate();
+    };
+  }, [access]);
+  const dummyData = [
+    {
+      chatRoomId: 1,
+      chatImg: '',
+      chatName: '친구 1',
+      lastChatTime: '1시간 전',
+      lastMsg: '안녕! 오늘 뭐해?',
+      unreadCount: 2,
+    },
+    {
+      chatRoomId: 2,
+      chatImg: '',
+      chatName: '친구 2',
+      lastChatTime: '어제',
+      lastMsg: '우리 언제 만날까?',
+      unreadCount: 0,
+    },
+    {
+      chatRoomId: 3,
+      chatImg: '',
+      chatName: '친구 3',
+      lastChatTime: '2일 전',
+      lastMsg: '프로젝트 잘 됐어?',
+      unreadCount: 1,
+    },
+    {
+      chatRoomId: 4,
+      chatImg: '',
+      chatName: '친구 4',
+      lastChatTime: '3일 전',
+      lastMsg: '저녁 먹자!',
+      unreadCount: 3,
+    },
+    {
+      chatRoomId: 5,
+      chatImg: '',
+      chatName: '친구 5',
+      lastChatTime: '5일 전',
+      lastMsg: '축하해!',
+      unreadCount: 0,
+    },
+    {
+      chatRoomId: 6,
+      chatImg: '',
+      chatName: '친구 5',
+      lastChatTime: '5일 전',
+      lastMsg: '축하해!',
+      unreadCount: 0,
+    },
+    {
+      chatRoomId: 7,
+      chatImg: '',
+      chatName: '친구 5',
+      lastChatTime: '5일 전',
+      lastMsg: '축하해!',
+      unreadCount: 0,
+    },
+    {
+      chatRoomId: 8,
+      chatImg: '',
+      chatName: '친구 5',
+      lastChatTime: '5일 전',
+      lastMsg: '축하해!',
+      unreadCount: 0,
+    },
+    {
+      chatRoomId: 9,
+      chatImg: '',
+      chatName: '친구 5',
+      lastChatTime: '5일 전',
+      lastMsg: '축하해!',
+      unreadCount: 0,
+    },
+  ];
 
   const fetchChat = useCallback(async () => {
     try {
       if (hasFetched.current) return;
       hasFetched.current = true;
 
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/chat/chatRoomList`,
-        {
-          headers: {
-            Authorization: `Bearer ${access}`,
-          },
-        }
-      );
+      // const response = await axios.get(
+      //   `${process.env.NEXT_PUBLIC_BASE_URL}/chat/chatRoomList`,
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${access}`,
+      //     },
+      //   }
+      // );
+      // console.log(response.data);
 
-      setChatList(response.data);
+      setChatList(dummyData);
     } catch (error) {
       alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
@@ -39,21 +140,15 @@ export default function ChatList() {
     fetchChat();
   }, [fetchChat]);
 
-  const handleChatClick = (chatRoomId) => {
-    router.push(`/chat?chatRoomId=${chatRoomId}`);
-  };
-
   return (
-    <div className="w-full max-w-[480px] h-auto">
-      <div className="flex gap-[16px] w-[480px] h-[70px] p-3 items-center text-lg font-bold border-b cursor-pointer mb-[16px]">
-        모든 채팅
-        <Image src={arrow} alt="화살표" />
-      </div>
+    <div className="scrollable w-full max-w-[480px]">
+      <CahtListHeader />
       {chatList.map((chat) => (
-        <div
+        <Link
           key={chat.chatRoomId}
-          className="scrollable p-3 flex border-b cursor-pointer"
-          onClick={() => handleChatClick(chat.chatRoomId)}
+          className="p-3 flex border-b cursor-pointer hover:bg-gray-100 transition duration-200"
+          href={`/chat?chatRoomId=${chat.chatRoomId}`}
+          onContextMenu={(event) => handleContextMenu(chat, event)}
         >
           <Image
             src={chat.chatImg || profile}
@@ -76,8 +171,26 @@ export default function ChatList() {
               )}
             </div>
           </div>
-        </div>
+        </Link>
       ))}
+
+      {popupVisible && (
+        <div
+          className="absolute bg-white border rounded shadow-lg p-3"
+          style={{ left: popupPosition.x, top: popupPosition.y }}
+        >
+          <div className="cursor-pointer text-sm">읽음으로 표시</div>
+          <div
+            className="cursor-pointer text-sm"
+            onClick={() => {
+              deleteChat(selectedChat.chatRoomId);
+              setPopupVisible(false);
+            }}
+          >
+            채팅방 나가기
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -43,7 +43,7 @@ export default function Home() {
   }, []);
 
   return (
-    <section className="min-h-[750px] flex flex-col gap-[60px] mb-[100px]">
+    <section className="min-h-[750px] flex flex-col gap-[60px] mb-[100px] ">
       <MainCarousel />
       {isFetched && (
         <>
