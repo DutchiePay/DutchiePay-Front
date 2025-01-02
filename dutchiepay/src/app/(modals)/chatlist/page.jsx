@@ -27,35 +27,7 @@ export default function ChatList() {
   };
   const [client, setClient] = useState(null);
   const [messages, setMessages] = useState([]);
-  useEffect(() => {
-    const socket = new SockJS(`${process.env.NEXT_PUBLIC_BASE_URL}/chat`);
-    const stompClient = new Client({
-      webSocketFactory: () => socket,
-      connectHeaders: {
-        Authorization: `Bearer ${access}`,
-      },
-      onConnect: (frame) => {
-        console.log('Connected: ' + frame); // 연결 성공 시 로그 출력
-        stompClient.subscribe(`/sub?chatRoomId=6`, (messageOutput) => {
-          const message = JSON.parse(messageOutput.body);
-          setMessages((prevMessages) => [...prevMessages, message]);
-        });
-      },
-      onWebSocketError: (error) => {
-        console.error('WebSocket error: ', error); // 연결 실패 시 로그 출력
-      },
-      onDisconnect: (frame) => {
-        console.log('Disconnected: ' + frame); // 연결 해제 시 로그 출력
-      },
-    });
 
-    stompClient.activate();
-    setClient(stompClient);
-
-    return () => {
-      stompClient.deactivate();
-    };
-  }, [access]);
   const dummyData = [
     {
       chatRoomId: 1,
