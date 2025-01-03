@@ -61,8 +61,6 @@ export default function UsedWrite() {
         }
       );
 
-      console.log(response);
-
       router.push(`/used/${response.data.purchaseId}`);
     } catch (error) {
       alert('오류가 발생했습니다. 다시 시도해주세요.');
