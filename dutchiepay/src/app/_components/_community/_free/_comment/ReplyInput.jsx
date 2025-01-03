@@ -15,13 +15,7 @@ export default function ReplyInput({
 }) {
   const { refreshAccessToken } = useReissueToken();
   const access = useSelector((state) => state.login.access);
-  const { register, watch, handleSubmit, setValue } = useForm({
-    mode: 'onTouched',
-    criteriaMode: 'all',
-    reValidateMode: 'onblur',
-    shouldFocusError: true,
-    shouldUseNativeValidation: false,
-  });
+  const { register, watch, handleSubmit, setValue } = useForm();
 
   const onSubmit = async (formData) => {
     try {

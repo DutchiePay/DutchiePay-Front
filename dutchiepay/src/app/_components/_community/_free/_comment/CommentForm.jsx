@@ -21,11 +21,7 @@ export default function CommentForm({ postId, post }) {
         <h2 className="text-xl font-bold">댓글</h2>
         <p>{post.commentsCount}개</p>
       </div>
-      <CommentSubmit
-        postId={postId}
-        refreshComments={refreshComments}
-        type={'comment'}
-      />
+      <CommentSubmit postId={postId} refreshComments={refreshComments} />
       {!isInitialized || comments.length === 0 ? (
         <div className="mx-auto my-auto  flex flex-col justify-center items-center">
           <Image

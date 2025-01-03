@@ -8,7 +8,6 @@ export default function CommentActions({
   commentId,
   writerName,
   setIsEdit,
-  setIsDeleted,
   refreshComments,
 }) {
   const userNickname = useSelector((state) => state.login.user.nickname);
@@ -28,7 +27,6 @@ export default function CommentActions({
         );
 
         alert('정상적으로 삭제되었습니다.');
-        setIsDeleted(true);
         refreshComments();
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
@@ -60,10 +58,16 @@ export default function CommentActions({
     <>
       {writerName === userNickname && (
         <div className="flex gap-[16px]">
-          <button className="font-bold text-xs" onClick={() => setIsEdit(true)}>
+          <button
+            className="font-bold text-xs hover:underline"
+            onClick={() => setIsEdit(true)}
+          >
             수정
           </button>
-          <button className="font-bold text-xs" onClick={handlePostDelete}>
+          <button
+            className="font-bold text-xs hover:underline"
+            onClick={handlePostDelete}
+          >
             삭제
           </button>
         </div>

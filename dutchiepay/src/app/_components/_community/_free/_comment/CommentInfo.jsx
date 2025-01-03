@@ -1,4 +1,4 @@
-import CommentActions from '../CommentActions';
+import CommentActions from './CommentActions';
 import { getFormatDate } from '@/app/_util/getFormatDate';
 import { useSelector } from 'react-redux';
 
@@ -6,7 +6,6 @@ export default function CommentInfo({
   item,
   refreshComments,
   setIsEdit,
-  setIsDeleted,
   setIsReplyActive,
   isReplyActive,
 }) {
@@ -29,7 +28,7 @@ export default function CommentInfo({
       <div className="flex gap-[16px]">
         {item.userState === '회원' && (
           <button
-            className="font-bold text-xs"
+            className="font-bold text-xs hover:underline"
             onClick={() => setIsReplyActive(!isReplyActive)}
           >
             답글
@@ -40,7 +39,6 @@ export default function CommentInfo({
             writerName={item.nickname}
             commentId={item.commentId}
             setIsEdit={setIsEdit}
-            setIsDeleted={setIsDeleted}
             refreshComments={refreshComments}
           />
         )}
