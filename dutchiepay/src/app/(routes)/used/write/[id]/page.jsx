@@ -57,11 +57,6 @@ export default function TradeModify() {
       return;
     }
 
-    if (!formData.formattedDateTime) {
-      alert('날짜와 시간을 모두 입력해주세요.');
-      return;
-    }
-
     const length = getTextLength(editorContent);
     if (length > 3000) {
       alert(
@@ -84,7 +79,7 @@ export default function TradeModify() {
           images: images,
           category: ALL_COMMUNITY_CATEGORIES[formData.category],
           goods: formData.goods,
-          price: formData.price,
+          price: Number(formData.price.replaceAll(',', '')),
         },
         {
           headers: {

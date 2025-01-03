@@ -56,7 +56,7 @@ export default function MartWrite() {
           latitude: formData.location.lat,
           longitude: formData.location.lng,
           content: JSON.stringify(editorContent),
-          thumbnail: thumbnail,
+          thumbnail: thumbnail || null,
           images: images,
           category: ALL_COMMUNITY_CATEGORIES[formData.category],
         },

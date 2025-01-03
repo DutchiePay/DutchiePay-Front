@@ -1,12 +1,11 @@
 'use client';
 
-import TradePostList from '@/app/_components/_community/_used/TradePostList';
-import Post_Used from '@/app/_components/_community/Post_Used';
 import Link from 'next/link';
 import PostSearch from '@/app/_components/_community/_common/PostSearch';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import TradePostList from '@/app/_components/_community/_used/TradePostList';
+import { useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 export default function Used() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
