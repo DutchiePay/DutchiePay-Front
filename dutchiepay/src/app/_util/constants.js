@@ -121,3 +121,11 @@ export const ALL_COMMUNITY_CATEGORIES = {
   거래: 'trade',
   나눔: 'share',
 };
+
+export const NOTICE_CATEGORY = {
+  댓글: 'comment',
+  답글: 'reply',
+  채팅: 'chat',
+  '공동구매가 성공했습니다.': 'success',
+  '공동구매가 실패했습니다.': 'fail',
+};
