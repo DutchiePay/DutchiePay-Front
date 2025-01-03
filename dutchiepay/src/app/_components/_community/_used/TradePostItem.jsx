@@ -62,8 +62,8 @@ export default function TradePostItem({ item }) {
               height={18}
             />
             <p className="text-xs font-medium">
-              {item.price === '-1'
-                ? '나눔'
+              {item.price === -1
+                ? '나눔상품'
                 : `${item.price.toLocaleString('ko-KR')}원`}
             </p>
           </div>
