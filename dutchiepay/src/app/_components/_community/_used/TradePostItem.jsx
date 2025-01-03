@@ -6,8 +6,8 @@ import location from '/public/image/location.svg';
 import money from '/public/image/money.svg';
 import product from '/public/image/product.svg';
 import profile from '/public/image/profile.jpg';
-import used from '/public/image/used.jpg';
 import { useSelector } from 'react-redux';
+import used from '/public/image/used.jpg';
 
 export default function TradePostItem({ item }) {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
@@ -20,7 +20,7 @@ export default function TradePostItem({ item }) {
       <div className="rounded-t-xl h-[160px] relative overflow-hidden">
         <Image
           className={`rounded-t-xl w-[240px] h-[160px] transform transition-transform duration-300 hover:scale-110 ${item.state == '완료' ? 'grayscale-[50%]' : ''} object-cover`}
-          src={item.thunmbnail || used}
+          src={item.thumbnail || used}
           alt="썸네일"
           fill
         />
@@ -63,7 +63,7 @@ export default function TradePostItem({ item }) {
             />
             <p className="text-xs font-medium">
               {item.price === -1
-                ? '나눔상품'
+                ? '나눔 상품'
                 : `${item.price.toLocaleString('ko-KR')}원`}
             </p>
           </div>

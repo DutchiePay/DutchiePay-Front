@@ -65,6 +65,20 @@ export default function TradeModify() {
       return;
     }
 
+    console.log({
+      purchaseId: id,
+      title: formData.title,
+      meetingPlace: formData.locationDescription,
+      latitude: formData.location.lat,
+      longitude: formData.location.lng,
+      content: JSON.stringify(editorContent),
+      thumbnail: thumbnail,
+      images: images,
+      category: ALL_COMMUNITY_CATEGORIES[formData.category],
+      goods: formData.goods,
+      price: Number(formData.price.replaceAll(',', '')),
+    });
+
     try {
       await axios.patch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/trading`,
@@ -79,7 +93,7 @@ export default function TradeModify() {
           images: images,
           category: ALL_COMMUNITY_CATEGORIES[formData.category],
           goods: formData.goods,
-          price: formData.price,
+          price: Number(formData.price.replaceAll(',', '')),
         },
         {
           headers: {

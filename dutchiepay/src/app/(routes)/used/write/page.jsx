@@ -39,6 +39,19 @@ export default function UsedWrite() {
       return;
     }
 
+    console.log({
+      title: formData.title,
+      price: Number(formData.price.replaceAll(',', '')),
+      goods: formData.goods,
+      meetingPlace: formData.locationDescription,
+      latitude: formData.location.lat,
+      longitude: formData.location.lng,
+      content: JSON.stringify(editorContent),
+      thumbnail: thumbnail || null,
+      images: images,
+      category: ALL_COMMUNITY_CATEGORIES[formData.category],
+    });
+
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_URL}/trading`,
@@ -60,6 +73,8 @@ export default function UsedWrite() {
           },
         }
       );
+
+      console.log(response);
 
       router.push(`/used/${response.data.purchaseId}`);
     } catch (error) {
