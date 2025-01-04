@@ -8,7 +8,6 @@ export default function RootCommentInfo({
   setIsReplyActive,
   isReplyActive,
 }) {
-  const [isDeleted, setIsDeleted] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   return (
     <>
@@ -16,7 +15,6 @@ export default function RootCommentInfo({
         item={item}
         refreshComments={refreshComments}
         setIsEdit={setIsEdit}
-        setIsDeleted={setIsDeleted}
         setIsReplyActive={setIsReplyActive}
         isReplyActive={isReplyActive}
       />

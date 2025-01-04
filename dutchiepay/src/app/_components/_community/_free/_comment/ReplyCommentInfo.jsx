@@ -1,10 +1,10 @@
-import { useState } from 'react';
 import FreeDetailAction from './FreeDetailAction';
-import ReplyEditForm from './ReplyEditForm';
-import trash from '/public/image/trash.svg';
-import { getFormatDate } from '@/app/_util/getFormatDate';
-import { useSelector } from 'react-redux';
 import Image from 'next/image';
+import ReplyEditForm from './ReplyEditForm';
+import { getFormatDate } from '@/app/_util/getFormatDate';
+import trash from '/public/image/trash.svg';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 export default function ReplyCommentInfo({
   item,
@@ -13,8 +13,6 @@ export default function ReplyCommentInfo({
   setIsReplyActive,
   isReplyActive,
 }) {
-  const [isDeleted, setIsDeleted] = useState(false);
-
   const isMine =
     item.nickname === useSelector((state) => state.login.user.nickname)
       ? true
@@ -22,9 +20,7 @@ export default function ReplyCommentInfo({
   const [isEdit, setIsEdit] = useState(false);
   return (
     <>
-      {isDeleted &&
-      item.nickname === null &&
-      item.contents == '삭제된 댓글입니다.' ? (
+      {item.nickname === null && item.contents == '삭제된 댓글입니다.' ? (
         <div className="flex gap-[12px] my-[12px]">
           <Image
             className="w-[50px] h-[50px] rounded-full border"
@@ -62,7 +58,6 @@ export default function ReplyCommentInfo({
                   writerName={item.nickname}
                   commentId={item.commentId}
                   setIsEdit={setIsEdit}
-                  setIsDeleted={setIsDeleted}
                   refreshComments={refreshComments}
                 />
               )}

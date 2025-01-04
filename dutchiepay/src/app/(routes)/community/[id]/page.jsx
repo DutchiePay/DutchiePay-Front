@@ -31,7 +31,6 @@ export default function CommunityDetail() {
           }
         );
         setPost(response.data);
-        console.log(response.data);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           const reissueResponse = await refreshAccessToken();
@@ -61,7 +60,7 @@ export default function CommunityDetail() {
     <section className="min-h-[750px] w-[1020px]">
       {post && (
         <div className="flex justify-between">
-          <PostContent menu={'community'} post={post} postId={id} />
+          <PostContent menu={'community'} post={post} postId={Number(id)} />
           <PostRecommend post={post} />
         </div>
       )}

@@ -8,7 +8,6 @@ export default function CommentActions({
   commentId,
   writerName,
   setIsEdit,
-  setIsDeleted,
   refreshComments,
 }) {
   const userNickname = useSelector((state) => state.login.user.nickname);
@@ -28,7 +27,6 @@ export default function CommentActions({
         );
 
         alert('정상적으로 삭제되었습니다.');
-        setIsDeleted(true);
         refreshComments();
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {

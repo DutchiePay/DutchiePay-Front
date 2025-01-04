@@ -13,7 +13,6 @@ export default function ReplyList({
   rootCommentId,
 }) {
   const [isReplyActive, setIsReplyActive] = useState(false);
-  const [isDeleted, setIsDeleted] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
   return (
@@ -34,13 +33,11 @@ export default function ReplyList({
             fill
           />
         </div>
-
         <div className="w-[515px]">
           <CommentInfo
             item={item}
             refreshComments={refreshComments}
             setIsEdit={setIsEdit}
-            setIsDeleted={setIsDeleted}
             setIsReplyActive={setIsReplyActive}
             isReplyActive={isReplyActive}
           />

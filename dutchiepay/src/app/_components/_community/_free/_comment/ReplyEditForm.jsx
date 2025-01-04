@@ -17,13 +17,7 @@ export default function ReplyEditForm({
 }) {
   const access = useSelector((state) => state.login.access);
   const { refreshAccessToken } = useReissueToken();
-  const { register, watch, setValue, handleSubmit } = useForm({
-    mode: 'onTouched',
-    criteriaMode: 'all',
-    reValidateMode: 'onBlur',
-    shouldFocusError: true,
-    shouldUseNativeValidation: false,
-  });
+  const { register, watch, setValue, handleSubmit } = useForm();
 
   useEffect(() => {
     setValue('comment', item.contents);

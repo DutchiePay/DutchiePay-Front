@@ -1,4 +1,4 @@
-import CommentActions from '../CommentActions';
+import CommentActions from './CommentActions';
 import { getFormatDate } from '@/app/_util/getFormatDate';
 import { useSelector } from 'react-redux';
 
@@ -6,7 +6,6 @@ export default function CommentInfo({
   item,
   refreshComments,
   setIsEdit,
-  setIsDeleted,
   setIsReplyActive,
   isReplyActive,
 }) {
@@ -40,7 +39,6 @@ export default function CommentInfo({
             writerName={item.nickname}
             commentId={item.commentId}
             setIsEdit={setIsEdit}
-            setIsDeleted={setIsDeleted}
             refreshComments={refreshComments}
           />
         )}

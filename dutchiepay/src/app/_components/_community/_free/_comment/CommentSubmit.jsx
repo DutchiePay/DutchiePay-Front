@@ -8,13 +8,7 @@ import { useSelector } from 'react-redux';
 
 export default function CommentSubmit({ postId, refreshComments }) {
   const { refreshAccessToken } = useReissueToken();
-  const { register, watch, handleSubmit, setValue } = useForm({
-    mode: 'onTouched',
-    criteriaMode: 'all',
-    reValidateMode: 'onblur',
-    shouldFocusError: true,
-    shouldUseNativeValidation: false,
-  });
+  const { register, watch, handleSubmit, setValue } = useForm();
   const access = useSelector((state) => state.login.access);
 
   const onSubmit = async (formData) => {
