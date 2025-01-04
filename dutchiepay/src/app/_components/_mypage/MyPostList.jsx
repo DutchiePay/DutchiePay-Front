@@ -1,14 +1,11 @@
-import '@/styles/mypage.css';
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-
+import { ALL_COMMUNITY_CATEGORIES } from '@/app/_util/constants';
 import Image from 'next/image';
 import Link from 'next/link';
 import comment from '/public/image/comment.svg';
+import community from '/public/image/community.jpg';
 import mart from '/public/image/mart.jpg';
 import profile from '/public/image/profile.jpg';
-import community from '/public/image/community.jpg';
-import { ALL_COMMUNITY_CATEGORIES } from '@/app/_util/constants';
+
 export default function MyPostList({ item, filter }) {
   return (
     <Link

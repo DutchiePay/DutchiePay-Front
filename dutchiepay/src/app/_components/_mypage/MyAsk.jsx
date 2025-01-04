@@ -1,12 +1,11 @@
 'use client';
 
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
-import useDeleteAsk from '@/app/hooks/useDeleteAsk';
 import AskHeader from '@/app/_components/_commerce/_ask/AskHeader';
 import AskResponse from '@/app/_components/_commerce/_ask/AskResponse';
+import useDeleteAsk from '@/app/hooks/useDeleteAsk';
+
 export default function MyAsks({ item, onDelete }) {
   const [isAnswered, setIsAnswered] = useState(false);
   const [isMore, setIsMore] = useState(true);

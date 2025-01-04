@@ -1,7 +1,5 @@
 'use client';
 
-import '@/styles/mypage.css';
-
 import { useEffect, useRef, useState } from 'react';
 
 import { CATEGORIES } from '@/app/_util/constants';
