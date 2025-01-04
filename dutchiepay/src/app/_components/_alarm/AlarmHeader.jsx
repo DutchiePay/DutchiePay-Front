@@ -1,21 +1,25 @@
-'use cilent';
+'use client';
 
 import Image from 'next/image';
 import close from '/public/image/alarm/close.svg';
-import chat from '/public/image/chat.svg';
-import Link from 'next/link';
 
 export default function AlarmHeader({ handlePopup }) {
   return (
     <div className="flex items-center justify-between bg-white p-3 rounded-t-lg w-full h-[70px]">
       <div className="font-bold text-xl">알림</div>
       <div className="flex w-[120px] justify-between">
-        <Link
-          href="/chat"
+        <button
+          onClick={() => {
+            window.open(
+              '/chatlist',
+              '채팅 리스트',
+              'width=480,height=750,toolbar=no,menubar=no,location=no,scrollbars=no,status=no,resizable=no'
+            );
+          }}
           className="flex text-center w-full text-sm mr-[15px] items-center border rounded justify-center"
         >
           채팅방이동
-        </Link>
+        </button>
         <button onClick={handlePopup}>
           <Image
             className="w-8 h-8"

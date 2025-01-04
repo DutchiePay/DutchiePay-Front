@@ -239,3 +239,17 @@ textarea::-webkit-scrollbar-thumb {
 .scrollable::-webkit-scrollbar-track {
   background: #f1f1f1; /* 스크롤바 배경 색상 */
 }
+
+.system-message-date {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: 14px;
+}
+
+.system-message-date::before,
+.system-message-date::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #babcc2;
+}
