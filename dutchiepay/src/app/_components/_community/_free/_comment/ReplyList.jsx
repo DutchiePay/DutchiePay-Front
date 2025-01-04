@@ -59,7 +59,9 @@ export default function ReplyList({
                   ? item.mentionedNickname
                   : '탈퇴한 사용자'}
               </span>
-              <span className="text-sm px-[12px]">{item.contents}</span>
+              <span className="text-sm px-[12px] leading-relaxed">
+                {item.contents}
+              </span>
             </p>
           )}
         </div>

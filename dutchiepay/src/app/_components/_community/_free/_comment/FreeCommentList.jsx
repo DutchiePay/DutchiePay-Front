@@ -82,7 +82,7 @@ export default function FreeCommentList({
               fill
             />
           </div>
-          <div className="grow">
+          <div className="w-[600px]">
             {postId && (
               <RootCommentInfo
                 item={item}
