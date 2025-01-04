@@ -28,7 +28,7 @@ export default function CommentInfo({
       <div className="flex gap-[16px]">
         {item.userState === '회원' && (
           <button
-            className="font-bold text-xs"
+            className="font-bold text-xs hover:underline"
             onClick={() => setIsReplyActive(!isReplyActive)}
           >
             답글

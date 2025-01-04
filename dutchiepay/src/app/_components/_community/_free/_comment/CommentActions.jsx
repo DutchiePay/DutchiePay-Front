@@ -58,10 +58,16 @@ export default function CommentActions({
     <>
       {writerName === userNickname && (
         <div className="flex gap-[16px]">
-          <button className="font-bold text-xs" onClick={() => setIsEdit(true)}>
+          <button
+            className="font-bold text-xs hover:underline"
+            onClick={() => setIsEdit(true)}
+          >
             수정
           </button>
-          <button className="font-bold text-xs" onClick={handlePostDelete}>
+          <button
+            className="font-bold text-xs hover:underline"
+            onClick={handlePostDelete}
+          >
             삭제
           </button>
         </div>

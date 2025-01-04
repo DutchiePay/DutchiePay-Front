@@ -74,7 +74,7 @@ export default function ReplyList({
           />
           <ReplyInput
             mentionedNickname={item.mentionedNickname}
-            mentionedId={item.mentionedId}
+            mentionedId={item.commentId}
             postId={postId}
             rootCommentId={rootCommentId}
             refreshComments={refreshComments}

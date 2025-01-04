@@ -21,9 +21,10 @@ export default function PostState({
   }, [state]);
 
   const handleSelectChange = async (e) => {
+    const newValue = e.target.value;
     if (
       confirm(
-        `해당 글의 상태를 변경 하시겠습니까?${e.target.value === '완료' || (e.target.value === '모집완료' ? '\n완료된 게시글은 더이상 상태를 변경할 수 없습니다.' : '')}`
+        `해당 글의 상태를 변경 하시겠습니까?${newValue === '완료' || (newValue === '모집완료' ? '\n완료된 게시글은 더이상 상태를 변경할 수 없습니다.' : '')}`
       )
     ) {
       try {
@@ -32,7 +33,7 @@ export default function PostState({
           {
             postId: postId,
             category: isTrade ? '나눔/거래' : '마트/배달',
-            status: e.target.value,
+            status: newValue,
           },
           {
             headers: {
@@ -40,16 +41,16 @@ export default function PostState({
             },
           }
         );
-        setCurrentState(e.target.value);
+        setCurrentState(newValue);
       } catch (error) {
-        if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+        if (error.response?.data?.message === '액세스 토큰이 만료되었습니다.') {
           const reissueResponse = await refreshAccessToken();
           if (reissueResponse.success) {
-            await handleSelectChange();
+            await handleSelectChange({ target: { value: newValue } });
           } else {
             alert(
               reissueResponse.message ||
-                '오류가 발생했습니다 다시 시도해주세요.'
+                '오류가 발생했습니다. 다시 시도해주세요.'
             );
           }
         } else {
