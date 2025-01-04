@@ -1,6 +1,3 @@
-import '@/styles/globals.css';
-import '@/styles/mypage.css';
-
 import Link from 'next/link';
 
 export default function OrderListDefault() {

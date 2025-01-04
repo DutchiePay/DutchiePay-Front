@@ -1,16 +1,14 @@
 'use client';
 
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-
 import Image from 'next/image';
 import ImagesModal from '@/app/(modals)/images/page';
 import Rating from '@/app/_components/_rating/Rating';
+import ReviewActions from '@/app/_components/_commerce/_review/ReviewActions';
 import images from '/public/image/images.svg';
 import more from '/public/image/more.svg';
 import useDeleteReview from '@/app/hooks/useDeleteReview';
 import useReviewDisplay from '@/app/hooks/useReviewDisplay';
-import ReviewActions from '@/app/_components/_commerce/_review/ReviewActions';
+
 export default function MyReviews({ item, onDelete }) {
   const { deleteReview } = useDeleteReview();
 
@@ -71,7 +69,7 @@ export default function MyReviews({ item, onDelete }) {
           </div>
           <p
             ref={contentRef}
-            className={`text-sm ${hasImages ? 'w-[510px]' : 'w-[650px]'} mt-[12px] ${isMore ? '' : 'mypage-reviews__review'}`}
+            className={`text-sm ${hasImages ? 'w-[510px]' : 'w-[650px]'} mt-[12px] text-sm ${isMore ? '' : 'title--multi-line title--multi-line-3'}`}
             onClick={hasOverflow ? handleToggle : undefined}
           >
             {item.content}
