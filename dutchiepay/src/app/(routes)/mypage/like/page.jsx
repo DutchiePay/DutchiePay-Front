@@ -69,7 +69,7 @@ export default function Like() {
   }, [filter, allProducts]);
 
   return (
-    <section className="ml-[250px] p-[30px] min-h-[750px]">
+    <section className="p-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">좋아요한 상품</h1>
       <small>
         {nickname}님께서 좋아요한 공동구매 상품을 확인할 수 있습니다.

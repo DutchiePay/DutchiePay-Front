@@ -55,7 +55,7 @@ export default function MyAsk() {
     setAsks((prevAsks) => prevAsks.filter((ask) => ask.askId !== askId));
   };
   return (
-    <section className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
+    <section className="px-[40px] py-[30px] min-h-[790px]">
       <h1 className="text-[32px] font-bold">문의내역</h1>
       <small>{nickname}님께서 문의하신 내역들을 확인할 수 있습니다.</small>
       <section className="flex flex-col gap-[16px] mt-[16px]">
@@ -64,11 +64,11 @@ export default function MyAsk() {
             <Image
               src={ask}
               alt="문의 내용 없음"
-              width={40}
-              height={40}
+              width={60}
+              height={60}
               className="pt-[32px] mx-auto"
             />
-            <p className="my-[40px]">등록된 문의가 없습니다.</p>
+            <p className="mt-[24px]">작성하신 문의가 없습니다.</p>
           </div>
         ) : (
           asks.map((item) => {

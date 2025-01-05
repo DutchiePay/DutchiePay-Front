@@ -1,16 +1,15 @@
 'use client';
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
 
-import MypageFilter from '@/app/_components/_mypage/MypageFilter';
-import MyPostList from '@/app/_components/_mypage/MyPostList';
-import { useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-import Pagination from '@/app/_components/Pagination';
-import review from '/public/image/nonItem/review.svg';
+
 import Image from 'next/image';
+import MyPostList from '@/app/_components/_mypage/MyPostList';
+import MypageFilter from '@/app/_components/_mypage/MypageFilter';
+import Pagination from '@/app/_components/Pagination';
+import axios from 'axios';
+import review from '/public/image/nonItem/review.svg';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
 export default function MyPost() {
   const [filter, setFilter] = useState('작성한 게시글');
@@ -21,15 +20,15 @@ export default function MyPost() {
   const access = useSelector((state) => state.login.access);
   const { refreshAccessToken } = useReissueToken();
   const hasFetched = useRef(false);
+
   useEffect(() => {
-    const type = filter === '작성한 게시글' ? 'post' : 'comment';
     const fetchPost = async (page) => {
       try {
         if (hasFetched.current) return;
 
         hasFetched.current = true;
         const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/profile/posts?type=${type}&page=${page}&limit=9`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/profile/posts?type=${filter === '작성한 게시글' ? 'post' : 'comment'}&page=${page}&limit=9`,
           {
             headers: {
               Authorization: `Bearer ${access}`,
@@ -70,42 +69,42 @@ export default function MyPost() {
   };
 
   return (
-    <section className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
+    <section className="px-[40px] py-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">활동내역</h1>
       <small>
         {nickname}님이 작성하고 댓글을 남긴 게시글을 확인할 수 있습니다.
       </small>
       <ul className="flex gap-[8px] my-[16px]">
-        <MypageFilter
-          filter={filter}
-          setFilter={handleFilterChange}
-          filterkey={'작성한 게시글'}
-        />
-        <MypageFilter
-          filter={filter}
-          setFilter={handleFilterChange}
-          filterkey={'댓글 남긴 게시글'}
-        />
+        {['작성한 게시글', '댓글 남긴 게시글'].map((item, key) => {
+          return (
+            <MypageFilter
+              filter={filter}
+              setFilter={handleFilterChange}
+              filterkey={item}
+              key={key}
+            />
+          );
+        })}
       </ul>
-      <section className="flex flex-wrap gap-[12px] mb-[40px]">
+      <article className="flex flex-wrap gap-x-[30px] gap-y-[24px] mb-[40px]">
         {posts.length === 0 ? (
           <div className="mt-[20%] w-[100%] min-h-[140px] text-center">
             <Image
               src={review}
               alt="문의 내용 없음"
-              width={40}
-              height={40}
+              width={60}
+              height={60}
               className="pt-[32px] mx-auto"
             />
-            <p className="my-[40px]">작성한 게시글이 없습니다.</p>
+            <p className="mt-[24px]">작성한 게시글이 없습니다.</p>
           </div>
         ) : (
           posts.map((item, index) => {
-            return <MyPostList key={index} item={item} filter={filter} />;
+            return <MyPostList key={index} item={item} />;
           })
         )}
         {posts.length > 0 && (
-          <div className="w-[720px]">
+          <div className="mt-[24px] w-[720px]">
             {
               <Pagination
                 activePage={activePage}
@@ -117,7 +116,7 @@ export default function MyPost() {
             }
           </div>
         )}
-      </section>
+      </article>
     </section>
   );
 }

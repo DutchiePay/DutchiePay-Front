@@ -1,49 +1,40 @@
-import '@/styles/mypage.css';
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-
 import Image from 'next/image';
 import Link from 'next/link';
+import { MENUS } from '@/app/_util/constants';
 import comment from '/public/image/comment.svg';
+import community from '/public/image/community.jpg';
 import mart from '/public/image/mart.jpg';
 import profile from '/public/image/profile.jpg';
-import community from '/public/image/community.jpg';
-import { ALL_COMMUNITY_CATEGORIES } from '@/app/_util/constants';
-export default function MyPostList({ item, filter }) {
+import used from '/public/image/used.jpg';
+
+export default function MyPostList({ item }) {
   return (
     <Link
-      href={`/mart/detail?postId=${item.postId}`}
+      href={`/${item.category === '자유' ? 'community' : MENUS[item.category]}/${item.postId}`}
       className="w-[220px]  flex flex-col gap-[4px] cursor-pointer"
+      title={item.title}
     >
       <div className="w-full h-[148px] relative overflow-hidden">
-        {item.category == '마트/배달' ? (
-          <Image
-            className="w-full h-[148px] transform transition-transform duration-300 hover:scale-110 object-cover"
-            src={item.thunmbnail || mart}
-            alt={item.description}
-            fill
-          />
-        ) : (
-          <Image
-            className="w-full h-[148px] transform transition-transform duration-300 hover:scale-110 object-cover"
-            src={item.thunmbnail || community}
-            alt={item.description}
-            fill
-          />
-        )}
+        <Image
+          className="w-full h-[148px] transform transition-transform duration-300 hover:scale-110 object-cover"
+          src={
+            item.thunmbnail ||
+            (item.category == '마트/배달'
+              ? mart
+              : item.category == '자유'
+                ? community
+                : used)
+          }
+          alt={item.title}
+          fill
+        />
       </div>
 
       <div className="flex justify-between items-center py-[6px] border-b">
         <p className="text-blue--500 text-sm font-semibold">
-          {item.category === '마트/배달'
-            ? item.category
-            : filter === '작성한 게시글'
-              ? item.category
-              : Object.keys(ALL_COMMUNITY_CATEGORIES).find(
-                  (key) => ALL_COMMUNITY_CATEGORIES[key] === item.category
-                )}
+          {item.category === '자유' ? '커뮤니티' : item.category}
         </p>
-        {item.category !== '마트/배달' ? (
+        {item.category === '자유' && (
           <div className="flex items-center gap-[8px]">
             <Image src={comment} width={20} height={20} alt="댓글" />
             <p className="text-sm text-gray--500">
@@ -51,8 +42,6 @@ export default function MyPostList({ item, filter }) {
               {item.commentCount > 99 ? '99+' : item.commentCount}
             </p>
           </div>
-        ) : (
-          ''
         )}
       </div>
 

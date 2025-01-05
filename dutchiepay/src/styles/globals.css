@@ -7,10 +7,6 @@
   box-sizing: border-box;
 }
 
-.layout__main {
-  flex-grow: 1;
-}
-
 .title--multi-line {
   overflow: hidden;
   text-overflow: ellipsis;
