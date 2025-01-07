@@ -85,10 +85,11 @@ const getStringDateToTimeStamp = (date) => {
   };
 };
 const getformatCahtDate = (date) => {
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  return date.toLocaleDateString('ko-KR', options);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}년 ${month}월 ${day}일`;
 };
-
 const getformatCahtTime = (date) => {
   return `${date.getHours() > 12 ? '오후' : '오전'} ${date.getHours() % 12}:${String(date.getMinutes()).padStart(2, '0')}`;
 };

@@ -1,7 +1,5 @@
 'use client';
-
 import { useEffect, useRef, useState } from 'react';
-
 import MartDetailInfo from '@/app/_components/_community/_local/MartDetailInfo';
 import PostContent from '@/app/_components/_community/_common/PostContent';
 import axios from 'axios';
@@ -57,7 +55,6 @@ export default function MartDetail() {
 
     fetchMartDetail();
   }, [id, access, router, refreshAccessToken]);
-
   return (
     <section className="min-h-[750px] w-[1020px]">
       <div className="flex justify-between">

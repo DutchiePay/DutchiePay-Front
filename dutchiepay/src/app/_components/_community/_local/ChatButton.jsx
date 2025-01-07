@@ -3,10 +3,11 @@ import '@/styles/globals.css';
 import { useSelector } from 'react-redux';
 
 import axios from 'axios';
+import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function ChatButton({ postId, type }) {
   const access = useSelector((state) => state.login.access);
-
+  const { refreshAccessToken } = useReissueToken();
   const handleClick = async () => {
     try {
       const response = await axios.post(
@@ -21,15 +22,28 @@ export default function ChatButton({ postId, type }) {
           },
         }
       );
-      console.log(response);
-
-      // window.open(
-      //   `/chat/?chatRoomId=${newChatRoomId}`,
-      //   '채팅방',
-      //   'width=480,height=750,toolbar=no,menubar=no,location=no,scrollbars=no,status=no,resizable=yes'
-      // );
+      window.open(
+        `/chat/?chatRoomId=${response.data.chatRoomId}`,
+        '채팅방',
+        'width=480,height=750,toolbar=no,menubar=no,location=no,scrollbars=no,status=no,resizable=yes'
+      );
     } catch (error) {
-      console.error('오류 발생:', error);
+      if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
+        const reissueResponse = await refreshAccessToken();
+        if (reissueResponse.success) {
+          await handleClick();
+        } else {
+          alert(
+            reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
+          );
+        }
+      } else if (
+        error.response.data.message === '이미 채팅방에 참여되어있습니다.'
+      ) {
+        alert('이미 채팅방에 참여되어있습니다.');
+      } else {
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
+      }
     }
   };
 
