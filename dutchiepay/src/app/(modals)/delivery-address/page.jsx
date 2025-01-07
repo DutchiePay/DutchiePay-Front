@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-
 import { useEffect, useState } from 'react';
 
 import CryptoJS from 'crypto-js';
@@ -10,9 +7,9 @@ import PopUpButton from '@/app/_components/PopUpButton';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import useGetPostCode from '@/app/hooks/useGetPostCode';
+import useReissueToken from '@/app/hooks/useReissueToken';
 import { useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function Address() {
   const searchParams = useSearchParams();
@@ -165,7 +162,7 @@ export default function Address() {
         onSubmit={handleSubmit(onSubmit, onError)}
       >
         <input
-          className="address__input"
+          className="w-full border p-[12px] rounded outline-none"
           type="text"
           placeholder="배송지 이름"
           {...register('addressName', {
@@ -173,7 +170,7 @@ export default function Address() {
           })}
         />
         <input
-          className="address__input"
+          className="w-full border p-[12px] rounded outline-none"
           type="text"
           placeholder="받는 사람"
           {...register('name', {
@@ -181,7 +178,7 @@ export default function Address() {
           })}
         />
         <input
-          className="address__input"
+          className="w-full border p-[12px] rounded outline-none"
           type="text"
           placeholder="전화번호"
           {...register('phone', {
@@ -198,7 +195,7 @@ export default function Address() {
         />
         <div className="flex gap-[12px]">
           <input
-            className="address__input"
+            className="w-full border p-[12px] rounded outline-none"
             type="number"
             placeholder="우편번호"
             disabled
@@ -215,7 +212,7 @@ export default function Address() {
           </button>
         </div>
         <input
-          className="address__input"
+          className="w-full border p-[12px] rounded outline-none"
           type="text"
           placeholder="주소"
           disabled
@@ -224,7 +221,7 @@ export default function Address() {
           })}
         />
         <input
-          className="address__input"
+          className="w-full border p-[12px] rounded outline-none"
           type="text"
           placeholder="상세주소"
           {...register('detail')}

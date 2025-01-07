@@ -1,16 +1,15 @@
 'use client';
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
 
-import MypageFilter from '@/app/_components/_mypage/MypageFilter';
-import MyPostList from '@/app/_components/_mypage/MyPostList';
-import { useSelector } from 'react-redux';
 import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-import Pagination from '@/app/_components/Pagination';
-import review from '/public/image/nonItem/review.svg';
+
 import Image from 'next/image';
+import MyPostList from '@/app/_components/_mypage/MyPostList';
+import MypageFilter from '@/app/_components/_mypage/MypageFilter';
+import Pagination from '@/app/_components/Pagination';
+import axios from 'axios';
+import review from '/public/image/nonItem/review.svg';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
 export default function MyPost() {
   const [filter, setFilter] = useState('작성한 게시글');
