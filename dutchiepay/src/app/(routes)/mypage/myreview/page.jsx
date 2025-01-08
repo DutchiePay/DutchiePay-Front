@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';

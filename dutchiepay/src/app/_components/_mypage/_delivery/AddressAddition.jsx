@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-
 import { useEffect } from 'react';
 
 export default function AddressAddition({ deliveryAddress, setIsChanged }) {

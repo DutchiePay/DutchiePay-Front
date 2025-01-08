@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/mypage.css';
-
 import { useEffect, useRef, useState } from 'react';
 
 import AccountInfo from '@/app/_components/_mypage/AccountInfo';

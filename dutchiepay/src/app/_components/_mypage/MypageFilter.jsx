@@ -1,7 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-
 export default function MypageFilter({ filter, setFilter, filterkey }) {
   return (
     <li

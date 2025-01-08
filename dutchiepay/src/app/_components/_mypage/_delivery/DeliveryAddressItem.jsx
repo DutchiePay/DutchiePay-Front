@@ -1,12 +1,9 @@
 'use client';
 
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-
 import DefaultAddress from './DefaultAddress';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
 export default function DeliveryAddressItem({
   deliveryAddress,

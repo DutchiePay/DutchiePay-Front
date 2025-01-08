@@ -26,7 +26,7 @@ export default function RootCommentInfo({
           refreshComments={refreshComments}
         />
       ) : (
-        <span className="text-sm px-[12px]">{item.contents}</span>
+        <p className="text-sm ml-[12px] leading-relaxed">{item.contents}</p>
       )}
     </>
   );
