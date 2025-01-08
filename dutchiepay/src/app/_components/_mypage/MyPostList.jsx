@@ -23,9 +23,9 @@ export default function MyPostList({ item }) {
           className="w-full h-[148px] transform transition-transform duration-300 hover:scale-110 object-cover"
           src={
             item.thunmbnail ||
-            (SUBCATEGORY_TO_URL[item.category] == 'mart'
+            (SUBCATEGORY_TO_URL[item.category] === 'mart'
               ? mart
-              : SUBCATEGORY_TO_URL[item.category] == 'community'
+              : SUBCATEGORY_TO_URL[item.category] === 'community'
                 ? community
                 : used)
           }
@@ -40,7 +40,7 @@ export default function MyPostList({ item }) {
             (key) => ALL_COMMUNITY_CATEGORIES[key] === item.category
           )}
         </p>
-        {SUBCATEGORY_TO_URL[item.category] == 'community' && (
+        {SUBCATEGORY_TO_URL[item.category] === 'community' && (
           <div className="flex items-center gap-[8px]">
             <Image src={comment} width={20} height={20} alt="댓글" />
             <p className="text-sm text-gray--500">
