@@ -1,6 +1,10 @@
+import {
+  ALL_COMMUNITY_CATEGORIES,
+  SUBCATEGORY_TO_URL,
+} from '@/app/_util/constants';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import { MENUS } from '@/app/_util/constants';
 import comment from '/public/image/comment.svg';
 import community from '/public/image/community.jpg';
 import mart from '/public/image/mart.jpg';
@@ -10,7 +14,7 @@ import used from '/public/image/used.jpg';
 export default function MyPostList({ item }) {
   return (
     <Link
-      href={`/${item.category === '자유' ? 'community' : MENUS[item.category]}/${item.postId}`}
+      href={`/${SUBCATEGORY_TO_URL[item.category]}/${item.postId}`}
       className="w-[220px]  flex flex-col gap-[4px] cursor-pointer"
       title={item.title}
     >
@@ -19,9 +23,9 @@ export default function MyPostList({ item }) {
           className="w-full h-[148px] transform transition-transform duration-300 hover:scale-110 object-cover"
           src={
             item.thunmbnail ||
-            (item.category == '마트/배달'
+            (SUBCATEGORY_TO_URL[item.category] == 'mart'
               ? mart
-              : item.category == '자유'
+              : SUBCATEGORY_TO_URL[item.category] == 'community'
                 ? community
                 : used)
           }
@@ -32,9 +36,11 @@ export default function MyPostList({ item }) {
 
       <div className="flex justify-between items-center py-[6px] border-b">
         <p className="text-blue--500 text-sm font-semibold">
-          {item.category === '자유' ? '커뮤니티' : item.category}
+          {Object.keys(ALL_COMMUNITY_CATEGORIES).find(
+            (key) => ALL_COMMUNITY_CATEGORIES[key] === item.category
+          )}
         </p>
-        {item.category === '자유' && (
+        {SUBCATEGORY_TO_URL[item.category] == 'community' && (
           <div className="flex items-center gap-[8px]">
             <Image src={comment} width={20} height={20} alt="댓글" />
             <p className="text-sm text-gray--500">
