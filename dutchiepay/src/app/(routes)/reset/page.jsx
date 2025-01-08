@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import { useEffect, useState } from 'react';
 
 import Logo from '@/app/_components/_user/Logo';
@@ -12,16 +9,21 @@ import { useSelector } from 'react-redux';
 
 export default function Reset() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
-  const [email, setEmail] = useState(sessionStorage.getItem('emailForReset'));
+  const [email, setEmail] = useState('');
   const router = useRouter();
 
   useEffect(() => {
-    if (!email && !isLoggedIn) {
+    const storedEmail = sessionStorage.getItem('emailForReset');
+    if (storedEmail) {
+      setEmail(storedEmail);
+    }
+
+    if (!storedEmail && !isLoggedIn) {
       // 비회원도, 회원도 아닌 경우 (= URL로 해당 페이지 진입한 비회원)
       alert('잘못된 접근 방식 입니다.');
       router.push('/');
     }
-  }, [router, email, isLoggedIn]);
+  }, [isLoggedIn, router]);
 
   return (
     <section className="w-full flex flex-col items-center justify-center min-h-[890px]">

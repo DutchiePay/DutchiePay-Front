@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import LoginButton from './LoginButton';
 import LoginInput from './LoginInput';
 import RememberMe from './RememberMe';

@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import EmailInput from '../_input/EmailInput';
 import NicknameInput from '../_input/NicknameInput';
 import PasswordInput from '../_input/PasswordInput';
@@ -39,26 +36,23 @@ export default function SignUpSubmit() {
   });
 
   const onSubmit = async (formData) => {
-    const { confirmPassword, policy, authCode, ...userData } = formData;
-
-    const payload = {
-      ...userData,
-      password: newPassword,
-      location: address,
-    };
     try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/users/signup`,
-        payload
-      );
+      await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/users/signup`, {
+        password: newPassword,
+        location: address,
+        email: formData.email,
+        nickname: formData.nickname,
+        phone: formData.phone,
+      });
+      alert('정상적으로 가입되셨습니다.');
       router.push('/');
     } catch (error) {
       if (error.response.data.message === '이미 사용중인 전화번호입니다.') {
         alert('입력하신 전화번호로 가입하신 계정이 존재합니다.');
         setIsPhoneAuth(false);
         setIsCodeMatch(null);
-        setValue('phone', ''); // 전화번호 입력 필드 초기화
-        setValue('authCode', ''); // 인증번호 입력 필드 초기화
+        setValue('phone', '');
+        setValue('authCode', '');
         clearErrors('phone');
       }
     }

@@ -1,16 +1,13 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import GoToMain from './GoToMain';
 import PasswordInput from './_input/PasswordInput';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import useLogout from '@/app/hooks/useLogout';
+import useReissueToken from '@/app/hooks/useReissueToken';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import useReissueToken from '@/app/hooks/useReissueToken';
 
 export default function ResetSubmit({ email }) {
   const router = useRouter();
@@ -33,7 +30,6 @@ export default function ResetSubmit({ email }) {
   const password = watch('password', '');
   const confirmPassword = watch('confirmPassword', '');
   const newPassword = watch('newPassword', '');
-  // 훅 호출
   const handleLogout = useLogout(access);
 
   const fetchUserChangePassword = async (formData) => {
@@ -45,7 +41,7 @@ export default function ResetSubmit({ email }) {
       },
       {
         headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEwLCJ0b2tlblR5cGUiOiJhY2Nlc3MiLCJleHAiOjE3MzEwNDg2MDh9.9bUbUhueZ0EyM1r4TBr0UTIxdzbAY4JX7TLeAPlfuMA`,
+          Authorization: `Bearer ${access}`,
         },
       }
     );
@@ -83,7 +79,6 @@ export default function ResetSubmit({ email }) {
         } else if (
           error.response.data.message === '액세스 토큰이 만료되었습니다.'
         ) {
-          console.log('새로운 accessToken===' + access);
           const reissueResponse = await refreshAccessToken();
           if (reissueResponse.success) {
             await onSubmit(formData);
@@ -117,8 +112,7 @@ export default function ResetSubmit({ email }) {
       />
 
       <button
-        className={`user__button-${isValid ? 'blue' : 'gray'}`}
-        type="submit"
+        className={`mt-[12px] w-full py-[8px] px-[24px] font-semibold rounded text-center ${isValid ? 'bg-blue--500 text-white' : 'bg-gray--100 text-white'}`}
         disabled={!isValid}
       >
         비밀번호 재설정

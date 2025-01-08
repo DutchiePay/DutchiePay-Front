@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import FindFilter from '@/app/_components/_user/_find/FindFilter';
 import FindSubmit from '@/app/_components/_user/_find/FindSubmit';
 import FindSuccess from '@/app/_components/_user/_find/FindSuccess';
@@ -17,13 +14,13 @@ export default function Find() {
     <section className="w-full flex flex-col items-center justify-center min-h-[890px]">
       <Logo />
       <FindFilter tab={tab} setTab={setTab} setIsFindEmail={setIsFindEmail} />
-      <section className="mb-[32px] w-[500px]">
+      <article className="mb-[32px] w-[500px]">
         {isFindEmail ? (
           <FindSuccess isFindEmail={isFindEmail} />
         ) : (
           <FindSubmit tab={tab} setIsFindEmail={setIsFindEmail} />
         )}
-      </section>
+      </article>
     </section>
   );
 }

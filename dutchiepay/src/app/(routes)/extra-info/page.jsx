@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import AddInfoSubmit from '@/app/_components/_user/AddInfoSubmit';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';

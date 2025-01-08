@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import { useDispatch, useSelector } from 'react-redux';
 
 import AddressInput from './_input/RegionInput';

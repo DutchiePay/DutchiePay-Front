@@ -1,15 +1,13 @@
 'use client';
 
-import '@/styles/user.css';
-import '@/styles/globals.css';
-
 import { useEffect, useState } from 'react';
 
 import PhoneAuth from '@/app/_components/_user/_phone/PhoneAuth';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
+
 export default function WithdrawAuth() {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const access = useSelector((state) => state.login.access);

@@ -1,20 +1,16 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import PolicyDetail from './PolicyDetail';
 import { useState } from 'react';
 
 export default function Policy({ register }) {
-  const [isShowPolicy, setIsShowPolicy] = useState(false); // 정책 표시 여부
+  const [isShowPolicy, setIsShowPolicy] = useState(false);
 
   return (
     <>
       <div className="flex items-center mt-[16px] justify-between">
         <div className="flex items-center">
           <input
-            className="signup__checkbox"
             id="signup-policy__checkbox"
             type="checkbox"
             aria-required="true"

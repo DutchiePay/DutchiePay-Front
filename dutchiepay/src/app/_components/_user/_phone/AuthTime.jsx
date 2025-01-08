@@ -1,6 +1,3 @@
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 export default function AuthTime({ remainingTime }) {
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);

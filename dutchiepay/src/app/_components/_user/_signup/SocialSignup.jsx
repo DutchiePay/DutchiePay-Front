@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import SocialSignupButton from './SocialSignupButton';
 import useOAuthLogin from '@/app/hooks/useOauthLogin';
 

@@ -1,6 +1,3 @@
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import axios from 'axios';
 import { useEffect } from 'react';
 
@@ -50,20 +47,20 @@ export default function PhoneInput({
   return (
     <>
       <div className="flex items-center">
-        <label className="user__label">휴대폰 번호</label>
-        <span className="ml-[8px] text-[12px]">
+        <label className="text-lg font-bold">휴대폰 번호</label>
+        <span className="ml-[8px] text-sm">
           -을 제외한 전화번호를 입력해주세요
         </span>
       </div>
       <div className="mt-[4px] mb-[8px] flex relative">
         <input
           type="text"
-          className={`user__input mt-[4px] ${
+          className={`w-full border border-gray--200 py-[12px] px-[16px] rounded outline-none mt-[4px] placeholder:text-sm ${
             touchedFields.phone && errors.phone
-              ? 'user__input__invalid'
+              ? 'border border-red--500'
               : touchedFields.phone && !errors.phone && phone
                 ? isSignup
-                  ? 'user__input__valid'
+                  ? 'border border-blue--500'
                   : ''
                 : ''
           }`}

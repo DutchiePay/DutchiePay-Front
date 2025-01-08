@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import Image from 'next/image';
 import LastLogin from './LastLogin';
 import kakao from '/public/image/kakao.png';
@@ -22,7 +19,7 @@ export default function SocialButton({ type }) {
   };
 
   return (
-    <button className="relative" onClick={() => openPopup()}>
+    <button className="relative w-[60px] h-[60px]" onClick={() => openPopup()}>
       <Image
         className="cursor-pointer"
         src={getImageSrc()}
