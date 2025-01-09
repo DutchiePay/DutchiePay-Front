@@ -2,6 +2,7 @@
 
 import { ALL_COMMUNITY_CATEGORIES } from '@/app/_util/constants';
 import LocationModal from '@/app/_components/_community/_local/LocationModal';
+import ProtectedRoute from '@/app/_components/ProtectedRoute';
 import TradePostForm from '@/app/_components/_community/_local/TradePostForm';
 import axios from 'axios';
 import getTextLength from '@/app/_util/getTextLength';
@@ -68,29 +69,31 @@ export default function UsedWrite() {
   };
 
   return (
-    <section className="min-h-[750px] w-[1020px] mb-[100px] mt-[60px] mx-[60px] relative">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <TradePostForm
-          setIsModalOpen={setIsModalOpen}
-          register={register}
-          setValue={setValue}
-          watch={watch}
-          editorContent={editorContent}
-          setEditorContent={setEditorContent}
-          thumbnail={thumbnail}
-          images={images}
-          setImages={setImages}
-          setThumbnail={setThumbnail}
-        />
-      </form>
-      {isModalOpen && (
-        <LocationModal
-          setIsModalOpen={setIsModalOpen}
-          register={register}
-          setValue={setValue}
-          watch={watch}
-        />
-      )}
-    </section>
+    <ProtectedRoute>
+      <section className="min-h-[750px] w-[1020px] mb-[100px] mt-[60px] mx-[60px] relative">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TradePostForm
+            setIsModalOpen={setIsModalOpen}
+            register={register}
+            setValue={setValue}
+            watch={watch}
+            editorContent={editorContent}
+            setEditorContent={setEditorContent}
+            thumbnail={thumbnail}
+            images={images}
+            setImages={setImages}
+            setThumbnail={setThumbnail}
+          />
+        </form>
+        {isModalOpen && (
+          <LocationModal
+            setIsModalOpen={setIsModalOpen}
+            register={register}
+            setValue={setValue}
+            watch={watch}
+          />
+        )}
+      </section>
+    </ProtectedRoute>
   );
 }

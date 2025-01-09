@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 import PostContent from '@/app/_components/_community/_common/PostContent';
+import ProtectedRoute from '@/app/_components/ProtectedRoute';
 import TradeDetailInfo from '@/app/_components/_community/_local/TradeDetailInfo';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
@@ -54,15 +55,17 @@ export default function TradeDetail() {
   }, [id, access, router, refreshAccessToken]);
 
   return (
-    <section className="min-h-[750px] w-[1020px]">
-      <div className="flex justify-between">
-        {post && (
-          <>
-            <PostContent menu={'used'} post={post} postId={id} />
-            <TradeDetailInfo post={post} postId={id} />
-          </>
-        )}
-      </div>
-    </section>
+    <ProtectedRoute>
+      <section className="min-h-[750px] w-[1020px]">
+        <div className="flex justify-between">
+          {post && (
+            <>
+              <PostContent menu={'used'} post={post} postId={id} />
+              <TradeDetailInfo post={post} postId={id} />
+            </>
+          )}
+        </div>
+      </section>
+    </ProtectedRoute>
   );
 }
