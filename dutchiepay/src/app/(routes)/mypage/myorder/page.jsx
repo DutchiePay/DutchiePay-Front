@@ -14,7 +14,7 @@ export default function MyOrder() {
   const hasFetched = useRef(false);
 
   return (
-    <section className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
+    <section className="px-[40px] py-[30px] min-h-[750px]">
       <h1 className="text-[32px] font-bold">구매내역</h1>
       <small>
         {nickname}님께서 구매하신 공동구매 상품을 확인할 수 있습니다.

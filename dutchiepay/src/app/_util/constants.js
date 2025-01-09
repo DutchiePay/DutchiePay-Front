@@ -122,6 +122,17 @@ export const ALL_COMMUNITY_CATEGORIES = {
   나눔: 'share',
 };
 
+export const SUBCATEGORY_TO_URL = {
+  mart: 'mart',
+  delivery: 'mart',
+  free: 'community',
+  qna: 'community',
+  hobby: 'community',
+  info: 'community',
+  trade: 'used',
+  share: 'used',
+};
+
 export const NOTICE_CATEGORY = {
   댓글: 'comment',
   답글: 'reply',

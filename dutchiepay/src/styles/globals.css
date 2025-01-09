@@ -7,10 +7,6 @@
   box-sizing: border-box;
 }
 
-.layout__main {
-  flex-grow: 1;
-}
-
 .user-login-sns__title::before,
 .user-login-sns__title::after {
   content: '';
