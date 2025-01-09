@@ -1,6 +1,3 @@
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import GoToMain from '@/app/_components/_user/GoToMain';
 import Logo from '@/app/_components/_user/Logo';
 import SignUpSubmit from '@/app/_components/_user/_signup/SignUpSubmit';

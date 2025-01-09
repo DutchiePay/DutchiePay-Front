@@ -1,6 +1,3 @@
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 export default function FindDescription({ tab }) {
   return (
     <>

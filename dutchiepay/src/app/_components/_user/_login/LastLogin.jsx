@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import { useEffect, useState } from 'react';
 
 export default function LastLogin({ type }) {
@@ -16,13 +13,7 @@ export default function LastLogin({ type }) {
   return (
     <>
       {loginType === type && (
-        <div className="user-last__login user-last__login--naver">
-          <div
-            className="absolute w-[50px] h-[50px] top-[0px] left-[30%] bg-white z-[-1]"
-            aria-hidden={!loginType === type}
-          >
-            {/* 말풍선꼬리 */}
-          </div>
+        <div className="w-[120px] absolute bg-white top-full left-[-50%] mt-[4px] border rounded-lg px-[12px] py-[8px] text-center text-sm z-30">
           <strong>마지막</strong>으로
           <br />
           로그인한 방식

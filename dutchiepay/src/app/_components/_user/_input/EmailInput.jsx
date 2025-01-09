@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import axios from 'axios';
 
 export default function EmailInput({
@@ -48,15 +45,15 @@ export default function EmailInput({
 
   return (
     <div>
-      <label className="user__label">이메일</label>
+      <label className="text-lg font-bold">이메일</label>
       <input
-        className={`user__input mt-[4px] ${
+        className={`w-full border border-gray--200 py-[12px] px-[16px] rounded outline-none placeholder:text-sm mt-[4px] ${
           touchedFields.email && errors.email
-            ? 'user__input__invalid'
+            ? 'border border-red--500'
             : touchedFields.email && !errors.email && email && isEmailAvailable
-              ? 'user__input__valid'
+              ? 'border border-blue--500'
               : touchedFields.email && !errors.email && email && !isSignup
-                ? 'user__input__valid'
+                ? 'border border-blue--500'
                 : ''
         }`}
         type="email"
@@ -69,12 +66,11 @@ export default function EmailInput({
           },
           onBlur: async (e) => {
             if (isSignup) {
-              // isTrigger가 true일 때만 체크
-              const isTrigger = await trigger('email'); // 패턴 검사를 수행
+              const isTrigger = await trigger('email');
               if (isTrigger) {
-                checkEmailAvailability(e); // API 호출
+                checkEmailAvailability(e);
               } else {
-                setIsEmailAvailable(null); // 패턴이 유효하지 않을 경우 가용성 초기화
+                setIsEmailAvailable(null);
               }
             }
           },

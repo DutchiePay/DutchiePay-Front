@@ -1,6 +1,3 @@
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import Link from 'next/link';
 
 export default function GoToMain() {

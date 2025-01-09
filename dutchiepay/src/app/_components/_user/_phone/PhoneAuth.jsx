@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import AuthCode from './AuthCode';
 import PhoneInput from './PhoneInput';
 import { useState } from 'react';

@@ -1,6 +1,3 @@
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import AuthTime from './AuthTime';
 import { useEffect } from 'react';
 
@@ -48,7 +45,7 @@ export default function AuthCode({
     <div className="mt-[8px] flex">
       <div className="relative w-full">
         <input
-          className={`w-full user__input mt-[4px] ${isCodeMatch === true ? 'user__input__valid' : ''}`}
+          className={`w-full border border-gray--200 py-[12px] px-[16px] rounded outline-none mt-[4px] placeholder:text-sm${isCodeMatch === true ? 'border border-blue--500' : ''}`}
           placeholder="인증번호"
           type="number"
           {...register('authCode', {
