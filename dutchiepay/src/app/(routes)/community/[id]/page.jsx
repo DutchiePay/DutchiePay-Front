@@ -31,7 +31,6 @@ export default function CommunityDetail() {
           }
         );
         setPost(response.data);
-        console.log(response.data);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           const reissueResponse = await refreshAccessToken();
@@ -45,7 +44,7 @@ export default function CommunityDetail() {
             );
           }
         } else if (
-          error.response.data.message === '자유 게시글을 찾을 수 없습니다.'
+          error.response.data.message === '게시글을 찾을 수 없습니다.'
         ) {
           alert('존재하지 않는 게시글 입니다.');
           router.push('/community');
