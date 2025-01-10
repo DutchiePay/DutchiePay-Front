@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 export default function OrdererInput({ register }) {
   return (
     <>

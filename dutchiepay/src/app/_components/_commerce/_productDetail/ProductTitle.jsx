@@ -1,6 +1,3 @@
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 import getCategoryNames from '@/app/_util/getCategoryNames';
 
 export default function ProductTitle({ product }) {

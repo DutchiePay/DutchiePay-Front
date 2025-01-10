@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 import ProductFilter from '@/app/_components/_commerce/_product/ProductFilter';
 import ProductList from '@/app/_components/_commerce/_product/ProductList';
 import { useSearchParams } from 'next/navigation';
@@ -30,13 +27,13 @@ export default function Commerce() {
         </div>
         <ProductFilter filter={filter} setFilter={setFilter} />
       </div>
-      <section className="min-h-[400px] flex flex-wrap gap-[30px] mt-[16px] mb-[60px]">
+      <article className="min-h-[400px] flex flex-wrap gap-[30px] mt-[16px] mb-[60px]">
         <ProductList
           category={category}
           filter={filter}
           isEndContain={isEndContain}
         />
-      </section>
+      </article>
     </section>
   );
 }

@@ -8,7 +8,7 @@ const ReviewActions = ({ item, onDelete }) => {
     <div className="flex justify-between items-center">
       <Link
         href={`/commerce/${item.buyId}`}
-        className="inline-block max-w-[470px] title--single-line font-bold"
+        className="inline-block max-w-[470px] line-clamp-1 font-bold"
       >
         {item.productName}
       </Link>

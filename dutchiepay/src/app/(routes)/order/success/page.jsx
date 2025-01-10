@@ -11,7 +11,7 @@ export default function Success() {
 
   return (
     <section className="h-[750px] w-[1020px] flex justify-center items-center">
-      <section className="flex flex-col gap-[16px] justify-center items-center">
+      <article className="flex flex-col gap-[16px] justify-center items-center">
         <Image
           className="w-[100px] h-[100px]"
           src={success}
@@ -49,7 +49,7 @@ export default function Success() {
             구매내역으로 이동
           </Link>
         </div>
-      </section>
+      </article>
     </section>
   );
 }

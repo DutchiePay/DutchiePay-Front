@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 import Image from 'next/image';
 import ProductInfo from '@/app/_components/_commerce/_productDetail/ProductInfo';
 import RemainingTime from '@/app/_components/_commerce/_productDetail/RemainingTime';

@@ -1,13 +1,9 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
-import { useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-
 import OrderInfo from '@/app/_components/_commerce/_order/OrderInfo';
 import OrderSubmit from '@/app/_components/_commerce/_order/OrderSubmit';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Order() {
   const router = useRouter();

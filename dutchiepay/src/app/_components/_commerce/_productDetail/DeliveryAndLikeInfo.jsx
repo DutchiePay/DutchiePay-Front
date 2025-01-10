@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 import ProductLike from '../ProductLike';
 
 export default function DeliveryAndLikeInfo({ deadline, isLiked, productId }) {
