@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 
 import PostContent from '@/app/_components/_community/_common/PostContent';
 import PostRecommend from '@/app/_components/_community/_free/PostRecommend';
+import ProtectedRoute from '@/app/_components/ProtectedRoute';
 import axios from 'axios';
 import useReissueToken from '@/app/hooks/useReissueToken';
 import { useSelector } from 'react-redux';
@@ -57,13 +58,15 @@ export default function CommunityDetail() {
   }, [id, access, router, refreshAccessToken]);
 
   return (
-    <section className="min-h-[750px] w-[1020px]">
-      {post && (
-        <div className="flex justify-between">
-          <PostContent menu={'community'} post={post} postId={id} />
-          <PostRecommend post={post} />
-        </div>
-      )}
-    </section>
+    <ProtectedRoute>
+      <section className="min-h-[750px] w-[1020px]">
+        {post && (
+          <div className="flex justify-between">
+            <PostContent menu={'community'} post={post} postId={id} />
+            <PostRecommend post={post} />
+          </div>
+        )}
+      </section>
+    </ProtectedRoute>
   );
 }

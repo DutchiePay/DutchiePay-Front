@@ -3,6 +3,7 @@
 import { ALL_COMMUNITY_CATEGORIES } from '@/app/_util/constants';
 import LocationModal from '@/app/_components/_community/_local/LocationModal';
 import MartPostForm from '@/app/_components/_community/_local/MartPostForm';
+import ProtectedRoute from '@/app/_components/ProtectedRoute';
 import axios from 'axios';
 import getTextLength from '@/app/_util/getTextLength';
 import { useForm } from 'react-hook-form';
@@ -74,30 +75,32 @@ export default function MartWrite() {
   };
 
   return (
-    <section className="min-h-[750px] w-[1020px] mb-[100px] mt-[40px] mx-[60px] relative">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <MartPostForm
-          setIsModalOpen={setIsModalOpen}
-          register={register}
-          setValue={setValue}
-          watch={watch}
-          editorContent={editorContent}
-          setEditorContent={setEditorContent}
-          thumbnail={thumbnail}
-          images={images}
-          setImages={setImages}
-          setThumbnail={setThumbnail}
-          isUpdate={false}
-        />
-      </form>
-      {isModalOpen && (
-        <LocationModal
-          setIsModalOpen={setIsModalOpen}
-          register={register}
-          setValue={setValue}
-          watch={watch}
-        />
-      )}
-    </section>
+    <ProtectedRoute>
+      <section className="min-h-[750px] w-[1020px] mb-[100px] mt-[40px] mx-[60px] relative">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <MartPostForm
+            setIsModalOpen={setIsModalOpen}
+            register={register}
+            setValue={setValue}
+            watch={watch}
+            editorContent={editorContent}
+            setEditorContent={setEditorContent}
+            thumbnail={thumbnail}
+            images={images}
+            setImages={setImages}
+            setThumbnail={setThumbnail}
+            isUpdate={false}
+          />
+        </form>
+        {isModalOpen && (
+          <LocationModal
+            setIsModalOpen={setIsModalOpen}
+            register={register}
+            setValue={setValue}
+            watch={watch}
+          />
+        )}
+      </section>
+    </ProtectedRoute>
   );
 }

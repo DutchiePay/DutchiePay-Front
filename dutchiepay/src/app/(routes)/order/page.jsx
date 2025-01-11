@@ -2,6 +2,7 @@
 
 import OrderInfo from '@/app/_components/_commerce/_order/OrderInfo';
 import OrderSubmit from '@/app/_components/_commerce/_order/OrderSubmit';
+import ProtectedRoute from '@/app/_components/ProtectedRoute';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -43,14 +44,20 @@ export default function Order() {
   }, [router, productInfo]);
 
   return (
-    <section className="min-h-[750px] w-[1020px] mt-[40px] mb-[100px]">
-      <h1 className="text-3xl font-bold">주문/결제</h1>
-      <p className="text-xs text-gray--500">
-        ※ 공동구매 마감 시간 이전까지 결제가 완료 되어야 성공적으로 구매가
-        가능합니다.
-      </p>
-      <OrderInfo orderInfo={product} quantity={Number(quantity)} />
-      <OrderSubmit quantity={quantity} orderInfo={product} buyId={productId} />
-    </section>
+    <ProtectedRoute>
+      <section className="min-h-[750px] w-[1020px] mt-[40px] mb-[100px]">
+        <h1 className="text-3xl font-bold">주문/결제</h1>
+        <p className="text-xs text-gray--500">
+          ※ 공동구매 마감 시간 이전까지 결제가 완료 되어야 성공적으로 구매가
+          가능합니다.
+        </p>
+        <OrderInfo orderInfo={product} quantity={Number(quantity)} />
+        <OrderSubmit
+          quantity={quantity}
+          orderInfo={product}
+          buyId={productId}
+        />
+      </section>
+    </ProtectedRoute>
   );
 }
