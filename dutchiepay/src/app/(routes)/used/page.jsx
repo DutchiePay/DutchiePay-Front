@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import PostSearch from '@/app/_components/_community/_common/PostSearch';
-import TradePostList from '@/app/_components/_community/_used/TradePostList';
+import TradePostList from '@/app/_components/_community/_local/TradePostList';
 import { useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';

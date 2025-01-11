@@ -1,10 +1,11 @@
 'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
+import NoPostMessage from '@/app/_util/getNoPostMessage';
+import TradePostItem from './TradePostItem';
 import post from '/public/image/community/post.svg';
 import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
-import TradePostItem from './TradePostItem';
-import NoPostMessage from '@/app/_util/getNoPostMessage';
 
 export default function TradePostList({ category, keyword }) {
   const categoryParam = category ? `category=${category}&` : '';
