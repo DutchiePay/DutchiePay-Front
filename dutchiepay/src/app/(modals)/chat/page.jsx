@@ -99,7 +99,7 @@ export default function Chat() {
 
   return (
     <div className="w-[480px] h-[732px] flex flex-col">
-      <div className="h-[12%] p-4 border-b border-gray--300 mb-[20px]">
+      <div className="h-[12%] p-4 border-b border-gray--300 ">
         <div className="flex w-full items-center justify-between">
           <div className="flex-1 text-lg font-bold mb-[8px]">{chatName}</div>
           <Link href="/chatlist">

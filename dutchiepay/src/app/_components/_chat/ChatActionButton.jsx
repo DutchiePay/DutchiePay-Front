@@ -2,20 +2,33 @@ import Image from 'next/image';
 import imageIcon from '/public/image/chat/image.svg';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 import {
   getformatCahtDate,
   getformatCahtTime,
 } from '@/app/_util/getFormatDate';
 import getImage from '@/app/_util/getImage';
 
-export default function ChatActionButton({
-  handleSend,
-  setNewMessage,
-  newMessage,
-  setNewMessageType,
-}) {
-  const [selectedImage, setSelectedImage] = useState(null);
+export default function ChatActionButton({ handleSend, setNewMessageType }) {
+  const { register, handleSubmit, setValue, watch } = useForm();
   const senderId = useSelector((state) => state.login.user.userId);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const newMessage = watch('newMessage', '');
+
+  const onSubmit = async (data) => {
+    if (data.newMessage) {
+      const messageData = {
+        type: 'text',
+        senderId: senderId,
+        content: data.newMessage,
+        date: getformatCahtDate(new Date()),
+        time: getformatCahtTime(new Date()),
+      };
+
+      handleSend(messageData);
+      setValue('newMessage', '');
+    }
+  };
 
   const handleSendImage = async (e) => {
     const file = e.target.files[0];
@@ -40,26 +53,11 @@ export default function ChatActionButton({
   return (
     <form
       className="flex flex-col border-t border-t-gray--300 mt-[10px]"
-      onSubmit={(e) => {
-        e.preventDefault();
-        if (newMessage) {
-          const messageData = {
-            type: 'text',
-            senderId: senderId,
-            content: newMessage,
-            date: getformatCahtDate(new Date()),
-            time: getformatCahtTime(new Date()),
-          };
-
-          handleSend(messageData);
-          setNewMessage('');
-        }
-      }}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <textarea
         id="comment"
-        value={newMessage}
-        onChange={(e) => setNewMessage(e.target.value)}
+        {...register('newMessage')}
         className="w-[480px] resize-none outline-none text-sm p-2 min-h-[100px]"
         placeholder="채팅을 입력해주세요."
         spellCheck="false"

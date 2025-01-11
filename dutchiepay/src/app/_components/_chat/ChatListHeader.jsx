@@ -11,12 +11,14 @@ export default function ChatListHeader() {
 
   return (
     <>
-      <div
-        className="relative w-[480px] gap-[10px] h-[70px] p-3 items-center flex text-lg font-bold border-b cursor-pointer"
-        onClick={toggleFilters}
-      >
+      <div className="relative w-[480px] gap-[10px] h-[70px] p-3 items-center flex text-lg font-bold border-b cursor-pointer">
         <div>전체</div>
-        <Image src={arrow} alt="화살표" className="relative" />
+        <Image
+          src={arrow}
+          alt="화살표"
+          className="relative"
+          onClick={toggleFilters}
+        />
       </div>
       <div
         className={`absolute left-6 w-[100px] overflow-hidden ${isFiltersVisible ? 'border border-gray-300  z-[10]' : 'h-0'}`}

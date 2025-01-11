@@ -1,10 +1,12 @@
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import profile from '/public/image/profile.jpg';
+import getMessageTime from '@/app/_util/getMessageTime';
 
 const ChatMessageList = ({ messages, senderId }) => {
   const [clickedLinks, setClickedLinks] = useState(new Set());
   const [lastDisplayedDate, setLastDisplayedDate] = useState(null);
+  const messagesEndRef = useRef(null);
 
   const handleLinkClick = (link) => {
     setClickedLinks((prev) => new Set(prev).add(link));
@@ -14,7 +16,9 @@ const ChatMessageList = ({ messages, senderId }) => {
     if (message.type === 'img') {
       return (
         <a href={message.content} target="_blank" rel="noopener noreferrer">
-          <Image src={message.content} alt="사진" width={100} height={100} />
+          <div className="relative overflow-hidden">
+            <Image src={message.content} alt="사진" width={500} height={500} />
+          </div>
         </a>
       );
     }
@@ -54,29 +58,9 @@ const ChatMessageList = ({ messages, senderId }) => {
     }
   }, [messages, lastDisplayedDate]);
 
-  const shouldShowTime = (index) => {
-    if (index === 0) return true;
-    if (
-      messages[index].type === 'ban' ||
-      messages[index].type === 'enter' ||
-      messages[index].type === 'out' ||
-      messages[index].type === 'mout'
-    ) {
-      return false;
-    }
-    if (index < messages.length) {
-      if (index === messages.length - 1) {
-        return true;
-      } else {
-        if (messages[index].date === messages[index + 1].date) {
-          if (messages[index].senderId === messages[index + 1].senderId) {
-            if (messages[index].time === messages[index + 1].time) return false;
-          }
-        }
-      }
-      return true;
-    }
-  };
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView();
+  }, [messages]);
 
   return (
     <div className="flex-1 px-4 overflow-y-auto scrollable bg-white">
@@ -135,7 +119,7 @@ const ChatMessageList = ({ messages, senderId }) => {
                       </div>
                     )}
                   <div
-                    className={`inline-block max-w-[100%] p-3 rounded-lg shadow ${message.senderId === senderId ? 'bg-gray--100' : 'bg-blue--500 text-white'}`}
+                    className={`inline-block max-w-[100%] p-3 rounded-lg ${message.senderId === senderId ? 'bg-gray--100' : 'bg-blue--500 text-white'}`}
                   >
                     {renderMessageContent(message)}
                   </div>
@@ -143,13 +127,14 @@ const ChatMessageList = ({ messages, senderId }) => {
                 <div
                   className={`text-xs min-w-[70px] text-gray--500 mt-1 flex items-end ${message.senderId === senderId ? 'justify-end mr-[10px]' : 'ml-[10px]'}`}
                 >
-                  {shouldShowTime(index) ? message.sendAt : ''}
+                  {getMessageTime({ index, messages }) ? message.sendAt : ''}
                 </div>
               </div>
             )}
           </div>
         );
       })}
+      <div ref={messagesEndRef} />
     </div>
   );
 };
