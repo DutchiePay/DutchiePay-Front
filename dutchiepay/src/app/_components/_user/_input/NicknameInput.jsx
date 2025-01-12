@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -43,21 +40,21 @@ export default function NicknameInput({
   return (
     <>
       <div className="flex items-center">
-        <label className="user__label">닉네임</label>
-        <span className="ml-[8px] text-[12px]">
+        <label className="text-lg font-bold">닉네임</label>
+        <span className="ml-[8px] text-xs">
           한글, 영문, 숫자만을 포함하여 2글자 이상 8글자 이하
         </span>
       </div>
       <div className="flex relative">
         <input
-          className={`user__input mt-[4px] ${
+          className={`w-full border border-gray--200 py-[12px] px-[16px] rounded outline-none mt-[4px] placeholder:text-sm ${
             touchedFields.nickname && errors.nickname
-              ? 'user__input__invalid'
+              ? 'border border-red--500'
               : touchedFields.nickname &&
                   !errors.nickname &&
                   nickname &&
                   isNicknameAvailable
-                ? 'user__input__valid'
+                ? 'border border-blue--500'
                 : ''
           }`}
           placeholder="닉네임"
@@ -71,12 +68,11 @@ export default function NicknameInput({
               message: '올바른 닉네임 형식을 입력해주세요',
             },
             onBlur: async (e) => {
-              // isTrigger가 true일 때만 체크
-              const isTrigger = await trigger('nickname'); // 패턴 검사를 수행
+              const isTrigger = await trigger('nickname');
               if (isTrigger) {
-                checkNicknameAvailability(e); // API 호출
+                checkNicknameAvailability(e);
               } else {
-                setIsNicknameAvailable(null); // 패턴이 유효하지 않을 경우 가용성 초기화
+                setIsNicknameAvailable(null);
               }
             },
             onChange: (e) => {

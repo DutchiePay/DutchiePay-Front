@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { ALL_COMMUNITY_CATEGORIES } from '@/app/_util/constants';
 import FreePostForm from '@/app/_components/_community/_free/FreePostForm';
+import ProtectedRoute from '@/app/_components/ProtectedRoute';
 import axios from 'axios';
 import getTextLength from '@/app/_util/getTextLength';
 import useFetchUpdatePostData from '@/app/hooks/useFetchUpdatePostData';
@@ -98,20 +99,22 @@ export default function MartModify() {
   };
 
   return (
-    <section className="min-h-[750px] w-[1020px] mb-[100px] mt-[40px] mx-[60px]">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FreePostForm
-          register={register}
-          setValue={setValue}
-          watch={watch}
-          editorContent={editorContent}
-          setEditorContent={setEditorContent}
-          setThumbnail={setThumbnail}
-          thumbnail={thumbnail}
-          images={images}
-          setImages={setImages}
-        />
-      </form>
-    </section>
+    <ProtectedRoute>
+      <section className="min-h-[750px] w-[1020px] mb-[100px] mt-[40px] mx-[60px]">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FreePostForm
+            register={register}
+            setValue={setValue}
+            watch={watch}
+            editorContent={editorContent}
+            setEditorContent={setEditorContent}
+            setThumbnail={setThumbnail}
+            thumbnail={thumbnail}
+            images={images}
+            setImages={setImages}
+          />
+        </form>
+      </section>
+    </ProtectedRoute>
   );
 }

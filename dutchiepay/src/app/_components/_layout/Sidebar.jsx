@@ -5,22 +5,10 @@ import { MYPAGE_ICON, MYPAGE_MENU } from '@/app/_util/constants';
 import Image from 'next/image';
 import Link from 'next/link';
 import profile from '/public/image/profile.jpg';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
 export default function Sidebar() {
   const userInfo = useSelector((state) => state.login.user);
-  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      alert('비정상적인 접근입니다.');
-      router.push('/');
-      return;
-    }
-  }, [isLoggedIn, router]);
 
   return (
     <aside className="fixed w-[250px] bg-white px-[16px] py-[40px] flex flex-col items-center gap-[32px]">

@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import ConfirmPassword from './ConfirmPassword';
 import CurrentPassword from './CurrentPassword';
 import NewPassword from './NewPassword';

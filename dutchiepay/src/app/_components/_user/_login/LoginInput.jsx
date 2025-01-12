@@ -1,6 +1,3 @@
-import '@/styles/user.css';
-import '@/styles/globals.css';
-
 import Image from 'next/image';
 import eyeClosed from '/public/image/eyeClosed.svg';
 import eyeOpen from '/public/image/eyeOpen.svg';
@@ -20,7 +17,7 @@ export default function LoginInput({
     <>
       <div className="mb-[8px]">
         <input
-          className="user__input mt-[4px]"
+          className="w-full border border-gray--200 py-[12px] px-[16px] rounded outline-none mt-[4px] placeholder:text-sm"
           placeholder="이메일"
           type="email"
           {...register('email', {
@@ -31,7 +28,7 @@ export default function LoginInput({
 
       <div className="flex relative">
         <input
-          className="user__input-password mt-[4px]"
+          className="w-full border border-gray--200 py-[12px] px-[16px] rounded outline-none mt-[4px] placeholder:text-sm"
           placeholder="비밀번호"
           type={isVisible ? 'text' : 'password'}
           {...register('password', {

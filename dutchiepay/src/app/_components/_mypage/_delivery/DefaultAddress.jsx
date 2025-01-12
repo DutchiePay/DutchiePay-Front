@@ -1,11 +1,8 @@
 'use client';
 
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-
 import axios from 'axios';
-import { useSelector } from 'react-redux';
 import useRetryFunction from '@/app/hooks/useRetryFunction';
+import { useSelector } from 'react-redux';
 
 export default function DefaultAddress({ deliveryAddress, setIsChanged }) {
   const access = useSelector((state) => state.login.access);

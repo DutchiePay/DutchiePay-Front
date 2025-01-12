@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import Image from 'next/image';
 import eyeClosed from '/public/image/eyeClosed.svg';
 import eyeOpen from '/public/image/eyeOpen.svg';
@@ -21,21 +18,21 @@ export default function NewPassword({
   return (
     <div>
       <div className="flex items-center">
-        <label className="user__label" htmlFor="newPassword">
+        <label className="text-lg font-bold" htmlFor="newPassword">
           {isReset && '새'} 비밀번호
         </label>
-        <span className="ml-[8px] text-[12px]">
+        <span className="ml-[8px] text-xs">
           영문, 특수문자, 숫자를 모두 포함하여 8글자 이상
         </span>
       </div>
       <div className="mb-[8px] flex relative">
         <input
           id="newPassword"
-          className={`user__input-password mt-[4px] ${
+          className={`w-full border border-gray--200 py-[12px] px-[16px] rounded outline-none mt-[4px] placeholder:text-sm ${
             touchedFields.newPassword && errors.newPassword
-              ? 'user__input-password__invalid'
+              ? 'border border-red--500'
               : touchedFields.newPassword && !errors.newPassword && newPassword
-                ? 'user__input-password__valid'
+                ? 'border border-blue--500'
                 : ''
           }`}
           placeholder="비밀번호"

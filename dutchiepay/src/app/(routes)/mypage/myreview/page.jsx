@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
@@ -72,10 +69,10 @@ export default function MyReview() {
   }, [handleFetchReviews]);
 
   return (
-    <section className="ml-[250px] px-[40px] py-[30px] min-h-[750px]">
+    <section className="px-[40px] py-[30px] min-h-[790px]">
       <h1 className="text-[32px] font-bold">작성한 후기</h1>
       <small>{nickname}님께서 작성하신 상품의 후기를 확인할 수 있습니다.</small>
-      <section className="flex flex-col gap-[12px] mt-[16px]">
+      <article className="flex flex-col gap-[12px] mt-[16px]">
         {reviews.length === 0 ? (
           <div className="mt-[20%] w-[730px] items-center text-center">
             <Image
@@ -96,7 +93,7 @@ export default function MyReview() {
             />
           ))
         )}
-      </section>
+      </article>
     </section>
   );
 }

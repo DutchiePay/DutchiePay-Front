@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import Image from 'next/image';
 import eyeClosed from '/public/image/eyeClosed.svg';
 import eyeOpen from '/public/image/eyeOpen.svg';
@@ -20,19 +17,19 @@ export default function CurrentPassword({
   return (
     <>
       <div className="flex items-center">
-        <label className="user__label" htmlFor="password">
+        <label className="text-lg font-bold" htmlFor="password">
           현재 비밀번호
         </label>
-        <span className="ml-[8px] text-[12px]">
+        <span className="ml-[8px] text-xs">
           현재 사용중인 비밀번호를 입력해주세요
         </span>
       </div>
       <div className="flex relative">
         <input
           id="password"
-          className={`user__input-password mt-[4px] ${
+          className={`w-full border border-gray--200 py-[12px] px-[16px] rounded outline-none mt-[4px] placeholder:text-sm ${
             touchedFields.password && errors.password
-              ? 'user__input-password__invalid'
+              ? 'border border-red--500'
               : ''
           }`}
           placeholder="현재 비밀번호"

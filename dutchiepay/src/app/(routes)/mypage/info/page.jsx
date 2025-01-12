@@ -1,9 +1,7 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/mypage.css';
-
 import { useEffect, useRef, useState } from 'react';
+
 import AccountInfo from '@/app/_components/_mypage/AccountInfo';
 import DeliveryAddress from '@/app/_components/_mypage/_delivery/DeliveryAddress';
 import ModifyLocation from '@/app/_components/_mypage/_modify/ModifyLocation';
@@ -74,10 +72,10 @@ export default function Info() {
   }, [access, refreshAccessToken]);
 
   return (
-    <section className="ml-[250px] px-[40px] py-[30px] min-h-[680px]">
+    <section className="px-[40px] py-[30px] min-h-[680px]">
       <h1 className="text-[32px] font-bold">회원 정보</h1>
       <small>{nickname}님의 계정 정보를 확인하고 변경하실 수 있습니다.</small>
-      <section className="mt-[40px] flex flex-col gap-[36px] mb-[24px]">
+      <article className="mt-[40px] flex flex-col gap-[36px] mb-[24px]">
         <ModifyProfileImg
           modifyInfo={modifyInfo}
           setModifyInfo={setModifyInfo}
@@ -88,7 +86,7 @@ export default function Info() {
         <AccountInfo userInfo={userInfo} />
         <DeliveryAddress />
         <Withdraw />
-      </section>
+      </article>
     </section>
   );
 }

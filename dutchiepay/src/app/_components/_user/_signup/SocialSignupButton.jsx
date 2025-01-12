@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import Image from 'next/image';
 import kakao from '/public/image/kakao.png';
 import naver from '/public/image/naver.png';
@@ -22,7 +19,7 @@ export default function SocialSignupButton({ type }) {
 
   return (
     <button
-      className={`user-signup__button ${type === 'naver' ? 'bg-[#00c73c]  text-white' : 'bg-[#FBDB44]'}`}
+      className={`w-[240px] h-[55px] pr-[12px] flex justify-center items-center gap-[12px] text-lg font-bold rounded ${type === 'naver' ? 'bg-[#00c73c]  text-white' : 'bg-[#FBDB44]'}`}
       onClick={() => openPopup()}
       type="button"
     >

@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/user.css';
-
 import { useEffect, useState } from 'react';
 
 import EmailInput from '@/app/_components/_user/_input/EmailInput';
@@ -27,6 +24,7 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
     setError,
     clearErrors,
     setValue,
+    trigger,
   } = useForm({
     mode: 'onTouched',
     reValidateMode: 'onblur',
@@ -107,10 +105,11 @@ export default function FindSubmit({ tab, setIsFindEmail }) {
           setIsPhoneAuth={setIsPhoneAuth}
           isCodeMatch={isCodeMatch}
           setIsCodeMatch={setIsCodeMatch}
+          trigger={trigger}
         />
         <button
           type="submit"
-          className={`mt-[24px] ${isCodeMatch === true && isValid ? 'user__button-blue' : 'user__button-gray cursor-not-allowed'} `}
+          className={`mt-[24px] w-full py-[8px] px-[24px] font-semibold rounded text-center ${isCodeMatch === true && isValid ? 'bg-blue--500 text-white' : 'bg-gray--100 text-white cursor-not-allowed'} `}
           disabled={!(isCodeMatch === true && isValid)}
         >
           {tab}

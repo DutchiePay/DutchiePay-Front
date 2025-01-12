@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 
 import PostContent from '@/app/_components/_community/_common/PostContent';
 import PostRecommend from '@/app/_components/_community/_free/PostRecommend';
+import ProtectedRoute from '@/app/_components/ProtectedRoute';
 import axios from 'axios';
 import useReissueToken from '@/app/hooks/useReissueToken';
 import { useSelector } from 'react-redux';
@@ -31,7 +32,6 @@ export default function CommunityDetail() {
           }
         );
         setPost(response.data);
-        console.log(response.data);
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           const reissueResponse = await refreshAccessToken();
@@ -45,7 +45,7 @@ export default function CommunityDetail() {
             );
           }
         } else if (
-          error.response.data.message === '자유 게시글을 찾을 수 없습니다.'
+          error.response.data.message === '게시글을 찾을 수 없습니다.'
         ) {
           alert('존재하지 않는 게시글 입니다.');
           router.push('/community');
@@ -58,13 +58,15 @@ export default function CommunityDetail() {
   }, [id, access, router, refreshAccessToken]);
 
   return (
-    <section className="min-h-[750px] w-[1020px]">
-      {post && (
-        <div className="flex justify-between">
-          <PostContent menu={'community'} post={post} postId={id} />
-          <PostRecommend post={post} />
-        </div>
-      )}
-    </section>
+    <ProtectedRoute>
+      <section className="min-h-[750px] w-[1020px]">
+        {post && (
+          <div className="flex justify-between">
+            <PostContent menu={'community'} post={post} postId={id} />
+            <PostRecommend post={post} />
+          </div>
+        )}
+      </section>
+    </ProtectedRoute>
   );
 }

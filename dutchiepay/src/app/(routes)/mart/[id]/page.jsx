@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import MartDetailInfo from '@/app/_components/_community/_local/MartDetailInfo';
 import PostContent from '@/app/_components/_community/_common/PostContent';
+import ProtectedRoute from '@/app/_components/ProtectedRoute';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
 import useReissueToken from '@/app/hooks/useReissueToken';
@@ -56,15 +57,17 @@ export default function MartDetail() {
     fetchMartDetail();
   }, [id, access, router, refreshAccessToken]);
   return (
-    <section className="min-h-[750px] w-[1020px]">
-      <div className="flex justify-between">
-        {post && (
-          <>
-            <PostContent menu={'mart'} post={post} postId={id} />
-            <MartDetailInfo post={post} postId={id} />
-          </>
-        )}
-      </div>
-    </section>
+    <ProtectedRoute>
+      <section className="min-h-[750px] w-[1020px]">
+        <div className="flex justify-between">
+          {post && (
+            <>
+              <PostContent menu={'mart'} post={post} postId={id} />
+              <MartDetailInfo post={post} postId={id} />
+            </>
+          )}
+        </div>
+      </section>
+    </ProtectedRoute>
   );
 }
