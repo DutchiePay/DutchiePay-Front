@@ -1,9 +1,6 @@
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-import { useSelector } from 'react-redux';
-
 import axios from 'axios';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import { useSelector } from 'react-redux';
 
 export default function ChatButton({ postId, type }) {
   const access = useSelector((state) => state.login.access);
