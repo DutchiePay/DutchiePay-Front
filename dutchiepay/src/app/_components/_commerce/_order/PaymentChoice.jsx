@@ -1,15 +1,8 @@
 'use client';
 
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
-import { useState } from 'react';
-
-export default function PaymentChoice({ setValue }) {
-  const [paymentMethod, setPaymentMethod] = useState('');
-
+export default function PaymentChoice({ setValue, watch }) {
+  const paymentMethod = watch('paymentMethod');
   const handlePaymentChange = (method) => {
-    setPaymentMethod(method);
     setValue('paymentMethod', method);
   };
 
@@ -18,7 +11,7 @@ export default function PaymentChoice({ setValue }) {
       <h3 className="text-lg font-bold">결제 수단 선택</h3>
       <div className="flex justify-between">
         <label
-          className={`product-order__button ${paymentMethod === '신용카드' ? 'product-order__button__active' : ''}`}
+          className={`w-[180px] border rounded-lg p-[12px] text-sm text-center hover:bg-blue--200 hover:border-blue--200 ${paymentMethod === '신용카드' ? 'w-[180px] border rounded-lg p-[12px] text-sm text-center bg-blue--200 border-blue--200' : ''}`}
           onClick={() => handlePaymentChange('신용카드')}
         >
           <input
@@ -31,7 +24,7 @@ export default function PaymentChoice({ setValue }) {
           신용카드
         </label>
         <label
-          className={`product-order__button ${paymentMethod === '카카오페이' ? 'product-order__button__active' : ''}`}
+          className={`w-[180px] border rounded-lg p-[12px] text-sm text-center hover:bg-blue--200 hover:border-blue--200 ${paymentMethod === '카카오페이' ? 'w-[180px] border rounded-lg p-[12px] text-sm text-center bg-blue--200 border-blue--200' : ''}`}
           onClick={() => handlePaymentChange('카카오페이')}
         >
           <input

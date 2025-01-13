@@ -1,10 +1,7 @@
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 export default function ProductItemInfo({ item }) {
   return (
     <>
-      <p className="min-h-[48px] mt-[8px] title--multi-line font-medium">
+      <p className="min-h-[48px] mt-[8px] line-clamp-2 font-medium">
         {item.productName}
       </p>
       <div className="mt-[4px] flex gap-[8px] items-center">

@@ -51,7 +51,7 @@ export default function MartDetailInfo({ post, postId }) {
           postId={postId}
         />
       </div>
-      <ChatButton />
+      <ChatButton postId={postId} type="share" />
     </article>
   );
 }

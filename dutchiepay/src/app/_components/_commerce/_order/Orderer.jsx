@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 import { useEffect, useState } from 'react';
 
 import AddressFilter from './AddressFilter';

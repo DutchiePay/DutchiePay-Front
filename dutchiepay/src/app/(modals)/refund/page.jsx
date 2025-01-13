@@ -1,10 +1,7 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
-import RefundForm from '@/app/_components/_commerce/_refund/RefundForm';
 import OrderProductInfo from '@/app/_components/_commerce/OrderProductInfo';
+import RefundForm from '@/app/_components/_commerce/_refund/RefundForm';
 import { useSearchParams } from 'next/navigation';
 
 export default function RefundModal() {

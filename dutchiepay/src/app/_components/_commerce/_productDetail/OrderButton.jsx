@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';

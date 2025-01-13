@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 import OrderInfo from '@/app/_components/_commerce/_order/OrderInfo';
 import OrderSubmit from '@/app/_components/_commerce/_order/OrderSubmit';
 import ProtectedRoute from '@/app/_components/ProtectedRoute';

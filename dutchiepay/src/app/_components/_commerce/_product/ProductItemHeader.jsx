@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 import Image from 'next/image';
 import ProductLike from '../ProductLike';
 import Rating from '../../_rating/Rating';

@@ -69,7 +69,7 @@ export default function MyReviews({ item, onDelete }) {
           </div>
           <p
             ref={contentRef}
-            className={`text-sm ${hasImages ? 'w-[510px]' : 'w-[650px]'} mt-[12px] text-sm ${isMore ? '' : 'title--multi-line title--multi-line-3'}`}
+            className={`text-sm ${hasImages ? 'w-[510px]' : 'w-[650px]'} mt-[12px] text-sm ${isMore ? '' : 'line-clamp-3'}`}
             onClick={hasOverflow ? handleToggle : undefined}
           >
             {item.content}

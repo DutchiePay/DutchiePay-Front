@@ -1,6 +1,3 @@
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 export default function AddressFilter({
   deliveryAddress,
   selectedAddress,

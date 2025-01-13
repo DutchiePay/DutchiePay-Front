@@ -1,6 +1,3 @@
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 import Image from 'next/image';
 import Link from 'next/link';
 import ProductLike from './_commerce/ProductLike';
@@ -30,15 +27,13 @@ export default function Product({ product, isLikePage = false }) {
                 ({product.reviewCount > 999 ? '999+' : product.reviewCount})
               </p>
             </div>
-            {
-              <ProductLike
-                isLiked={isLikePage ? true : product.isLiked}
-                productId={product.buyId}
-                size={22}
-              />
-            }
+            <ProductLike
+              isLiked={isLikePage ? true : product.isLiked}
+              productId={product.buyId}
+              size={22}
+            />
           </div>
-          <p className="mt-[4px] title--multi-line font-medium min-h-[48px]">
+          <p className="mt-[4px] line-clamp-2 font-medium min-h-[48px]">
             {product.productName}
           </p>
           <div className="flex gap-[8px] items-center">

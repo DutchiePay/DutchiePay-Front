@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import reply from '/public/image/reply.svg';
 import { getFormatDate } from '@/app/_util/getFormatDate';
+import reply from '/public/image/reply.svg';
 
 const AskResponse = ({ item, isAnswered }) => {
   return (
@@ -16,7 +16,7 @@ const AskResponse = ({ item, isAnswered }) => {
               height={8}
             />
             <strong className="text-blue--500">{item.storeName}</strong>
-            <p className="text-xs text-gray-700">
+            <p className="text-xs text-gray--700">
               {getFormatDate('myask', item.answeredAt)}
             </p>
           </div>

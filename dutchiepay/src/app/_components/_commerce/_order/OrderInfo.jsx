@@ -1,6 +1,3 @@
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 import Image from 'next/image';
 import delivery from '/public/image/delivery.svg';
 import product from '/public/image/product1.jpg';
@@ -29,7 +26,7 @@ export default function OrderInfo({ orderInfo, quantity }) {
               />
               <div>
                 <p className="text-xs text-gray--500">{orderInfo?.storeName}</p>
-                <strong className="title--multi-line">
+                <strong className="line-clamp-2">
                   {orderInfo?.productName}
                 </strong>
                 <div className="flex items-center gap-[8px] py-[4px] text-blue--700 text-sm font-semibold">
