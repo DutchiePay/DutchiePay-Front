@@ -1,6 +1,3 @@
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';

@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/mypage.css';
-import '@/styles/globals.css';
-
 import Image from 'next/image';
 import ImagesModal from '@/app/(modals)/images/page';
 import Rating from '@/app/_components/_rating/Rating';

@@ -1,5 +1,3 @@
-import '@/styles/globals.css';
-
 import Rating from '@/app/_components/_rating/Rating';
 import RatingDitsribution from '@/app/_components/_rating/RatingDistribution';
 
