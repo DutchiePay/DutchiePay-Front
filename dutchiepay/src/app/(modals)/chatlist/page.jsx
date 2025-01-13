@@ -10,12 +10,25 @@ import useWebSocket from '@/app/hooks/useWebSocket';
 import mart from '/public/image/mart.jpg';
 import useReissueToken from '@/app/hooks/useReissueToken';
 import chatIcon from '/public/image/chat/chat.svg';
+import useLeaveChat from '@/app/hooks/useLeaveChat';
+import ContextMenu from '@/app/_components/_chat/ContextMenu';
+import ChatItem from '@/app/_components/_chat/ChatItem';
+
 export default function ChatList() {
   const access = useSelector((state) => state.login.access);
   const hasFetched = useRef(false);
   const [chatList, setChatList] = useState([]);
   const { isConnected } = useWebSocket(access);
   const { refreshAccessToken } = useReissueToken();
+  const [contextMenu, setContextMenu] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+    chat: null,
+  });
+
+  const { handleLeaveChat } = useLeaveChat();
+
   const fetchChat = useCallback(async () => {
     try {
       if (hasFetched.current) return;
@@ -58,8 +71,33 @@ export default function ChatList() {
       console.log('WebSocket 연결 해제됨.');
     }
   }, [isConnected]);
+
+  const handleContextMenu = (event, chat) => {
+    event.preventDefault();
+    setContextMenu({
+      visible: true,
+      x: event.pageX,
+      y: event.pageY,
+      chat: chat,
+    });
+  };
+
+  const handleCloseContextMenu = () => {
+    setContextMenu({ ...contextMenu, visible: false });
+  };
+
+  const handleLeaveChatWrapper = async () => {
+    if (contextMenu.chat) {
+      await handleLeaveChat(contextMenu.chat.chatRoomId);
+      handleCloseContextMenu();
+    }
+  };
+
   return (
-    <div className="scrollable w-full max-w-[480px]">
+    <div
+      className="scrollable w-full max-w-[480px]"
+      onClick={handleCloseContextMenu}
+    >
       <CahtListHeader />
       {chatList.length === 0 ? (
         <div className="mt-[30%]">
@@ -70,50 +108,18 @@ export default function ChatList() {
         </div>
       ) : (
         chatList.map((chat) => (
-          <div
+          <ChatItem
             key={chat.chatRoomId}
-            className="p-3 flex border-b cursor-pointer hover:bg-gray-100 transition duration-200"
-            onClick={() => {
-              const chatInfo = {
-                chatImg: chat.chatImg || mart,
-                chatName: chat.chatName,
-                chatRoomId: chat.chatRoomId,
-                chatUser: chat.chatUser,
-                lastChatTime: chat.lastChatTime,
-                lastMsg: chat.lastMsg,
-                type: chat.type,
-                unreadCount: chat.unreadCount,
-              };
-              sessionStorage.setItem('chatInfo', JSON.stringify(chatInfo));
-              window.location.href = `/chat?chatRoomId=${chat.chatRoomId}`;
-            }}
-          >
-            <Image
-              src={chat.chatImg || mart}
-              alt="채팅방이미지"
-              width={70}
-              height={70}
-              className="rounded-lg border"
-            />
-            <div className="p-3 w-[480px]">
-              <div className="flex justify-between items-center">
-                <div className="font-bold text-lg">{chat.chatName}</div>
-                <div className="text-xs text-gray--500">
-                  {chat.lastChatTime}
-                </div>
-              </div>
-              <div className="flex justify-between items-center relative max-w-[300px]">
-                <div className="title--single-line">{chat.lastMsg}</div>
-                {chat.unreadCount > 0 && (
-                  <div className="w-5 h-5 bg-red-500 rounded-full border border-white flex items-center justify-center text-white text-xs">
-                    {chat.unreadCount}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+            chat={chat}
+            onContextMenu={handleContextMenu}
+          />
         ))
       )}
+      <ContextMenu
+        contextMenu={contextMenu}
+        onClose={handleCloseContextMenu}
+        onLeaveChat={handleLeaveChatWrapper}
+      />
     </div>
   );
 }
