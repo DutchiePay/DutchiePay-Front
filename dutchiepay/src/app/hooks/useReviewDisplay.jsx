@@ -1,5 +1,4 @@
-// hooks/useReviewDisplay.js
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const useReviewDisplay = (thumbnails) => {
   const [hasImages, setHasImages] = useState(false);

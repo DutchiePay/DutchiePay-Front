@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import secret from '/public/image/secret.svg';
 import { getFormatDate } from '@/app/_util/getFormatDate';
+import secret from '/public/image/secret.svg';
 
 const AskHeader = ({ item, isAnswered, onDelete }) => {
   return (
@@ -18,7 +18,7 @@ const AskHeader = ({ item, isAnswered, onDelete }) => {
         )}
         <Link
           href={`/commerce/${item.buyId}`}
-          className="title--single-line max-w-[350px] text-[18px] font-bold"
+          className="line-clamp-1 max-w-[350px] text-[18px] font-bold"
         >
           {item.productName}
         </Link>

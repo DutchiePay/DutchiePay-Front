@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 import useGetPostCode from '@/app/hooks/useGetPostCode';
 
 export default function AddressInput({ register, setValue }) {

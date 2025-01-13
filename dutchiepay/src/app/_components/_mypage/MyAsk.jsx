@@ -29,7 +29,7 @@ export default function MyAsks({ item, onDelete }) {
           onDelete={handleDelete}
         />
         <p
-          className={`mt-[8px] text-sm   ${isMore ? 'line-clamp-none' : 'line-clamp-1'}`}
+          className={`mt-[8px] text-sm ${isMore ? 'line-clamp-none' : 'line-clamp-1'}`}
         >
           {item.content}
         </p>

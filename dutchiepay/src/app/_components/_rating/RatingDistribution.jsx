@@ -1,6 +1,3 @@
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 export default function RatingDitsribution({ rating, total, count }) {
   return (
     <div className="grid grid-cols-[30px_1fr_50px] gap-[30px] flex items-center">

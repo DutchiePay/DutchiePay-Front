@@ -15,6 +15,7 @@ export default function MyAsk() {
   const access = useSelector((state) => state.login.access);
   const { refreshAccessToken } = useReissueToken();
   const hasFetched = useRef(false);
+
   useEffect(() => {
     const fetchAsks = async () => {
       if (hasFetched.current) return;
@@ -49,9 +50,11 @@ export default function MyAsk() {
     };
     fetchAsks();
   }, [access, refreshAccessToken]);
+
   const handleDeleteAsk = (askId) => {
     setAsks((prevAsks) => prevAsks.filter((ask) => ask.askId !== askId));
   };
+
   return (
     <section className="px-[40px] py-[30px] min-h-[790px]">
       <h1 className="text-[32px] font-bold">문의내역</h1>

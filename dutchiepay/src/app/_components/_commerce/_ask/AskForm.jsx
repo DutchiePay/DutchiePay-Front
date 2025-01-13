@@ -1,15 +1,13 @@
 'use client';
 
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
+import AskRadioButton from './AskRadioButton';
+import AskTextarea from './AskTextarea';
 import PopUpButton from '../../PopUpButton';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import useReissueToken from '@/app/hooks/useReissueToken';
 import { useSelector } from 'react-redux';
-import AskTextarea from './AskTextarea';
-import AskRadioButton from './AskRadioButton';
+
 export default function AskForm({ buyId }) {
   const access = useSelector((state) => state.login.access);
   const { refreshAccessToken } = useReissueToken();

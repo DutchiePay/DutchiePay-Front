@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 import { COMMERCE_FILTER } from '@/app/_util/constants';
 
 export default function ProductFilter({ filter, setFilter }) {
