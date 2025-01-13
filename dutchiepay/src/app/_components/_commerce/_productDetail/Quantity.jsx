@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 export default function Quantity({ salePrice, quantity, setQuantity }) {
   const handleQuantity = (e) => {
     if (e.target.value === '-') {
@@ -18,7 +15,7 @@ export default function Quantity({ salePrice, quantity, setQuantity }) {
     <>
       <div className="w-full flex justify-end gap-[1px] mb-[4px]">
         <button
-          className="product-quantity__button"
+          className="w-[32px] h-[32px] bg-gray--100 font-bold"
           value="-"
           onClick={(e) => handleQuantity(e)}
         >
@@ -46,7 +43,7 @@ export default function Quantity({ salePrice, quantity, setQuantity }) {
           max={99}
         />
         <button
-          className="product-quantity__button"
+          className="w-[32px] h-[32px] bg-gray--100 font-bold"
           value="+"
           onClick={(e) => handleQuantity(e)}
         >

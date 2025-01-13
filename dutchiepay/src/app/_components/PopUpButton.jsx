@@ -1,5 +1,3 @@
-import '@/styles/globals.css';
-
 export default function PopUpButton({ submitText }) {
   const closeWindow = () => {
     window.close();

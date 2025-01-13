@@ -21,7 +21,7 @@ export default function TradePostList({ category, keyword }) {
       aria-label="게시글 목록"
     >
       {!isInitialized || posts.length === 0 ? (
-        <div className="mx-auto my-auto  flex flex-col justify-center items-center">
+        <div className="mx-auto my-auto flex flex-col justify-center items-center">
           <Image
             src={post}
             alt="등록된 게시글이 없습니다."

@@ -1,12 +1,13 @@
 'use client';
 
+import { ALL_COMMUNITY_CATEGORIES } from '@/app/_util/constants';
 import Image from 'next/image';
 import Link from 'next/link';
 import comment from '/public/image/comment.svg';
 import community from '/public/image/community.jpg';
 import profile from '/public/image/profile.jpg';
 import { useSelector } from 'react-redux';
-import { ALL_COMMUNITY_CATEGORIES } from '@/app/_util/constants';
+
 export default function FreePostItem({ item }) {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
 
@@ -29,10 +30,10 @@ export default function FreePostItem({ item }) {
         </div>
       </div>
       <div className="w-[240px] px-[12px] pt-[4px] pb-[8px]">
-        <strong className="inline-block w-[224px] title--single-line font-extrabold">
+        <strong className="inline-block w-[224px] line-clamp-1 font-extrabold">
           {item.title}
         </strong>
-        <p className="min-h-[45px] text-xs text-gray--500 title--multi-line title--multi-line-3">
+        <p className="min-h-[45px] text-xs text-gray--500 line-clamp-3">
           {item.description}
         </p>
         <div className="w-full flex justify-end items-center gap-[4px] mt-[10px]">

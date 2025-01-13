@@ -1,15 +1,11 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
-import { useEffect } from 'react';
 import AskForm from '@/app/_components/_commerce/_ask/AskForm';
-import Image from 'next/image';
+import OrderProductInfo from '@/app/_components/_commerce/OrderProductInfo';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import OrderProductInfo from '@/app/_components/_commerce/OrderProductInfo';
 
 export default function AskModal() {
   const searchParams = useSearchParams();

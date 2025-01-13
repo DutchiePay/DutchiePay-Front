@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 import { useEffect, useRef, useState } from 'react';
 
 import Ask from '@/app/_components/_commerce/_ask/Ask';
@@ -36,7 +33,6 @@ export default function ProductContent({ product, productId }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // 작성 리뷰/문의 없을 때 구현해야 함
   return (
     <>
       <ProductDetailTab

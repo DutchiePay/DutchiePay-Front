@@ -1,12 +1,10 @@
 'use client';
 
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-import clock from '/public/image/clock.svg';
 import Image from 'next/image';
+import clock from '/public/image/clock.svg';
+import { getRemainingTime } from '@/app/_util/getFormatDate';
 import useFetchOrderProduct from '@/app/hooks/useFetchOrderProduct';
 import { useState } from 'react';
-import { getRemainingTime } from '@/app/_util/getFormatDate'; // getRemainingTime 임포트
 
 export default function OrderProductInfo({
   buyId,
@@ -33,9 +31,7 @@ export default function OrderProductInfo({
           <div className="flex flex-col justify-center w-[400px] gap-[4px]">
             <p className="text-sm text-gray--500 font-normal">{orderNum}</p>
             <p className="text-xs text-gray--500">{orderInfo.storeName}</p>
-            <strong className="title--multi-line">
-              {orderInfo.productName}
-            </strong>
+            <strong className="line-clamp-2">{orderInfo.productName}</strong>
             {showRemainingTime && orderInfo.expireDate && (
               <div className="flex gap-[4px] text-sm text-blue--700 font-semibold">
                 <Image src={clock} alt="남은 시간" width={16} height={16} />

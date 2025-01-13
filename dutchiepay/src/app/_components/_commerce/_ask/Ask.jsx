@@ -1,6 +1,3 @@
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 import { useCallback, useEffect, useState } from 'react';
 
 import AskItem from '@/app/_components/_commerce/_ask/AskItem';
@@ -41,6 +38,7 @@ export default function Ask({ askCount, productId, company }) {
   const handlePageChange = (pageNumber) => {
     setActivePage(pageNumber);
   };
+
   useEffect(() => {
     fetchItems(activePage);
     const handleMessage = (event) => {
@@ -56,9 +54,11 @@ export default function Ask({ askCount, productId, company }) {
       window.removeEventListener('message', handleMessage);
     };
   }, [activePage, fetchItems]);
+
   const handleDeleteAsk = (askId) => {
     setItems((prevAsks) => prevAsks.filter((ask) => ask.askId !== askId));
   };
+
   return (
     <>
       <button

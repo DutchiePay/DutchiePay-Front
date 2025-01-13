@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 import OrderProductInfo from '@/app/_components/_commerce/OrderProductInfo';
 import ReviewForm from '@/app/_components/_commerce/_review/ReviewForm';
 import useFetchReview from '@/app/hooks/useFetchReview';

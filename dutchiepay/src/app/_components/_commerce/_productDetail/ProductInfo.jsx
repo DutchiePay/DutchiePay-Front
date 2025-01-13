@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 import DeliveryAndLikeInfo from '@/app/_components/_commerce/_productDetail/DeliveryAndLikeInfo';
 import OrderButton from '@/app/_components/_commerce/_productDetail/OrderButton';
 import ProductStatus from '@/app/_components/_commerce/_productDetail/ProductStatus';
