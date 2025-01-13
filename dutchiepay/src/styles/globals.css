@@ -336,3 +336,17 @@ textarea::-webkit-scrollbar-thumb {
   height: 3px;
   background-color: #000;
 }
+
+.system-message-date {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: 14px;
+}
+
+.system-message-date::before,
+.system-message-date::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #babcc2;
+}

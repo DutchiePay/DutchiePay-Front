@@ -50,7 +50,7 @@ export default function TradeDetailInfo({ post, postId }) {
           postId={postId}
         />
       </div>
-      <ChatButton />
+      <ChatButton postId={postId} type="purchase" />
     </article>
   );
 }
