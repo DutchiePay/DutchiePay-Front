@@ -59,7 +59,7 @@ export default function Chat() {
       );
       console.log(response.data);
 
-      setMessages(response.data);
+      setMessages(response.data.messages);
     } catch (error) {
       alert('오류가 발생했습니다. 다시 시도해주세요.');
     }

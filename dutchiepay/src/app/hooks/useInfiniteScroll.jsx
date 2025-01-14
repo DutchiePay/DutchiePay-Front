@@ -36,6 +36,7 @@ const useInfiniteScroll = ({ fetchUrl }) => {
           response.data.posts ||
           response.data.products ||
           response.data.comments ||
+          response.data.messages ||
           []
         );
       } catch (error) {
