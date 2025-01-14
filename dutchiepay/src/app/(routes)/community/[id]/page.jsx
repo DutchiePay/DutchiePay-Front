@@ -62,7 +62,7 @@ export default function CommunityDetail() {
       <section className="min-h-[750px] w-[1020px]">
         {post && (
           <div className="flex justify-between">
-            <PostContent menu={'community'} post={post} postId={id} />
+            <PostContent menu={'community'} post={post} postId={Number(id)} />
             <PostRecommend post={post} />
           </div>
         )}

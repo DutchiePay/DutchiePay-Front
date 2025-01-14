@@ -1,5 +1,7 @@
 'use client';
+
 import { useEffect, useRef, useState } from 'react';
+
 import MartDetailInfo from '@/app/_components/_community/_local/MartDetailInfo';
 import PostContent from '@/app/_components/_community/_common/PostContent';
 import ProtectedRoute from '@/app/_components/ProtectedRoute';
@@ -62,7 +64,7 @@ export default function MartDetail() {
         <div className="flex justify-between">
           {post && (
             <>
-              <PostContent menu={'mart'} post={post} postId={id} />
+              <PostContent menu={'mart'} post={post} postId={Number(id)} />
               <MartDetailInfo post={post} postId={id} />
             </>
           )}
