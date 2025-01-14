@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 import PopUpButton from '../../PopUpButton';
 import RefundReason from './RefundReason';
 import axios from 'axios';
@@ -89,13 +86,13 @@ export default function RefundForm({ orderId }) {
           <strong className="min-w-[40px]">유형</strong>
           <ul className="flex gap-[8px]">
             <li
-              className={`product-refund-type ${type === '환불' ? 'product-refund-type__active' : ''}`}
+              className={`w-[60px] h-[32px] border border-blue--500 rounded-xl text-blue--500 text-sm flex justify-center items-center ${type === '환불' ? 'bg-blue--500 text-white' : ''}`}
               onClick={() => setValue('type', '환불')}
             >
               환불
             </li>
             <li
-              className={`product-refund-type ${type === '교환' ? 'product-refund-type__active' : ''}`}
+              className={`w-[60px] h-[32px] border border-blue--500 rounded-xl text-blue--500 text-sm flex justify-center items-center ${type === '교환' ? 'bg-blue--500 text-white' : ''}`}
               onClick={() => setValue('type', '교환')}
             >
               교환

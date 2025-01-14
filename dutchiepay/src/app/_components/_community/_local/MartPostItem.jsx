@@ -29,7 +29,7 @@ export default function MartPostItem({ item }) {
         </div>
       </div>
       <div className="w-[240px] px-[12px] pt-[4px] pb-[8px]">
-        <strong className="inline-block w-[224px] title--single-line font-extrabold">
+        <strong className="inline-block w-[224px] line-clamp-1 font-extrabold">
           {item.title}
         </strong>
         <div className="flex flex-col gap-[8px] my-[4px]">

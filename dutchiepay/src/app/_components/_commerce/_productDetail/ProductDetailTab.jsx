@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 export default function ProductDetailTab({
   tab,
   setTab,
@@ -26,19 +23,19 @@ export default function ProductDetailTab({
   return (
     <ul className="mt-[40px] flex gap-[52px] border border-2 border-t-black py-[12px] px-[40px] sticky top-[105px] bg-white z-10">
       <li
-        className={`cursor-pointer hover:font-bold ${tab === '상품정보' ? 'product-tab__item--selected' : ''}`}
+        className={`cursor-pointer hover:font-bold ${tab === '상품정보' ? 'font-bold' : ''}`}
         onClick={(e) => handleTab(e)}
       >
         상품정보
       </li>
       <li
-        className={`cursor-pointer hover:font-bold ${tab === '후기' ? 'product-tab__item--selected' : ''}`}
+        className={`cursor-pointer hover:font-bold ${tab === '후기' ? 'font-bold' : ''}`}
         onClick={(e) => handleTab(e)}
       >
         후기
       </li>
       <li
-        className={`cursor-pointer hover:font-bold ${tab === '업체정보/문의' ? 'product-tab__item--selected' : ''}`}
+        className={`cursor-pointer hover:font-bold ${tab === '업체정보/문의' ? 'font-bold' : ''}`}
         onClick={(e) => handleTab(e)}
       >
         업체정보/문의

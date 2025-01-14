@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 import { useEffect, useRef, useState } from 'react';
 
 import ProductContent from '@/app/_components/_commerce/_productDetail/ProductContent';
@@ -18,6 +15,7 @@ export default function CommerceDetail() {
   const { refreshAccessToken } = useReissueToken();
   const [product, setProduct] = useState(null);
   const hasFetched = useRef(false);
+
   useEffect(() => {
     const fetchProduct = async () => {
       if (hasFetched.current) return;

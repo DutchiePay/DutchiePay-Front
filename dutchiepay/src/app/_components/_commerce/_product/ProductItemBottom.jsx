@@ -1,6 +1,3 @@
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 export default function ProductItemBottom({ item }) {
   return (
     <>

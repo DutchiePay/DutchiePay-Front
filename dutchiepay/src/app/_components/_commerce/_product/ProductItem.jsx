@@ -1,6 +1,3 @@
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 import Link from 'next/link';
 import ProductItemBottom from './ProductItemBottom';
 import ProductItemHeader from './ProductItemHeader';

@@ -47,7 +47,7 @@ export default function OrderItem({ product }) {
           <strong className="text-2xl text-blue--500">{status}</strong>
           <Link
             href={`/commerce/${product.buyId}`}
-            className="max-w-[520px] title--single-line font-medium"
+            className="max-w-[520px] line-clamp-1 font-medium"
           >
             {product.productName}
           </Link>

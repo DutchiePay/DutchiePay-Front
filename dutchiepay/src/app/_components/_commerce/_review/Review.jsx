@@ -1,6 +1,3 @@
-import '@/styles/commerce.css';
-import '@/styles/globals.css';
-
 import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
@@ -86,7 +83,7 @@ export default function Review({
               key={item.reviewId}
               item={item}
               isAll={isAll}
-              className={index > 0 ? 'product-review-item--not-first' : ''}
+              className={index > 0 ? 'border-t' : ''}
             />
           );
         })

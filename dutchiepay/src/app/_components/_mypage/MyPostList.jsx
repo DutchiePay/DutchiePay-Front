@@ -52,7 +52,7 @@ export default function MyPostList({ item }) {
       </div>
 
       <strong className="mt-[4px] title--multi-line">{item.title}</strong>
-      <p className="min-h-[45px]  text-xs text-gray--500 title--multi-line title--multi-line-3 mt-[4px] mb-[8px]">
+      <p className="min-h-[45px]  text-xs text-gray--500 line-clamp-3 mt-[4px] mb-[8px]">
         {item.description}
       </p>
       <div className="w-full flex justify-between items-center">

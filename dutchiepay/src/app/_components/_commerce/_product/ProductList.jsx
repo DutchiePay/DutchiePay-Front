@@ -1,8 +1,5 @@
 'use client';
 
-import '@/styles/globals.css';
-import '@/styles/commerce.css';
-
 import { FILTERS } from '@/app/_util/constants';
 import ProductItem from './ProductItem';
 import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';

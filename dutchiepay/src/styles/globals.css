@@ -14,28 +14,31 @@
   border-bottom: 1px solid #babcc2;
 }
 
-.title--multi-line {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.title--multi-line-3 {
-  -webkit-line-clamp: 3;
-}
-
-.title--single-line {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
 .select-no-arrow {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+
+.input__checkbox {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid #4b70f5;
+}
+
+.input__checkbox:checked {
+  background-color: #4b70f5;
+}
+
+.input__checkbox:checked::before {
+  content: '✓';
+  display: block;
+  color: white;
+  text-align: center;
 }
 
 .fillter__item {
@@ -113,6 +116,29 @@ input:-webkit-autofill:active {
   color: #d1d2d7;
   margin-left: 6px;
   font-size: 12px;
+}
+
+.product-summary__item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 1px;
+  background-color: #ddd;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.product-quantity__input::-webkit-outer-spin-button,
+.product-quantity__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox  */
+.product-quantity__input {
+  -moz-appearance: textfield;
+  outline: none;
 }
 
 /* HTML: <div class="loader"></div> */
@@ -241,4 +267,86 @@ textarea::-webkit-scrollbar-thumb {
 
 .scrollable::-webkit-scrollbar-track {
   background: #f1f1f1; /* 스크롤바 배경 색상 */
+}
+
+.product-review-progress {
+  -webkit-appearance: none;
+}
+
+.product-review-progress::-webkit-progress-bar {
+  height: 10px;
+  background-color: #e8e9eb;
+  border-radius: 16px;
+}
+
+.product-review-progress::-webkit-progress-value {
+  background-color: #4b70f5;
+  border-radius: 16px;
+}
+
+/* Firefox */
+.product-review-progress::-moz-progress-bar {
+  height: 5px;
+  background-color: #4b70f5;
+  border-radius: 16px;
+}
+
+/* IE와 Edge */
+.product-review-progress::-ms-fill {
+  height: 5px;
+  background-color: #4b70f5;
+  border-radius: 10px 0 0 10px;
+}
+
+#product-list-progress::-webkit-progress-bar {
+  height: 3px;
+  background-color: #d1d2d7;
+}
+
+.product-list-progress::-webkit-progress-value {
+  height: 3px;
+  background-color: #4b70f5;
+}
+
+/* Firefox */
+#product-list-progress::-moz-progress-bar {
+  height: 3px;
+  background-color: #4b70f5;
+}
+
+/* IE와 Edge */
+#product-list-progress::-ms-fill {
+  height: 3px;
+  background-color: #4b70f5;
+}
+
+.product-list-progress__end::-webkit-progress-value {
+  height: 3px;
+  background-color: #000;
+}
+
+/* Firefox */
+#product-list-progress__end::-moz-progress-bar {
+  height: 3px;
+  background-color: #000;
+}
+
+/* IE와 Edge */
+#product-list-progress__end::-ms-fill {
+  height: 3px;
+  background-color: #000;
+}
+
+.system-message-date {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: 14px;
+}
+
+.system-message-date::before,
+.system-message-date::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #babcc2;
 }
