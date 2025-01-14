@@ -22,6 +22,7 @@ export default function AddInfoSubmit() {
     watch,
     handleSubmit,
     setValue,
+    trigger,
     formState: { errors, isValid, isSubmitting, touchedFields },
   } = useForm({
     mode: 'onTouched',
@@ -70,6 +71,7 @@ export default function AddInfoSubmit() {
       <PhoneAuth
         register={register}
         watch={watch}
+        trigger={trigger}
         errors={errors}
         touchedFields={touchedFields}
         setValue={setValue}
