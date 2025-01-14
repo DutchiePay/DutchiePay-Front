@@ -60,7 +60,7 @@ export default function TradeDetail() {
         <div className="flex justify-between">
           {post && (
             <>
-              <PostContent menu={'used'} post={post} postId={id} />
+              <PostContent menu={'used'} post={post} postId={Number(id)} />
               <TradeDetailInfo post={post} postId={id} />
             </>
           )}

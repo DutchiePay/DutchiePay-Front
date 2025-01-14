@@ -33,7 +33,7 @@ export default function HotProduct({ product }) {
             {getRemainingTime(false, product?.expireDate)}
           </p>
         </div>
-        <p className="title--multi-line text-lg font-semibold mt-[4px] text-left">
+        <p className="line-clamp-2 text-lg font-semibold mt-[4px] text-left">
           {product?.productName}
         </p>
         <div className="flex gap-[8px] items-center">

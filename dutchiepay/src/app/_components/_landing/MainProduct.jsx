@@ -20,7 +20,7 @@ export default function MainProduct({ product, isHidden }) {
           sizes="(max-width: 768px) 100vw, 50vw"
         />
       </div>
-      <p className="title--single-line font-medium mt-[4px]">
+      <p className="line-clamp-1 font-medium mt-[4px]">
         {product?.productName}
       </p>
       <div className="flex gap-[8px] items-center">
