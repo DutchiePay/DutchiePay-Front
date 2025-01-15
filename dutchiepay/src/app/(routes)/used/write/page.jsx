@@ -45,7 +45,10 @@ export default function UsedWrite() {
         `${process.env.NEXT_PUBLIC_BASE_URL}/trading`,
         {
           title: formData.title,
-          price: Number(formData.price.replaceAll(',', '')),
+          price:
+            formData.category === '거래'
+              ? Number(formData.price.replaceAll(',', ''))
+              : -1,
           goods: formData.goods,
           meetingPlace: formData.locationDescription,
           latitude: formData.location.lat,
