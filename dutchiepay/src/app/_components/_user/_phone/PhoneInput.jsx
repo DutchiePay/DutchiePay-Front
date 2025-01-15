@@ -26,6 +26,7 @@ export default function PhoneInput({
       setIsCodeMatch(null);
     }
   }, [phone, setIsCodeMatch, trigger]);
+
   const handleAuthClick = async () => {
     if (!errors.phone && phone) {
       setIsPhoneAuth(true);
@@ -38,6 +39,7 @@ export default function PhoneInput({
         );
         setRemainingTime(180);
         setPhoneCode(response.data.code);
+        if (isPhoneAuth) alert('인증번호가 재전송되었습니다.');
       } catch (error) {
         alert('메시지 전송에 실패했습니다. 다시 시도해주세요.');
       }
