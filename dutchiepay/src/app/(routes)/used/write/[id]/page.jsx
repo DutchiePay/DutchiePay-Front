@@ -80,9 +80,10 @@ export default function TradeModify() {
           images: images,
           category: ALL_COMMUNITY_CATEGORIES[formData.category],
           goods: formData.goods,
-          ...(formData.category === '거래' && {
-            price: Number(formData.price.replaceAll(',', '')),
-          }),
+          price:
+            formData.category === '거래'
+              ? Number(formData.price.replaceAll(',', ''))
+              : -1,
         },
         {
           headers: {
