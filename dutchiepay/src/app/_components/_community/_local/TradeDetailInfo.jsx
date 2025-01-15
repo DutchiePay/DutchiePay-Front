@@ -32,7 +32,11 @@ export default function TradeDetailInfo({ post, postId }) {
         </div>
         <div className="flex justify-between items-center">
           <strong>판매 가격</strong>
-          <p>{post.price === -1 ? '나눔 상품' : post.price}</p>
+          <p>
+            {post.price === -1
+              ? '나눔 상품'
+              : post.price.toLocaleString('ko-KR') + '원'}
+          </p>
         </div>
         <div className="flex justify-between items-center">
           <strong>장소</strong>
