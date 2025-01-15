@@ -18,6 +18,7 @@ export default function ChangeNumber() {
     watch,
     handleSubmit,
     setValue,
+    trigger,
     formState: { errors, touchedFields },
   } = useForm({
     mode: 'onTouched',
@@ -88,6 +89,7 @@ export default function ChangeNumber() {
             setIsPhoneAuth={setIsPhoneAuth}
             isCodeMatch={isCodeMatch}
             setIsCodeMatch={setIsCodeMatch}
+            trigger={trigger}
           />
           {isCodeMatch && (
             <p className="text-sm">
