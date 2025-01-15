@@ -32,7 +32,7 @@ export default function TradeDetailInfo({ post, postId }) {
         </div>
         <div className="flex justify-between items-center">
           <strong>판매 가격</strong>
-          <p>{post.price}</p>
+          <p>{post.price === -1 ? '나눔 상품' : post.price}</p>
         </div>
         <div className="flex justify-between items-center">
           <strong>장소</strong>
@@ -45,12 +45,13 @@ export default function TradeDetailInfo({ post, postId }) {
         />
         <PostState
           isTrade={true}
+          isShare={post.price === -1}
           isMyPostWritten={post.writerId === userId}
           state={post.state}
           postId={postId}
         />
       </div>
-      <ChatButton postId={postId} type="purchase" />
+      <ChatButton postId={postId} type={'purchase'} />
     </article>
   );
 }

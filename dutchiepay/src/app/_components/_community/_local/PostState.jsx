@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 
 export default function PostState({
   isTrade = false,
+  isShare = false,
   isMyPostWritten,
   state,
   postId,
@@ -24,7 +25,7 @@ export default function PostState({
     const newValue = e.target.value;
     if (
       confirm(
-        `해당 글의 상태를 변경 하시겠습니까?${newValue === '완료' || (newValue === '모집완료' ? '\n완료된 게시글은 더이상 상태를 변경할 수 없습니다.' : '')}`
+        `해당 글의 상태를 변경 하시겠습니까?${newValue === '거래완료' || newValue === '나눔완료' || (newValue === '모집완료' ? '\n완료된 게시글은 더이상 상태를 변경할 수 없습니다.' : '')}`
       )
     ) {
       try {
@@ -67,7 +68,8 @@ export default function PostState({
     <div className="flex justify-between items-center">
       <strong>진행 상태</strong>
       {isMyPostWritten &&
-      currentState !== '완료' &&
+      currentState !== '거래완료' &&
+      currentState !== '나눔완료' &&
       currentState !== '모집완료' ? (
         <div className="w-[130px] relative">
           <select
@@ -80,8 +82,10 @@ export default function PostState({
               {isTrade ? '대기중' : '모집중'}
             </option>
             {isTrade && <option value={'거래중'}>거래중</option>}
-            <option value={isTrade ? '완료' : '모집완료'}>
-              {isTrade ? '완료' : '모집완료'}
+            <option
+              value={isTrade ? (isShare ? '나눔완료' : '거래완료') : '모집완료'}
+            >
+              {isTrade ? (isShare ? '나눔완료' : '거래완료') : '모집완료'}
             </option>
           </select>
           <Image
