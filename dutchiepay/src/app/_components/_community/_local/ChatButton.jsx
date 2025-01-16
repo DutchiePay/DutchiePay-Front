@@ -20,9 +20,9 @@ export default function ChatButton({ postId, type }) {
         }
       );
       const chatInfo = {
-        chatName: response.data.chatName,
+        chatName: response.data.chatRoomName,
         chatRoomId: response.data.chatRoomId,
-        chatUser: response.data.chatUser,
+        chatUser: response.data.chatRoomUser,
       };
       sessionStorage.setItem('chatInfo', JSON.stringify(chatInfo));
       window.open(

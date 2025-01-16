@@ -37,9 +37,9 @@ export default function Chat() {
   const {
     items: messages,
     lastItemRef,
-    refresh: refreshMessages,
     hasMore,
     isLoading,
+    setItems,
   } = useInfiniteScroll({ fetchUrl });
 
   const toggleFilters = async () => {
@@ -88,15 +88,14 @@ export default function Chat() {
         body: JSON.stringify(messageData),
       });
 
-      refreshMessages();
       setNewMessage('');
       setNewMessageType('text');
       setValue('comment', '');
+      setItems((prevItems) => [...prevItems, messageData]);
     } catch (error) {
-      alert('메시지 수신중 에러가 발생했습니다.');
+      alert('메시지 수신 중 에러가 발생했습니다.');
     }
   };
-
   const handleCheckboxChange = (userId) => {
     setSelectedUserIds((prev) => {
       if (prev.includes(userId)) {

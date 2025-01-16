@@ -135,6 +135,7 @@ const useInfiniteScroll = ({ fetchUrl }) => {
     refresh,
     hasMore,
     isLoading,
+    setItems,
   };
 };
 
