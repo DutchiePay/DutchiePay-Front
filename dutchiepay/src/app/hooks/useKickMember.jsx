@@ -3,22 +3,25 @@ import { useCallback, useRef } from 'react';
 import useReissueToken from './useReissueToken';
 import { useSelector } from 'react-redux';
 
-const useLeaveChat = (onSuccess) => {
+const useKickMember = () => {
   const access = useSelector((state) => state.login.access);
   const { refreshAccessToken } = useReissueToken();
   const hasFetched = useRef(false);
 
-  const handleLeaveChat = useCallback(
-    async (chatRoomId) => {
-      const confirmed = confirm('채팅방을 나가시겠습니까?');
-      if (!confirmed) return false;
-
+  const handleKickMembers = useCallback(
+    async (chatRoomId, userIds) => {
       try {
         if (hasFetched.current) return;
         hasFetched.current = true;
 
-        await axios.delete(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/chat?chatRoomId=${chatRoomId}`,
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/chat/kick`,
+          {
+            data: {
+              chatRoomId: chatRoomId,
+              userId: userIds,
+            },
+          },
           {
             headers: {
               Authorization: `Bearer ${access}`,
@@ -26,16 +29,13 @@ const useLeaveChat = (onSuccess) => {
           }
         );
 
-        alert('채팅방을 나가셨습니다');
-        onSuccess(chatRoomId);
         hasFetched.current = false;
-        return true;
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           const reissueResponse = await refreshAccessToken();
           hasFetched.current = false;
           if (reissueResponse.success) {
-            await handleLeaveChat(chatRoomId);
+            await handleKickMembers(chatRoomId, userIds);
           } else {
             alert(
               reissueResponse.message ||
@@ -45,14 +45,12 @@ const useLeaveChat = (onSuccess) => {
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
-        hasFetched.current = false;
-        return false;
       }
     },
-    [access, refreshAccessToken, onSuccess]
+    [access, refreshAccessToken]
   );
 
-  return { handleLeaveChat };
+  return { handleKickMembers };
 };
 
-export default useLeaveChat;
+export default useKickMember;

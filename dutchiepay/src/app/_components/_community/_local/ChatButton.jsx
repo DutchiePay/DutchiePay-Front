@@ -19,6 +19,12 @@ export default function ChatButton({ postId, type }) {
           },
         }
       );
+      const chatInfo = {
+        chatName: response.data.chatName,
+        chatRoomId: response.data.chatRoomId,
+        chatUser: response.data.chatUser,
+      };
+      sessionStorage.setItem('chatInfo', JSON.stringify(chatInfo));
       window.open(
         `/chat/?chatRoomId=${response.data.chatRoomId}`,
         '채팅방',

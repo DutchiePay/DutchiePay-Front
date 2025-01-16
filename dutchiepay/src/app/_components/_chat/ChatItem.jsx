@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import mart from '/public/image/mart.jpg';
+import post from '/public/image/community/post.svg';
 import chatIcon from '/public/image/chat/chat.svg';
 export default function ChatItem({ chat, onContextMenu }) {
   return (
@@ -7,7 +8,7 @@ export default function ChatItem({ chat, onContextMenu }) {
       className="p-3 flex border-b cursor-pointer hover:bg-gray-100 transition duration-200"
       onClick={() => {
         const chatInfo = {
-          chatImg: chat.chatImg || mart,
+          chatImg: chat.chatImg || (chat.type == 'group' ? mart : post),
           chatName: chat.chatName,
           chatRoomId: chat.chatRoomId,
           chatUser: chat.chatUser,

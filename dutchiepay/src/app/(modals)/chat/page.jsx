@@ -1,18 +1,19 @@
 'use client';
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'next/navigation';
 import useWebSocket from '@/app/hooks/useWebSocket';
+import useInfiniteScroll from '@/app/hooks/useInfiniteScroll';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import back from '/public/image/chat/back.svg';
 import people from '/public/image/chat/people.svg';
-import profile from '/public/image/profile.jpg';
-import axios from 'axios';
-import Link from 'next/link';
 import ChatMessageList from '@/app/_components/_chat/ChatMessageList';
 import ChatActionButton from '@/app/_components/_chat/ChatActionButton';
 import useFetchChatUser from '@/app/hooks/useFetchChatUer';
+import useKickMember from '@/app/hooks/useKickMember';
+import ChatUserInfo from '@/app/_components/_chat/CahtUserInfo';
+import Link from 'next/link';
 
 export default function Chat() {
   const access = useSelector((state) => state.login.access);
@@ -21,17 +22,25 @@ export default function Chat() {
   const searchParams = useSearchParams();
   const chatId = searchParams.get('chatRoomId');
   const senderId = useSelector((state) => state.login.user.userId);
-  const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [newMessageType, setNewMessageType] = useState('text');
   const { setValue } = useForm();
   const [chatName, setChatName] = useState('');
   const [chatUserCount, setChatUserCount] = useState(0);
   const [isFiltersVisible, setFiltersVisible] = useState(false);
-  const [isMemberKicked, setIsMemberKicked] = useState(false);
+  const [selectedUserIds, setSelectedUserIds] = useState([]);
   const { fetchChatUser, chatUsers } = useFetchChatUser();
+  const { handleKickMembers } = useKickMember();
   const hasFetched = useRef(false);
-  console.log(chatUsers);
+
+  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/chat/message?chatRoomId=${chatId}&limit=15`;
+  const {
+    items: messages,
+    lastItemRef,
+    refresh: refreshMessages,
+    hasMore,
+    isLoading,
+  } = useInfiniteScroll({ fetchUrl });
 
   const toggleFilters = async () => {
     setFiltersVisible((prev) => !prev);
@@ -47,28 +56,6 @@ export default function Chat() {
     }
   }, [chatId, fetchChatUser]);
 
-  const fetchMessages = useCallback(async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/chat/message?chatRoomId=${chatId}&limit=50`,
-        {
-          headers: {
-            Authorization: `Bearer ${access}`,
-          },
-        }
-      );
-      console.log(response.data);
-
-      setMessages(response.data.messages);
-    } catch (error) {
-      alert('오류가 발생했습니다. 다시 시도해주세요.');
-    }
-  }, [chatId, access]);
-
-  useEffect(() => {
-    fetchMessages();
-  }, [fetchMessages]);
-
   useEffect(() => {
     const chatInfo = JSON.parse(sessionStorage.getItem('chatInfo'));
     if (chatInfo) {
@@ -81,7 +68,6 @@ export default function Chat() {
         `/sub/chat/${chatId}`,
         (messageOutput) => {
           const message = JSON.parse(messageOutput.body);
-          setMessages((prevMessages) => [...prevMessages, message]);
         }
       );
 
@@ -101,18 +87,8 @@ export default function Chat() {
         destination: `/pub/chat/${chatId}`,
         body: JSON.stringify(messageData),
       });
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          type: messageData.type,
-          senderId: senderId,
-          content: messageData.content,
-          date: messageData.date,
-          time: messageData.time,
-        },
-      ]);
 
-      fetchMessages();
+      refreshMessages();
       setNewMessage('');
       setNewMessageType('text');
       setValue('comment', '');
@@ -121,8 +97,21 @@ export default function Chat() {
     }
   };
 
-  const handleCheckboxChange = () => {
-    setIsMemberKicked((prev) => !prev);
+  const handleCheckboxChange = (userId) => {
+    setSelectedUserIds((prev) => {
+      if (prev.includes(userId)) {
+        return prev.filter((id) => id !== userId);
+      } else {
+        return [...prev, userId];
+      }
+    });
+  };
+
+  const handleKickMembersClick = async () => {
+    if (selectedUserIds.length > 0) {
+      await handleKickMembers(chatId, selectedUserIds);
+      setSelectedUserIds([]);
+    }
   };
 
   return (
@@ -141,63 +130,23 @@ export default function Chat() {
           <Image src={people} width={16} height={16} alt="참여자" />
           <span className="text-[16px]">{chatUserCount}</span>
         </div>
-        <div
-          className={`absolute left-6 w-[230px] overflow-hidden ${isFiltersVisible ? 'border border-gray-300  z-[10]' : 'h-0'}`}
-        >
-          <div className="text-center bg-white shadow-md p-2">
-            <div className="flex w-full justify-between items-center p-3">
-              <div className="flex gap-[16px] items-center">
-                <Image
-                  src={profile}
-                  width={35}
-                  height={35}
-                  alt="참여자"
-                  className="rounded-full border"
-                />
-                {nickname}
-              </div>
-              <div className="text-white bg-black w-6 h-6 rounded-sm">나</div>
-            </div>
-            {chatUsers.map(
-              (user) =>
-                nickname !== user.nickname && (
-                  <div
-                    key={user.id}
-                    className="flex w-full justify-between items-center p-3"
-                  >
-                    <label htmlFor={`kickMember-${user.id}`}>
-                      <div className="flex gap-[16px] items-center">
-                        <Image
-                          src={user.profileImg || profile}
-                          width={35}
-                          height={35}
-                          alt="참여자"
-                          className="rounded-full border"
-                        />
-                        {user.nickname}
-                      </div>
-                    </label>
-                    <input
-                      id={`kickMember-${user.id}`}
-                      type="checkbox"
-                      className="login__checkbox w-6 h-6 border border-gray-300 checked:bg-blue--500"
-                      onChange={handleCheckboxChange}
-                    />
-                  </div>
-                )
-            )}
-
-            <div
-              className={`text-gray--500 pt-3 pb-2 border-t ${isMemberKicked ? '' : ''}`}
-            >
-              {isMemberKicked
-                ? `1명 내보내기`
-                : `현재 채팅방 인원 : ${chatUserCount}명`}{' '}
-            </div>
-          </div>
-        </div>
+        <ChatUserInfo
+          nickname={nickname}
+          chatUsers={chatUsers}
+          selectedUserIds={selectedUserIds}
+          handleCheckboxChange={handleCheckboxChange}
+          handleKickMembersClick={handleKickMembersClick}
+          isFiltersVisible={isFiltersVisible}
+          chatUserCount={chatUserCount}
+        />
       </div>
-      <ChatMessageList messages={messages} senderId={senderId} />
+      <ChatMessageList
+        messages={messages}
+        senderId={senderId}
+        lastItemRef={lastItemRef}
+        hasMore={hasMore}
+        isLoading={isLoading}
+      />
       <ChatActionButton
         setNewMessage={setNewMessage}
         handleSend={handleSend}
