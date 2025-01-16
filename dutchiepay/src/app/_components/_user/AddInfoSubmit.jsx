@@ -7,11 +7,9 @@ import PhoneAuth from './_phone/PhoneAuth';
 import axios from 'axios';
 import { setIsCertified } from '@/redux/slice/loginSlice';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function AddInfoSubmit() {
-  const router = useRouter();
   const [address, setAddress] = useState('');
   const [isPhoneAuth, setIsPhoneAuth] = useState(false); // 핸드폰 인증 요청 여부
   const [isCodeMatch, setIsCodeMatch] = useState(null);
@@ -22,6 +20,7 @@ export default function AddInfoSubmit() {
     watch,
     handleSubmit,
     setValue,
+    trigger,
     formState: { errors, isValid, isSubmitting, touchedFields },
   } = useForm({
     mode: 'onTouched',
@@ -54,8 +53,7 @@ export default function AddInfoSubmit() {
       );
 
       dispatch(setIsCertified({ isCertified: true }));
-      alert('정상적으로 처리되었습니다. 메인페이지로 이동합니다.');
-      router.push('/');
+      alert('정상적으로 처리 되었습니다.');
     } catch (error) {
       alert('오류가 발생했습니다. 다시 시도해주세요.');
     }
@@ -70,6 +68,7 @@ export default function AddInfoSubmit() {
       <PhoneAuth
         register={register}
         watch={watch}
+        trigger={trigger}
         errors={errors}
         touchedFields={touchedFields}
         setValue={setValue}

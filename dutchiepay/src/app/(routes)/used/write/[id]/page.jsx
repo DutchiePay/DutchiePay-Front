@@ -46,7 +46,7 @@ export default function TradeModify() {
       setThumbnail(post.thumbnail);
       setImages(post.images);
       setValue('goods', post.goods);
-      setValue('price', post.price);
+      setValue('price', post.price.toLocaleString('ko-KR'));
     };
 
     if (post) handleSetValue();
@@ -80,7 +80,10 @@ export default function TradeModify() {
           images: images,
           category: ALL_COMMUNITY_CATEGORIES[formData.category],
           goods: formData.goods,
-          price: Number(formData.price.replaceAll(',', '')),
+          price:
+            formData.category === '거래'
+              ? Number(formData.price.replaceAll(',', ''))
+              : -1,
         },
         {
           headers: {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import arrow from '/public/image/arrowWhite.svg';
@@ -35,7 +35,7 @@ export default function ImagesModal({ onClose, thumbnails }) {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleNextImage, handlePreviousImage]); // 의존성 배열에서 currentImage 제거
+  }, [handleNextImage, handlePreviousImage]);
 
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-80 z-50">
@@ -74,8 +74,8 @@ export default function ImagesModal({ onClose, thumbnails }) {
             key={index}
             className="relative w-[60px] h-[60px] cursor-pointer object-cover"
             src={thumbnail}
-            width={60} // 고정된 width
-            height={60} // 고정된 height
+            width={60}
+            height={60}
             alt={`Thumbnail ${index + 1}`}
             onClick={() => setCurrentImage(thumbnail)}
           />

@@ -24,7 +24,7 @@ export default function ProductRank({ products, isFirst, activeSlide }) {
                   {isFirst ? index + 1 : index + 6}
                 </p>
                 <p
-                  className={`text-sm w-[100%] overflow-hidden text-ellipsis text-nowrap ${
+                  className={`text-sm w-[420px] overflow-hidden text-ellipsis text-nowrap ${
                     activeSlide === index
                       ? 'text-blue--500 font-semibold'
                       : 'text-[#999]'

@@ -36,6 +36,11 @@ export default function AuthCode({
       return;
     }
 
+    if (remainingTime < 1) {
+      alert('인증번호 확인 기간이 만료되었습니다. 다시 인증해주세요.');
+      return;
+    }
+
     alert('인증번호가 확인되었습니다.');
     setIsCodeMatch(true);
     setIsPhoneAuth(false);
@@ -45,7 +50,7 @@ export default function AuthCode({
     <div className="mt-[8px] flex">
       <div className="relative w-full">
         <input
-          className={`w-full border border-gray--200 py-[12px] px-[16px] rounded outline-none mt-[4px] placeholder:text-sm${isCodeMatch === true ? 'border border-blue--500' : ''}`}
+          className={`w-full border border-gray--200 py-[12px] px-[16px] rounded outline-none mt-[4px] placeholder:text-sm ${isCodeMatch === true ? 'border border-blue--500' : ''}`}
           placeholder="인증번호"
           type="number"
           {...register('authCode', {

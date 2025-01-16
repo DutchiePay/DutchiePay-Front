@@ -14,6 +14,7 @@ export default function useFetchDelivery() {
   const [isChanged, setIsChanged] = useState(false);
   const { refreshAccessToken } = useReissueToken();
   const hasFetched = useRef(false);
+
   useEffect(() => {
     const channel = new BroadcastChannel('auth-channel');
 
@@ -64,7 +65,9 @@ export default function useFetchDelivery() {
         );
       }
     };
+    if (!encryptedAddresses || isChanged) hasFetched.current = false;
     fetchDelivery();
+
     return () => {
       channel.close();
     };
