@@ -16,7 +16,7 @@ export default function Floating() {
   const pathname = usePathname();
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const access = useSelector((state) => state.login.access);
-
+  const hasMore = useSelector((state) => state.login.user.hasMore);
   const [hasNotification, setHasNotification] = useState(false);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
@@ -24,6 +24,7 @@ export default function Floating() {
   const [isDelete, setIsDelete] = useState(false);
 
   const { alarms, fetchAlarms } = useFetchAlarms(access);
+  const popupRef = useRef(null);
 
   const createEventSource = useCallback((data) => {
     if (data.message === 'NEW_NOTICE' || data.isUnread) {
@@ -34,7 +35,8 @@ export default function Floating() {
   useSse(
     `${process.env.NEXT_PUBLIC_BASE_URL}/notice/subscribe`,
     access,
-    createEventSource
+    createEventSource,
+    hasMore
   );
 
   const handlePopup = () => {
@@ -45,7 +47,14 @@ export default function Floating() {
         setIsAnimating(false);
       }, 500);
     } else {
+      setHasNotification(false);
       setIsPopupVisible(true);
+    }
+  };
+
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setIsPopupVisible(false);
     }
   };
 
@@ -58,6 +67,18 @@ export default function Floating() {
   useEffect(() => {
     setIsPopupVisible(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (isPopupVisible) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isPopupVisible]);
 
   const filteredAlarms = alarms.filter((alarm) => {
     if (activeTab === '전체') return true;
@@ -94,6 +115,7 @@ export default function Floating() {
 
           {isPopupVisible && (
             <div
+              ref={popupRef}
               className={`fixed right-2 bottom-16 bg-gray-100 z-20 border rounded-lg w-[420px] overflow-y-auto transition-transform transform ${
                 isAnimating ? 'animate-slide-down' : 'animate-slide-up'
               }`}

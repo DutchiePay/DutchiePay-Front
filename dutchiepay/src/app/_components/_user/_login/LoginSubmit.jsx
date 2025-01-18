@@ -41,6 +41,7 @@ export default function LoginSubmit() {
         profileImage: response.data.profileImg,
         location: response.data.location,
         isCertified: response.data.isCertified,
+        hasMore: response.data.hasMore,
       };
 
       handleLogin({

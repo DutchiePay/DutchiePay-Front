@@ -1,14 +1,15 @@
 import { useEffect, useRef } from 'react';
 import { EventSourcePolyfill } from 'event-source-polyfill';
 import { useSelector } from 'react-redux';
-
-const useSse = (url, accessToken, onMessage) => {
+const useSse = (url, accessToken, onMessage, hasMore = true) => {
   const eventSourceRef = useRef(null);
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn || !hasMore) {
       return;
     }
+
     if (eventSourceRef.current) return;
 
     const source = new EventSourcePolyfill(url, {
@@ -35,7 +36,7 @@ const useSse = (url, accessToken, onMessage) => {
         eventSourceRef.current = null;
       }
     };
-  }, [url, accessToken, onMessage]);
+  }, [url, accessToken, onMessage, hasMore, isLoggedIn]);
 };
 
 export default useSse;
