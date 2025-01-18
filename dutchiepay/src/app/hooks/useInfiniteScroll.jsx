@@ -17,8 +17,6 @@ const useInfiniteScroll = ({ fetchUrl }) => {
   const [messages, setMessages] = useState(false);
   const fetchItems = useCallback(
     async (cursorParam) => {
-      if (isLoading) return;
-      setIsLoading(true);
       try {
         const headers = access ? { Authorization: `Bearer ${access}` } : {};
 
@@ -29,24 +27,20 @@ const useInfiniteScroll = ({ fetchUrl }) => {
         const response = await axios.get(`${fetchUrl}&${params}`, {
           headers,
         });
-
+        if (response.data.messages) {
+          setMessages(true);
+        }
         if (response.data.cursor === null) setHasMore(false);
         setCursor(response.data.cursor);
         setIsInitialized(true);
 
-        if (response.data.messages) {
-          setMessages(true);
-          setItems((prevItems) => [...response.data.messages, ...prevItems]);
-          return response.data.messages || [];
-        } else {
-          return (
-            response.data.posts ||
-            response.data.products ||
-            response.data.comments ||
-            response.data.messages ||
-            []
-          );
-        }
+        return (
+          response.data.posts ||
+          response.data.products ||
+          response.data.comments ||
+          response.data.messages ||
+          []
+        );
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           hasFetched.current = false;
@@ -63,12 +57,6 @@ const useInfiniteScroll = ({ fetchUrl }) => {
           error.response.data.message === '검색어가 입력되지 않았습니다.'
         ) {
           return [];
-        } else if (
-          error.response.data.message === '더 이상 불러올 메시지가 없습니다.'
-        ) {
-          setHasMore(false);
-          hasFetched.current = true;
-          return [];
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
@@ -77,7 +65,7 @@ const useInfiniteScroll = ({ fetchUrl }) => {
         setIsLoading(false);
       }
     },
-    [access, fetchUrl, refreshAccessToken, isLoading]
+    [access, fetchUrl, refreshAccessToken]
   );
   const refresh = useCallback(async () => {
     hasFetched.current = false;
@@ -109,7 +97,10 @@ const useInfiniteScroll = ({ fetchUrl }) => {
     (node) => {
       if (isLoading || !hasMore) return;
       if (observerRef.current) observerRef.current.disconnect();
+
       observerRef.current = new IntersectionObserver((entries) => {
+        console.log(entries);
+
         if (entries[0].isIntersecting) {
           const loadItems = async () => {
             const newItems = await fetchItems(cursor);
@@ -119,11 +110,15 @@ const useInfiniteScroll = ({ fetchUrl }) => {
               setItems((prevItems) => [...prevItems, ...newItems]);
             }
           };
+
           loadItems();
         }
       });
 
-      if (node) observerRef.current.observe(node);
+      if (node) {
+        console.log(observerRef.current.observe(node));
+        observerRef.current.observe(node);
+      }
     },
     [cursor, isLoading, fetchItems, hasMore, messages]
   );

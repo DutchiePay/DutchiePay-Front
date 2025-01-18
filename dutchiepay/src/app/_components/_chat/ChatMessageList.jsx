@@ -6,12 +6,11 @@ import getMessageTime from '@/app/_util/getMessageTime';
 const ChatMessageList = ({ messages, senderId, lastItemRef, isLoading }) => {
   const [clickedLinks, setClickedLinks] = useState(new Set());
   const [lastDisplayedDate, setLastDisplayedDate] = useState(null);
-  const scrollContainerRef = useRef(null);
   const messagesEndRef = useRef(null);
-
   const handleLinkClick = (link) => {
     setClickedLinks((prev) => new Set(prev).add(link));
   };
+  console.log(messages);
 
   const renderMessageContent = (message) => {
     if (message.type === 'img') {
@@ -60,26 +59,17 @@ const ChatMessageList = ({ messages, senderId, lastItemRef, isLoading }) => {
   }, [messages, lastDisplayedDate]);
 
   useEffect(() => {
-    if (!isLoading && messages.length > 0) {
-      const lastMessage = messages[messages.length - 1];
-      if (lastMessage.senderId === senderId) {
-        messagesEndRef.current?.scrollIntoView();
-      }
-    } else {
-      scrollContainerRef.current.scrollTop = 0;
+    if (lastItemRef) {
+      messagesEndRef.current?.scrollIntoView();
     }
-  }, [messages, senderId, isLoading]);
+  }, [lastItemRef]);
 
   return (
-    <div
-      ref={scrollContainerRef}
-      className="flex-1 px-4 overflow-y-auto scrollable bg-white"
-    >
+    <div className="flex-1 px-4 overflow-y-auto scrollable bg-white">
       {messages.map((message, index) => {
         const showProfileImage =
           message.senderId !== senderId &&
           (index === 0 || message.sendAt !== messages[index - 1]?.sendAt);
-
         const messageElement = (
           <div
             key={index}
@@ -130,22 +120,31 @@ const ChatMessageList = ({ messages, senderId, lastItemRef, isLoading }) => {
                         {message.senderName}
                       </div>
                     )}
+
                   <div
                     className={`inline-block max-w-[100%] p-3 rounded-lg ${message.senderId === senderId ? 'bg-gray--100' : 'bg-blue--500 text-white'}`}
                   >
                     {renderMessageContent(message)}
                   </div>
                 </div>
-                <div
-                  className={`text-xs min-w-[70px] text-gray--500 mt-1 flex items-end ${message.senderId === senderId ? 'justify-end mr-[10px]' : 'ml-[10px]'}`}
-                >
-                  {getMessageTime({ index, messages }) ? message.time : ''}
+                <div className="flex flex-col items-end">
+                  <div
+                    className={`text-xs text-gray--500 ${getMessageTime({ index, messages }) ? 'mt-3' : 'mt-7'}  flex items-end ${message.senderId === senderId ? 'justify-end mr-[10px]' : 'ml-[10px]'}`}
+                  >
+                    {message.unreadCount !== null
+                      ? message.unreadCount
+                      : '\u00A0'}
+                  </div>
+                  <div
+                    className={`text-xs min-w-[70px] text-gray--500 flex items-end ${message.senderId === senderId ? 'justify-end mr-[10px]' : 'ml-[10px]'}`}
+                  >
+                    {getMessageTime({ index, messages }) ? message.time : ''}
+                  </div>
                 </div>
               </div>
             )}
           </div>
         );
-
         return messageElement;
       })}
       <div ref={messagesEndRef} />

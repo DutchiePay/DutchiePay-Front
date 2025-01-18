@@ -10,6 +10,9 @@ const useKickMember = () => {
 
   const handleKickMembers = useCallback(
     async (chatRoomId, userIds) => {
+      console.log(chatRoomId);
+      console.log(userIds);
+
       try {
         if (hasFetched.current) return;
         hasFetched.current = true;

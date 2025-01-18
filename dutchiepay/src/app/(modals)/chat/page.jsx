@@ -33,7 +33,7 @@ export default function Chat() {
   const { handleKickMembers } = useKickMember();
   const hasFetched = useRef(false);
 
-  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/chat/message?chatRoomId=${chatId}&limit=15`;
+  const fetchUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/chat/message?chatRoomId=${chatId}&limit=13`;
   const {
     items: messages,
     lastItemRef,
@@ -68,6 +68,7 @@ export default function Chat() {
         `/sub/chat/${chatId}`,
         (messageOutput) => {
           const message = JSON.parse(messageOutput.body);
+          setItems((prevItems) => [...prevItems, message]);
         }
       );
 
@@ -75,7 +76,7 @@ export default function Chat() {
         subscription.unsubscribe();
       };
     }
-  }, [client, isConnected, chatId]);
+  }, [client, isConnected, chatId, setItems]);
 
   const handleSend = async (messageData) => {
     if (!client || !isConnected) {
@@ -91,7 +92,6 @@ export default function Chat() {
       setNewMessage('');
       setNewMessageType('text');
       setValue('comment', '');
-      setItems((prevItems) => [...prevItems, messageData]);
     } catch (error) {
       alert('메시지 수신 중 에러가 발생했습니다.');
     }
@@ -146,6 +146,7 @@ export default function Chat() {
         hasMore={hasMore}
         isLoading={isLoading}
       />
+
       <ChatActionButton
         setNewMessage={setNewMessage}
         handleSend={handleSend}
