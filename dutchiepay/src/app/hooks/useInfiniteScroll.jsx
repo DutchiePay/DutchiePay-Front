@@ -99,8 +99,6 @@ const useInfiniteScroll = ({ fetchUrl }) => {
       if (observerRef.current) observerRef.current.disconnect();
 
       observerRef.current = new IntersectionObserver((entries) => {
-        console.log(entries);
-
         if (entries[0].isIntersecting) {
           const loadItems = async () => {
             const newItems = await fetchItems(cursor);
@@ -116,7 +114,6 @@ const useInfiniteScroll = ({ fetchUrl }) => {
       });
 
       if (node) {
-        console.log(observerRef.current.observe(node));
         observerRef.current.observe(node);
       }
     },

@@ -22,12 +22,9 @@ const useFetchChatUser = () => {
             },
           }
         );
-        console.log(response);
 
         setChatUsers(response.data);
       } catch (error) {
-        console.log(error);
-
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
           const reissueResponse = await refreshAccessToken();
           hasFetched.current = false;

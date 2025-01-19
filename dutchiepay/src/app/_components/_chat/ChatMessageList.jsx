@@ -3,14 +3,13 @@ import { useEffect, useState, useRef } from 'react';
 import profile from '/public/image/profile.jpg';
 import getMessageTime from '@/app/_util/getMessageTime';
 
-const ChatMessageList = ({ messages, senderId, lastItemRef, isLoading }) => {
+const ChatMessageList = ({ messages, senderId, lastItemRef }) => {
   const [clickedLinks, setClickedLinks] = useState(new Set());
   const [lastDisplayedDate, setLastDisplayedDate] = useState(null);
   const messagesEndRef = useRef(null);
   const handleLinkClick = (link) => {
     setClickedLinks((prev) => new Set(prev).add(link));
   };
-  console.log(messages);
 
   const renderMessageContent = (message) => {
     if (message.type === 'img') {
