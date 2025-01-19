@@ -14,10 +14,9 @@ const useInfiniteScroll = ({ fetchUrl }) => {
   const { refreshAccessToken } = useReissueToken();
   const hasFetched = useRef(false);
   const observerRef = useRef();
-
+  const [messages, setMessages] = useState(false);
   const fetchItems = useCallback(
     async (cursorParam) => {
-      setIsLoading(true);
       try {
         const headers = access ? { Authorization: `Bearer ${access}` } : {};
 
@@ -28,14 +27,18 @@ const useInfiniteScroll = ({ fetchUrl }) => {
         const response = await axios.get(`${fetchUrl}&${params}`, {
           headers,
         });
-
+        if (response.data.messages) {
+          setMessages(true);
+        }
         if (response.data.cursor === null) setHasMore(false);
         setCursor(response.data.cursor);
         setIsInitialized(true);
+
         return (
           response.data.posts ||
           response.data.products ||
           response.data.comments ||
+          response.data.messages ||
           []
         );
       } catch (error) {
@@ -94,19 +97,27 @@ const useInfiniteScroll = ({ fetchUrl }) => {
     (node) => {
       if (isLoading || !hasMore) return;
       if (observerRef.current) observerRef.current.disconnect();
+
       observerRef.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
           const loadItems = async () => {
             const newItems = await fetchItems(cursor);
-            setItems((prevItems) => [...prevItems, ...newItems]);
+            if (messages) {
+              setItems((prevItems) => [...newItems, ...prevItems]);
+            } else {
+              setItems((prevItems) => [...prevItems, ...newItems]);
+            }
           };
+
           loadItems();
         }
       });
 
-      if (node) observerRef.current.observe(node);
+      if (node) {
+        observerRef.current.observe(node);
+      }
     },
-    [cursor, isLoading, fetchItems, hasMore]
+    [cursor, isLoading, fetchItems, hasMore, messages]
   );
 
   return {
@@ -116,6 +127,7 @@ const useInfiniteScroll = ({ fetchUrl }) => {
     refresh,
     hasMore,
     isLoading,
+    setItems,
   };
 };
 
