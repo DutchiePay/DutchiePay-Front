@@ -1,15 +1,19 @@
 import axios from 'axios';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import useReissueToken from './useReissueToken';
 import { useSelector } from 'react-redux';
 
 const useDeleteAsk = () => {
   const access = useSelector((state) => state.login.access);
   const { refreshAccessToken } = useReissueToken();
+  const hasFetched = useRef(false);
   const deleteAsk = useCallback(
     async (askId) => {
       const confirmed = confirm('작성한 문의를 삭제하시겠습니까?');
       if (!confirmed) return false;
+      if (hasFetched.current) return;
+
+      hasFetched.current = true;
 
       try {
         await axios.delete(
@@ -24,7 +28,8 @@ const useDeleteAsk = () => {
         return true;
       } catch (error) {
         if (error.response.data.message === '액세스 토큰이 만료되었습니다.') {
-          /*const reissueResponse = await refreshAccessToken();
+          hasFetched.current = false;
+          const reissueResponse = await refreshAccessToken();
           if (reissueResponse.success) {
             await deleteAsk(askId);
           } else {
@@ -32,14 +37,14 @@ const useDeleteAsk = () => {
               reissueResponse.message ||
                 '오류가 발생했습니다. 다시 시도해주세요.'
             );
-          }*/
+          }
         } else {
           alert('오류가 발생했습니다. 다시 시도해주세요.');
         }
         return false;
       }
     },
-    [access]
+    [access, refreshAccessToken]
   );
   return { deleteAsk };
 };

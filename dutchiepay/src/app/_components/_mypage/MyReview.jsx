@@ -27,7 +27,7 @@ export default function MyReviews({ item, onDelete }) {
     handleToggle,
     handleImageClick,
     handleCloseModal,
-  } = useReviewDisplay(item.reviewImg);
+  } = useReviewDisplay(item.reviewImg, item.content);
 
   return (
     <>
@@ -56,6 +56,7 @@ export default function MyReviews({ item, onDelete }) {
                   width={20}
                   height={20}
                   alt="이미지 더보기"
+                  onClick={handleImageClick}
                 />
               </div>
             )}

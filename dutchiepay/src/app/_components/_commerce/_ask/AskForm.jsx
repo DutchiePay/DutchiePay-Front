@@ -55,7 +55,10 @@ export default function AskForm({ buyId }) {
           );
         }
       } else {
-        alert('오류가 발생했습니다. 다시 시도해주세요.');
+        alert(
+          error.response.data.message ||
+            '오류가 발생했습니다 다시 시도해주세요.'
+        );
       }
     }
   };

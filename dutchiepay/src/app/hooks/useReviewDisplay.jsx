@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-const useReviewDisplay = (thumbnails) => {
+const useReviewDisplay = (thumbnails, content) => {
   const [hasImages, setHasImages] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMore, setIsMore] = useState(false);
@@ -8,9 +8,16 @@ const useReviewDisplay = (thumbnails) => {
   const contentRef = useRef();
 
   useEffect(() => {
-    // 리뷰 이미지가 있는 경우에만 hasImages를 true로 설정
     setHasImages(thumbnails.length > 0);
   }, [thumbnails]);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setHasOverflow(
+        contentRef.current.scrollHeight > contentRef.current.clientHeight
+      );
+    }
+  }, [content, isMore]);
 
   const handleToggle = () => {
     setIsMore((prev) => !prev);
@@ -36,14 +43,6 @@ const useReviewDisplay = (thumbnails) => {
     };
   }, [isModalOpen]);
 
-  useEffect(() => {
-    if (contentRef.current) {
-      setHasOverflow(
-        contentRef.current.scrollHeight > contentRef.current.clientHeight
-      );
-    }
-  }, []);
-
   return {
     hasImages,
     isModalOpen,
@@ -53,7 +52,6 @@ const useReviewDisplay = (thumbnails) => {
     handleToggle,
     handleImageClick,
     handleCloseModal,
-    setIsModalOpen,
   };
 };
 

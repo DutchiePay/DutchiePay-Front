@@ -9,6 +9,7 @@ const initialState = {
     profileImage: null,
     location: null,
     isCertified: false,
+    hasMore: false,
   },
   access: '',
 };
@@ -32,6 +33,7 @@ const loginSlice = createSlice({
         profileImage: null,
         location: null,
         isCertified: null,
+        hasMore: null,
       };
       state.access = '';
     },
