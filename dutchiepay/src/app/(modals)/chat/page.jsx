@@ -49,13 +49,6 @@ export default function Chat() {
       await fetchChatUser(chatId);
     }
   };
-
-  useEffect(() => {
-    if (chatId) {
-      fetchChatUser(chatId);
-    }
-  }, [chatId, fetchChatUser]);
-
   useEffect(() => {
     const chatInfo = JSON.parse(sessionStorage.getItem('chatInfo'));
     if (chatInfo) {
@@ -77,6 +70,11 @@ export default function Chat() {
       };
     }
   }, [client, isConnected, chatId, setItems]);
+  useEffect(() => {
+    if (chatId) {
+      fetchChatUser(chatId);
+    }
+  }, [chatId, fetchChatUser]);
 
   const handleSend = async (messageData) => {
     if (!client || !isConnected) {
@@ -145,6 +143,7 @@ export default function Chat() {
         lastItemRef={lastItemRef}
         hasMore={hasMore}
         isLoading={isLoading}
+        chatUsers={chatUsers}
       />
 
       <ChatActionButton
