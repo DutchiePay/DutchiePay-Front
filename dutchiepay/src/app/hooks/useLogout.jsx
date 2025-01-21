@@ -44,12 +44,10 @@ const useLogout = (accessToken) => {
           );
         }
       } else {
-        alert(
-          reissueResponse.message || '오류가 발생했습니다. 다시 시도해주세요.'
-        );
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     }
-  }, [dispatch, accessToken, router, clearUserData]);
+  }, [dispatch, accessToken, router, clearUserData, refreshAccessToken]);
 
   return handleLogout;
 };
