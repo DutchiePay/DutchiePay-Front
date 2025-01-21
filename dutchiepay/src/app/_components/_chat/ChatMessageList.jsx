@@ -3,14 +3,28 @@ import { useEffect, useState, useRef } from 'react';
 import profile from '/public/image/profile.jpg';
 import getMessageTime from '@/app/_util/getMessageTime';
 
-const ChatMessageList = ({ messages, senderId }) => {
+const ChatMessageList = ({ messages, senderId, lastItemRef, chatUsers }) => {
   const [clickedLinks, setClickedLinks] = useState(new Set());
   const [lastDisplayedDate, setLastDisplayedDate] = useState(null);
   const messagesEndRef = useRef(null);
+  const [senderNicknames, setSenderNicknames] = useState({});
+  const [senderProfileImgs, setSenderProfileImgs] = useState({});
+  console.log(chatUsers);
 
   const handleLinkClick = (link) => {
     setClickedLinks((prev) => new Set(prev).add(link));
   };
+
+  useEffect(() => {
+    const nicknames = {};
+    const img = {};
+    chatUsers.forEach((user) => {
+      nicknames[user.userId] = user.nickname;
+      img[user.userId] = user.profileImg;
+    });
+    setSenderNicknames(nicknames);
+    setSenderProfileImgs(img);
+  }, [chatUsers]);
 
   const renderMessageContent = (message) => {
     if (message.type === 'img') {
@@ -59,20 +73,25 @@ const ChatMessageList = ({ messages, senderId }) => {
   }, [messages, lastDisplayedDate]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView();
-  }, [messages]);
+    if (lastItemRef) {
+      messagesEndRef.current?.scrollIntoView();
+    }
+  }, [lastItemRef]);
 
   return (
     <div className="flex-1 px-4 overflow-y-auto scrollable bg-white">
       {messages.map((message, index) => {
         const showProfileImage =
-          message.senderId !== senderId &&
-          (index === 0 || message.sendAt !== messages[index - 1].sendAt);
+          (message.senderId !== senderId && message.type == 'text') ||
+          (message.type == 'img' &&
+            index === 0 &&
+            message.sendAt !== messages[index - 1]?.sendAt);
 
-        return (
+        const messageElement = (
           <div
             key={index}
             className={`mb-4 flex flex-col ${message.senderId === senderId ? 'items-end' : 'items-start'}`}
+            ref={index === 0 ? lastItemRef : null}
           >
             {lastDisplayedDate === message.sendAt && (
               <div className="flex justify-center w-full">
@@ -98,11 +117,11 @@ const ChatMessageList = ({ messages, senderId }) => {
                 className={`flex ${message.senderId === senderId ? 'flex-row-reverse' : ''}`}
               >
                 <div
-                  className={` ${message.senderId !== senderId ? `w-[40px] h-[40px] mr-[10px] ${showProfileImage ? '' : 'w-[40px] h-[40px]'}` : ''}`}
+                  className={`${message.senderId !== senderId ? `w-[40px] h-[40px] mr-[10px] ${showProfileImage ? '' : 'w-[40px] h-[40px]'}` : ''}`}
                 >
                   {showProfileImage && (
                     <Image
-                      src={message.senderProfileImg || profile}
+                      src={senderProfileImgs[message.senderId] || profile}
                       alt="프로필"
                       width={40}
                       height={40}
@@ -111,28 +130,40 @@ const ChatMessageList = ({ messages, senderId }) => {
                   )}
                 </div>
                 <div>
-                  {message.senderId !== senderId &&
-                    message.senderName &&
-                    showProfileImage && (
-                      <div className="block text-sm mb-[4px]">
-                        {message.senderName}
-                      </div>
-                    )}
+                  {message.senderId !== senderId && (
+                    <div className="text-sm mb-[4px]">
+                      {senderNicknames[message.senderId]}
+                    </div>
+                  )}
+
                   <div
-                    className={`inline-block max-w-[100%] p-3 rounded-lg ${message.senderId === senderId ? 'bg-gray--100' : 'bg-blue--500 text-white'}`}
+                    className={`max-w-[100%] p-3 rounded-lg ${message.senderId === senderId ? 'bg-gray--100' : 'bg-blue--500 text-white'}`}
                   >
                     {renderMessageContent(message)}
                   </div>
                 </div>
-                <div
-                  className={`text-xs min-w-[70px] text-gray--500 mt-1 flex items-end ${message.senderId === senderId ? 'justify-end mr-[10px]' : 'ml-[10px]'}`}
-                >
-                  {getMessageTime({ index, messages }) ? message.sendAt : ''}
+                <div className="flex items-end">
+                  <div>
+                    <div
+                      className={`text-xs text-blue--500 ${getMessageTime({ index, messages }) ? 'mt-3' : 'mt-7'}  flex items-end ${message.senderId === senderId ? 'justify-end mr-[10px]' : 'ml-[10px]'}`}
+                    >
+                      {message.unreadCount !== 0
+                        ? message.unreadCount
+                        : '\u00A0'}
+                    </div>
+                    <div
+                      className={`text-xs min-w-[70px] text-gray--500 flex items-end ${message.senderId === senderId ? 'justify-end mr-[10px]' : 'ml-[10px]'}`}
+                    >
+                      {getMessageTime({ index, messages }) ? message.time : ''}
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
           </div>
         );
+
+        return messageElement;
       })}
       <div ref={messagesEndRef} />
     </div>

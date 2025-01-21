@@ -1,26 +1,43 @@
 'use client';
 import '@/styles/globals.css';
-
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import CahtListHeader from '@/app/_components/_chat/ChatListHeader';
+import ChatListHeader from '@/app/_components/_chat/ChatListHeader';
 import Image from 'next/image';
 import useWebSocket from '@/app/hooks/useWebSocket';
-import mart from '/public/image/mart.jpg';
 import useReissueToken from '@/app/hooks/useReissueToken';
+import useLeaveChat from '@/app/hooks/useLeaveChat';
+import ContextMenu from '@/app/_components/_chat/ContextMenu';
+import ChatItem from '@/app/_components/_chat/ChatItem';
 import chatIcon from '/public/image/chat/chat.svg';
+
 export default function ChatList() {
   const access = useSelector((state) => state.login.access);
   const hasFetched = useRef(false);
   const [chatList, setChatList] = useState([]);
   const { isConnected } = useWebSocket(access);
   const { refreshAccessToken } = useReissueToken();
+  const [filterType, setFilterType] = useState('all');
+  const [contextMenu, setContextMenu] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+    chat: null,
+  });
+
+  const handleChatListUpdate = useCallback((chatRoomId) => {
+    setChatList((prevList) =>
+      prevList.filter((chat) => chat.chatRoomId !== chatRoomId)
+    );
+  }, []);
+
+  const { handleLeaveChat } = useLeaveChat(handleChatListUpdate);
+
   const fetchChat = useCallback(async () => {
     try {
       if (hasFetched.current) return;
       hasFetched.current = true;
-
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_BASE_URL}/chat/chatRoomList`,
         {
@@ -51,17 +68,41 @@ export default function ChatList() {
     fetchChat();
   }, [fetchChat]);
 
-  useEffect(() => {
-    if (isConnected) {
-      console.log('WebSocket 연결됨.');
-    } else {
-      console.log('WebSocket 연결 해제됨.');
+  const filteredChatList = chatList.filter((chat) => {
+    if (filterType === 'all') return true;
+    if (filterType === 'direct') return chat.type === 'direct';
+    if (filterType === 'group') return chat.type === 'group';
+    return true;
+  });
+
+  const handleContextMenu = (event, chat) => {
+    event.preventDefault();
+    setContextMenu({
+      visible: true,
+      x: event.pageX,
+      y: event.pageY,
+      chat: chat,
+    });
+  };
+
+  const handleCloseContextMenu = () => {
+    setContextMenu({ ...contextMenu, visible: false });
+  };
+
+  const handleLeaveChatWrapper = async () => {
+    if (contextMenu.chat) {
+      await handleLeaveChat(contextMenu.chat.chatRoomId);
+      handleCloseContextMenu();
     }
-  }, [isConnected]);
+  };
+
   return (
-    <div className="scrollable w-full max-w-[480px]">
-      <CahtListHeader />
-      {chatList.length === 0 ? (
+    <div
+      className="scrollable w-full max-w-[480px]"
+      onClick={handleCloseContextMenu}
+    >
+      <ChatListHeader setFilterType={setFilterType} />
+      {filteredChatList.length === 0 ? (
         <div className="mt-[30%]">
           <Image className="m-auto" src={chatIcon} alt="채팅방아이콘" />
           <p className="mt-[20px] text-center text-gray--500">
@@ -69,51 +110,19 @@ export default function ChatList() {
           </p>
         </div>
       ) : (
-        chatList.map((chat) => (
-          <div
+        filteredChatList.map((chat) => (
+          <ChatItem
             key={chat.chatRoomId}
-            className="p-3 flex border-b cursor-pointer hover:bg-gray-100 transition duration-200"
-            onClick={() => {
-              const chatInfo = {
-                chatImg: chat.chatImg || mart,
-                chatName: chat.chatName,
-                chatRoomId: chat.chatRoomId,
-                chatUser: chat.chatUser,
-                lastChatTime: chat.lastChatTime,
-                lastMsg: chat.lastMsg,
-                type: chat.type,
-                unreadCount: chat.unreadCount,
-              };
-              sessionStorage.setItem('chatInfo', JSON.stringify(chatInfo));
-              window.location.href = `/chat?chatRoomId=${chat.chatRoomId}`;
-            }}
-          >
-            <Image
-              src={chat.chatImg || mart}
-              alt="채팅방이미지"
-              width={70}
-              height={70}
-              className="rounded-lg border"
-            />
-            <div className="p-3 w-[480px]">
-              <div className="flex justify-between items-center">
-                <div className="font-bold text-lg">{chat.chatName}</div>
-                <div className="text-xs text-gray--500">
-                  {chat.lastChatTime}
-                </div>
-              </div>
-              <div className="flex justify-between items-center relative max-w-[300px]">
-                <div className="title--single-line">{chat.lastMsg}</div>
-                {chat.unreadCount > 0 && (
-                  <div className="w-5 h-5 bg-red-500 rounded-full border border-white flex items-center justify-center text-white text-xs">
-                    {chat.unreadCount}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
+            chat={chat}
+            onContextMenu={handleContextMenu}
+          />
         ))
       )}
+      <ContextMenu
+        contextMenu={contextMenu}
+        onClose={handleCloseContextMenu}
+        onLeaveChat={handleLeaveChatWrapper}
+      />
     </div>
   );
 }
