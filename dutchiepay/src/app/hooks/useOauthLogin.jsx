@@ -27,29 +27,27 @@ export default function useOAuthLogin() {
           }
         ).toString(CryptoJS.enc.Utf8);
 
-        const extracted = decrypted
-          .trim()
-          .split(',')
-          .map((item) => {
-            const value = item.split(':')[1].trim();
-            return value.replace(/(^"|"$)/g, '');
-          });
+        console.log(decrypted);
+
+        const extracted = JSON.parse(decrypted);
+
+        console.log(extracted);
 
         const userInfo = {
-          userId: Number(extracted[0]),
-          nickname: extracted[2],
-          profileImage: extracted[3] === 'null' ? null : extracted[3],
-          location: extracted[4],
-          isCertified: extracted[7] === 'true',
+          userId: extracted.userId,
+          nickname: extracted.nickname,
+          profileImage: extracted.profileImg,
+          location: extracted.location,
+          isCertified: extracted.isCertified,
         };
 
         handleLogin({
           userInfo,
-          access: extracted[5],
-          loginType: extracted[1],
+          access: extracted.access,
+          loginType: extracted.type,
           isRelogin: false,
           isRemeberMe: false,
-          refresh: extracted[6],
+          refresh: extracted.refresh,
         });
         router.push('/');
       }
