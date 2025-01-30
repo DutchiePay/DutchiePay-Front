@@ -10,7 +10,7 @@ export default function SearchContainer({ keyword, setKeyword }) {
   const [searchWord, setSearchWord] = useState(keyword);
   const [wordList, setWordList] = useState([]);
   const [isFocus, setIsFocus] = useState(false);
-  const [isSearchStoreEnabled, setIsSearchStoreEnabled] = useState(false);
+  const [isSearchStoreEnabled, setIsSearchStoreEnabled] = useState(true);
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [searchHistory, setSearchHistory] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
