@@ -98,7 +98,10 @@ export default function OrderList({
 
   useEffect(() => {
     const handleMessage = (event) => {
-      if (event.data.type === 'REFUND/EXCHANGE') {
+      if (
+        event.data.type === 'REFUND/EXCHANGE' ||
+        event.data.type === 'REFRESH_REVIEW'
+      ) {
         hasFetched.current = false;
         setPage(1);
       }
