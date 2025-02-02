@@ -33,7 +33,8 @@ export default function OrderActionButton({ product, setStatus, status }) {
         >
           환불/교환
         </button>
-      ) : status === '구매확정' || status === '공구진행중' ? (
+      ) : (status === '구매확정' && !product.hasReviewed) ||
+        status === '공구진행중' ? (
         <button
           className="text-blue-500 text-sm border border-blue--500 rounded px-[56px] py-[8px]"
           onClick={() =>
