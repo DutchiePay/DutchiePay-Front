@@ -19,11 +19,12 @@ export default function useLogin() {
       const expires = isRemeberMe
         ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
         : undefined;
+      const isLocalhost = window.location.hostname === 'localhost';
       cookies.set('refresh', refresh, {
         path: '/',
         expires,
-        domain: '.dutchie-pay.site',
-        secure: true,
+        domain: isLocalhost ? undefined : '.dutchie-pay.site',
+        secure: !isLocalhost,
         sameSite: 'None',
       });
     }

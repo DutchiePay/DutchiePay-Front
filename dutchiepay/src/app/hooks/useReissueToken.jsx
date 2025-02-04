@@ -15,12 +15,15 @@ const useReissueToken = () => {
         `${process.env.NEXT_PUBLIC_BASE_URL}/users/reissue`,
         {
           access: accessToken,
+        },
+        {
+          withCredentials: true,
         }
       );
 
       dispatch(setAccessToken({ access: response.data.access }));
 
-      return { success: true }; // 새 액세스 토큰 반환
+      return { success: true };
     } catch (error) {
       let message;
       if (error.response) {
@@ -39,7 +42,7 @@ const useReissueToken = () => {
     }
   }, [accessToken, dispatch, clearUserData]);
 
-  return { refreshAccessToken }; // 함수 반환
+  return { refreshAccessToken };
 };
 
 export default useReissueToken;
