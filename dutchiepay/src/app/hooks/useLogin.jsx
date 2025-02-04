@@ -19,7 +19,13 @@ export default function useLogin() {
       const expires = isRemeberMe
         ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
         : undefined;
-      cookies.set('refresh', refresh, { path: '/', expires });
+      cookies.set('refresh', refresh, {
+        path: '/',
+        expires,
+        domain: '.dutchie-pay.site',
+        secure: true,
+        sameSite: 'None',
+      });
     }
 
     dispatch(
