@@ -27,12 +27,7 @@ export default function useOAuthLogin() {
           }
         ).toString(CryptoJS.enc.Utf8);
 
-        console.log(decrypted);
-
         const extracted = JSON.parse(decrypted);
-
-        console.log(extracted);
-
         const userInfo = {
           userId: extracted.userId,
           nickname: extracted.nickname,
