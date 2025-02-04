@@ -14,6 +14,8 @@ export default function useLogin() {
     refresh = null,
   }) => {
     localStorage.setItem('loginType', loginType || 'email');
+    localStorage.setItem('dutchie-rememberMe', isRemeberMe);
+
     if (!isRelogin) {
       const cookies = new Cookies();
       const expires = isRemeberMe
