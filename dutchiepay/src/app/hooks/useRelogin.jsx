@@ -40,6 +40,7 @@ export default function useRelogin() {
         error.response.data.message === '리프레시 토큰이 유효하지 않습니다.'
       ) {
         alert('자동로그인이 만료되었습니다. 다시 로그인해 주세요.');
+        localStorage.removeItem('dutchie-rememberMe');
         cookies.remove('refresh', { path: '/' });
       }
     }
