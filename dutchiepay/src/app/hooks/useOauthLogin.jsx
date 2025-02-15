@@ -1,11 +1,12 @@
 import { useCallback, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import CryptoJS from 'crypto-js';
 import useLogin from './useLogin';
-import { useRouter } from 'next/navigation';
 
 export default function useOAuthLogin() {
   const router = useRouter();
+  const param = useSearchParams();
   const handleLogin = useLogin();
 
   const handleMessage = useCallback(
@@ -44,10 +45,12 @@ export default function useOAuthLogin() {
           isRemeberMe: false,
           refresh: extracted.refresh,
         });
-        router.push('/');
+        router.push(
+          `${param ? decodeURIComponent(param.get('redirect')) : '/'}`
+        );
       }
     },
-    [handleLogin, router]
+    [handleLogin, router, param]
   );
 
   useEffect(() => {

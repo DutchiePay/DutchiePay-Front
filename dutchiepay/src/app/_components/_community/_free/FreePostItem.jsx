@@ -6,14 +6,11 @@ import Link from 'next/link';
 import comment from '/public/image/comment.svg';
 import community from '/public/image/community.jpg';
 import profile from '/public/image/profile.jpg';
-import { useSelector } from 'react-redux';
 
 export default function FreePostItem({ item }) {
-  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
-
   return (
     <Link
-      href={`${isLoggedIn ? `/community/${item.freeId}` : '/login'}`}
+      href={`/community/${item.freeId}`}
       className="w-[240px] border rounded-xl flex flex-col gap-[4px] cursor-pointer"
     >
       <div className="rounded-t-xl h-[160px] overflow-hidden relative ">

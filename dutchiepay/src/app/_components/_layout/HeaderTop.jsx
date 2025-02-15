@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import useLogout from '@/app/hooks/useLogout';
+import { usePathname } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
 export default function HeaderTop() {
@@ -9,6 +10,7 @@ export default function HeaderTop() {
   const user = useSelector((state) => state.login.user);
   let accessToken = useSelector((state) => state.login.access);
   const handleLogout = useLogout(accessToken);
+  const pathname = usePathname();
 
   return (
     <ul className="flex justify-end items-center mt-[4px] gap-[6px]">
@@ -32,11 +34,6 @@ export default function HeaderTop() {
               마이페이지
             </Link>
           </li>
-          <li className="header-nav-item">
-            <Link href="/help" className="text-xs hover:underline">
-              고객센터
-            </Link>
-          </li>
         </>
       ) : (
         <>
@@ -46,17 +43,20 @@ export default function HeaderTop() {
             </Link>
           </li>
           <li className="header-nav-item">
-            <Link href="/login" className="text-xs hover:underline">
+            <Link
+              href={`/login?redirect=${encodeURIComponent(pathname)}`}
+              className="text-xs hover:underline"
+            >
               로그인
-            </Link>
-          </li>
-          <li className="header-nav-item">
-            <Link href="/help" className="text-xs hover:underline">
-              고객센터
             </Link>
           </li>
         </>
       )}
+      <li className="header-nav-item">
+        <Link href="/help" className="text-xs hover:underline">
+          고객센터
+        </Link>
+      </li>
     </ul>
   );
 }

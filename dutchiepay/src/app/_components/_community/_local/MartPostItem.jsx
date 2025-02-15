@@ -7,14 +7,16 @@ import location from '/public/image/location.svg';
 import mart from '/public/image/mart.jpg';
 import people from '/public/image/people.svg';
 import profile from '/public/image/profile.jpg';
+import { usePathname } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
 export default function MartPostItem({ item }) {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const pathname = usePathname();
 
   return (
     <Link
-      href={`${isLoggedIn ? `/mart/${item.shareId}` : '/login'}`}
+      href={`${isLoggedIn ? `/mart/${item.shareId}` : `/login?redirect=${encodeURIComponent(pathname)}`}`}
       className="w-[240px] border rounded-xl flex flex-col gap-[4px] cursor-pointer"
     >
       <div className="rounded-t-xl h-[160px] relative overflow-hidden ">
