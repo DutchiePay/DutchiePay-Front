@@ -6,15 +6,17 @@ import location from '/public/image/location.svg';
 import money from '/public/image/money.svg';
 import product from '/public/image/product.svg';
 import profile from '/public/image/profile.jpg';
+import { usePathname } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import used from '/public/image/used.jpg';
 
 export default function TradePostItem({ item }) {
   const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const pathname = usePathname();
 
   return (
     <Link
-      href={`${isLoggedIn ? `/used/${item.purchaseId}` : '/login'}`}
+      href={`${isLoggedIn ? `/used/${item.purchaseId}` : `/login?redirect=${encodeURIComponent(pathname)}`}`}
       className="w-[240px] border rounded-xl flex flex-col gap-[4px] cursor-pointer"
     >
       <div className="rounded-t-xl h-[160px] relative overflow-hidden">

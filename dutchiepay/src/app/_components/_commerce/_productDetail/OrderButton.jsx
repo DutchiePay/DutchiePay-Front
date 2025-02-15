@@ -1,22 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useSelector } from 'react-redux';
 
 export default function OrderButton({ isEnd, productId, quantity, product }) {
-  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
-  const router = useRouter();
-
   const handleOrder = (e) => {
-    if (!isLoggedIn) {
-      e.preventDefault();
-      router.push('/login');
-      return;
-    }
-
     if (isEnd) {
       e.preventDefault(); // 마감됐을 경우, Link 동작되지 않도록 기본 동작 제거
+      return;
     }
 
     if (quantity === '') {

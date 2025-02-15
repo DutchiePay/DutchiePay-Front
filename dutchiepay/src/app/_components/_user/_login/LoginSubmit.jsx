@@ -1,16 +1,18 @@
 'use client';
 
+import { useRouter, useSearchParams } from 'next/navigation';
+
 import LoginButton from './LoginButton';
 import LoginInput from './LoginInput';
 import RememberMe from './RememberMe';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import useLogin from '@/app/hooks/useLogin';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function LoginSubmit() {
   const router = useRouter();
+  const param = useSearchParams();
   const handleLogin = useLogin();
 
   const [isRemeberMe, setIsRememberMe] = useState(false); // 자동로그인 체크 여부
@@ -52,7 +54,7 @@ export default function LoginSubmit() {
         isRemeberMe,
         refresh: response.data.refresh,
       });
-      router.push('/');
+      router.push(`${param ? decodeURIComponent(param.get('redirect')) : '/'}`);
     } catch (error) {
       if (error.response.data.message === '해당하는 유저가 없습니다.')
         setIsUnauthorized(true);

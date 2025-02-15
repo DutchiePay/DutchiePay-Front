@@ -5,7 +5,7 @@ import more from '../../../../public/image/more.svg';
 import { useState } from 'react';
 
 export default function Help() {
-  const [openIndexes, setOpenIndexes] = useState(Array(10).fill(false)); // 토글 상태
+  const [openIndexes, setOpenIndexes] = useState(Array(10).fill(false));
 
   const handleToggle = (index) => {
     setOpenIndexes((prevState) => {

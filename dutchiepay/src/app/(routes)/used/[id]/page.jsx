@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 export default function TradeDetail() {
   const { id } = useParams();
   const access = useSelector((state) => state.login.access);
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
   const [post, setPost] = useState(null);
   const router = useRouter();
   const { refreshAccessToken } = useReissueToken();
@@ -51,8 +52,9 @@ export default function TradeDetail() {
       }
     };
 
+    if (!isLoggedIn) return;
     fetchTradeDetail();
-  }, [id, access, router, refreshAccessToken]);
+  }, [id, access, router, refreshAccessToken, isLoggedIn]);
 
   return (
     <ProtectedRoute>

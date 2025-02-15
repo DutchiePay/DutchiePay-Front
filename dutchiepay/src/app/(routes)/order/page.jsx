@@ -20,6 +20,7 @@ export default function Order() {
       alert('구매 가능 수량은 1개부터 99개까지입니다.');
       router.push('/');
     }
+
     const handleMessage = (event) => {
       const allowedOrigins = [process.env.NEXT_PUBLIC_BASE_URL];
 
