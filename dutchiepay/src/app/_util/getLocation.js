@@ -9,15 +9,7 @@ export default async function getLocation() {
 
           try {
             const response = await axios.get(
-              `/api/map-reversegeocode/gc?coords=${longitude},${latitude}&output=json`,
-              {
-                headers: {
-                  'X-NCP-APIGW-API-KEY-ID':
-                    process.env.NEXT_PUBLIC_MAP_CLIENT_ID,
-                  'X-NCP-APIGW-API-KEY':
-                    process.env.NEXT_PUBLIC_MAP_CLIENT_SECRET,
-                },
-              }
+              `/api/map-reversegeocode?coords=${longitude},${latitude}&output=json`
             );
 
             const area1 = response.data.results[0].region.area1.name;
@@ -30,7 +22,7 @@ export default async function getLocation() {
               location = `${area1} ${area2}`;
             } else {
               const area2Parts = area2.split(' ');
-              location = `${area2Parts[0]}`; // 첫 번째 부분만 사용
+              location = `${area2Parts[0]}`;
             }
 
             resolve(location);
